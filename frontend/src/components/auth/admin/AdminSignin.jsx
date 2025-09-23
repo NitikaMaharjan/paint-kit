@@ -4,7 +4,7 @@ export default function AdminSignin() {
   
   const [passwordType, setPasswordType] = useState("password");
   const [credentials, setCredentials] = useState({
-    username: "",
+    email: "",
     password: ""
   })
 
@@ -20,6 +20,30 @@ export default function AdminSignin() {
     passwordType==="password"?setPasswordType("text"):setPasswordType("password");
   }
 
+  const handleSubmit = async(e) =>{
+    e.preventDefault();
+    try{
+      const response = await fetch("http://localhost:5000/api/auth/admin/signin", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email: credentials.email, 
+          password: credentials.password
+        })
+      });
+      const json = await response.json();
+
+      if(json.success){
+        alert("Welcome back!" + json.authtoken);
+      }else{
+        alert(json.error);
+      }
+      
+    }catch(err){
+      alert("Network error. Please check your connection or try again later!")
+    }
+  }
+
   return (
     <div className="auth-form-box">
       <div className="flex justify-center gap-1">
@@ -29,10 +53,10 @@ export default function AdminSignin() {
       <h1 style={{margin: "12px 0px 14px 0px", fontSize: "15px", textAlign: "center"}}><b>Welcome back</b></h1>
       <form className="auth-form">
         <div className="mb-1">
-          <label htmlFor="username"><b>Username</b></label>
+          <label htmlFor="email"><b>Email</b></label>
           <div className="input-bar">
-            <input type="text" id="username" name="username" placeholder="Enter username" value={credentials.username} onChange={updateInputValue} autoComplete="on"/>
-            <img src="close.png" onClick={() => {clearInput("username")}} style={{opacity: `${credentials.username===""?0:1}`}}/>
+            <input type="text" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on"/>
+            <img src="close.png" onClick={() => {clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
           </div>
         </div>          
         <div style={{marginBottom: "28px"}}>
@@ -46,7 +70,7 @@ export default function AdminSignin() {
           </div>
         </div>
         <div className="flex flex-col justify-center">
-          <button type="submit" className="submit-btn"><b>Sign in</b></button>
+          <button type="submit" className="submit-btn" onClick={handleSubmit}><b>Sign in</b></button>
           <p style={{marginTop: "6px",textAlign: "center",fontSize: "13px"}}>Don't have an account? <span style={{borderBottom: "1px solid black"}}>Sign up</span></p>
         </div>
       </form>
