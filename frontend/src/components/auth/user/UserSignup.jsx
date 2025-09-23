@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Signup() {
+export default function UserSignup() {
   
   const [passwordType, setPasswordType] = useState("password");
   const [confirmPasswordType, setConfirmPasswordType] = useState("password");
@@ -33,7 +33,7 @@ export default function Signup() {
         <img src="logo.png" style={{height: "28px", width: "28px"}}/>
         <h1 style={{fontSize: "14px", padding: "6px 0px 0px 0px"}}><b>Paint Kit</b></h1>
       </div>
-      <h1 style={{margin: "12px 0px 14px 0px", fontSize: "15px"}}><b>Get started with your account</b></h1>
+      <h1 style={{margin: "12px 0px 14px 0px", fontSize: "15px", textAlign: "center"}}><b>Get started with your account</b></h1>
       <form className="auth-form">
         <div className="mb-1">
           <label htmlFor="email"><b>Email</b></label>
