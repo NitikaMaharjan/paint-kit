@@ -27,9 +27,34 @@ export default function AdminSignup() {
     }
   }
 
+  const handleSubmit = async(e) =>{
+    e.preventDefault();
+    try{
+      const response = await fetch("http://localhost:5000/api/auth/admin/signup", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: credentials.email, 
+          username: credentials.username, 
+          password: credentials.password
+        })
+      });
+      const json = await response.json();
+
+      if(json.success){
+        alert("Your account is ready!" + json.authtoken);
+      }else{
+        alert(json.error);
+      }
+      
+    }catch(err){
+      alert("Network error. Please check your connection or try again later!")
+    }
+  }
+
   return (
     <div className="auth-form-box">
-      <div className="flex gap-1">
+      <div className="flex justify-center gap-1">
         <img src="logo.png" style={{height: "28px", width: "28px"}}/>
         <h1 style={{fontSize: "14px", padding: "6px 0px 0px 0px"}}><b>Paint Kit</b></h1>
       </div>
@@ -70,7 +95,7 @@ export default function AdminSignup() {
           </div>
         </div>
         <div className="flex flex-col justify-center">
-          <button type="submit" className="submit-btn"><b>Sign up</b></button>
+          <button type="submit" className="submit-btn" onClick={handleSubmit}><b>Sign up</b></button>
           <p style={{marginTop: "6px",textAlign: "center",fontSize: "13px"}}>Already have an account? <span style={{borderBottom: "1px solid black"}}>Sign in</span></p>
         </div>
       </form>
