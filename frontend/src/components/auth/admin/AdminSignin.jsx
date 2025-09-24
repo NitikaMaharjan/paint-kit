@@ -35,6 +35,7 @@ export default function AdminSignin() {
 
       if(json.success){
         alert("Welcome back!" + json.authtoken);
+        localStorage.setItem("signedIn", "true");
       }else{
         alert(json.error);
       }
