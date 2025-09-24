@@ -52,6 +52,14 @@ export default function AdminSignup() {
     }
   }
 
+  const addBorderHighlight = (type)=> {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
+  }
+  
+  const removeBorderHighlight = (type)=> {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
+  }
+
   return (
     <div className="auth-form-box">
       <div className="flex justify-center gap-1">
@@ -62,15 +70,15 @@ export default function AdminSignup() {
       <form className="auth-form">
         <div className="mb-1">
           <label htmlFor="email"><b>Email</b></label>
-          <div className="input-bar">
-            <input type="email" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on"/>
+          <div className="input-bar" id="email-input-bar">
+            <input type="email" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
             <img src="close.png" onClick={() => {clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
           </div>
         </div>
         <div className="mb-1">
           <label htmlFor="username"><b>Username</b></label>
-          <div className="input-bar">
-            <input type="text" id="username" name="username" placeholder="Enter username" value={credentials.username} onChange={updateInputValue} autoComplete="on"/>
+          <div className="input-bar" id="username-input-bar">
+            <input type="text" id="username" name="username" placeholder="Enter username" value={credentials.username} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("username")}} onBlur={()=>{removeBorderHighlight("username")}}/>
             <img src="close.png" onClick={() => {clearInput("username")}} style={{opacity: `${credentials.username===""?0:1}`}}/>
           </div>
         </div>          
@@ -79,8 +87,8 @@ export default function AdminSignup() {
             <label htmlFor="password"><b>Password</b></label>
             <img src={`${passwordType==="password"?"hide":"show"}.png`} style={{height: "16px", width: "16px"}} onClick={()=>{changePasswordType("password")}}/>
           </div>
-          <div className="input-bar">
-            <input type={`${passwordType}`} id="password" name="password" placeholder="Enter password" value={credentials.password} onChange={updateInputValue}/>
+          <div className="input-bar" id="password-input-bar">
+            <input type={`${passwordType}`} id="password" name="password" placeholder="Enter password" value={credentials.password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
             <img src="close.png" onClick={() => {clearInput("password")}} style={{opacity: `${credentials.password===""?0:1}`}}/>
           </div>
         </div>
@@ -89,8 +97,8 @@ export default function AdminSignup() {
             <label htmlFor="confirm_password"><b>Confirm password</b></label>
             <img src={`${confirmPasswordType==="password"?"hide":"show"}.png`} style={{height: "16px", width: "16px"}} onClick={()=>{changePasswordType("confirm_password")}}/>
           </div>
-          <div className="input-bar">
-            <input type={`${confirmPasswordType}`} id="confirm_password" name="confirm_password" placeholder="Enter confirm password" value={credentials.confirm_password} onChange={updateInputValue}/>
+          <div className="input-bar" id="confirm-password-input-bar">
+            <input type={`${confirmPasswordType}`} id="confirm_password" name="confirm_password" placeholder="Enter confirm password" value={credentials.confirm_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("confirm-password")}} onBlur={()=>{removeBorderHighlight("confirm-password")}}/>
             <img src="close.png" onClick={() => {clearInput("confirm_password")}} style={{opacity: `${credentials.confirm_password===""?0:1}`}}/>
           </div>
         </div>
