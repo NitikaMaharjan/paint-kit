@@ -20,28 +20,61 @@ export default function AdminSignin() {
     passwordType==="password"?setPasswordType("text"):setPasswordType("password");
   }
 
+  const clientSideValidation = ()=> {
+    let email = credentials.email;
+    let password = credentials.password;
+
+    if(email==="" && password!==""){
+      alert("Email is required. Please try again!");
+      return false;
+    }
+    
+    if(email!=="" && password===""){
+      alert("Password is required. Please try again!");
+      return false;
+    }
+    
+    if (email==="" || password===""){
+      alert("Please enter your credentials to sign in!");
+      return false;
+    }
+    
+    if(!document.getElementById("email").checkValidity()){
+      alert("Please enter a valid email address!");
+      return false;
+    }
+    return true;
+  }
+
   const handleSubmit = async(e) =>{
     e.preventDefault();
-    try{
-      const response = await fetch("http://localhost:5000/api/auth/admin/signin", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          email: credentials.email, 
-          password: credentials.password
-        })
-      });
-      const json = await response.json();
-
-      if(json.success){
-        alert("You've signed in. Welcome back!" + json.authtoken);
-        localStorage.setItem("adminSignedIn", "true");
-      }else{
-        alert(json.error);
+    if(clientSideValidation()){
+      try{
+        const response = await fetch("http://localhost:5000/api/auth/admin/signin", {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: credentials.email,
+            password: credentials.password
+          })
+        });
+        const json = await response.json();
+  
+        if(json.success){
+          alert("You've signed in. Welcome back!");
+          localStorage.setItem("adminSignedIn", "true");
+          localStorage.setItem("adminAuthToken", json.authtoken);
+        }else{
+          if(json.error){
+            alert(json.error);
+          }          
+          if(json.errors){
+            alert(json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
+          }
+        }
+      }catch(err){
+        alert("Network error. Please check your connection or try again later!")
       }
-      
-    }catch(err){
-      alert("Network error. Please check your connection or try again later!")
     }
   }
 
@@ -57,6 +90,7 @@ export default function AdminSignin() {
     let ans = window.confirm("Are you sure?");
     if (ans) {
       localStorage.removeItem("adminSignedIn");
+      localStorage.removeItem("adminAuthToken");
       alert("You've signed out. See you next time!");
     }
   }
@@ -79,7 +113,7 @@ export default function AdminSignin() {
           <div className="mb-1">
             <label htmlFor="email"><b>Email</b></label>
             <div className="input-bar" id="email-input-bar">
-              <input type="text" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
+              <input type="email" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
               <img src="close.png" onClick={() => {clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
             </div>
           </div>          

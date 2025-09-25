@@ -27,7 +27,7 @@ export default function AdminSignup() {
     }
   }
 
-  const clientSideValidation = () => {
+  const clientSideValidation = ()=> {
     const nameRegex = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
     const passwordRegex = /^[A-Za-z0-9!@#$%^&*()_+\-={};':"|,.<>/?]+$/;
 
@@ -39,40 +39,64 @@ export default function AdminSignup() {
     if(trimmed_email==="" && trimmed_username!=="" && trimmed_password!=="" && trimmed_confirm_password!==""){
       alert("Email is required. Please try again!");
       return false;
-    }else if(trimmed_email!=="" && trimmed_username==="" && trimmed_password!=="" && trimmed_confirm_password!==""){
+    }
+    
+    if(trimmed_email!=="" && trimmed_username==="" && trimmed_password!=="" && trimmed_confirm_password!==""){
       alert("Username is required. Please try again!");
       return false;
-    }else if(trimmed_email!=="" && trimmed_username!=="" && trimmed_password==="" && trimmed_confirm_password!==""){
+    }
+    
+    if(trimmed_email!=="" && trimmed_username!=="" && trimmed_password==="" && trimmed_confirm_password!==""){
       alert("Password is required. Please try again!");
       return false;
-    }else if(trimmed_email!=="" && trimmed_username!=="" && trimmed_password!=="" && trimmed_confirm_password===""){
+    }
+    
+    if(trimmed_email!=="" && trimmed_username!=="" && trimmed_password!=="" && trimmed_confirm_password===""){
       alert("Confirm Password is required. Please try again!");
       return false;
-    }else if (trimmed_email==="" || trimmed_username==="" || trimmed_password==="" || trimmed_confirm_password===""){
-      alert("Please enter your credentials to signup!");
+    }
+    
+    if (trimmed_email==="" || trimmed_username==="" || trimmed_password==="" || trimmed_confirm_password===""){
+      alert("Please enter your credentials to sign up!");
       return false;
-    }else if(!document.getElementById("email").checkValidity()){
+    }
+    
+    if(!document.getElementById("email").checkValidity()){
       alert("Please enter a valid email address!");
       return false;
-    }else if (trimmed_username.length<3){
+    }
+    
+    if (trimmed_username.length<3){
       alert("Username must be atleast 3 characters!");
       return false;
-    }else if (trimmed_username.length>25){
+    }
+    
+    if (trimmed_username.length>25){
       alert("Username cannot be more than 25 characters!");
       return false;
-    }else if (!nameRegex.test(trimmed_username)){
+    }
+    
+    if (!nameRegex.test(trimmed_username)){
       alert("Username can only contain letters and single consecutive space!");
       return false;
-    }else if (trimmed_password.length<5){
+    }
+    
+    if (trimmed_password.length<5){
       alert("Password must be atleast 5 characters!");
       return false;
-    }else if (trimmed_password.length>10){
+    }
+    
+    if (trimmed_password.length>10){
       alert("Password cannot be more than 10 characters!");
       return false;
-    }else if (!passwordRegex.test(trimmed_password)){
+    }
+    
+    if (!passwordRegex.test(trimmed_password)){
       alert("Password can only contain letters, numbers, and special characters!");
       return false;
-    }else if (trimmed_password !== trimmed_confirm_password){
+    }
+    
+    if (trimmed_password !== trimmed_confirm_password){
       alert("Password and confirm password must match!");
       return false;
     }

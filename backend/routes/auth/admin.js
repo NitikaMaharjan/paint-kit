@@ -20,7 +20,7 @@ router.post('/signup', [
   // checking if the request passed all validation rules
   const errors = validationResult(req);
 
-   // if validation failes
+  // if validation failes
   if (!errors.isEmpty()) {
     return res.status(400).json({ success: false, errors: errors.array() });
   }
@@ -56,17 +56,17 @@ router.post('/signup', [
 
 // Route 2: sign in using POST method, URL "/api/auth/admin/signin"
 router.post('/signin', [
-  body('email').notEmpty().withMessage('Email must not be empty'),
+  body('email').notEmpty().withMessage('Email is required.'),
   
-  body('password').notEmpty().withMessage('Password must not be empty')
+  body('password').notEmpty().withMessage('Password is required.')
 ], async (req, res) => {
 
   // checking if the request passed all validation rules
   const errors = validationResult(req);
 
-   // if validation failes
+  // if validation failes
   if (!errors.isEmpty()) {
-    return res.json({ success: false, error: "Input fields must not be empty" });
+    return res.status(400).json({ success: false, errors: errors.array() });
   }
 
   const {email, password} = req.body;
@@ -78,14 +78,14 @@ router.post('/signin', [
 
     if (!admin_exists){
       // if admin doesn't exists
-      return res.json({ success: false, error: "Admin account doesn't exists" });
+      return res.status(400).json({ success: false, error: "An account with this email does not exists!" });
     }
 
     // checking if the password is correct
     const password_matched = await bcrypt.compare(password, admin_exists.password);
 
     if (!password_matched){
-      return res.status(400).json({ success: false, error: 'Enter correct password' });
+      return res.status(400).json({ success: false, error: "Incorrect password. Please enter password again!" });
     }
 
     const data = {
@@ -96,7 +96,7 @@ router.post('/signin', [
     
     const authtoken = jwt.sign(data, jwt_secret);
 
-    // if signin is successfull, respond with success true and authentication token
+    // if sign in is successfull, respond with success true and authentication token
     res.json({ success: true, authtoken });
 
   } catch (err) {
