@@ -10,11 +10,11 @@ const jwt_secret = process.env.JWT_SECRET;
 
 // Route 1: sign up using POST method, URL "/api/auth/admin/signup"
 router.post('/signup', [
-  body('email').notEmpty().withMessage('Email must not be empty'),
+  body('email').notEmpty().withMessage('Email is required.'),
 
-  body('username').notEmpty().withMessage('Username must not be empty'),
+  body('username').notEmpty().withMessage('Username is required.'),
   
-  body('password').notEmpty().withMessage('Password must not be empty')
+  body('password').notEmpty().withMessage('Password is required.')
 ], async (req, res) => {
 
   // checking if the request passed all validation rules
@@ -22,7 +22,7 @@ router.post('/signup', [
 
    // if validation failes
   if (!errors.isEmpty()) {
-    return res.json({ success: false, error: "Input fields must not be empty" });
+    return res.status(400).json({ success: false, errors: errors.array() });
   }
 
   try {
@@ -32,29 +32,21 @@ router.post('/signup', [
 
     if (admin_exists){
       // if admin already exists
-      return res.json({ success: false, error: "Email already exists" });
+      return res.status(400).json({ success: false, error: "An account with this email already exists!" });
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     // if validation passes and admin does not exists already then create a new admin with the request data
-    const admin = await Admin.create({
+    await Admin.create({
         email: req.body.email,
         username: req.body.username,
         password: hashedPassword
-    }); 
+    });
 
-    const data = {
-      admin:{
-        id: admin.id
-      }
-    }
-    
-    const authtoken = jwt.sign(data, jwt_secret);
-
-    // if admin is successfully created, respond with success true and authentication token
-    res.json({ success: true, authtoken });
+    // if admin is successfully created, respond with success true
+    res.json({ success: true });
 
   } catch (err) {
     // if server-side issues like database connection, undefined variables, etc.

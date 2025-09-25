@@ -12,7 +12,7 @@ export default function AdminSignup() {
   })
 
   const updateInputValue = (e)=> {
-    setCredentials({...credentials, [e.target.name]: e.target.value});
+    setCredentials({...credentials, [e.target.name]: e.target.value.trimStart()});
   }
 
   const clearInput = (input_field) => {
@@ -27,28 +27,86 @@ export default function AdminSignup() {
     }
   }
 
+  const clientSideValidation = () => {
+    const nameRegex = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
+    const passwordRegex = /^[A-Za-z0-9!@#$%^&*()_+\-={};':"|,.<>/?]+$/;
+
+    let trimmed_email = credentials.email.trim().toLowerCase();
+    let trimmed_username = credentials.username.trim();
+    let trimmed_password = credentials.password.trim();
+    let trimmed_confirm_password = credentials.confirm_password.trim();
+
+    if(trimmed_email==="" && trimmed_username!=="" && trimmed_password!=="" && trimmed_confirm_password!==""){
+      alert("Email is required. Please try again!");
+      return false;
+    }else if(trimmed_email!=="" && trimmed_username==="" && trimmed_password!=="" && trimmed_confirm_password!==""){
+      alert("Username is required. Please try again!");
+      return false;
+    }else if(trimmed_email!=="" && trimmed_username!=="" && trimmed_password==="" && trimmed_confirm_password!==""){
+      alert("Password is required. Please try again!");
+      return false;
+    }else if(trimmed_email!=="" && trimmed_username!=="" && trimmed_password!=="" && trimmed_confirm_password===""){
+      alert("Confirm Password is required. Please try again!");
+      return false;
+    }else if (trimmed_email==="" || trimmed_username==="" || trimmed_password==="" || trimmed_confirm_password===""){
+      alert("Please enter your credentials to signup!");
+      return false;
+    }else if(!document.getElementById("email").checkValidity()){
+      alert("Please enter a valid email address!");
+      return false;
+    }else if (trimmed_username.length<3){
+      alert("Username must be atleast 3 characters!");
+      return false;
+    }else if (trimmed_username.length>25){
+      alert("Username cannot be more than 25 characters!");
+      return false;
+    }else if (!nameRegex.test(trimmed_username)){
+      alert("Username can only contain letters and single consecutive space!");
+      return false;
+    }else if (trimmed_password.length<5){
+      alert("Password must be atleast 5 characters!");
+      return false;
+    }else if (trimmed_password.length>10){
+      alert("Password cannot be more than 10 characters!");
+      return false;
+    }else if (!passwordRegex.test(trimmed_password)){
+      alert("Password can only contain letters, numbers, and special characters!");
+      return false;
+    }else if (trimmed_password !== trimmed_confirm_password){
+      alert("Password and confirm password must match!");
+      return false;
+    }
+    return true;
+  }
+
   const handleSubmit = async(e) =>{
     e.preventDefault();
-    try{
-      const response = await fetch("http://localhost:5000/api/auth/admin/signup", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: credentials.email, 
-          username: credentials.username, 
-          password: credentials.password
-        })
-      });
-      const json = await response.json();
-
-      if(json.success){
-        alert("Your account is ready!" + json.authtoken);
-      }else{
-        alert(json.error);
+    if(clientSideValidation()){
+      try{
+        const response = await fetch("http://localhost:5000/api/auth/admin/signup", {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: credentials.email.trim().toLowerCase(), 
+            username: credentials.username.trim(),
+            password: credentials.password.trim()
+          })
+        });
+        const json = await response.json();
+  
+        if(json.success){
+          alert("Your account is ready!");
+        }else{
+          if(json.error){
+            alert(json.error);
+          }          
+          if(json.errors){
+            alert(json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
+          }
+        }
+      }catch(err){
+        alert("Network error. Please check your connection or try again later!")
       }
-      
-    }catch(err){
-      alert("Network error. Please check your connection or try again later!")
     }
   }
 
