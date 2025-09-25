@@ -13,6 +13,7 @@ app.use(cors());
 
 //Routes:
 app.use('/api/auth/admin', require('./routes/auth/admin')); 
+app.use('/api/auth/user', require('./routes/auth/user')); 
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

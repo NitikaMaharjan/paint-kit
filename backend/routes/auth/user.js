@@ -1,5 +1,5 @@
 const express = require('express');
-const Admin = require('../../models/Admin');
+const User = require('../../models/User');
 const router = express.Router();
 
 const { body, validationResult } = require('express-validator');
@@ -8,8 +8,8 @@ const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const jwt_secret = process.env.JWT_SECRET;
 
-// Route 1: sign up using POST method, URL "/api/auth/admin/adminsignup"
-router.post('/adminsignup', [
+// Route 1: sign up using POST method, URL "/api/auth/user/usersignup"
+router.post('/usersignup', [
   body('email').notEmpty().withMessage('Email is required.'),
 
   body('username').notEmpty().withMessage('Username is required.'),
@@ -27,25 +27,25 @@ router.post('/adminsignup', [
 
   try {
 
-    // checking if admin with same email already exists
-    const admin_exists = await Admin.findOne({email: req.body.email});
+    // checking if user with same email already exists
+    const user_exists = await User.findOne({email: req.body.email});
 
-    if (admin_exists){
-      // if admin already exists
+    if (user_exists){
+      // if user already exists
       return res.status(400).json({ success: false, error: "An account with this email already exists!" });
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-    // if validation passes and admin does not exists already then create a new admin with the request data
-    await Admin.create({
+    // if validation passes and user does not exists already then create a new user with the request data
+    await User.create({
         email: req.body.email,
         username: req.body.username,
         password: hashedPassword
     });
 
-    // if admin is successfully created, respond with success true
+    // if user is successfully created, respond with success true
     res.json({ success: true });
 
   } catch (err) {
@@ -54,8 +54,8 @@ router.post('/adminsignup', [
   }
 });
 
-// Route 2: sign in using POST method, URL "/api/auth/admin/adminsignin"
-router.post('/adminsignin', [
+// Route 2: sign in using POST method, URL "/api/auth/user/usersignin"
+router.post('/usersignin', [
   body('email').notEmpty().withMessage('Email is required.'),
   
   body('password').notEmpty().withMessage('Password is required.')
@@ -73,24 +73,24 @@ router.post('/adminsignin', [
 
   try {
 
-    // checking if admin exists
-    const admin_exists = await Admin.findOne({email});
+    // checking if user exists
+    const user_exists = await User.findOne({email});
 
-    if (!admin_exists){
-      // if admin doesn't exists
+    if (!user_exists){
+      // if user doesn't exists
       return res.status(400).json({ success: false, error: "An account with this email does not exists!" });
     }
 
     // checking if the password is correct
-    const password_matched = await bcrypt.compare(password, admin_exists.password);
+    const password_matched = await bcrypt.compare(password, user_exists.password);
 
     if (!password_matched){
       return res.status(400).json({ success: false, error: "Incorrect password. Please enter password again!" });
     }
 
     const data = {
-      admin:{
-        id: admin_exists.id
+      user:{
+        id: user_exists.id
       }
     }
     

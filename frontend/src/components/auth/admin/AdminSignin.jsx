@@ -9,7 +9,7 @@ export default function AdminSignin() {
   })
 
   const updateInputValue = (e)=> {
-    setCredentials({...credentials, [e.target.name]: e.target.value});
+    setCredentials({...credentials, [e.target.name]: e.target.value.trim()});
   }
 
   const clearInput = (input_field) => {
@@ -50,7 +50,7 @@ export default function AdminSignin() {
     e.preventDefault();
     if(clientSideValidation()){
       try{
-        const response = await fetch("http://localhost:5000/api/auth/admin/signin", {
+        const response = await fetch("http://localhost:5000/api/auth/admin/adminsignin", {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
