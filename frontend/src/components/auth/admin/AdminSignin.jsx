@@ -44,6 +44,14 @@ export default function AdminSignin() {
       alert("Network error. Please check your connection or try again later!")
     }
   }
+
+  const addBorderHighlight = (type)=> {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
+  }
+  
+  const removeBorderHighlight = (type)=> {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
+  }
   
   const handleSignOut = ()=> {
     let ans = window.confirm("Are you sure?");
@@ -70,8 +78,8 @@ export default function AdminSignin() {
         <form className="auth-form">
           <div className="mb-1">
             <label htmlFor="email"><b>Email</b></label>
-            <div className="input-bar">
-              <input type="text" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on"/>
+            <div className="input-bar" id="email-input-bar">
+              <input type="text" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
               <img src="close.png" onClick={() => {clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
             </div>
           </div>          
@@ -80,8 +88,8 @@ export default function AdminSignin() {
               <label htmlFor="password"><b>Password</b></label>
               <img src={`${passwordType==="password"?"hide":"show"}.png`} style={{height: "16px", width: "16px"}} onClick={()=>{changePasswordType()}}/>
             </div>
-            <div className="input-bar">
-              <input type={`${passwordType}`} id="password" name="password" placeholder="Enter password" value={credentials.password} onChange={updateInputValue}/>
+            <div className="input-bar" id="password-input-bar">
+              <input type={`${passwordType}`} id="password" name="password" placeholder="Enter password" value={credentials.password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
               <img src="close.png" onClick={() => {clearInput("password")}} style={{opacity: `${credentials.password===""?0:1}`}}/>
             </div>
           </div>
