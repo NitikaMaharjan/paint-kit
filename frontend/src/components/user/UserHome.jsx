@@ -32,7 +32,7 @@ export default function UserHome() {
   return (
     <>
       <h1>Welcome, {localStorage.getItem("user_username")}!</h1>
-      <button style={{position: "fixed", top: "32px", right: "32px"}} onClick={handleSignOut}><b>Sign out</b></button>
+      <button style={{position: "fixed", top: "32px", right: "32px", cursor: "pointer"}} onClick={handleSignOut}><b>Sign out</b></button>
     </>
   )
 }
