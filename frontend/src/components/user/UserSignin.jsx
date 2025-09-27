@@ -70,7 +70,7 @@ export default function UserSignin() {
           localStorage.setItem("userSignedIn", "true");
           localStorage.setItem("userAuthToken", json.authtoken);
           await fetchSignedInUserDetails();
-          navigate("/usersignup");
+          navigate("/userhome");
           alert("You've signed in. Welcome back!");
         }else{
           if(json.error){
@@ -93,29 +93,9 @@ export default function UserSignin() {
   const removeBorderHighlight = (type)=> {
     document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
   }
-  
-  const handleSignOut = ()=> {
-    let ans = window.confirm("Are you sure?");
-    if (ans) {
-      localStorage.removeItem("userSignedIn");
-      localStorage.removeItem("userAuthToken");
-      localStorage.removeItem("user_email");
-      localStorage.removeItem("user_username");
-      alert("You've signed out. See you next time!");
-    }
-  }
 
   return (
     <>
-      {
-        localStorage.getItem("userSignedIn")?
-          <>
-            <p style={{position: "fixed", top: "32px", left: "32px"}}>{localStorage.getItem("user_username")}</p>
-            <button style={{position: "fixed", top: "32px", right: "32px"}} onClick={handleSignOut}><b>Sign out</b></button>
-          </>
-          :
-          <></>
-      }
       <div className="auth-form-box">
         <div className="flex justify-center gap-1">
           <img src="logo.png" style={{height: "28px", width: "28px"}}/>
