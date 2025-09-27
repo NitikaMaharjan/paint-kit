@@ -8,7 +8,9 @@ const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const jwt_secret = process.env.JWT_SECRET;
 
-// Route 1: sign up using POST method, URL "/api/auth/user/usersignup"
+var fetchUserDetails = require('../../middleware/fetchUserDetails');
+
+// Route 1: sign up using POST method, URL '/api/auth/user/usersignup'
 router.post('/usersignup', [
   body('email').notEmpty().withMessage('Email is required.'),
 
@@ -32,7 +34,7 @@ router.post('/usersignup', [
 
     if (user_exists){
       // if user already exists
-      return res.status(400).json({ success: false, error: "An account with this email already exists!" });
+      return res.status(400).json({ success: false, error: 'An account with this email already exists!' });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -50,11 +52,11 @@ router.post('/usersignup', [
 
   } catch (err) {
     // if server-side issues like database connection, undefined variables, etc.
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-// Route 2: sign in using POST method, URL "/api/auth/user/usersignin"
+// Route 2: sign in using POST method, URL '/api/auth/user/usersignin'
 router.post('/usersignin', [
   body('email').notEmpty().withMessage('Email is required.'),
   
@@ -78,14 +80,14 @@ router.post('/usersignin', [
 
     if (!user_exists){
       // if user doesn't exists
-      return res.status(400).json({ success: false, error: "An account with this email does not exists!" });
+      return res.status(400).json({ success: false, error: 'An account with this email does not exists!' });
     }
 
     // checking if the password is correct
     const password_matched = await bcrypt.compare(password, user_exists.password);
 
     if (!password_matched){
-      return res.status(400).json({ success: false, error: "Incorrect password. Please enter password again!" });
+      return res.status(400).json({ success: false, error: 'Incorrect password. Please enter password again!' });
     }
 
     const data = {
@@ -101,7 +103,20 @@ router.post('/usersignin', [
 
   } catch (err) {
     // if server-side issues like database connection, undefined variables, etc.
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Route 3: fetching signed in user details using GET method, URL '/api/auth/user/fetchuserdetails'
+// fetchUserDetails is a middleware which verifies the authtoken
+router.get('/fetchuserdetails', fetchUserDetails, async (req, res) => {
+  try {
+    const user_id = req.user.id;
+    // fetching user's email and username using user_id excluding _id, password, date and __v
+    const user = await User.findById(user_id).select('-_id -password -date -__v');
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

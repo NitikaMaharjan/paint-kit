@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
-export default function UserSignup() {
+export default function AdminSignup() {
   
   const [passwordType, setPasswordType] = useState("password");
   const [confirmPasswordType, setConfirmPasswordType] = useState("password");
@@ -107,7 +108,7 @@ export default function UserSignup() {
     e.preventDefault();
     if(clientSideValidation()){
       try{
-        const response = await fetch("http://localhost:5000/api/auth/user/usersignup", {
+        const response = await fetch("http://localhost:5000/api/auth/admin/adminsignup", {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -186,7 +187,7 @@ export default function UserSignup() {
         </div>
         <div className="flex flex-col justify-center">
           <button type="submit" className="submit-btn" onClick={handleSubmit}><b>Sign up</b></button>
-          <p style={{marginTop: "6px",textAlign: "center",fontSize: "13px"}}>Already have an account? <span style={{borderBottom: "1px solid black"}}>Sign in</span></p>
+          <p style={{marginTop: "6px",textAlign: "center",fontSize: "13px"}}>Already have an account? <Link to="/adminsignin" style={{borderBottom: "1px solid black"}}>Sign in</Link></p>
         </div>
       </form>
     </div>

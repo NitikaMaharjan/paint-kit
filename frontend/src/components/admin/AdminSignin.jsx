@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function AdminSignin() {
   
@@ -129,7 +130,7 @@ export default function AdminSignin() {
           </div>
           <div className="flex flex-col justify-center">
             <button type="submit" className="submit-btn" onClick={handleSubmit}><b>Sign in</b></button>
-            <p style={{marginTop: "6px",textAlign: "center",fontSize: "13px"}}>Don't have an account? <span style={{borderBottom: "1px solid black"}}>Sign up</span></p>
+            <p style={{marginTop: "6px",textAlign: "center",fontSize: "13px"}}>Don't have an account? <Link to="/adminsignup" style={{borderBottom: "1px solid black"}}>Sign up</Link></p>
           </div>
         </form>
       </div>

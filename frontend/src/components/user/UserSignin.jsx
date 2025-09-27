@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import SignedInUserDetailsContext from "../../context/user/SignedInUserDetailsContext";
 
 export default function UserSignin() {
+
+  let navigate = useNavigate();
+
+  const { fetchSignedInUserDetails } = useContext(SignedInUserDetailsContext);
   
   const [passwordType, setPasswordType] = useState("password");
   const [credentials, setCredentials] = useState({
@@ -61,9 +67,11 @@ export default function UserSignin() {
         const json = await response.json();
   
         if(json.success){
-          alert("You've signed in. Welcome back!");
           localStorage.setItem("userSignedIn", "true");
           localStorage.setItem("userAuthToken", json.authtoken);
+          await fetchSignedInUserDetails();
+          navigate("/usersignup");
+          alert("You've signed in. Welcome back!");
         }else{
           if(json.error){
             alert(json.error);
@@ -91,6 +99,8 @@ export default function UserSignin() {
     if (ans) {
       localStorage.removeItem("userSignedIn");
       localStorage.removeItem("userAuthToken");
+      localStorage.removeItem("user_email");
+      localStorage.removeItem("user_username");
       alert("You've signed out. See you next time!");
     }
   }
@@ -99,7 +109,10 @@ export default function UserSignin() {
     <>
       {
         localStorage.getItem("userSignedIn")?
-          <button style={{position: "fixed", top: "32px", right: "32px"}} onClick={handleSignOut}><b>Sign out</b></button>
+          <>
+            <p style={{position: "fixed", top: "32px", left: "32px"}}>{localStorage.getItem("user_username")}</p>
+            <button style={{position: "fixed", top: "32px", right: "32px"}} onClick={handleSignOut}><b>Sign out</b></button>
+          </>
           :
           <></>
       }
@@ -129,7 +142,7 @@ export default function UserSignin() {
           </div>
           <div className="flex flex-col justify-center">
             <button type="submit" className="submit-btn" onClick={handleSubmit}><b>Sign in</b></button>
-            <p style={{marginTop: "6px",textAlign: "center",fontSize: "13px"}}>Don't have an account? <span style={{borderBottom: "1px solid black"}}>Sign up</span></p>
+            <p style={{marginTop: "6px",textAlign: "center",fontSize: "13px"}}>Don't have an account? <Link to="/usersignup" style={{borderBottom: "1px solid black"}}>Sign up</Link></p>
           </div>
         </form>
       </div>
