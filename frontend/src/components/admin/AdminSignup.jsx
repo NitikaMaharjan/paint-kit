@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function AdminSignup() {
+
+  let navigate = useNavigate();
   
   const [passwordType, setPasswordType] = useState("password");
   const [confirmPasswordType, setConfirmPasswordType] = useState("password");
@@ -120,6 +122,7 @@ export default function AdminSignup() {
         const json = await response.json();
   
         if(json.success){
+          navigate("/adminsignin");
           alert("Your account is ready!");
         }else{
           if(json.error){

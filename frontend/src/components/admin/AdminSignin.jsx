@@ -1,7 +1,12 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import SignedInAdminDetailsContext from "../../context/admin/SignedInAdminDetailsContext";
 
 export default function AdminSignin() {
+
+  let navigate = useNavigate();
+
+  const { fetchSignedInAdminDetails } = useContext(SignedInAdminDetailsContext);
   
   const [passwordType, setPasswordType] = useState("password");
   const [credentials, setCredentials] = useState({
@@ -62,9 +67,11 @@ export default function AdminSignin() {
         const json = await response.json();
   
         if(json.success){
-          alert("You've signed in. Welcome back!");
           localStorage.setItem("adminSignedIn", "true");
           localStorage.setItem("adminAuthToken", json.authtoken);
+          await fetchSignedInAdminDetails();
+          navigate("/admindashboard");
+          alert("You've signed in. Welcome back!");
         }else{
           if(json.error){
             alert(json.error);
@@ -85,15 +92,6 @@ export default function AdminSignin() {
   
   const removeBorderHighlight = (type)=> {
     document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
-  }
-  
-  const handleSignOut = ()=> {
-    let ans = window.confirm("Are you sure?");
-    if (ans) {
-      localStorage.removeItem("adminSignedIn");
-      localStorage.removeItem("adminAuthToken");
-      alert("You've signed out. See you next time!");
-    }
   }
 
   return (

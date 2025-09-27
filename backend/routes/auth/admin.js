@@ -8,6 +8,8 @@ const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const jwt_secret = process.env.JWT_SECRET;
 
+var fetchAdminDetails = require('../../middleware/fetchAdminDetails');
+
 // Route 1: sign up using POST method, URL "/api/auth/admin/adminsignup"
 router.post('/adminsignup', [
   body('email').notEmpty().withMessage('Email is required.'),
@@ -102,6 +104,19 @@ router.post('/adminsignin', [
   } catch (err) {
     // if server-side issues like database connection, undefined variables, etc.
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Route 3: fetching signed in admin details using GET method, URL '/api/auth/admin/fetchadmindetails'
+// fetchAdminDetails is a middleware which verifies the authtoken
+router.get('/fetchadmindetails', fetchAdminDetails, async (req, res) => {
+  try {
+    const admin_id = req.admin.id;
+    // fetching admin's email and username using user_id excluding _id, password, date and __v
+    const admin= await Admin.findById(admin_id).select('-_id -password -date -__v');
+    res.json(admin);
+  } catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
