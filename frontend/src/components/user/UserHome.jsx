@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function UserHome() {
@@ -16,17 +17,18 @@ export default function UserHome() {
     }
   }
 
+  useEffect(() => {
+    if(!localStorage.getItem("userSignedIn")){
+      navigate("/usersignin");
+    }
+    // eslint-disable-next-line
+  }, []);
+  
+
   return (
     <>
-      {
-        localStorage.getItem("userSignedIn")?
-          <>
-            <h1>Welcome, {localStorage.getItem("user_username")}!</h1>
-            <button style={{position: "fixed", top: "32px", right: "32px"}} onClick={handleSignOut}><b>Sign out</b></button>
-          </>
-        :
-          <div>UserHome</div>
-      }
+      <h1>Welcome, {localStorage.getItem("user_username")}!</h1>
+      <button style={{position: "fixed", top: "32px", right: "32px"}} onClick={handleSignOut}><b>Sign out</b></button>
     </>
   )
 }

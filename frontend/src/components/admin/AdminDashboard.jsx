@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminDashboard() {
@@ -16,17 +17,17 @@ export default function AdminDashboard() {
     }
   }
 
+  useEffect(() => {
+    if(!localStorage.getItem("adminSignedIn")){
+      navigate("/adminsignin");
+    }
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <>
-      {
-        localStorage.getItem("adminSignedIn")?
-          <>
-            <h1>Welcome, {localStorage.getItem("admin_username")}!</h1>
-            <button style={{position: "fixed", top: "32px", right: "32px"}} onClick={handleSignOut}><b>Sign out</b></button>
-          </>
-        :
-          <div>AdminDashboard</div>
-      }
+      <h1>Welcome, {localStorage.getItem("admin_username")}!</h1>
+      <button style={{position: "fixed", top: "32px", right: "32px"}} onClick={handleSignOut}><b>Sign out</b></button>
     </>
   )
 }
