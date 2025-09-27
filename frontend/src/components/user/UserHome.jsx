@@ -1,9 +1,12 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 
 export default function UserHome() {
 
   let navigate = useNavigate();
+
+  const { showProgress } = useContext(ProgressBarContext);
 
   const handleSignOut = ()=> {
     let ans = window.confirm("Are you sure?");
@@ -20,10 +23,11 @@ export default function UserHome() {
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn")){
       navigate("/usersignin");
+    }else{
+      showProgress();
     }
     // eslint-disable-next-line
-  }, []);
-  
+  }, []);  
 
   return (
     <>

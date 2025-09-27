@@ -1,9 +1,12 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 
 export default function AdminDashboard() {
 
   let navigate = useNavigate();
+
+  const { showProgress } = useContext(ProgressBarContext);
 
   const handleSignOut = ()=> {
     let ans = window.confirm("Are you sure?");
@@ -20,6 +23,8 @@ export default function AdminDashboard() {
   useEffect(() => {
     if(!localStorage.getItem("adminSignedIn")){
       navigate("/adminsignin");
+    }else{
+      showProgress();
     }
     // eslint-disable-next-line
   }, []);
