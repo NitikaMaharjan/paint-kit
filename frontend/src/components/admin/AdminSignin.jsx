@@ -113,17 +113,17 @@ export default function AdminSignin() {
             <label htmlFor="email"><b>Email</b></label>
             <div className="input-bar" id="email-input-bar">
               <input type="email" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
-              <img src="close.png" onClick={() => {clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
+              <img src="close.png" alt="close button image" onClick={() => {clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
             </div>
           </div>          
           <div style={{marginBottom: "28px"}}>
             <div className="flex items-center justify-between pr-1">
               <label htmlFor="password"><b>Password</b></label>
-              <img src={`${passwordType==="password"?"hide":"show"}.png`} style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType()}}/>
+              <img src={`${passwordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType()}}/>
             </div>
             <div className="input-bar" id="password-input-bar">
               <input type={`${passwordType}`} id="password" name="password" placeholder="Enter password" value={credentials.password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
-              <img src="close.png" onClick={() => {clearInput("password")}} style={{opacity: `${credentials.password===""?0:1}`}}/>
+              <img src="close.png" alt="close button image" onClick={() => {clearInput("password")}} style={{opacity: `${credentials.password===""?0:1}`}}/>
             </div>
           </div>
           <div className="flex flex-col justify-center">

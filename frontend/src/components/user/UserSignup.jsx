@@ -157,34 +157,34 @@ export default function UserSignup() {
           <label htmlFor="email"><b>Email</b></label>
           <div className="input-bar" id="email-input-bar">
             <input type="email" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
-            <img src="close.png" onClick={() => {clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
+            <img src="close.png" alt="close button image" onClick={() => {clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
           </div>
         </div>
         <div className="mb-1">
           <label htmlFor="username"><b>Username</b></label>
           <div className="input-bar" id="username-input-bar">
             <input type="text" id="username" name="username" placeholder="Enter username" value={credentials.username} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("username")}} onBlur={()=>{removeBorderHighlight("username")}}/>
-            <img src="close.png" onClick={() => {clearInput("username")}} style={{opacity: `${credentials.username===""?0:1}`}}/>
+            <img src="close.png" alt="close button image" onClick={() => {clearInput("username")}} style={{opacity: `${credentials.username===""?0:1}`}}/>
           </div>
         </div>          
         <div className="mb-1">
           <div className="flex items-center justify-between pr-1">
             <label htmlFor="password"><b>Password</b></label>
-            <img src={`${passwordType==="password"?"hide":"show"}.png`} style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("password")}}/>
+            <img src={`${passwordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("password")}}/>
           </div>
           <div className="input-bar" id="password-input-bar">
             <input type={`${passwordType}`} id="password" name="password" placeholder="Enter password" value={credentials.password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
-            <img src="close.png" onClick={() => {clearInput("password")}} style={{opacity: `${credentials.password===""?0:1}`}}/>
+            <img src="close.png" alt="close button image" onClick={() => {clearInput("password")}} style={{opacity: `${credentials.password===""?0:1}`}}/>
           </div>
         </div>
         <div style={{marginBottom: "28px"}}>
           <div className="flex items-center justify-between pr-1">
             <label htmlFor="confirm_password"><b>Confirm password</b></label>
-            <img src={`${confirmPasswordType==="password"?"hide":"show"}.png`} style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("confirm_password")}}/>
+            <img src={`${confirmPasswordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("confirm_password")}}/>
           </div>
           <div className="input-bar" id="confirm-password-input-bar">
             <input type={`${confirmPasswordType}`} id="confirm_password" name="confirm_password" placeholder="Enter confirm password" value={credentials.confirm_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("confirm-password")}} onBlur={()=>{removeBorderHighlight("confirm-password")}}/>
-            <img src="close.png" onClick={() => {clearInput("confirm_password")}} style={{opacity: `${credentials.confirm_password===""?0:1}`}}/>
+            <img src="close.png" alt="close button image" onClick={() => {clearInput("confirm_password")}} style={{opacity: `${credentials.confirm_password===""?0:1}`}}/>
           </div>
         </div>
         <div className="flex flex-col justify-center">
