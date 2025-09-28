@@ -13,6 +13,7 @@ export default function AdminDashboard() {
     if (ans) {
       localStorage.removeItem("adminSignedIn");
       localStorage.removeItem("adminAuthToken");
+      localStorage.removeItem("admin_token");
       localStorage.removeItem("admin_email");
       localStorage.removeItem("admin_username");
       navigate("/adminsignin");
@@ -21,7 +22,7 @@ export default function AdminDashboard() {
   }
 
   useEffect(() => {
-    if(!localStorage.getItem("adminSignedIn")){
+    if(!localStorage.getItem("adminSignedIn") && !localStorage.getItem("admin_token")){
       navigate("/adminsignin");
     }else{
       showProgress();

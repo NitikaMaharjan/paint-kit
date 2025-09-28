@@ -5,7 +5,7 @@ const verifyUserToken = (req, res, next) => {
     // extracting token from the request header named 'authtoken'
     const token = req.header('authtoken');
     if (!token) {
-        return res.status(401).json({ error: 'Access denied. No token provided.' });
+        return res.status(401).json({ success: false, error: 'Access denied. No token provided.' });
     }
     
     try {
@@ -18,7 +18,7 @@ const verifyUserToken = (req, res, next) => {
         // passing control to the route handler
         next();
     } catch (err) {
-        res.status(401).json({ error: 'Invalid or expired token.' });
+        res.status(401).json({ success: false, error: 'Invalid or expired token.' });
     }
 }
 

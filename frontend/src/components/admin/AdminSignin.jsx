@@ -70,8 +70,10 @@ export default function AdminSignin() {
           localStorage.setItem("adminSignedIn", "true");
           localStorage.setItem("adminAuthToken", json.authtoken);
           await fetchSignedInAdminDetails();
-          navigate("/admindashboard");
-          alert("You've signed in. Welcome back!");
+          if(localStorage.getItem("admin_token")){
+            navigate("/admindashboard");
+            alert("You've signed in. Welcome back!");
+          }
         }else{
           if(json.error){
             alert(json.error);

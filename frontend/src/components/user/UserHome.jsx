@@ -13,6 +13,7 @@ export default function UserHome() {
     if (ans) {
       localStorage.removeItem("userSignedIn");
       localStorage.removeItem("userAuthToken");
+      localStorage.removeItem("user_token");
       localStorage.removeItem("user_email");
       localStorage.removeItem("user_username");
       navigate("/usersignin");
@@ -21,7 +22,7 @@ export default function UserHome() {
   }
 
   useEffect(() => {
-    if(!localStorage.getItem("userSignedIn")){
+    if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("user_token")){
       navigate("/usersignin");
     }else{
       showProgress();

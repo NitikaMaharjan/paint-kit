@@ -10,9 +10,17 @@ export default function SignedInAdminDetailsState(props) {
                     "authtoken": localStorage.getItem("adminAuthToken")
                 }
             });
-            const signedInAdminDetails = await response.json();
-            localStorage.setItem("admin_email", signedInAdminDetails.email);
-            localStorage.setItem("admin_username", signedInAdminDetails.username);
+            const json = await response.json();
+
+            if(json.success){
+                localStorage.setItem("admin_token", true);
+                localStorage.setItem("admin_email", json.signedInAdminDetails.email);
+                localStorage.setItem("admin_username", json.signedInAdminDetails.username);
+            }else{
+                localStorage.removeItem("adminSignedIn");
+                localStorage.removeItem("adminAuthToken");
+                alert(json.error);
+            }
         }catch(err){
             alert("Network error. Please check your connection or try again later!")
         }

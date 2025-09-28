@@ -114,8 +114,9 @@ router.get('/fetchadmindetails', verifyAdminToken, async (req, res) => {
     const admin_id = req.admin.id;
     
     // fetching admin's email and username using user_id excluding _id, password, date and __v
-    const admin= await Admin.findById(admin_id).select('-_id -password -date -__v');
-    res.json(admin);
+    const signedInAdminDetails = await Admin.findById(admin_id).select('-_id -password -date -__v');
+    res.json({ success: true, signedInAdminDetails });
+    
   } catch (err) {
     res.status(500).json({ error: 'Internal Server Error' });
   }

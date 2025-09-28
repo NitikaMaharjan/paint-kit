@@ -10,9 +10,17 @@ export default function SignedInUserDetailsState(props) {
                     "authtoken": localStorage.getItem("userAuthToken")
                 }
             });
-            const signedInUserDetails = await response.json();
-            localStorage.setItem("user_email", signedInUserDetails.email);
-            localStorage.setItem("user_username", signedInUserDetails.username);
+            const json = await response.json();
+
+            if(json.success){
+                localStorage.setItem("user_token", true);
+                localStorage.setItem("user_email", json.signedInUserDetails.email);
+                localStorage.setItem("user_username", json.signedInUserDetails.username);
+            }else{
+                localStorage.removeItem("userSignedIn");
+                localStorage.removeItem("userAuthToken");
+                alert(json.error);
+            }
         }catch(err){
             alert("Network error. Please check your connection or try again later!")
         }

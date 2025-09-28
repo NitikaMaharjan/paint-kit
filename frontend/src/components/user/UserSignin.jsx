@@ -70,8 +70,10 @@ export default function UserSignin() {
           localStorage.setItem("userSignedIn", "true");
           localStorage.setItem("userAuthToken", json.authtoken);
           await fetchSignedInUserDetails();
-          navigate("/userhome");
-          alert("You've signed in. Welcome back!");
+          if(localStorage.getItem("user_token")){
+            navigate("/userhome");
+            alert("You've signed in. Welcome back!");
+          }
         }else{
           if(json.error){
             alert(json.error);
