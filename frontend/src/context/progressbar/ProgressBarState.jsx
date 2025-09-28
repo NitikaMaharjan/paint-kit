@@ -36,7 +36,7 @@ export default function ProgressState(props) {
                 {props.children}
             </ProgressBarContext.Provider>
 
-            <LoadingBar color="black" progress={progress} height={3}/>
+            <LoadingBar color="#6d6d6dff" progress={progress} height={3}/>
         </>
     )
 }

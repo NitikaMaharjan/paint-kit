@@ -148,11 +148,7 @@ export default function UserSignup() {
 
   return (
     <div className="auth-form-box">
-      <div className="flex justify-center gap-1">
-        <img src="logo.png" style={{height: "28px", width: "28px"}}/>
-        <h1 style={{fontSize: "14px", padding: "6px 0px 0px 0px"}}><b>Paint Kit</b></h1>
-      </div>
-      <h1 style={{margin: "12px 0px 14px 0px", fontSize: "15px", textAlign: "center"}}><b>Get started with your account</b></h1>
+      <h1 style={{padding: "8px 24px 8px 24px", fontSize: "14px", textAlign: "left", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Get started with your account</b></h1>
       <form className="auth-form">
         <div className="mb-1">
           <label htmlFor="email"><b>Email</b></label>

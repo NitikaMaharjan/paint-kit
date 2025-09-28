@@ -3,7 +3,7 @@
 body {
   margin: 0;
   font-family:'Courier New', Courier, monospace;
-  background-color: rgb(247, 247, 247);
-  background-image: linear-gradient(to right, #ccc 1px, transparent 1px), linear-gradient(to bottom, #ccc 1px, transparent 1px);
+  background-color: rgb(250, 250, 250);
+  background-image: linear-gradient(to right, #c4c4c4 1px, transparent 1px), linear-gradient(to bottom, #c4c4c4 1px, transparent 1px);
   background-size: 20px 20px;
 }
