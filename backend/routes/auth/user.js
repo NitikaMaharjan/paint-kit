@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const jwt_secret = process.env.JWT_SECRET;
 
-var fetchUserDetails = require('../../middleware/fetchUserDetails');
+var verifyUserToken = require('../../middleware/verifyUserToken');
 
 // Route 1: sign up using POST method, URL '/api/auth/user/usersignup'
 router.post('/usersignup', [
@@ -108,10 +108,11 @@ router.post('/usersignin', [
 });
 
 // Route 3: fetching signed in user details using GET method, URL '/api/auth/user/fetchuserdetails'
-// fetchUserDetails is a middleware which verifies the authtoken
-router.get('/fetchuserdetails', fetchUserDetails, async (req, res) => {
+// verifyUserToken is a middleware which verifies the authtoken
+router.get('/fetchuserdetails', verifyUserToken, async (req, res) => {
   try {
     const user_id = req.user.id;
+    
     // fetching user's email and username using user_id excluding _id, password, date and __v
     const user = await User.findById(user_id).select('-_id -password -date -__v');
     res.json(user);
