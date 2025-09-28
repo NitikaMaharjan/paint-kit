@@ -24,10 +24,10 @@ export default function SignedInUserDetailsState(props) {
             }else{
                 localStorage.removeItem("userSignedIn");
                 localStorage.removeItem("userAuthToken");
-                showAlert("Validation error", json.error);
+                showAlert("#d64242e0", "Server error", json.error);
             }
         }catch(err){
-            showAlert("Validation error", "Network error. Please check your connection or try again later!");
+            showAlert("#d64242e0", "Server error", "Network error. Please check your connection or try again later!");
         }
     }
 

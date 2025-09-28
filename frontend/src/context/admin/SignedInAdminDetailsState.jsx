@@ -24,10 +24,10 @@ export default function SignedInAdminDetailsState(props) {
             }else{
                 localStorage.removeItem("adminSignedIn");
                 localStorage.removeItem("adminAuthToken");
-                showAlert("Validation error", json.error);
+                showAlert("#d64242e0", "Server error", json.error);
             }
         }catch(err){
-            showAlert("Validation error", "Network error. Please check your connection or try again later!")
+            showAlert("#d64242e0", "Server error", "Network error. Please check your connection or try again later!")
         }
     }
 

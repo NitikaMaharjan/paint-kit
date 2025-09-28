@@ -43,67 +43,67 @@ export default function UserSignup() {
     let trimmed_confirm_password = credentials.confirm_password.trim();
 
     if(trimmed_email==="" && trimmed_username!=="" && trimmed_password!=="" && trimmed_confirm_password!==""){
-      showAlert("Validation error", "Email is required. Please try again!");
+      showAlert("#ffd000d3", "Validation error", "Email is required. Please try again!");
       return false;
     }
     
     if(trimmed_email!=="" && trimmed_username==="" && trimmed_password!=="" && trimmed_confirm_password!==""){
-      showAlert("Validation error", "Username is required. Please try again!");
+      showAlert("#ffd000d3", "Validation error", "Username is required. Please try again!");
       return false;
     }
     
     if(trimmed_email!=="" && trimmed_username!=="" && trimmed_password==="" && trimmed_confirm_password!==""){
-      showAlert("Validation error", "Password is required. Please try again!");
+      showAlert("#ffd000d3", "Validation error", "Password is required. Please try again!");
       return false;
     }
     
     if(trimmed_email!=="" && trimmed_username!=="" && trimmed_password!=="" && trimmed_confirm_password===""){
-      showAlert("Validation error", "Confirm Password is required. Please try again!");
+      showAlert("#ffd000d3", "Validation error", "Confirm Password is required. Please try again!");
       return false;
     }
     
     if (trimmed_email==="" || trimmed_username==="" || trimmed_password==="" || trimmed_confirm_password===""){
-      showAlert("Validation error", "Please enter your credentials to sign up!");
+      showAlert("#ffd000d3", "Validation error", "Please enter your credentials to sign up!");
       return false;
     }
     
     if(!document.getElementById("email").checkValidity()){
-      showAlert("Validation error", "Please enter a valid email address!");
+      showAlert("#ffd000d3", "Validation error", "Please enter a valid email address!");
       return false;
     }
     
     if (trimmed_username.length<3){
-      showAlert("Validation error", "Username must be atleast 3 characters!");
+      showAlert("#ffd000d3", "Validation error", "Username must be atleast 3 characters!");
       return false;
     }
     
     if (trimmed_username.length>25){
-      showAlert("Validation error", "Username cannot be more than 25 characters!");
+      showAlert("#ffd000d3", "Validation error", "Username cannot be more than 25 characters!");
       return false;
     }
     
     if (!nameRegex.test(trimmed_username)){
-      showAlert("Validation error", "Username can only contain letters and single consecutive space!");
+      showAlert("#ffd000d3", "Validation error", "Username can only contain letters and single consecutive space!");
       return false;
     }
     
     if (trimmed_password.length<5){
-      showAlert("Validation error", "Password must be atleast 5 characters!");
+      showAlert("#ffd000d3", "Validation error", "Password must be atleast 5 characters!");
       return false;
     }
     
     if (trimmed_password.length>10){
-      showAlert("Validation error", "Password cannot be more than 10 characters!");
+      showAlert("#ffd000d3", "Validation error", "Password cannot be more than 10 characters!");
       return false;
     }
     
     if (!passwordRegex.test(trimmed_password)){
-      showAlert("Validation error", "Password can only contain letters, numbers, and special characters!");
+      showAlert("#ffd000d3", "Validation error", "Password can only contain letters, numbers, and special characters!");
       return false;
     }
     
     if (trimmed_password !== trimmed_confirm_password){
-      showAlert("Validation error", "Password and confirm password must match!");
+      showAlert("#ffd000d3", "Validation error", "Password and confirm password must match!");
       return false;
     }
     return true;
@@ -126,17 +126,17 @@ export default function UserSignup() {
   
         if(json.success){
           navigate("/usersignin");
-          showAlert("Validation error", "Your account is ready!");
+          showAlert("#32ad53ec", "Signed up", "Your account is ready!");
         }else{
           if(json.error){
-            showAlert("Validation error", json.error);
+            showAlert("#d64242e0", "Server error", json.error);
           }          
           if(json.errors){
-            showAlert("Validation error", json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
+            showAlert("#d64242e0", "Server error", json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
           }
         }
       }catch(err){
-        showAlert("Validation error", "Network error. Please check your connection or try again later!")
+        showAlert("#d64242e0", "Server error", "Network error. Please check your connection or try again later!")
       }
     }
   }

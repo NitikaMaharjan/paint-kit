@@ -4,11 +4,13 @@ import AlertContext from "./AlertContext";
 export default function AlertState(props) {
 
     const [alert, setAlert] = useState(false);
+    const [alertColor, setAlertColor] = useState("");
     const [alertType, setAlertType] = useState("");
     const [alertMsg, setAlertMsg] = useState("");
 
-    const showAlert = (type, msg) => {
+    const showAlert = (color, type, msg) => {
         setAlert(true);
+        setAlertColor(color);
         setAlertType(type);
         setAlertMsg(msg);
 
@@ -30,7 +32,7 @@ export default function AlertState(props) {
 
                 <div className="alert-modal-background">
                     <div className="alert-modal">
-                        <div className="flex items-center justify-between" style={{padding: "8px 18px 8px 18px", borderBottom: "1px solid black", backgroundColor: "#ffd61eff"}}>
+                        <div className="flex items-center justify-between" style={{padding: "8px 18px 8px 18px", borderBottom: "1px solid black", backgroundColor: `${alertColor}`}}>
                             <h1 style={{fontSize: "14px"}}><b>{alertType}</b></h1>
                             <img src="close.png" alt="close button image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{setAlert(false)}}/>
                         </div>

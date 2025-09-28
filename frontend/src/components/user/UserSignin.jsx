@@ -33,22 +33,22 @@ export default function UserSignin() {
     let password = credentials.password;
 
     if(email==="" && password!==""){
-      showAlert("Validation error", "Email is required. Please try again!");
+      showAlert("#ffd000d3", "Validation error", "Email is required. Please try again!");
       return false;
     }
     
     if(email!=="" && password===""){
-      showAlert("Validation error", "Password is required. Please try again!");
+      showAlert("#ffd000d3", "Validation error", "Password is required. Please try again!");
       return false;
     }
     
     if (email==="" || password===""){
-      showAlert("Validation error", "Please enter your credentials to sign in!");
+      showAlert("#ffd000d3", "Validation error", "Please enter your credentials to sign in!");
       return false;
     }
     
     if(!document.getElementById("email").checkValidity()){
-      showAlert("Validation error", "Please enter a valid email address!");
+      showAlert("#ffd000d3", "Validation error", "Please enter a valid email address!");
       return false;
     }
     return true;
@@ -74,18 +74,18 @@ export default function UserSignin() {
           await fetchSignedInUserDetails();
           if(localStorage.getItem("user_token")){
             navigate("/userhome");
-            showAlert("Validation error", "You've signed in. Welcome back!");
+            showAlert("#32ad53ec", "Signed in", "You've signed in. Welcome back!");
           }
         }else{
           if(json.error){
-            showAlert("Validation error", json.error);
+            showAlert("#d64242e0", "Server error", json.error);
           }          
           if(json.errors){
-            showAlert("Validation error", json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
+            showAlert("#d64242e0", "Server error", json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
           }
         }
       }catch(err){
-        showAlert("Validation error", "Network error. Please check your connection or try again later!")
+        showAlert("#d64242e0", "Server error", "Network error. Please check your connection or try again later!")
       }
     }
   }
