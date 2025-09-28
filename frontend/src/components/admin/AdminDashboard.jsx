@@ -1,12 +1,14 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
+import AlertContext from "../../context/alert/AlertContext";
 
 export default function AdminDashboard() {
 
   let navigate = useNavigate();
 
   const { showProgress } = useContext(ProgressBarContext);
+  const { showAlert } = useContext(AlertContext);
 
   const handleSignOut = ()=> {
     let ans = window.confirm("Are you sure?");
@@ -17,7 +19,7 @@ export default function AdminDashboard() {
       localStorage.removeItem("admin_email");
       localStorage.removeItem("admin_username");
       navigate("/adminsignin");
-      alert("You've signed out. See you next time!");
+      showAlert("Validation error", "You've signed out. See you next time!");
     }
   }
 

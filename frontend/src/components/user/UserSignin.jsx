@@ -1,11 +1,13 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import AlertContext from "../../context/alert/AlertContext";
 import SignedInUserDetailsContext from "../../context/user/SignedInUserDetailsContext";
 
 export default function UserSignin() {
 
   let navigate = useNavigate();
 
+  const { showAlert } = useContext(AlertContext);
   const { fetchSignedInUserDetails } = useContext(SignedInUserDetailsContext);
   
   const [passwordType, setPasswordType] = useState("password");
@@ -31,22 +33,22 @@ export default function UserSignin() {
     let password = credentials.password;
 
     if(email==="" && password!==""){
-      alert("Email is required. Please try again!");
+      showAlert("Validation error", "Email is required. Please try again!");
       return false;
     }
     
     if(email!=="" && password===""){
-      alert("Password is required. Please try again!");
+      showAlert("Validation error", "Password is required. Please try again!");
       return false;
     }
     
     if (email==="" || password===""){
-      alert("Please enter your credentials to sign in!");
+      showAlert("Validation error", "Please enter your credentials to sign in!");
       return false;
     }
     
     if(!document.getElementById("email").checkValidity()){
-      alert("Please enter a valid email address!");
+      showAlert("Validation error", "Please enter a valid email address!");
       return false;
     }
     return true;
@@ -72,18 +74,18 @@ export default function UserSignin() {
           await fetchSignedInUserDetails();
           if(localStorage.getItem("user_token")){
             navigate("/userhome");
-            alert("You've signed in. Welcome back!");
+            showAlert("Validation error", "You've signed in. Welcome back!");
           }
         }else{
           if(json.error){
-            alert(json.error);
+            showAlert("Validation error", json.error);
           }          
           if(json.errors){
-            alert(json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
+            showAlert("Validation error", json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
           }
         }
       }catch(err){
-        alert("Network error. Please check your connection or try again later!")
+        showAlert("Validation error", "Network error. Please check your connection or try again later!")
       }
     }
   }

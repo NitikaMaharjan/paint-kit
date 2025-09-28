@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import AlertContext from "../../context/alert/AlertContext";
 
 export default function AdminSignup() {
 
   let navigate = useNavigate();
+
+  const { showAlert } = useContext(AlertContext);
   
   const [passwordType, setPasswordType] = useState("password");
   const [confirmPasswordType, setConfirmPasswordType] = useState("password");
@@ -40,67 +43,67 @@ export default function AdminSignup() {
     let trimmed_confirm_password = credentials.confirm_password.trim();
 
     if(trimmed_email==="" && trimmed_username!=="" && trimmed_password!=="" && trimmed_confirm_password!==""){
-      alert("Email is required. Please try again!");
+      showAlert("Validation error", "Email is required. Please try again!");
       return false;
     }
     
     if(trimmed_email!=="" && trimmed_username==="" && trimmed_password!=="" && trimmed_confirm_password!==""){
-      alert("Username is required. Please try again!");
+      showAlert("Validation error", "Username is required. Please try again!");
       return false;
     }
     
     if(trimmed_email!=="" && trimmed_username!=="" && trimmed_password==="" && trimmed_confirm_password!==""){
-      alert("Password is required. Please try again!");
+      showAlert("Validation error", "Password is required. Please try again!");
       return false;
     }
     
     if(trimmed_email!=="" && trimmed_username!=="" && trimmed_password!=="" && trimmed_confirm_password===""){
-      alert("Confirm Password is required. Please try again!");
+      showAlert("Validation error", "Confirm Password is required. Please try again!");
       return false;
     }
     
     if (trimmed_email==="" || trimmed_username==="" || trimmed_password==="" || trimmed_confirm_password===""){
-      alert("Please enter your credentials to sign up!");
+      showAlert("Validation error", "Please enter your credentials to sign up!");
       return false;
     }
     
     if(!document.getElementById("email").checkValidity()){
-      alert("Please enter a valid email address!");
+      showAlert("Validation error", "Please enter a valid email address!");
       return false;
     }
     
     if (trimmed_username.length<3){
-      alert("Username must be atleast 3 characters!");
+      showAlert("Validation error", "Username must be atleast 3 characters!");
       return false;
     }
     
     if (trimmed_username.length>25){
-      alert("Username cannot be more than 25 characters!");
+      showAlert("Validation error", "Username cannot be more than 25 characters!");
       return false;
     }
     
     if (!nameRegex.test(trimmed_username)){
-      alert("Username can only contain letters and single consecutive space!");
+      showAlert("Validation error", "Username can only contain letters and single consecutive space!");
       return false;
     }
     
     if (trimmed_password.length<5){
-      alert("Password must be atleast 5 characters!");
+      showAlert("Validation error", "Password must be atleast 5 characters!");
       return false;
     }
     
     if (trimmed_password.length>10){
-      alert("Password cannot be more than 10 characters!");
+      showAlert("Validation error", "Password cannot be more than 10 characters!");
       return false;
     }
     
     if (!passwordRegex.test(trimmed_password)){
-      alert("Password can only contain letters, numbers, and special characters!");
+      showAlert("Validation error", "Password can only contain letters, numbers, and special characters!");
       return false;
     }
     
     if (trimmed_password !== trimmed_confirm_password){
-      alert("Password and confirm password must match!");
+      showAlert("Validation error", "Password and confirm password must match!");
       return false;
     }
     return true;
@@ -123,17 +126,17 @@ export default function AdminSignup() {
   
         if(json.success){
           navigate("/adminsignin");
-          alert("Your account is ready!");
+          showAlert("Validation error", "Your account is ready!");
         }else{
           if(json.error){
-            alert(json.error);
+            showAlert("Validation error", json.error);
           }          
           if(json.errors){
-            alert(json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
+            showAlert("Validation error", json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
           }
         }
       }catch(err){
-        alert("Network error. Please check your connection or try again later!")
+        showAlert("Validation error", "Network error. Please check your connection or try again later!")
       }
     }
   }

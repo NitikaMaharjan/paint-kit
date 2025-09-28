@@ -1,6 +1,11 @@
+import { useContext } from "react";
 import SignedInUserDetailsContext from "./SignedInUserDetailsContext";
+import AlertContext from "../alert/AlertContext";
 
 export default function SignedInUserDetailsState(props) {
+
+    const { showAlert } = useContext(AlertContext);
+    
     const fetchSignedInUserDetails = async()=>{
         try{
             const response = await fetch(`http://localhost:5000/api/auth/user/fetchuserdetails`, {
@@ -19,10 +24,10 @@ export default function SignedInUserDetailsState(props) {
             }else{
                 localStorage.removeItem("userSignedIn");
                 localStorage.removeItem("userAuthToken");
-                alert(json.error);
+                showAlert("Validation error", json.error);
             }
         }catch(err){
-            alert("Network error. Please check your connection or try again later!")
+            showAlert("Validation error", "Network error. Please check your connection or try again later!");
         }
     }
 
