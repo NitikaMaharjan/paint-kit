@@ -33,22 +33,22 @@ export default function UserSignin() {
     let password = credentials.password;
 
     if(email==="" && password!==""){
-      showAlert("#ffd000d3", "Validation error", "Email is required. Please try again!");
+      showAlert("#ffc107", "Warning", "Email is required. Please try again!");
       return false;
     }
     
     if(email!=="" && password===""){
-      showAlert("#ffd000d3", "Validation error", "Password is required. Please try again!");
+      showAlert("#ffc107", "Warning", "Password is required. Please try again!");
       return false;
     }
     
     if (email==="" || password===""){
-      showAlert("#ffd000d3", "Validation error", "Please enter your credentials to sign in!");
+      showAlert("#ffc107", "Warning", "Please enter your credentials to sign in!");
       return false;
     }
     
     if(!document.getElementById("email").checkValidity()){
-      showAlert("#ffd000d3", "Validation error", "Please enter a valid email address!");
+      showAlert("#ffc107", "Warning", "Please enter a valid email address!");
       return false;
     }
     return true;
@@ -74,18 +74,18 @@ export default function UserSignin() {
           await fetchSignedInUserDetails();
           if(localStorage.getItem("user_token")){
             navigate("/userhome");
-            showAlert("#32ad53ec", "Signed in", "You've signed in. Welcome back!");
+            showAlert("#28a745", "Success", "You've signed in. Welcome back!");
           }
         }else{
           if(json.error){
-            showAlert("#d64242e0", "Server error", json.error);
+            showAlert("#dc3545", "Error", json.error);
           }          
           if(json.errors){
-            showAlert("#d64242e0", "Server error", json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
+            showAlert("#dc3545", "Error", json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
           }
         }
       }catch(err){
-        showAlert("#d64242e0", "Server error", "Network error. Please check your connection or try again later!")
+        showAlert("#dc3545", "Error", "Network error. Please check your connection or try again later!")
       }
     }
   }

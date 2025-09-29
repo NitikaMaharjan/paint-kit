@@ -19,7 +19,7 @@ export default function AdminDashboard() {
       localStorage.removeItem("admin_email");
       localStorage.removeItem("admin_username");
       navigate("/adminsignin");
-      showAlert("#32ad53ec", "Signed out", "You've signed out. See you next time!");
+      showAlert("#28a745", "Success", "You've signed out. See you next time!");
     }
   }
 
