@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import AlertContext from "../../context/alert/AlertContext";
+import ConfirmContext from "../../context/confirm/ConfirmContext";
 
 export default function UserHome() {
 
@@ -9,9 +10,10 @@ export default function UserHome() {
 
   const { showProgress } = useContext(ProgressBarContext);
   const { showAlert } = useContext(AlertContext);
+  const { showConfirm } = useContext(ConfirmContext);
 
-  const handleSignOut = ()=> {
-    let ans = window.confirm("Are you sure?");
+  const handleSignOut = async()=> {
+    let ans = await showConfirm();
     if (ans) {
       localStorage.removeItem("userSignedIn");
       localStorage.removeItem("userAuthToken");
