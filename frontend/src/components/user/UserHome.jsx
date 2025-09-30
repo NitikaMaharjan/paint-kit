@@ -35,9 +35,9 @@ export default function UserHome() {
   }, []);  
 
   return (
-    <>
+    <div className="content">
       <h1>Welcome, {localStorage.getItem("user_username")}!</h1>
       <button className="signout-btn" onClick={handleSignOut}><b>Sign out</b></button>
-    </>
+    </div>
   )
 }

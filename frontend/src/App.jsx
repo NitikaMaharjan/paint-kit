@@ -18,23 +18,21 @@ function App() {
     <ProgressBarState>
       <AlertState>
         <ConfirmState>
-          <div className="flex justify-center items-center" style={{height: "100vh"}}>
-            <SignedInAdminDetailsState>
-              <SignedInUserDetailsState>
-                <BrowserRouter>
-                  <Routes>
-                    <Route path='/' element={<Home/>}/>
-                    <Route path='/userhome' element={<UserHome/>}/>
-                    <Route path='/usersignin' element={<UserSignin/>}/>
-                    <Route path='/usersignup' element={<UserSignup/>}/>
-                    <Route path='/admindashboard' element={<AdminDashboard/>}/>
-                    <Route path='/adminsignin' element={<AdminSignin/>}/>
-                    <Route path='/adminsignup' element={<AdminSignup/>}/>
-                  </Routes>
-                </BrowserRouter>
-              </SignedInUserDetailsState>
-            </SignedInAdminDetailsState>
-          </div>
+          <SignedInAdminDetailsState>
+            <SignedInUserDetailsState>
+              <BrowserRouter>
+                <Routes>
+                  <Route path='/' element={<Home/>}/>
+                  <Route path='/userhome' element={<UserHome/>}/>
+                  <Route path='/usersignin' element={<UserSignin/>}/>
+                  <Route path='/usersignup' element={<UserSignup/>}/>
+                  <Route path='/admindashboard' element={<AdminDashboard/>}/>
+                  <Route path='/adminsignin' element={<AdminSignin/>}/>
+                  <Route path='/adminsignup' element={<AdminSignup/>}/>
+                </Routes>
+              </BrowserRouter>
+            </SignedInUserDetailsState>
+          </SignedInAdminDetailsState>
         </ConfirmState>
       </AlertState>
     </ProgressBarState>

@@ -99,7 +99,7 @@ export default function UserSignin() {
   }
 
   return (
-    <>
+    <div className="content">
       <div className="auth-form-box">
         <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Welcome back</b></h1>
         <form className="auth-form">
@@ -126,6 +126,6 @@ export default function UserSignin() {
           </div>
         </form>
       </div>
-    </>
+    </div>
   )
 }

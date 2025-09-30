@@ -35,9 +35,9 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <>
+    <div className="content">
       <h1>Welcome, {localStorage.getItem("admin_username")}!</h1>
       <button className="signout-btn" onClick={handleSignOut}><b>Sign out</b></button>
-    </>
+    </div>
   )
 }
