@@ -43,7 +43,7 @@ export default function AlertState(props) {
                                 </div>
                             </div>
                         </div>
-                        <p style={{padding: "8px", fontSize: "13px"}}>{alertMsg}</p>
+                        <p style={{padding: "18px", fontSize: "13px"}}>{alertMsg}</p>
                     </div>
                 </div>
             }

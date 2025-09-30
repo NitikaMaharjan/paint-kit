@@ -13,7 +13,7 @@ export default function AdminDashboard() {
   const { showConfirm } = useContext(ConfirmContext);
 
   const handleSignOut = async()=> {
-    let ans = await showConfirm();
+    let ans = await showConfirm("Sign out");
     if (ans) {
       localStorage.removeItem("adminSignedIn");
       localStorage.removeItem("adminAuthToken");
