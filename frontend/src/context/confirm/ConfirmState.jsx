@@ -36,24 +36,20 @@ export default function ConfirmState(props) {
             </ConfirmContext.Provider>
 
             {
-                confirm 
+                confirm
                 
                 &&
 
                 <div className="confirm-modal-background" onClick={handleCancel}>
                     <div className="confirm-modal">
                         <div className="flex items-center justify-between" style={{borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
-                            <div className="flex items-center justify-between gap-2" style={{padding: "0px 0px 0px 8px"}}>
-                                <h1 style={{fontSize: "14px"}}><b>{confirmMsg}</b></h1>
-                            </div>
-                            <div style={{borderLeft: "1px solid black"}}>
-                                <div style={{padding: "6px"}}>
-                                    <img src="close.png" alt="close button image" style={{height: "13px", width: "13px", cursor: "pointer"}} onClick={handleCancel}/>
-                                </div>
-                            </div>                             
+                            <h1 style={{padding: "0px 0px 0px 8px", fontSize: "14px"}}><b>{confirmMsg}</b></h1>
+                            <div style={{padding: "8px", borderLeft: "1px solid black"}}>
+                                <img src="close.png" alt="close button image" style={{height: "12px", width: "12px", cursor: "pointer"}} onClick={handleCancel}/>
+                            </div>                           
                         </div>
                         <div style={{padding: "18px"}}>
-                            <p style={{marginBottom: "12px", textAlign: "center", fontSize: "13px"}}>Are you sure?</p>
+                            <p style={{marginBottom: "18px", textAlign: "center", fontSize: "14px"}}>Are you sure?</p>
                             <div className="flex justify-around">
                                 <button className="confirm-btn" onClick={handleOk}>Ok</button>
                                 <button className="confirm-btn" onClick={handleCancel}>Cancel</button>

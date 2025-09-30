@@ -33,22 +33,22 @@ export default function UserSignin() {
     let password = credentials.password;
 
     if(email==="" && password!==""){
-      showAlert("#ffc107", "Warning", "Email is required. Please try again!");
+      showAlert("Warning", "Email is required. Please try again!");
       return false;
     }
     
     if(email!=="" && password===""){
-      showAlert("#ffc107", "Warning", "Password is required. Please try again!");
+      showAlert("Warning", "Password is required. Please try again!");
       return false;
     }
     
     if (email==="" || password===""){
-      showAlert("#ffc107", "Warning", "Please enter your credentials to sign in!");
+      showAlert("Warning", "Please enter your credentials to sign in!");
       return false;
     }
     
     if(!document.getElementById("email").checkValidity()){
-      showAlert("#ffc107", "Warning", "Please enter a valid email address!");
+      showAlert("Warning", "Please enter a valid email address!");
       return false;
     }
     return true;
@@ -74,18 +74,18 @@ export default function UserSignin() {
           await fetchSignedInUserDetails();
           if(localStorage.getItem("user_token")){
             navigate("/userhome");
-            showAlert("#28a745", "Success", "You've signed in. Welcome back!");
+            showAlert("Success", "You've signed in. Welcome back!");
           }
         }else{
           if(json.error){
-            showAlert("#dc3545", "Error", json.error);
+            showAlert("Error", json.error);
           }          
           if(json.errors){
-            showAlert("#dc3545", "Error", json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
+            showAlert("Error", json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
           }
         }
       }catch(err){
-        showAlert("#dc3545", "Error", "Network error. Please check your connection or try again later!")
+        showAlert("Error", "Network error. Please check your connection or try again later!")
       }
     }
   }
@@ -101,7 +101,7 @@ export default function UserSignin() {
   return (
     <>
       <div className="auth-form-box">
-        <h1 style={{padding: "8px 24px 8px 24px", fontSize: "14px", textAlign: "left", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Welcome back</b></h1>
+        <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Welcome back</b></h1>
         <form className="auth-form">
           <div className="mb-1">
             <label htmlFor="email"><b>Email</b></label>

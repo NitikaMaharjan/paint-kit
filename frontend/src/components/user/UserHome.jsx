@@ -21,7 +21,7 @@ export default function UserHome() {
       localStorage.removeItem("user_email");
       localStorage.removeItem("user_username");
       navigate("/usersignin");
-      showAlert("#28a745", "Success", "You've signed out. See you next time!");
+      showAlert("Success", "You've signed out. See you next time!");
     }
   }
 
