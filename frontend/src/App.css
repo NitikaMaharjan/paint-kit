@@ -124,7 +124,6 @@
     height: min-content;
     padding: 1px 8px;
     border: 1px solid black;
-    margin-top: 107px;
-    margin-right: 24px;
+    box-shadow: 2px 2px 0px rgb(0, 0, 0);
     cursor: pointer;
 }
