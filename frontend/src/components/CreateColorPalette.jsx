@@ -12,7 +12,7 @@ export default function CreateColorPalette() {
     const [colors, setColors] = useState([]);
 
     const updateInputValue = (e) => {
-        setInputValue({...inputValue, [e.target.name]: e.target.value});
+        setInputValue({...inputValue, [e.target.name]: e.target.value. trimStart()});
     }
 
     const clearInput = (input_field) => {
@@ -62,6 +62,56 @@ export default function CreateColorPalette() {
         return brightness>128?"close.png":"close-white.png";
     }
 
+    const ValidateInputValue = ()=> {
+        const colorPaletteNameRegex = /^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/;
+
+        let trimmed_color_palette_name = inputValue.color_palette_name.trim();
+
+        if(trimmed_color_palette_name==="" && colors.length!==0){
+            showAlert("Warning", "Color palette name is required. Please try again!");
+            return false;
+        }
+        
+        if(trimmed_color_palette_name!=="" && colors.length===0){
+            showAlert("Warning", "Colors in the color palette cannot be empty. Please try again!");
+            return false;
+        }
+        
+        if (trimmed_color_palette_name==="" || colors.length===0){
+            showAlert("Warning", "Please enter the input data to create the color palette!");
+            return false;
+        }
+        
+        if (!colorPaletteNameRegex.test(trimmed_color_palette_name)){
+            showAlert("Warning", "Color palette name can only contain letters, numbers and single consecutive space!");
+            return false;
+        }
+        
+        if (trimmed_color_palette_name.length<3){
+            showAlert("Warning", "Color palette name must be atleast 3 characters!");
+            return false;
+        }
+        
+        if (trimmed_color_palette_name.length>25){
+            showAlert("Warning", "Color palette name cannot be more than 25 characters!");
+            return false;
+        }
+
+        if (colors.length<6){
+            showAlert("Warning", "There must be at least 6 colors in the color palette!");
+            return false;
+        }
+
+        return true;
+    }
+
+    const handleSubmit = async(e) =>{
+        e.preventDefault();
+        if(ValidateInputValue()){
+            showAlert("Success", "Your color palette looks awesome. It has been saved successfully!");
+        }
+    }
+
     return (
         <div className="content gap-10">
             <div className="auth-form-box">
@@ -78,14 +128,14 @@ export default function CreateColorPalette() {
                         <label htmlFor="color_name"><b>Color name</b></label>
                         <div className="flex gap-3">
                             <div className="input-bar" id="color-name-input-bar" style={{height: "25.5px", width: "200px", gap: "8px"}}>
-                                <input type="color" id="color_name" name="color_name" placeholder="Enter color name" value={inputValue.color_name} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("color-name")}} onBlur={()=>{removeBorderHighlight("color-name")}} style={{height: "20px", width: "30px"}}/>
+                                <input type="color" id="color_name" name="color_name" placeholder="Enter color name" value={inputValue.color_name} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("color-name")}} onBlur={()=>{removeBorderHighlight("color-name")}} style={{height: "20px", width: "30px", cursor: "pointer"}}/>
                                 <p style={{fontSize: "13px", width: "100%", color: `${inputValue.color_name===""?"#5b5c60":"black"}`}}>{inputValue.color_name===""?"Pick a color":inputValue.color_name}</p>
                                 <img src="close.png" alt="close button image" onClick={() => {clearInput("color_name")}} style={{opacity: `${inputValue.color_name===""?0:1}`}}/>
                             </div>
                             <button className="add-color-btn" onClick={addColor}>+</button>
                         </div>
                     </div>
-                    <button type="submit" className="submit-btn"><b>Save color palette</b></button>
+                    <button type="submit" className="submit-btn" onClick={handleSubmit}><b>Save color palette</b></button>
                 </form>
             </div>
             <div className="auth-form-box">
