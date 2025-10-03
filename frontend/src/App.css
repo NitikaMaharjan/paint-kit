@@ -43,9 +43,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 4px 8px;
+    padding: 2px 8px;
     border: 1px solid rgba(0, 0, 0, 0.3);
-    max-width: fit-content;
+    width: fit-content;
+    gap: 4px;
 }
 
 .input-bar img {
@@ -124,7 +125,7 @@
     display: flex;
     align-items: center;
     height: min-content;
-    padding: 1px 8px;
+    padding: 0px 7px;
     border: 1px solid black;
     box-shadow: 2px 2px 0px rgb(0, 0, 0);
     cursor: pointer;
