@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AlertContext from "../context/alert/AlertContext";
+import AlertContext from "../../context/alert/AlertContext";
 
 export default function CreateColorPalette() {
 

@@ -41,13 +41,26 @@ router.post('/addcolorpalette', [
   }
 });
 
-// Route 2: fetch color palette using GET method, URL '/api/colorpalette/userfetchcolorpalette'
+// Route 2: fetch color palette by user using GET method, URL '/api/colorpalette/userfetchcolorpalette'
 router.get('/userfetchcolorpalette', async (req, res) => {
   try {
     const user_id = req.query.user_id;
     
-    // fetching user's color palette using user_id excluding
+    // fetching user's color palette using user_id excluding -by_admin, -user_id, -date, -__v
     const colorPaletteDetails = await ColorPalette.find({user_id}).select('-by_admin -user_id -date -__v');
+    res.json({ success: true, colorPaletteDetails });
+    
+  } catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Route 3: fetch color palette by admin using GET method, URL '/api/colorpalette/adminfetchcolorpalette'
+router.get('/adminfetchcolorpalette', async (req, res) => {
+  try {
+    
+    // fetching color palette created by admins using by_admin=true excluding -by_admin, -user_id, -date, -__v
+    const colorPaletteDetails = await ColorPalette.find({ by_admin: true }).select('-by_admin -user_id -date -__v');
     res.json({ success: true, colorPaletteDetails });
     
   } catch (err) {

@@ -25,9 +25,27 @@ export default function ColorPaletteDetailsState(props) {
             showAlert("Error", "Network error. Please check your connection or try again later!")
         }
     }
+    
+    const adminFetchColorPalette = async()=>{
+        try{
+            const response = await fetch(`http://localhost:5000/api/colorpalette/adminfetchcolorpalette`, {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'}
+            });
+            const json = await response.json();
+
+            if(json.success){
+                setColorPaletteDetails(json.colorPaletteDetails);
+            }else{
+                showAlert("Error", json.error);
+            }
+        }catch(err){
+            showAlert("Error", "Network error. Please check your connection or try again later!")
+        }
+    }
 
     return(
-        <ColorPaletteDetailsContext.Provider value={{ colorPaletteDetails, userFetchColorPalette }}>
+        <ColorPaletteDetailsContext.Provider value={{ colorPaletteDetails, userFetchColorPalette, adminFetchColorPalette }}>
             {props.children}
         </ColorPaletteDetailsContext.Provider>
     );
