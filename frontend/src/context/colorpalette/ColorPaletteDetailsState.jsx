@@ -6,9 +6,10 @@ export default function ColorPaletteDetailsState(props) {
 
     const { showAlert } = useContext(AlertContext);
 
-    const [colorPaletteDetails, setColorPaletteDetails] = useState([]);
+    const [userColorPaletteDetails, setUserColorPaletteDetails] = useState([]);
+    const [adminColorPaletteDetails, setAdminColorPaletteDetails] = useState([]);
     
-    const userFetchColorPalette = async()=>{
+    const userFetchUserColorPalette = async()=>{
         try{
             const response = await fetch(`http://localhost:5000/api/colorpalette/userfetchcolorpalette?user_id=${localStorage.getItem("user_id")}`, {
                 method: 'GET',
@@ -17,7 +18,7 @@ export default function ColorPaletteDetailsState(props) {
             const json = await response.json();
 
             if(json.success){
-                setColorPaletteDetails(json.colorPaletteDetails);
+                setUserColorPaletteDetails(json.colorPaletteDetails);
             }else{
                 showAlert("Error", json.error);
             }
@@ -35,7 +36,7 @@ export default function ColorPaletteDetailsState(props) {
             const json = await response.json();
 
             if(json.success){
-                setColorPaletteDetails(json.colorPaletteDetails);
+                setAdminColorPaletteDetails(json.colorPaletteDetails);
             }else{
                 showAlert("Error", json.error);
             }
@@ -45,7 +46,7 @@ export default function ColorPaletteDetailsState(props) {
     }
 
     return(
-        <ColorPaletteDetailsContext.Provider value={{ colorPaletteDetails, userFetchColorPalette, adminFetchColorPalette }}>
+        <ColorPaletteDetailsContext.Provider value={{ userColorPaletteDetails, userFetchUserColorPalette, adminColorPaletteDetails, adminFetchColorPalette }}>
             {props.children}
         </ColorPaletteDetailsContext.Provider>
     );

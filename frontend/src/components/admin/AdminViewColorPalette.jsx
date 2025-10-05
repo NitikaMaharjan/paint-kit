@@ -4,7 +4,7 @@ import ColorPaletteItem from "../colorpalette/ColorPaletteItem";
 
 export default function AdminViewColorPalette() {
 
-  const { colorPaletteDetails, adminFetchColorPalette} = useContext(ColorPaletteDetailsContext);
+  const { adminColorPaletteDetails, adminFetchColorPalette } = useContext(ColorPaletteDetailsContext);
   
   useEffect(() => {
     if (localStorage.getItem("adminSignedIn")){
@@ -15,11 +15,11 @@ export default function AdminViewColorPalette() {
   return (
     <>
       {
-        colorPaletteDetails.length === 0 ?
+        adminColorPaletteDetails.length === 0 ?
           <></>
         :
           <div>
-            {(colorPaletteDetails).map((colorpalette)=>{
+            {(adminColorPaletteDetails).map((colorpalette)=>{
                   return <ColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors}/>
               })}
           </div>

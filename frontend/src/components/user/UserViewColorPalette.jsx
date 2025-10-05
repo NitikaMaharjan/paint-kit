@@ -4,22 +4,33 @@ import ColorPaletteItem from "../colorpalette/ColorPaletteItem";
 
 export default function UserViewColorPalette() {
 
-  const { colorPaletteDetails, userFetchColorPalette} = useContext(ColorPaletteDetailsContext);
+  const { adminColorPaletteDetails, adminFetchColorPalette, userColorPaletteDetails, userFetchUserColorPalette } = useContext(ColorPaletteDetailsContext);
   
   useEffect(() => {
     if (localStorage.getItem("userSignedIn")){
-      userFetchColorPalette();
+      adminFetchColorPalette();
+      userFetchUserColorPalette();
     }
   }, []);
   
   return (
     <>
       {
-        colorPaletteDetails.length === 0 ?
+        adminColorPaletteDetails.length === 0 ?
           <></>
         :
           <div>
-            {(colorPaletteDetails).map((colorpalette)=>{
+            {(adminColorPaletteDetails).map((colorpalette)=>{
+                  return <ColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors}/>
+              })}
+          </div>
+      }
+      {
+        userColorPaletteDetails.length === 0 ?
+          <></>
+        :
+          <div>
+            {(userColorPaletteDetails).map((colorpalette)=>{
                   return <ColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors}/>
               })}
           </div>
