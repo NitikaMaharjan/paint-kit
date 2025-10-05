@@ -100,8 +100,8 @@ export default function CreateColorPalette() {
             return false;
         }
 
-        if (colors.length<6){
-            showAlert("Warning", "There must be at least 6 colors in the color palette!");
+        if (colors.length<1){
+            showAlert("Warning", "There must be at least 1 color in the color palette!");
             return false;
         }
 
@@ -116,8 +116,8 @@ export default function CreateColorPalette() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                        by_admin: true,
-                        user_id: localStorage.getItem("admin_id"),
+                        by_admin: localStorage.getItem("adminSignedIn")?true:false,
+                        user_id: localStorage.getItem("adminSignedIn")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),
                         color_palette_name: inputValue.color_palette_name.trim(),
                         colors: colors
                     })
@@ -141,8 +141,8 @@ export default function CreateColorPalette() {
     }
 
     useEffect(() => {
-        if(!localStorage.getItem("adminSignedIn") && !localStorage.getItem("admin_token")){
-            navigate("/adminsignin");
+        if(!localStorage.getItem("adminSignedIn") && !localStorage.getItem("userSignedIn")){
+            navigate("/");
         }
         // eslint-disable-next-line
     }, []);
