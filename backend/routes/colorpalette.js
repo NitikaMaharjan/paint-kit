@@ -41,4 +41,18 @@ router.post('/addcolorpalette', [
   }
 });
 
+// Route 2: fetch color palette using GET method, URL '/api/colorpalette/userfetchcolorpalette'
+router.get('/userfetchcolorpalette', async (req, res) => {
+  try {
+    const user_id = req.query.user_id;
+    
+    // fetching user's color palette using user_id excluding
+    const colorPaletteDetails = await ColorPalette.find({user_id}).select('-by_admin -user_id -date -__v');
+    res.json({ success: true, colorPaletteDetails });
+    
+  } catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;

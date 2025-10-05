@@ -113,14 +113,14 @@ export default function CreateColorPalette() {
         if(ValidateInputValue()){
             try{
                 const response = await fetch("http://localhost:5000/api/colorpalette/addcolorpalette", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                        by_admin: localStorage.getItem("adminSignedIn")?true:false,
-                        user_id: localStorage.getItem("adminSignedIn")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),
-                        color_palette_name: inputValue.color_palette_name.trim(),
-                        colors: colors
-                    })
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                            by_admin: localStorage.getItem("adminSignedIn")?true:false,
+                            user_id: localStorage.getItem("adminSignedIn")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),
+                            color_palette_name: inputValue.color_palette_name.trim(),
+                            colors: colors
+                        })
                 });
                 const json = await response.json();
         

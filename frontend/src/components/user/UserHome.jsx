@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import AlertContext from "../../context/alert/AlertContext";
 import ConfirmContext from "../../context/confirm/ConfirmContext";
+import UserViewColorPalette from "./UserViewColorPalette";
 
 export default function UserHome() {
 
@@ -40,6 +41,7 @@ export default function UserHome() {
       <h1>Welcome, {localStorage.getItem("user_username")}!</h1>
       <Link to="/createcolorpalette" className="add-color-btn">Create Color Palette</Link>
       <button className="signout-btn" onClick={handleSignOut}><b>Sign out</b></button>
+      <UserViewColorPalette/>
     </div>
   )
 }

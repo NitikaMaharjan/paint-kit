@@ -13,6 +13,7 @@ import AdminDashboard from './components/admin/AdminDashboard';
 import AdminSignin from './components/admin/AdminSignin';
 import AdminSignup from './components/admin/AdminSignup';
 import CreateColorPalette from './components/CreateColorPalette';
+import ColorPaletteDetailsState from './context/colorpalette/ColorPaletteDetailsState';
 
 function App() {
   return (
@@ -21,18 +22,20 @@ function App() {
         <ConfirmState>
           <SignedInAdminDetailsState>
             <SignedInUserDetailsState>
-              <BrowserRouter>
-                <Routes>
-                  <Route path='/' element={<Home/>}/>
-                  <Route path='/userhome' element={<UserHome/>}/>
-                  <Route path='/usersignin' element={<UserSignin/>}/>
-                  <Route path='/usersignup' element={<UserSignup/>}/>
-                  <Route path='/admindashboard' element={<AdminDashboard/>}/>
-                  <Route path='/adminsignin' element={<AdminSignin/>}/>
-                  <Route path='/adminsignup' element={<AdminSignup/>}/>
-                  <Route path='/createcolorpalette' element={<CreateColorPalette/>}/>
-                </Routes>
-              </BrowserRouter>
+              <ColorPaletteDetailsState>
+                <BrowserRouter>
+                  <Routes>
+                    <Route path='/' element={<Home/>}/>
+                    <Route path='/userhome' element={<UserHome/>}/>
+                    <Route path='/usersignin' element={<UserSignin/>}/>
+                    <Route path='/usersignup' element={<UserSignup/>}/>
+                    <Route path='/admindashboard' element={<AdminDashboard/>}/>
+                    <Route path='/adminsignin' element={<AdminSignin/>}/>
+                    <Route path='/adminsignup' element={<AdminSignup/>}/>
+                    <Route path='/createcolorpalette' element={<CreateColorPalette/>}/>
+                  </Routes>
+                </BrowserRouter>
+              </ColorPaletteDetailsState>
             </SignedInUserDetailsState>
           </SignedInAdminDetailsState>
         </ConfirmState>
