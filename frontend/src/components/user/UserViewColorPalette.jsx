@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import ColorPaletteDetailsContext from "../../context/colorpalette/ColorPaletteDetailsContext";
-import ColorPaletteItem from "../ColorPaletteItem";
+import ColorPaletteItem from "../colorpalette/ColorPaletteItem";
 
 export default function UserViewColorPalette() {
 
