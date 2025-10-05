@@ -19,6 +19,7 @@ export default function SignedInUserDetailsState(props) {
 
             if(json.success){
                 localStorage.setItem("user_token", true);
+                localStorage.setItem("user_id", json.signedInUserDetails._id);
                 localStorage.setItem("user_email", json.signedInUserDetails.email);
                 localStorage.setItem("user_username", json.signedInUserDetails.username);
             }else{

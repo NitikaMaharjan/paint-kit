@@ -17,11 +17,10 @@ const AdminSchema = new Schema({
     },
     date:{
         type: Date,
-        default: Date.now,
-        required: true
+        default: Date.now
     }
 });
 
-const Admin = mongoose.model('admin', AdminSchema);
+const Admin = mongoose.model('Admin', AdminSchema);
 
 module.exports = Admin;

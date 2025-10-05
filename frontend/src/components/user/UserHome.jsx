@@ -18,6 +18,7 @@ export default function UserHome() {
       localStorage.removeItem("userSignedIn");
       localStorage.removeItem("userAuthToken");
       localStorage.removeItem("user_token");
+      localStorage.removeItem("user_id");
       localStorage.removeItem("user_email");
       localStorage.removeItem("user_username");
       navigate("/usersignin");

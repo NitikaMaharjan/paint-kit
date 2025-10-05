@@ -113,8 +113,8 @@ router.get('/fetchuserdetails', verifyUserToken, async (req, res) => {
   try {
     const user_id = req.user.id;
     
-    // fetching user's email and username using user_id excluding _id, password, date and __v
-    const signedInUserDetails = await User.findById(user_id).select('-_id -password -date -__v');
+    // fetching user's email and username using user_id excluding password, date and __v
+    const signedInUserDetails = await User.findById(user_id).select('-password -date -__v');
     res.json({ success: true, signedInUserDetails });
     
   } catch (err) {

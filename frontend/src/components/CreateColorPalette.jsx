@@ -1,7 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AlertContext from "../context/alert/AlertContext";
 
 export default function CreateColorPalette() {
+
+    let navigate = useNavigate();
 
     const { showAlert } = useContext(AlertContext);
 
@@ -108,9 +111,41 @@ export default function CreateColorPalette() {
     const handleSubmit = async(e) =>{
         e.preventDefault();
         if(ValidateInputValue()){
-            showAlert("Success", "Your color palette looks awesome. It has been saved successfully!");
+            try{
+                const response = await fetch("http://localhost:5000/api/colorpalette/addcolorpalette", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                        by_admin: true,
+                        user_id: localStorage.getItem("admin_id"),
+                        color_palette_name: inputValue.color_palette_name.trim(),
+                        colors: colors
+                    })
+                });
+                const json = await response.json();
+        
+                if(json.success){
+                    showAlert("Success", "Your color palette looks awesome. It has been saved successfully!");
+                }else{
+                    if(json.error){
+                        showAlert("Error", json.error);
+                    }          
+                    if(json.errors){
+                        showAlert("Error", json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
+                    }
+                }
+            }catch(err){
+                showAlert("Error", "Network error. Please check your connection or try again later!")
+            }
         }
     }
+
+    useEffect(() => {
+        if(!localStorage.getItem("adminSignedIn") && !localStorage.getItem("admin_token")){
+            navigate("/adminsignin");
+        }
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <div className="content gap-10">

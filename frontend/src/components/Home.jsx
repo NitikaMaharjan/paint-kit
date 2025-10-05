@@ -1,6 +1,5 @@
 import { useContext, useEffect } from "react";
 import ProgressBarContext from "../context/progressbar/ProgressBarContext";
-import CreateColorPalette from "./CreateColorPalette";
 
 export default function Home() {
 
@@ -12,8 +11,8 @@ export default function Home() {
   }, []);
   
   return (
-    <>
-      <CreateColorPalette/>
-    </>
+    <div className="content">
+      <h1>Hello World!</h1>
+    </div>
   )
 }

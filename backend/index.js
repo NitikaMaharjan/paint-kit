@@ -15,6 +15,8 @@ app.use(cors());
 app.use('/api/auth/admin', require('./routes/auth/admin')); 
 app.use('/api/auth/user', require('./routes/auth/user')); 
 
+app.use('/api/colorpalette', require('./routes/colorpalette')); 
+
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
