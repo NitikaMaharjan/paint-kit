@@ -131,3 +131,15 @@
     box-shadow: 2px 2px 0px rgb(0, 0, 0);
     cursor: pointer;
 }
+
+.color-palette {
+    background-color: white;
+    height: 400px;
+    width: 226px;
+}
+
+.color-palette-item {
+    background-color: white;
+    height: 114px;
+    width: 226px;
+}
