@@ -12,6 +12,7 @@ export default function RightNavbar() {
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
 
+    const [showDropDown, setShowDropDown] = useState(false);
     const [showCreateColorPaletteModal, setShowCreateColorPaletteModal] = useState(false);
 
     const handleSignOut = async()=> {
@@ -37,29 +38,50 @@ export default function RightNavbar() {
         return text;
     }
 
+    const handleMouseOver= ()=> {
+        document.getElementById("user-info").style.backgroundColor="rgba(0, 0, 0, 0.1)";
+    }
+    
+    const handleMouseOut= ()=> {
+        document.getElementById("user-info").style.backgroundColor="transparent";
+    }
+
     return (
         <>
             <div className="right-navbar">
-                <div className="flex items-center justify-between">
-                    <div style={{lineHeight: "18px"}}>
-                        <p style={{fontSize: "16px"}}><b>{handleCapitalizeFirstLetter(localStorage.getItem("user_username")?localStorage.getItem("user_username"):"")}</b></p>
-                        <p style={{fontSize: "14px", color: "rgba(0, 0, 0, 0.7)"}}>{localStorage.getItem("user_email")}</p>
+                <div id="user-info" className="flex items-center justify-between p-2 mb-2" style={{borderRadius: "3px"}}>
+                    <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-center" style={{border: "1px solid black", height: "24px", width: "24px", borderRadius: "24px"}}>
+                            <img src="user.png" style={{height: "18px", width: "18px"}}/>
+                        </div>
+                        <div style={{lineHeight: "18px"}}>
+                            <p style={{fontSize: "14px"}}><b>{handleCapitalizeFirstLetter(localStorage.getItem("user_username")?localStorage.getItem("user_username"):"")}</b></p>
+                            <p style={{fontSize: "13px", color: "rgba(0, 0, 0, 0.7)"}} title={localStorage.getItem("user_email")}>{localStorage.getItem("user_email").length>24?localStorage.getItem("user_email").slice(0,24)+"...":localStorage.getItem("user_email")}</p>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <img src="profile-picture.jpg" style={{height: "32px", width: "32.5px"}}/>
-                        <img src="down-arrow.png" style={{height: "14px", width: "14px", cursor: "pointer"}}/>
+                    <div>
+                        <button className="dropdown-btn" onClick={()=>{setShowDropDown(!showDropDown)}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}><img src="down-arrow.png" style={{height: "14px", width: "14px"}}/></button>
+                        {
+                            showDropDown
+                            &&
+                            <div className="dropdown-content">
+                                <button className="dropdown-content-button">Settings</button>
+                                <button className="dropdown-content-button" onClick={handleSignOut}>Sign out</button>
+                            </div>
+                        }
                     </div>
                 </div>
-                <button className="signout-btn mb-1" onClick={handleSignOut}><b>Sign out</b></button>
-                <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="add-color-btn mb-1">Create Color Palette</button>
-                <UserViewColorPalette/>
+                <div>
+                    <UserViewColorPalette/>
+                    <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button>
+                </div>
             </div>
             {
                 showCreateColorPaletteModal
                 &&
                 <div className="alert-modal-background">
                     <div className="flex items-center pt-8 gap-10">
-                        <div style={{position: "fixed", top: "32px", right: "300px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowCreateColorPaletteModal(false)}}>
+                        <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowCreateColorPaletteModal(false)}}>
                             <img src="close-white.png" style={{height: "18px", width: "18px"}}/>
                         </div>
                         <CreateColorPalette setShowCreateColorPaletteModal={setShowCreateColorPaletteModal}/>
