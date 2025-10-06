@@ -35,7 +35,7 @@ export default function RightNavbar() {
             words[i] = words[i].charAt(0).toUpperCase()+words[i].substring(1).toLowerCase();
         }
         text = (words.join(' '));
-        return text;
+        return text.length>18?text.slice(0,18)+"...":text;
     }
 
     const handleMouseOver= ()=> {
@@ -56,7 +56,7 @@ export default function RightNavbar() {
                         </div>
                         <div style={{lineHeight: "18px"}}>
                             <p style={{fontSize: "14px"}} title={localStorage.getItem("user_username")}><b>{handleCapitalizeFirstLetter(localStorage.getItem("user_username")?localStorage.getItem("user_username"):"")}</b></p>
-                            <p style={{fontSize: "13px", color: "rgba(0, 0, 0, 0.7)"}} title={localStorage.getItem("user_email")}>{localStorage.getItem("user_email").length>24?localStorage.getItem("user_email").slice(0,24)+"...":localStorage.getItem("user_email")}</p>
+                            <p style={{fontSize: "13px", color: "rgba(0, 0, 0, 0.7)"}} title={localStorage.getItem("user_email")}>{localStorage.getItem("user_email").length>20?localStorage.getItem("user_email").slice(0,20)+"...":localStorage.getItem("user_email")}</p>
                         </div>
                     </div>
                     <div>
