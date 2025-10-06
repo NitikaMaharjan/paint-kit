@@ -49,13 +49,13 @@ export default function RightNavbar() {
     return (
         <>
             <div className="right-navbar">
-                <div id="user-info" className="flex items-center justify-between p-2 mb-2" style={{borderRadius: "3px"}}>
+                <div id="user-info" className="flex items-center justify-between p-2" style={{borderRadius: "3px"}}>
                     <div className="flex items-center gap-3">
                         <div className="flex items-center justify-center" style={{border: "1px solid black", height: "24px", width: "24px", borderRadius: "24px"}}>
                             <img src="user.png" style={{height: "18px", width: "18px"}}/>
                         </div>
                         <div style={{lineHeight: "18px"}}>
-                            <p style={{fontSize: "14px"}}><b>{handleCapitalizeFirstLetter(localStorage.getItem("user_username")?localStorage.getItem("user_username"):"")}</b></p>
+                            <p style={{fontSize: "14px"}} title={localStorage.getItem("user_username")}><b>{handleCapitalizeFirstLetter(localStorage.getItem("user_username")?localStorage.getItem("user_username"):"")}</b></p>
                             <p style={{fontSize: "13px", color: "rgba(0, 0, 0, 0.7)"}} title={localStorage.getItem("user_email")}>{localStorage.getItem("user_email").length>24?localStorage.getItem("user_email").slice(0,24)+"...":localStorage.getItem("user_email")}</p>
                         </div>
                     </div>
@@ -71,10 +71,8 @@ export default function RightNavbar() {
                         }
                     </div>
                 </div>
-                <div>
-                    <UserViewColorPalette/>
-                    <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button>
-                </div>
+                <UserViewColorPalette/>
+                <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button>
             </div>
             {
                 showCreateColorPaletteModal

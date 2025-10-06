@@ -6,7 +6,7 @@ export default function UserViewColorPalette() {
 
   const { adminColorPaletteDetails, adminFetchColorPalette, userColorPaletteDetails, userFetchUserColorPalette } = useContext(ColorPaletteDetailsContext);
 
-  const [showColorPalette, setShowColorPalette] = useState("community palettes");
+  const [showColorPalette, setShowColorPalette] = useState("community");
   
   useEffect(() => {
     if (localStorage.getItem("userSignedIn")){
@@ -19,11 +19,15 @@ export default function UserViewColorPalette() {
   return (
     <div className="color-palette">
       <div className="flex justify-between">
-        <button className="add-color-btn" onClick={()=>{setShowColorPalette("community palettes")}}>Community</button>
-        <button className="add-color-btn" onClick={()=>{setShowColorPalette("my palettes")}}>Mine</button>
+        <div className={`${showColorPalette==="community"?"active":""}`}>
+          <button className="color-palette-btn" onClick={()=>{setShowColorPalette("community")}}>Community Palettes</button>
+        </div>
+        <div className={`${showColorPalette==="my"?"active":""}`}>
+          <button className="color-palette-btn" onClick={()=>{setShowColorPalette("my")}}>My Palettes</button>
+        </div>
       </div>
       {
-        showColorPalette === "community palettes"?
+        showColorPalette === "community"?
           adminColorPaletteDetails.length === 0 ?
             <div>
               <p>nothing to show</p>
