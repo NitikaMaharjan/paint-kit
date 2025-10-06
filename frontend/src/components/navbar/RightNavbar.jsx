@@ -37,10 +37,6 @@ export default function RightNavbar() {
         return text;
     }
 
-    const showCreateColorPalette = ()=> {
-        setShowCreateColorPaletteModal(true);
-    } 
-
     return (
         <>
             <div className="right-navbar">
@@ -55,7 +51,7 @@ export default function RightNavbar() {
                     </div>
                 </div>
                 <button className="signout-btn mb-1" onClick={handleSignOut}><b>Sign out</b></button>
-                <button onClick={showCreateColorPalette} className="add-color-btn mb-1">Create Color Palette</button>
+                <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="add-color-btn mb-1">Create Color Palette</button>
                 <UserViewColorPalette/>
             </div>
             {
@@ -66,7 +62,7 @@ export default function RightNavbar() {
                         <div style={{position: "fixed", top: "32px", right: "300px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowCreateColorPaletteModal(false)}}>
                             <img src="close-white.png" style={{height: "18px", width: "18px"}}/>
                         </div>
-                        <CreateColorPalette/>
+                        <CreateColorPalette setShowCreateColorPaletteModal={setShowCreateColorPaletteModal}/>
                     </div>
                 </div>
             }

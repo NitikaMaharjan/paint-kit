@@ -12,7 +12,6 @@ import UserSignup from './components/user/UserSignup';
 import AdminDashboard from './components/admin/AdminDashboard';
 import AdminSignin from './components/admin/AdminSignin';
 import AdminSignup from './components/admin/AdminSignup';
-import CreateColorPalette from './components/colorpalette/CreateColorPalette';
 import ColorPaletteDetailsState from './context/colorpalette/ColorPaletteDetailsState';
 
 function App() {
@@ -32,7 +31,6 @@ function App() {
                     <Route path='/admindashboard' element={<AdminDashboard/>}/>
                     <Route path='/adminsignin' element={<AdminSignin/>}/>
                     <Route path='/adminsignup' element={<AdminSignup/>}/>
-                    <Route path='/createcolorpalette' element={<CreateColorPalette/>}/>
                   </Routes>
                 </BrowserRouter>
               </ColorPaletteDetailsState>

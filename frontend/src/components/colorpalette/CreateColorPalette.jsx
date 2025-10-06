@@ -1,12 +1,11 @@
-import { useContext, useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useState, useRef } from "react";
 import AlertContext from "../../context/alert/AlertContext";
+import ColorPaletteDetailsContext from "../../context/colorpalette/ColorPaletteDetailsContext"
 
-export default function CreateColorPalette() {
-
-    let navigate = useNavigate();
+export default function CreateColorPalette(props) {
 
     const { showAlert } = useContext(AlertContext);
+    const { userFetchUserColorPalette } = useContext(ColorPaletteDetailsContext);
 
     const [inputValue, setInputValue] = useState({
         color_palette_name: "",
@@ -134,6 +133,8 @@ export default function CreateColorPalette() {
                 const json = await response.json();
         
                 if(json.success){
+                    await userFetchUserColorPalette();
+                    props.setShowCreateColorPaletteModal(false);
                     showAlert("Success", "Your color palette looks awesome. It has been saved successfully!");
                 }else{
                     if(json.error){
@@ -148,13 +149,6 @@ export default function CreateColorPalette() {
             }
         }
     }
-
-    useEffect(() => {
-        if(!localStorage.getItem("adminSignedIn") && !localStorage.getItem("userSignedIn")){
-            navigate("/");
-        }
-        // eslint-disable-next-line
-    }, []);
 
     return (
         <>

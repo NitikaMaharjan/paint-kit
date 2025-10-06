@@ -13,6 +13,7 @@ export default function UserViewColorPalette() {
       adminFetchColorPalette();
       userFetchUserColorPalette();
     }
+    // eslint-disable-next-line
   }, []);
   
   return (
@@ -31,7 +32,7 @@ export default function UserViewColorPalette() {
             <div>
               {(adminColorPaletteDetails).map((colorpalette)=>{
                     return <ColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors}/>
-                })}
+                }).reverse()}
             </div>
         :
           userColorPaletteDetails.length === 0 ?
@@ -42,7 +43,7 @@ export default function UserViewColorPalette() {
             <div>
               {(userColorPaletteDetails).map((colorpalette)=>{
                     return <ColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors}/>
-                })}
+                }).reverse()}
             </div>
       }
     </div>
