@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import AlertContext from "../../context/alert/AlertContext";
 
@@ -14,29 +14,38 @@ export default function CreateColorPalette() {
     });
     const [colors, setColors] = useState([]);
 
+    const pickAColor = useRef(null);
+
     const updateInputValue = (e) => {
         setInputValue({...inputValue, [e.target.name]: e.target.value. trimStart()});
     }
 
     const clearInput = (input_field) => {
         setInputValue({...inputValue, [input_field]: ""});
+        if (input_field==="color_name"){
+            removeBorderHighlight("color-name");
+        }
     }
 
     const addColor = (e) => {
         e.preventDefault();
         if (inputValue.color_name===""){
+            removeBorderHighlight("color-name");
             return;
         }
 
         if (colors.includes(inputValue.color_name)){
             showAlert("Warning", inputValue.color_name+" color has already been added to the color palette!");
+            removeBorderHighlight("color-name");
             return;
         }
 
         if (colors.length<12){
             setColors([...colors, inputValue.color_name]);
             setInputValue({...inputValue, ["color_name"]: ""});
+            removeBorderHighlight("color-name");
         }else{
+            removeBorderHighlight("color-name");
             showAlert("Warning", "A color palette can contain maximum of only 12 colors!");
         }
     }
@@ -163,8 +172,8 @@ export default function CreateColorPalette() {
                         <label htmlFor="color_name"><b>Color name</b></label>
                         <div className="flex gap-3">
                             <div className="input-bar" id="color-name-input-bar" style={{height: "25.5px", width: "200px", gap: "8px"}}>
-                                <input type="color" id="color_name" name="color_name" placeholder="Enter color name" value={inputValue.color_name} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("color-name")}} onBlur={()=>{removeBorderHighlight("color-name")}} style={{height: "20px", width: "30px", cursor: "pointer"}}/>
-                                <p style={{fontSize: "13px", width: "100%", color: `${inputValue.color_name===""?"#5b5c60":"black"}`}}>{inputValue.color_name===""?"Pick a color":inputValue.color_name}</p>
+                                <input type="color" id="color_name" name="color_name" ref={pickAColor} value={inputValue.color_name} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("color-name")}} onBlur={()=>{removeBorderHighlight("color-name")}} style={{height: "20px", width: "30px", cursor: "pointer"}}/>
+                                <p onClick={()=>{addBorderHighlight("color-name");pickAColor.current?.click();}} style={{fontSize: "13px", width: "100%", color: `${inputValue.color_name===""?"#5b5c60":"black"}`, cursor: "pointer"}}>{inputValue.color_name===""?"Pick a color":inputValue.color_name}</p>
                                 <img src="close.png" alt="close button image" onClick={() => {clearInput("color_name")}} style={{opacity: `${inputValue.color_name===""?0:1}`}}/>
                             </div>
                             <button className="add-color-btn" onClick={addColor}>+</button>
@@ -174,7 +183,10 @@ export default function CreateColorPalette() {
                 </form>
             </div>
             <div className="auth-form-box">
-                <h1 style={{padding: "8px 0px", fontSize: "14px", height: "38px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>{inputValue.color_palette_name}</b></h1>
+                <div className="flex items-center justify-between" style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
+                    <h1 style={{fontSize: "14px", marginLeft: "14px"}}><b>{inputValue.color_palette_name}</b></h1>
+                    <img src="close.png" title="close all button" style={{height: "13px", width: "13px", cursor: "pointer", marginRight: "14px", opacity: `${colors.length>1?"1":"0"}`}} onClick={()=>{setColors([])}}/>
+                </div>
                 <div style={{height: "290px", width: "730px", padding: "12px"}}>
                     <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", justifyItems: "center", gap: "18px"}}>
                         {
