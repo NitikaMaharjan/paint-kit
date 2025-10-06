@@ -17,8 +17,10 @@ export default function UserViewColorPalette() {
   
   return (
     <div className="color-palette">
-      <button onClick={()=>{setShowColorPalette("community palettes")}}>Community</button>
-      <button onClick={()=>{setShowColorPalette("my palettes")}}>Mine</button>
+      <div className="flex justify-between">
+        <button className="add-color-btn" onClick={()=>{setShowColorPalette("community palettes")}}>Community</button>
+        <button className="add-color-btn" onClick={()=>{setShowColorPalette("my palettes")}}>Mine</button>
+      </div>
       {
         showColorPalette === "community palettes"?
           adminColorPaletteDetails.length === 0 ?
