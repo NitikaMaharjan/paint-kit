@@ -52,6 +52,8 @@ export default function Canvas() {
     }, []);
 
     return (
-        <canvas ref={canvasRef} height={"612px"} width={"1058px"} style={{border: "1px solid black"}} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}></canvas>
+        <div style={{marginTop: "20px", marginLeft: "120px"}}>
+            <canvas ref={canvasRef} height={"498px"} width={"918px"} style={{border: "1px solid black"}} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}></canvas>
+        </div>
     )
 }

@@ -198,3 +198,33 @@
     height: 114px;
     width: 226px;
 }
+
+.left-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 519px;
+    width: 120px;
+    padding: 40px 20px;
+}
+
+.left-tool-bar {
+    height: 60%;
+    background-color: white;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.bottom-navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 98px;
+    width: 1060px;
+    padding: 20px 20px 20px 120px;
+}
+
+.bottom-tool-bar {
+    height: 60px;
+    background-color: white;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+}
