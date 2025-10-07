@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import RightNavbar from '../navbar/RightNavbar';
+import Canvas from '../canvas/Canvas';
 
 export default function UserHome() {
 
@@ -19,6 +20,9 @@ export default function UserHome() {
   }, []);
 
   return (
-    <RightNavbar/>
+    <>
+      <Canvas/>
+      <RightNavbar/>
+    </>
   )
 }
