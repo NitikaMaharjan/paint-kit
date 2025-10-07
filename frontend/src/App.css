@@ -211,7 +211,17 @@
 .left-tool-bar {
     height: 60%;
     background-color: white;
+    border: 1px solid black;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.tool {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
 }
 
 .bottom-navbar {

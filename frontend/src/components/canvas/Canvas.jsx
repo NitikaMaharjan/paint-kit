@@ -1,59 +1,20 @@
-import { useEffect, useState, useRef } from "react";
+import { useContext, useEffect } from "react";
+import DrawContext from "../../context/draw/DrawContext";
 
 export default function Canvas() {
 
-    const [drawing, setDrawing] = useState(false);
-    const [tool, setTool] = useState("pen");
-    const [selectedColor, setSelectedColor] = useState("#000000");
-
-    const canvasRef = useRef(null);
-
-    const handleMouseDown = (e)=> {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
-
-        // finding the mouse position relative to the canvas not the whole screen
-        const canvasBox = canvas.getBoundingClientRect();
-        const posX = e.clientX - canvasBox.left;
-        const posY = e.clientY - canvasBox.top;
-
-        setDrawing(true);
-        ctx.beginPath();
-        ctx.moveTo(posX, posY);
-        ctx.strokeStyle = selectedColor;
-        ctx.lineWidth = 2;
-        ctx.lineCap = "round";
-    }
-
-    const handleMouseMove = (e) => {
-        if (drawing===false){
-            return;
-        }
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
-        const canvasBox = canvas.getBoundingClientRect();
-        const posX = e.clientX - canvasBox.left;
-        const posY = e.clientY - canvasBox.top;
-        ctx.lineTo(posX, posY);
-        ctx.stroke();
-    };
-
-    const handleMouseUp = ()=> {
-        if (tool==="pen"){
-            setDrawing(false);
-        }
-    }    
+    const { canvasRef, handleMouseDown, handleMouseMove, handleMouseUp } = useContext(DrawContext);
 
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d"); // ctx in short for drawing context is an object that gives you all the drawing tools
-        ctx.fillStyle = "transparent";
+        ctx.fillStyle = "white";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }, []);
 
     return (
         <div style={{marginTop: "20px", marginLeft: "120px"}}>
-            <canvas ref={canvasRef} height={"498px"} width={"918px"} style={{border: "1px solid black"}} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}></canvas>
+            <canvas ref={canvasRef} height={"498px"} width={"918px"} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}></canvas>
         </div>
     )
 }
