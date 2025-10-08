@@ -34,7 +34,7 @@ export default function DrawState(props) {
       ctx.lineWidth = 4;
       ctx.lineCap = "round";
     }else if(tool==="bucket fill") {
-      const rgbaColor = convertHexToRgba("#fbe319");
+      const rgbaColor = convertHexToRgba(selectedColor);
       floodFill(Math.floor(posX), Math.floor(posY), rgbaColor); // Math.floor() removes decimal and rounds down number to nearest integer
     }else if(tool==="bucket eraser") {
       const rgbaColor = convertHexToRgba("#ffffff");
@@ -68,7 +68,7 @@ export default function DrawState(props) {
 
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height); // imageData is the memory that stores canvas info
     // read pixel data of the canvas from imageData and store it in an array named pixels
-    const pixels = imageData.data; // pixels is the array of rgba values of each pixel [r,g,b,a,r,g,b,a,...] : 0,1,2,3 index is the rgba value of first pixel, 4,5,6,7 index is the rgba value of second pixel and so on...
+    const pixels = imageData.data; // pixels is the array of rgba values of each pixel [r,g,b,a,r,g,b,a,...] : 0,1,2,3 index is the rgba value of first pixel, 4,5,6,7 index is the rgba value of second pixel and so on... each pixel takes 4 positions
 
     const startPixelColor = getStartPixelColor(pixels, posX, posY, canvas.width);
     
@@ -84,7 +84,7 @@ export default function DrawState(props) {
 
         const neighbourPixelColor = getPixelColor(pixels, pixX, pixY, canvas.width);
 
-        if (doesNeighbourPixelColorMatchStartPixelColor(neighbourPixelColor, startPixelColor)){
+        if (doesNeighbourPixelColorMatchStartPixelColor(neighbourPixelColor, startPixelColor) && !doesNeighbourPixelColorMatchFillColor(neighbourPixelColor, fillColor)){ // if neighbour pixel's color is start pixel's color and neighbour pixel's color do not match fill color then set neighbour pixel's color to fill color
           setPixelColor(pixels, pixX, pixY, canvas.width, fillColor);
           stack.push([pixX + 1, pixY]); // push position of right pixel into the stack
           stack.push([pixX - 1, pixY]); // push position of left pixel into the stack
@@ -120,7 +120,7 @@ export default function DrawState(props) {
 
   const doesStartPixelColorMatchFillColor = (startPixelColor, fillColor)=> {
     // compare startPixelColor [r,g,b,a] with fillColor [r,g,b,a]
-    if (Math.abs(startPixelColor[0]-fillColor[0])<=100 && Math.abs(startPixelColor[1]-fillColor[1])<=100 && Math.abs(startPixelColor[2]-fillColor[2])<=100){
+    if (Math.abs(startPixelColor[0]-fillColor[0])<=5 && Math.abs(startPixelColor[1]-fillColor[1])<=5 && Math.abs(startPixelColor[2]-fillColor[2])<=5){
       return true;
     }else{
       return false;
@@ -129,7 +129,16 @@ export default function DrawState(props) {
   
   const doesNeighbourPixelColorMatchStartPixelColor = (neighbourPixelColor, startPixelColor)=> {
     // compare neighbourPixelColor [r,g,b,a] with startPixelColor [r,g,b,a]
-    if (Math.abs(neighbourPixelColor[0]-startPixelColor[0])<=100 && Math.abs(neighbourPixelColor[1]-startPixelColor[1])<=100 && Math.abs(neighbourPixelColor[2]-startPixelColor[2])<=100){
+    if (Math.abs(neighbourPixelColor[0]-startPixelColor[0])<=5 && Math.abs(neighbourPixelColor[1]-startPixelColor[1])<=5 && Math.abs(neighbourPixelColor[2]-startPixelColor[2])<=5){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  
+  const doesNeighbourPixelColorMatchFillColor = (neighbourPixelColor, fillColor)=> {
+    // compare neighbourPixelColor [r,g,b,a] with fillColor [r,g,b,a]
+    if (Math.abs(neighbourPixelColor[0]-fillColor[0])<=5 && Math.abs(neighbourPixelColor[1]-fillColor[1])<=5 && Math.abs(neighbourPixelColor[2]-fillColor[2])<=5){
       return true;
     }else{
       return false;
@@ -147,7 +156,7 @@ export default function DrawState(props) {
   }
 
   return(
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor }}>
       {props.children}
     </DrawContext.Provider>
   )

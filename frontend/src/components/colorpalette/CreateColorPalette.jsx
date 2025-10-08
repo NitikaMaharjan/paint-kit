@@ -163,7 +163,7 @@ export default function CreateColorPalette(props) {
                         </div>
                     </div>
                     <div style={{marginBottom: "28px"}}>
-                        <label htmlFor="color_name"><b>Color name</b></label>
+                        <label htmlFor="color_name"><b>Pick colors</b></label>
                         <div className="flex gap-3">
                             <div className="input-bar" id="color-name-input-bar" style={{height: "25.5px", width: "200px", gap: "8px"}}>
                                 <input type="color" id="color_name" name="color_name" ref={pickAColor} value={inputValue.color_name} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("color-name")}} onBlur={()=>{removeBorderHighlight("color-name")}} style={{height: "20px", width: "30px", cursor: "pointer"}}/>

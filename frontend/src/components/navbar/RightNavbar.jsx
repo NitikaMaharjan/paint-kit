@@ -1,7 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AlertContext from "../../context/alert/AlertContext";
 import ConfirmContext from "../../context/confirm/ConfirmContext";
+import DrawContext from "../../context/draw/DrawContext";
 import CreateColorPalette from "../colorpalette/CreateColorPalette";
 import UserViewColorPalette from "../user/UserViewColorPalette";
 
@@ -11,9 +12,11 @@ export default function RightNavbar() {
 
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
+    const { setSelectedColor } = useContext(DrawContext);
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [showCreateColorPaletteModal, setShowCreateColorPaletteModal] = useState(false);
+    const [inputColor, setInputColor] = useState("#000000");
 
     const handleSignOut = async()=> {
         let ans = await showConfirm("Sign out");
@@ -38,13 +41,21 @@ export default function RightNavbar() {
         return text.length>18?text.slice(0,18)+"...":text;
     }
 
-    const handleMouseOver= ()=> {
+    const handleMouseOver = ()=> {
         document.getElementById("user-info").style.backgroundColor="rgba(0, 0, 0, 0.1)";
     }
     
-    const handleMouseOut= ()=> {
+    const handleMouseOut = ()=> {
         document.getElementById("user-info").style.backgroundColor="transparent";
     }
+
+    const handleInputColor = (e)=> {
+        setInputColor(e.target.value);
+    }
+
+    useEffect(() => {
+      setSelectedColor(inputColor);
+    }, [inputColor]);
 
     return (
         <>
@@ -70,6 +81,10 @@ export default function RightNavbar() {
                             </div>
                         }
                     </div>
+                </div>
+                <div style={{paddingTop: "18px"}}>
+                    <p>Pick a color</p>
+                    <input type="color" value={inputColor} onChange={handleInputColor} style={{height: "32px", width: "32px", cursor: "pointer"}}/>
                 </div>
                 <UserViewColorPalette/>
                 <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button>
