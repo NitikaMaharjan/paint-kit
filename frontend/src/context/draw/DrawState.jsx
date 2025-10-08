@@ -1,7 +1,12 @@
-import { useState, useRef } from "react";
+import { useContext, useState, useRef } from "react";
 import DrawContext from "./DrawContext";
+import AlertContext from "../alert/AlertContext";
+import ConfirmContext from "../confirm/ConfirmContext";
 
 export default function DrawState(props) {
+
+  const { showAlert } = useContext(AlertContext);
+  const { showConfirm } = useContext(ConfirmContext);
 
   const [drawing, setDrawing] = useState(false);
   const [tool, setTool] = useState("pen");
@@ -155,8 +160,19 @@ export default function DrawState(props) {
     return [r, g, b, 255]; // value at index 3 is a(alpha) which represents opacity of color, 255 means fully opaque, while 0 means fully transparent
   }
 
+  const handleClearCanvas = async()=> {
+    let ans = await showConfirm("Clear canvas");
+    if (ans){
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      showAlert("Success", "You've cleared canvas!");
+    }
+  }
+
   return(
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor, handleClearCanvas }}>
       {props.children}
     </DrawContext.Provider>
   )

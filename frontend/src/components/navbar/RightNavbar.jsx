@@ -20,15 +20,15 @@ export default function RightNavbar() {
 
     const handleSignOut = async()=> {
         let ans = await showConfirm("Sign out");
-        if (ans) {
-        localStorage.removeItem("userSignedIn");
-        localStorage.removeItem("userAuthToken");
-        localStorage.removeItem("user_token");
-        localStorage.removeItem("user_id");
-        localStorage.removeItem("user_email");
-        localStorage.removeItem("user_username");
-        navigate("/usersignin");
-        showAlert("Success", "You've signed out. See you next time!");
+        if (ans){
+            localStorage.removeItem("userSignedIn");
+            localStorage.removeItem("userAuthToken");
+            localStorage.removeItem("user_token");
+            localStorage.removeItem("user_id");
+            localStorage.removeItem("user_email");
+            localStorage.removeItem("user_username");
+            navigate("/usersignin");
+            showAlert("Success", "You've signed out. See you next time!");
         }
     }
 
