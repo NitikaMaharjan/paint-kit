@@ -16,6 +16,15 @@ export default function LeftNavbar() {
               <img src="eraser.png" style={{height: "20px", width: "20px"}}/>
             </div>
           </div>
+          <div className="flex" style={{borderBottom: "1px solid black"}}>
+            <div className="tool" style={{borderRight: "1px solid black"}} onClick={()=>{setTool("bucket fill")}}>
+              <img src="bucket.png" style={{height: "20px", width: "20px"}}/>
+            </div>
+            <div className="tool" onClick={()=>{setTool("bucket eraser")}}>
+              <img src="bucket.png" style={{height: "18px", width: "18px"}}/>
+              <img src="eraser.png" style={{height: "18px", width: "18px"}}/>
+            </div>
+          </div>
         </div>
     </div>
   )
