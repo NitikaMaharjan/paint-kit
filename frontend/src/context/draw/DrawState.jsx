@@ -6,6 +6,7 @@ import ConfirmContext from "../confirm/ConfirmContext";
 export default function DrawState(props) {
 
   const undoStack = useRef([]);
+  const redoStack = useRef([]);
 
   const { showAlert } = useContext(AlertContext);
   const { showConfirm } = useContext(ConfirmContext);
@@ -28,6 +29,9 @@ export default function DrawState(props) {
 
     // save the previous canvas state before canvas is modified
     undoStack.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+
+    // empty redo stack when the user clicks undo and modifies canvas
+    redoStack.current = [];
 
     if(tool==="pen"){
       setDrawing(true);
@@ -182,13 +186,25 @@ export default function DrawState(props) {
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
     if (undoStack.current.length>0){
+      redoStack.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
       let prevCanvasStateImageData = undoStack.current.pop();
       ctx.putImageData(prevCanvasStateImageData, 0, 0);
     }
   }
 
+  const handleRedo = ()=> {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+    if (redoStack.current.length>0){
+      undoStack.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+      let nextCanvasStateImageData = redoStack.current.pop();
+      ctx.putImageData(nextCanvasStateImageData, 0, 0);
+    }
+  }
+
   return(
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor, handleClearCanvas, handleUndo }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor, handleClearCanvas, handleUndo, handleRedo }}>
       {props.children}
     </DrawContext.Provider>
   )
