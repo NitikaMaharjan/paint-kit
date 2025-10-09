@@ -7,7 +7,7 @@ export default function Canvas() {
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d"); // ctx in short for drawing context is an object that gives you all the drawing tools
+        const ctx = canvas.getContext('2d', { willReadFrequently: true }); // ctx in short for drawing context is an object that gives you all the drawing tools
         ctx.fillStyle = "white";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }, []);

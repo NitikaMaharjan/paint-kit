@@ -5,6 +5,8 @@ import ConfirmContext from "../confirm/ConfirmContext";
 
 export default function DrawState(props) {
 
+  const undoStack = useRef([]);
+
   const { showAlert } = useContext(AlertContext);
   const { showConfirm } = useContext(ConfirmContext);
 
@@ -16,13 +18,16 @@ export default function DrawState(props) {
 
   const handleMouseDown = (e)=> {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
     // find the mouse position relative to the canvas not the whole screen
     const canvasBox = canvas.getBoundingClientRect();
     // posX and posY are floating-point numbers
     const posX = e.clientX - canvasBox.left; // posX is horizontal axis
     const posY = e.clientY - canvasBox.top; // posY is vertical axis
+
+    // save the previous canvas state before canvas is modified
+    undoStack.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
 
     if(tool==="pen"){
       setDrawing(true);
@@ -50,7 +55,7 @@ export default function DrawState(props) {
   const handleMouseMove = (e)=> {
     if (drawing===true && (tool==="pen" || tool==="eraser")){
       const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
       const canvasBox = canvas.getBoundingClientRect();
       const posX = e.clientX - canvasBox.left;
       const posY = e.clientY - canvasBox.top;
@@ -69,9 +74,9 @@ export default function DrawState(props) {
 
   const floodFill = (posX, posY, fillColor)=> {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height); // imageData is the memory that stores canvas info
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height); // getImageData() is used to read the pixel data from the canvas
     // read pixel data of the canvas from imageData and store it in an array named pixels
     const pixels = imageData.data; // pixels is the array of rgba values of each pixel [r,g,b,a,r,g,b,a,...] : 0,1,2,3 index is the rgba value of first pixel, 4,5,6,7 index is the rgba value of second pixel and so on... each pixel takes 4 positions
 
@@ -164,15 +169,26 @@ export default function DrawState(props) {
     let ans = await showConfirm("Clear canvas");
     if (ans){
       const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      undoStack.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
       ctx.fillStyle = "white";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       showAlert("Success", "You've cleared canvas!");
     }
   }
 
+  const handleUndo = ()=> {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+    if (undoStack.current.length>0){
+      let prevCanvasStateImageData = undoStack.current.pop();
+      ctx.putImageData(prevCanvasStateImageData, 0, 0);
+    }
+  }
+
   return(
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor, handleClearCanvas }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor, handleClearCanvas, handleUndo }}>
       {props.children}
     </DrawContext.Provider>
   )
