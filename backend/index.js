@@ -12,10 +12,16 @@ app.use(express.json());
 app.use(cors());
 
 //Routes:
+
+// For admin and user authentication
 app.use('/api/auth/admin', require('./routes/auth/admin')); 
 app.use('/api/auth/user', require('./routes/auth/user')); 
 
-app.use('/api/colorpalette', require('./routes/colorpalette')); 
+// For color palette
+app.use('/api/colorpalette/colorpalette', require('./routes/colorpalette/colorpalette')); 
+
+// For drawing
+app.use('/api/drawing/drawing', require('./routes/drawing/drawing'));
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

@@ -1,14 +1,14 @@
 const express = require('express');
-const ColorPalette = require('../models/ColorPalette');
+const ColorPalette = require('../../models/ColorPalette');
 const router = express.Router();
 
 const { body, validationResult } = require('express-validator');
 
-// Route 1: add color palette using POST method, URL '/api/colorpalette/addcolorpalette'
+// Route 1: add color palette using POST method, URL '/api/colorpalette/colorpalette/addcolorpalette'
 router.post('/addcolorpalette', [
   body('by_admin').notEmpty().withMessage('by_admin is required.'),
 
-  body('user_id').notEmpty().withMessage('user_id is required.'),
+  body('user_id').notEmpty().withMessage('user id is required.'),
 
   body('color_palette_name').notEmpty().withMessage('color palette name is required.'),
   
@@ -41,7 +41,7 @@ router.post('/addcolorpalette', [
   }
 });
 
-// Route 2: fetch color palette by user using GET method, URL '/api/colorpalette/userfetchcolorpalette'
+// Route 2: fetch color palette by user using GET method, URL '/api/colorpalette/colorpalette/userfetchcolorpalette'
 router.get('/userfetchcolorpalette', async (req, res) => {
   try {
     const user_id = req.query.user_id;
@@ -55,7 +55,7 @@ router.get('/userfetchcolorpalette', async (req, res) => {
   }
 });
 
-// Route 3: fetch color palette by admin using GET method, URL '/api/colorpalette/adminfetchcolorpalette'
+// Route 3: fetch color palette by admin using GET method, URL '/api/colorpalette/colorpalette/adminfetchcolorpalette'
 router.get('/adminfetchcolorpalette', async (req, res) => {
   try {
     

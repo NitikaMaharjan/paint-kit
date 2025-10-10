@@ -4,7 +4,7 @@ import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import LeftNavbar from '../navbar/LeftNavbar';
 import RightNavbar from '../navbar/RightNavbar';
 import BottomNavbar from '../navbar/BottomNavbar';
-import Canvas from '../canvas/Canvas';
+import Canvas from '../draw/Canvas';
 
 export default function UserHome() {
 

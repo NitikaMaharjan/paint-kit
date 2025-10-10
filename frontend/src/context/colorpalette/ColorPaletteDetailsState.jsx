@@ -11,7 +11,7 @@ export default function ColorPaletteDetailsState(props) {
     
     const userFetchUserColorPalette = async()=>{
         try{
-            const response = await fetch(`http://localhost:5000/api/colorpalette/userfetchcolorpalette?user_id=${localStorage.getItem("user_id")}`, {
+            const response = await fetch(`http://localhost:5000/api/colorpalette/colorpalette/userfetchcolorpalette?user_id=${localStorage.getItem("user_id")}`, {
                 method: 'GET',
                 headers: {'Content-Type': 'application/json'}
             });
@@ -29,7 +29,7 @@ export default function ColorPaletteDetailsState(props) {
     
     const adminFetchColorPalette = async()=>{
         try{
-            const response = await fetch(`http://localhost:5000/api/colorpalette/adminfetchcolorpalette`, {
+            const response = await fetch(`http://localhost:5000/api/colorpalette/colorpalette/adminfetchcolorpalette`, {
                 method: 'GET',
                 headers: {'Content-Type': 'application/json'}
             });

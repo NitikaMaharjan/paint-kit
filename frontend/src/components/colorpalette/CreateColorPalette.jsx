@@ -73,7 +73,7 @@ export default function CreateColorPalette(props) {
         return brightness>128?"close.png":"close-white.png";
     }
 
-    const ValidateInputValue = ()=> {
+    const validateInputValue = ()=> {
         const colorPaletteNameRegex = /^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/;
 
         let trimmed_color_palette_name = inputValue.color_palette_name.trim();
@@ -116,11 +116,11 @@ export default function CreateColorPalette(props) {
         return true;
     }
 
-    const handleSubmit = async(e) =>{
+    const handleSubmit = async(e)=>{
         e.preventDefault();
-        if(ValidateInputValue()){
+        if(validateInputValue()){
             try{
-                const response = await fetch("http://localhost:5000/api/colorpalette/addcolorpalette", {
+                const response = await fetch("http://localhost:5000/api/colorpalette/colorpalette/addcolorpalette", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

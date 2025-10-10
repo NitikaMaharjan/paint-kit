@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AlertContext from "../../context/alert/AlertContext";
 import ConfirmContext from "../../context/confirm/ConfirmContext";
 import DrawContext from "../../context/draw/DrawContext";
@@ -12,7 +12,7 @@ export default function RightNavbar() {
 
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
-    const { setSelectedColor } = useContext(DrawContext);
+    const { setSelectedColor, handleSaveDrawing } = useContext(DrawContext);
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [showCreateColorPaletteModal, setShowCreateColorPaletteModal] = useState(false);
@@ -86,6 +86,8 @@ export default function RightNavbar() {
                     <p>Pick a color</p>
                     <input type="color" value={inputColor} onChange={handleInputColor} style={{height: "32px", width: "32px", cursor: "pointer"}}/>
                 </div>
+                <button className="confirm-btn" onClick={handleSaveDrawing}>Save drawing</button>
+                <Link className="confirm-btn" to="/viewuserdrawing">View your drawing</Link>
                 <UserViewColorPalette/>
                 <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button>
             </div>
