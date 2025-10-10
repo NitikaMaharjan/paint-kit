@@ -204,44 +204,6 @@ export default function DrawState(props) {
     }
   }
 
-  const validateInputValue = ()=> {
-    return true;
-  }
-  
-  const handleSaveDrawing = async(e)=> {
-    e.preventDefault();
-    const canvas = canvasRef.current;
-    const drawingURL = canvas.toDataURL("image/png");
-    if (validateInputValue()){
-      try{
-        const response = await fetch("http://localhost:5000/api/drawing/drawing/savedrawing", {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            user_id: localStorage.getItem("user_id"),
-            drawing_title: "Untitled",
-            drawing_tag: "General",
-            drawing_url: drawingURL
-          })
-        });
-        const json = await response.json();
-
-        if(json.success){
-          showAlert("Success", "Your drawing looks awesome. It has been saved successfully!");
-        }else{
-          if(json.error){
-            showAlert("Error", json.error);
-          }          
-          if(json.errors){
-            showAlert("Error", json.errors.map(err => err.msg).join("\n")+"\nPlease try again!");
-          }
-        }
-      }catch(err){
-        showAlert("Error", "Network error. Please check your connection or try again later!")
-      }
-    }
-  }
-
   const fetchUserDrawing = async()=> {
     try{
       const response = await fetch(`http://localhost:5000/api/drawing/drawing/fetchuserdrawing`, {
@@ -264,7 +226,7 @@ export default function DrawState(props) {
   }
 
   return(
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor, handleClearCanvas, handleUndo, handleRedo, handleSaveDrawing, fetchUserDrawing, fetchedDrawings }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings }}>
       {props.children}
     </DrawContext.Provider>
   )

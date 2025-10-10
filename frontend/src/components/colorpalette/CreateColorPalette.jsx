@@ -16,7 +16,7 @@ export default function CreateColorPalette(props) {
     const pickAColor = useRef(null);
 
     const updateInputValue = (e) => {
-        setInputValue({...inputValue, [e.target.name]: e.target.value. trimStart()});
+        setInputValue({...inputValue, [e.target.name]: e.target.value.trimStart()});
     }
 
     const clearInput = (input_field) => {

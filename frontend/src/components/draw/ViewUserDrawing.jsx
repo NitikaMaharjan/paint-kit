@@ -18,7 +18,7 @@ export default function ViewUserDrawing() {
           <div>
             {fetchedDrawings.map((drawingInfo, index)=>{
               return <DrawingItem key={index} drawingInfo={drawingInfo}/>
-            })}
+            }).reverse()}
           </div>
         :
           <div>

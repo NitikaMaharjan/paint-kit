@@ -5,6 +5,7 @@ import ConfirmContext from "../../context/confirm/ConfirmContext";
 import DrawContext from "../../context/draw/DrawContext";
 import CreateColorPalette from "../colorpalette/CreateColorPalette";
 import UserViewColorPalette from "../colorpalette/UserViewColorPalette";
+import DrawingInfoForm from "../draw/DrawingInfoForm";
 
 export default function RightNavbar() {
 
@@ -12,10 +13,11 @@ export default function RightNavbar() {
 
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
-    const { setSelectedColor, handleSaveDrawing } = useContext(DrawContext);
+    const { setSelectedColor } = useContext(DrawContext);
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [showCreateColorPaletteModal, setShowCreateColorPaletteModal] = useState(false);
+    const [showDrawingInfoFormModal, setShowDrawingInfoFormModal] = useState(false);
     const [inputColor, setInputColor] = useState("#000000");
 
     const handleSignOut = async()=> {
@@ -86,7 +88,7 @@ export default function RightNavbar() {
                     <p>Pick a color</p>
                     <input type="color" value={inputColor} onChange={handleInputColor} style={{height: "32px", width: "32px", cursor: "pointer"}}/>
                 </div>
-                <button className="confirm-btn" onClick={handleSaveDrawing}>Save drawing</button>
+                <button className="confirm-btn" onClick={()=>{setShowDrawingInfoFormModal(true)}}>Save drawing</button>
                 <Link className="confirm-btn" to="/viewuserdrawing">View your drawing</Link>
                 <UserViewColorPalette/>
                 <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button>
@@ -100,6 +102,18 @@ export default function RightNavbar() {
                             <img src="close-white.png" style={{height: "18px", width: "18px"}}/>
                         </div>
                         <CreateColorPalette setShowCreateColorPaletteModal={setShowCreateColorPaletteModal}/>
+                    </div>
+                </div>
+            }
+            {
+                showDrawingInfoFormModal
+                &&
+                <div className="confirm-modal-background">
+                    <div className="flex items-center pt-8 gap-10">
+                        <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowDrawingInfoFormModal(false)}}>
+                            <img src="close-white.png" style={{height: "18px", width: "18px"}}/>
+                        </div>
+                        <DrawingInfoForm/>
                     </div>
                 </div>
             }
