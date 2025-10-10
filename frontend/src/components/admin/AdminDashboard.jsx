@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import AlertContext from "../../context/alert/AlertContext";
 import ConfirmContext from "../../context/confirm/ConfirmContext";
-import AdminViewColorPalette from "./AdminViewColorPalette";
+import AdminViewColorPalette from "../colorpalette/AdminViewColorPalette";
 
 export default function AdminDashboard() {
 

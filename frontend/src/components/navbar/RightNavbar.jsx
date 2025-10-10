@@ -4,7 +4,7 @@ import AlertContext from "../../context/alert/AlertContext";
 import ConfirmContext from "../../context/confirm/ConfirmContext";
 import DrawContext from "../../context/draw/DrawContext";
 import CreateColorPalette from "../colorpalette/CreateColorPalette";
-import UserViewColorPalette from "../user/UserViewColorPalette";
+import UserViewColorPalette from "../colorpalette/UserViewColorPalette";
 
 export default function RightNavbar() {
 
