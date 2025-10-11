@@ -1,9 +1,44 @@
+import { useContext } from "react";
+import AlertContext from "../../context/alert/AlertContext";
+import ConfirmContext from "../../context/confirm/ConfirmContext";
+import DrawContext from "../../context/draw/DrawContext";
+
 export default function DrawingItem(props) {
 
-  const { drawing_title, drawing_tag, drawing_url, date } = props.drawingInfo;
+  const { _id, drawing_title, drawing_tag, drawing_url, date } = props.drawingInfo;
+
+  const { showAlert } = useContext(AlertContext);
+  const { showConfirm } = useContext(ConfirmContext);
+  const { fetchUserDrawing } = useContext(DrawContext);
+
+  const handleDrawingDelete = async(id)=> {
+    let ans = await showConfirm("Delete drawing");
+    if (ans){
+      try{
+        const response = await fetch(`http://localhost:5000/api/drawing/drawing/deleteuserdrawing`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "_id": id
+          }
+        });
+        const json = await response.json();
+
+        if(json.success){
+          showAlert("Success", "Your drawing has been deleted successfully!");
+          fetchUserDrawing();
+        }else{
+          showAlert("Error", json.error);
+        }
+      }catch(err){
+        showAlert("Error", "Network error. Please check your connection or try again later!");
+      }
+    }
+  }
 
   return (
     <div>
+      <button className="confirm-btn" onClick={()=>{handleDrawingDelete(`${_id}`)}}>Delete</button>
       <h1>{drawing_title}</h1>
       <p>{drawing_tag}</p>
       <p>{date}</p>

@@ -45,10 +45,22 @@ router.post('/savedrawing', [
 router.get('/fetchuserdrawing', async (req, res) => {
   try {
     
-    // fetching user drawings using user id excluding _id, user_id and __v
-    const userDrawings = await Drawing.find({ user_id: req.header("user_id") }).select('-_id -user_id -__v');
+    // fetching user drawings using user id excluding user_id and __v
+    const userDrawings = await Drawing.find({ user_id: req.header("user_id") }).select('-user_id -__v');
     res.json({ success: true, userDrawings });
     
+  } catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Route 3: delete user drawing using DELETE method, URL '/api/drawing/drawing/deleteuserdrawing'
+router.delete('/deleteuserdrawing', async (req, res) => {
+  try {
+
+    await Drawing.findByIdAndDelete(req.header('_id'));
+    res.json({ success: true });
+
   } catch (err) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
