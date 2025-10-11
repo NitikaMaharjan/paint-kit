@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import AlertContext from "../../context/alert/AlertContext";
 import ConfirmContext from "../../context/confirm/ConfirmContext";
 import DrawContext from "../../context/draw/DrawContext";
@@ -37,7 +38,8 @@ export default function DrawingItem(props) {
   }
 
   return (
-    <div>
+    <div>      
+      <Link className="confirm-btn" to={`/usereditdrawing/${_id}`}>Edit</Link>
       <button className="confirm-btn" onClick={()=>{handleDrawingDelete(`${_id}`)}}>Delete</button>
       <h1>{drawing_title}</h1>
       <p>{drawing_tag}</p>

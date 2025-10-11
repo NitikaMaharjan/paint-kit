@@ -15,6 +15,7 @@ import AdminDashboard from "./components/admin/AdminDashboard";
 import AdminSignin from "./components/admin/AdminSignin";
 import AdminSignup from "./components/admin/AdminSignup";
 import UserViewDrawing from "./components/draw/UserViewDrawing";
+import UserEditDrawing from "./components/draw/UserEditDrawing";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
                       <Route path="/adminsignin" element={<AdminSignin/>}/>
                       <Route path="/adminsignup" element={<AdminSignup/>}/>
                       <Route path="/userviewdrawing" element={<UserViewDrawing/>}/>
+                      <Route path="/usereditdrawing/:drawingid" element={<UserEditDrawing/>}/>
                     </Routes>
                   </BrowserRouter>
                 </ColorPaletteDetailsState>

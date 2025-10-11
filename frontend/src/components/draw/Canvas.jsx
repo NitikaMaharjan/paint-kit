@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import DrawContext from "../../context/draw/DrawContext";
 
-export default function Canvas() {
+export default function Canvas(props) {
 
     const { canvasRef, handleMouseDown, handleMouseMove, handleMouseUp } = useContext(DrawContext);
 
@@ -10,6 +10,17 @@ export default function Canvas() {
         const ctx = canvas.getContext("2d", { willReadFrequently: true }); // ctx in short for drawing context is an object that gives you all the drawing tools
         ctx.fillStyle = "white";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // eslint-disable-next-line
+    }, []);
+    
+    useEffect(() => {
+        if (props.url!==""){
+            const canvas = canvasRef.current;
+            const ctx = canvas.getContext("2d", { willReadFrequently: true });
+            const img = new Image();
+            img.src = props.url;
+            ctx.drawImage(img, 0, 0);
+        }
         // eslint-disable-next-line
     }, []);
 

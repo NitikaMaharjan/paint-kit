@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AlertContext from "../../context/alert/AlertContext";
 import DrawContext from "../../context/draw/DrawContext";
 
-export default function DrawingInfoForm() {
+export default function DrawingInfoForm(props) {
 
   let navigate = useNavigate();
 
@@ -11,9 +11,9 @@ export default function DrawingInfoForm() {
   const { canvasRef } = useContext(DrawContext);
 
   const [inputValue, setInputValue] = useState({
-    drawing_title: "Untitled",
-    drawing_tag: "General"
-  })
+    drawing_title: props.title,
+    drawing_tag: props.tag
+  });
 
   const updateInputValue = (e)=> {
     setInputValue({...inputValue, [e.target.name]: e.target.value.trimStart()});
@@ -96,6 +96,9 @@ export default function DrawingInfoForm() {
         const json = await response.json();
 
         if(json.success){
+          if (props.edit===true){
+            handleEditedDrawingDelete();
+          }
           showAlert("Success", "Your drawing looks awesome. It has been saved successfully!");
           navigate("/userviewdrawing");
         }else{
@@ -120,6 +123,25 @@ export default function DrawingInfoForm() {
     document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
   }
 
+  const handleEditedDrawingDelete = async()=> {
+    try{
+      const response = await fetch(`http://localhost:5000/api/drawing/drawing/deleteuserdrawing`, {
+      method: "DELETE",
+      headers: {
+          "Content-Type": "application/json",
+          "_id": props.drawingid
+      }
+      });
+      const json = await response.json();
+
+      if(!json.success){
+        showAlert("Error", json.error);
+      }
+    }catch(err){
+      showAlert("Error", "Network error. Please check your connection or try again later!");
+    }
+  }
+
   return (
     <div className="auth-form-box">
       <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Save drawing</b></h1>
@@ -128,14 +150,14 @@ export default function DrawingInfoForm() {
           <label htmlFor="drawing_title"><b>Title</b></label>
           <div className="input-bar" id="drawing-title-input-bar">
             <input type="text" id="drawing_title" name="drawing_title" placeholder="Enter title" value={inputValue.drawing_title} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("drawing-title")}} onBlur={()=>{removeBorderHighlight("drawing-title")}}/>
-            <img src="close.png" alt="close button image" onClick={() => {clearInput("drawing_title")}} style={{opacity: `${inputValue.drawing_title===""?0:1}`}}/>
+            <img src="/close.png" alt="close button image" onClick={() => {clearInput("drawing_title")}} style={{opacity: `${inputValue.drawing_title===""?0:1}`}}/>
           </div>
         </div>          
         <div style={{marginBottom: "28px"}}>
           <label htmlFor="drawing_tag"><b>Tag</b></label>
           <div className="input-bar" id="drawing-tag-input-bar">
             <input type="text" id="drawing_tag" name="drawing_tag" placeholder="Enter tag" value={inputValue.drawing_tag} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("drawing-tag")}} onBlur={()=>{removeBorderHighlight("drawing-tag")}}/>
-            <img src="close.png" alt="close button image" onClick={() => {clearInput("drawing_tag")}} style={{opacity: `${inputValue.drawing_tag===""?0:1}`}}/>
+            <img src="/close.png" alt="close button image" onClick={() => {clearInput("drawing_tag")}} style={{opacity: `${inputValue.drawing_tag===""?0:1}`}}/>
           </div>
         </div>
         <button type="submit" className="submit-btn" onClick={handleSaveDrawing}><b>Save drawing</b></button>

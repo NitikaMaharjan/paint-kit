@@ -66,4 +66,20 @@ router.delete('/deleteuserdrawing', async (req, res) => {
   }
 });
 
+// Route 4: fetch user edit drawing using GET method, URL '/api/drawing/drawing/fetchusereditdrawing'
+router.get('/fetchusereditdrawing', async (req, res) => {
+  try {
+
+    const fetchedUserEditDrawing = await Drawing.findById({ _id: req.header('_id') }).select('-user_id -__v');
+    if (fetchedUserEditDrawing){
+      res.json({ success: true, fetchedUserEditDrawing });
+    }else{
+      res.json({ success: false, error: 'Drawing not found!' });
+    }
+    
+  } catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;

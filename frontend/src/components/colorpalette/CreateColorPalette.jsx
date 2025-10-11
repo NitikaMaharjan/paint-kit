@@ -159,7 +159,7 @@ export default function CreateColorPalette(props) {
                         <label htmlFor="color_palette_name"><b>Color palette name</b></label>
                         <div className="input-bar" id="color-palette-input-bar" style={{width: "240px"}}>
                             <input type="text" id="color_palette_name" name="color_palette_name" placeholder="Enter color palette name" value={inputValue.color_palette_name} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("color-palette")}} onBlur={()=>{removeBorderHighlight("color-palette")}}/>
-                            <img src="close.png" alt="close button image" onClick={() => {clearInput("color_palette_name")}} style={{opacity: `${inputValue.color_palette_name===""?0:1}`}}/>
+                            <img src="/close.png" alt="close button image" onClick={() => {clearInput("color_palette_name")}} style={{opacity: `${inputValue.color_palette_name===""?0:1}`}}/>
                         </div>
                     </div>
                     <div style={{marginBottom: "28px"}}>
@@ -168,7 +168,7 @@ export default function CreateColorPalette(props) {
                             <div className="input-bar" id="color-name-input-bar" style={{height: "25.5px", width: "200px", gap: "8px"}}>
                                 <input type="color" id="color_name" name="color_name" ref={pickAColor} value={inputValue.color_name} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("color-name")}} onBlur={()=>{removeBorderHighlight("color-name")}} style={{height: "20px", width: "30px", cursor: "pointer"}}/>
                                 <p onClick={()=>{addBorderHighlight("color-name");pickAColor.current?.click();}} style={{fontSize: "13px", width: "100%", color: `${inputValue.color_name===""?"#5b5c60":"black"}`, cursor: "pointer"}}>{inputValue.color_name===""?"Pick a color":inputValue.color_name}</p>
-                                <img src="close.png" alt="close button image" onClick={() => {clearInput("color_name")}} style={{opacity: `${inputValue.color_name===""?0:1}`}}/>
+                                <img src="/close.png" alt="close button image" onClick={() => {clearInput("color_name")}} style={{opacity: `${inputValue.color_name===""?0:1}`}}/>
                             </div>
                             <button className="add-color-btn" onClick={addColor}>+</button>
                         </div>
@@ -179,7 +179,7 @@ export default function CreateColorPalette(props) {
             <div className="auth-form-box">
                 <div className="flex items-center justify-between" style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
                     <h1 style={{fontSize: "14px", marginLeft: "14px"}}><b>{inputValue.color_palette_name}</b></h1>
-                    <img src="close.png" title="close all button" style={{height: "13px", width: "13px", cursor: "pointer", marginRight: "14px", opacity: `${colors.length>1?"1":"0"}`}} onClick={()=>{setColors([])}}/>
+                    <img src="/close.png" title="close all button" style={{height: "13px", width: "13px", cursor: "pointer", marginRight: "14px", opacity: `${colors.length>1?"1":"0"}`}} onClick={()=>{setColors([])}}/>
                 </div>
                 <div style={{height: "448px", width: "304px", padding: "12px"}}>
                     <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", justifyItems: "center", gap: "12px"}}>
