@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import DrawContext from "../../context/draw/DrawContext";
 import DrawingItem from "./DrawingItem";
 
-export default function ViewUserDrawing() {
+export default function UserViewDrawing() {
 
   const { fetchUserDrawing, fetchedDrawings } = useContext(DrawContext);
 

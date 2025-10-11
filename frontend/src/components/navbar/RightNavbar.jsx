@@ -89,7 +89,7 @@ export default function RightNavbar() {
                     <input type="color" value={inputColor} onChange={handleInputColor} style={{height: "32px", width: "32px", cursor: "pointer"}}/>
                 </div>
                 <button className="confirm-btn" onClick={()=>{setShowDrawingInfoFormModal(true)}}>Save drawing</button>
-                <Link className="confirm-btn" to="/viewuserdrawing">View your drawing</Link>
+                <Link className="confirm-btn" to="/userviewdrawing">View your drawing</Link>
                 <UserViewColorPalette/>
                 <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button>
             </div>

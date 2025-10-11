@@ -11,8 +11,8 @@ export default function DrawingInfoForm() {
   const { canvasRef } = useContext(DrawContext);
 
   const [inputValue, setInputValue] = useState({
-    drawing_title: "",
-    drawing_tag: ""
+    drawing_title: "Untitled",
+    drawing_tag: "General"
   })
 
   const updateInputValue = (e)=> {
@@ -97,7 +97,7 @@ export default function DrawingInfoForm() {
 
         if(json.success){
           showAlert("Success", "Your drawing looks awesome. It has been saved successfully!");
-          navigate("/viewuserdrawing");
+          navigate("/userviewdrawing");
         }else{
           if(json.error){
             showAlert("Error", json.error);
