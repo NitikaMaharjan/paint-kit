@@ -10,6 +10,7 @@ export default function AdminViewColorPalette() {
     if (localStorage.getItem("adminSignedIn")){
       adminFetchColorPalette();
     }
+    // eslint-disable-next-line
   }, []);
   
   return (

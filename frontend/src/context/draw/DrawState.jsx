@@ -20,7 +20,7 @@ export default function DrawState(props) {
 
   const handleMouseDown = (e)=> {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
     // find the mouse position relative to the canvas not the whole screen
     const canvasBox = canvas.getBoundingClientRect();
@@ -60,7 +60,7 @@ export default function DrawState(props) {
   const handleMouseMove = (e)=> {
     if (drawing===true && (tool==="pen" || tool==="eraser")){
       const canvas = canvasRef.current;
-      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
       const canvasBox = canvas.getBoundingClientRect();
       const posX = e.clientX - canvasBox.left;
       const posY = e.clientY - canvasBox.top;
@@ -79,7 +79,7 @@ export default function DrawState(props) {
 
   const floodFill = (posX, posY, fillColor)=> {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height); // getImageData() is used to read the pixel data from the canvas
     // read pixel data of the canvas from imageData and store it in an array named pixels
@@ -99,7 +99,7 @@ export default function DrawState(props) {
 
         const neighbourPixelColor = getPixelColor(pixels, pixX, pixY, canvas.width);
 
-        if (doesNeighbourPixelColorMatchStartPixelColor(neighbourPixelColor, startPixelColor) && !doesNeighbourPixelColorMatchFillColor(neighbourPixelColor, fillColor)){ // if neighbour pixel's color is start pixel's color and neighbour pixel's color do not match fill color then set neighbour pixel's color to fill color
+        if (doesNeighbourPixelColorMatchStartPixelColor(neighbourPixelColor, startPixelColor) && !doesNeighbourPixelColorMatchFillColor(neighbourPixelColor, fillColor)){ // if neighbour pixel color is start pixel color and neighbour pixel color do not match fill color then set neighbour pixel color to fill color
           setPixelColor(pixels, pixX, pixY, canvas.width, fillColor);
           stack.push([pixX + 1, pixY]); // push position of right pixel into the stack
           stack.push([pixX - 1, pixY]); // push position of left pixel into the stack
@@ -117,7 +117,7 @@ export default function DrawState(props) {
   const getStartPixelColor = (pixels, posX, posY, width)=> {
     // for a pixel at posX and posY, i is the starting index i.e r component in the pixels array
     const i = (posY * width + posX) * 4;
-    return [pixels[i], pixels[i + 1], pixels[i + 2], pixels[i + 3]]; // returns start pixel's rgba value 
+    return [pixels[i], pixels[i + 1], pixels[i + 2], pixels[i + 3]]; // returns start pixel rgba value 
   }
   
   const getPixelColor = (pixels, pixX, pixY, width)=> {
@@ -174,7 +174,7 @@ export default function DrawState(props) {
     let ans = await showConfirm("Clear canvas");
     if (ans){
       const canvas = canvasRef.current;
-      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
       undoStack.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
       ctx.fillStyle = "white";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -184,7 +184,7 @@ export default function DrawState(props) {
 
   const handleUndo = ()=> {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
     if (undoStack.current.length>0){
       redoStack.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
@@ -195,7 +195,7 @@ export default function DrawState(props) {
 
   const handleRedo = ()=> {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
     if (redoStack.current.length>0){
       undoStack.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
@@ -207,9 +207,9 @@ export default function DrawState(props) {
   const fetchUserDrawing = async()=> {
     try{
       const response = await fetch(`http://localhost:5000/api/drawing/drawing/fetchuserdrawing`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           "user_id": localStorage.getItem("user_id")
         }
       });

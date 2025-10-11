@@ -46,7 +46,7 @@ router.get('/fetchuserdrawing', async (req, res) => {
   try {
     
     // fetching user drawings using user id excluding user_id and __v
-    const userDrawings = await Drawing.find({ user_id: req.header("user_id") }).select('-user_id -__v');
+    const userDrawings = await Drawing.find({ user_id: req.header('user_id') }).select('-user_id -__v');
     res.json({ success: true, userDrawings });
     
   } catch (err) {

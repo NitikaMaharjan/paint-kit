@@ -1,10 +1,10 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
-import LeftNavbar from '../navbar/LeftNavbar';
-import RightNavbar from '../navbar/RightNavbar';
-import BottomNavbar from '../navbar/BottomNavbar';
-import Canvas from '../draw/Canvas';
+import LeftNavbar from "../navbar/LeftNavbar";
+import RightNavbar from "../navbar/RightNavbar";
+import BottomNavbar from "../navbar/BottomNavbar";
+import Canvas from "../draw/Canvas";
 
 export default function UserHome() {
 

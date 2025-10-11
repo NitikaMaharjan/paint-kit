@@ -84,8 +84,8 @@ export default function DrawingInfoForm() {
     if (validateInputValue()){
       try{
         const response = await fetch("http://localhost:5000/api/drawing/drawing/savedrawing", {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             user_id: localStorage.getItem("user_id"),
             drawing_title: inputValue.drawing_title.trim(),

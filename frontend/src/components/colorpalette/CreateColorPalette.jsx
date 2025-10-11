@@ -121,8 +121,8 @@ export default function CreateColorPalette(props) {
         if(validateInputValue()){
             try{
                 const response = await fetch("http://localhost:5000/api/colorpalette/colorpalette/addcolorpalette", {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                             by_admin: localStorage.getItem("adminSignedIn")?true:false,
                             user_id: localStorage.getItem("adminSignedIn")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),

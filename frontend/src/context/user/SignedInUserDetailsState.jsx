@@ -9,9 +9,9 @@ export default function SignedInUserDetailsState(props) {
     const fetchSignedInUserDetails = async()=>{
         try{
             const response = await fetch(`http://localhost:5000/api/auth/user/fetchuserdetails`, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                     "authtoken": localStorage.getItem("userAuthToken")
                 }
             });

@@ -35,11 +35,11 @@ export default function RightNavbar() {
     }
 
     const handleCapitalizeFirstLetter = (text) => {
-        let words = text.split(' ');
+        let words = text.split(" ");
         for (let i=0; i<words.length; i++){
             words[i] = words[i].charAt(0).toUpperCase()+words[i].substring(1).toLowerCase();
         }
-        text = (words.join(' '));
+        text = (words.join(" "));
         return text.length>18?text.slice(0,18)+"...":text;
     }
 
