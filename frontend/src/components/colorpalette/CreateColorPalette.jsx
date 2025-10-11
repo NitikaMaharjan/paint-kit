@@ -70,7 +70,7 @@ export default function CreateColorPalette(props) {
 
         const brightness = (r * 299 + g * 587 + b * 114) / 1000;
 
-        return brightness>128?"close.png":"close-white.png";
+        return brightness>128?"/close.png":"/close-white.png";
     }
 
     const validateInputValue = ()=> {

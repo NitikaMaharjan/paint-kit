@@ -171,7 +171,7 @@ export default function AdminSignup() {
           <div className="mb-1">
             <div className="flex items-center justify-between pr-1">
               <label htmlFor="password"><b>Password</b></label>
-              <img src={`${passwordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("password")}}/>
+              <img src={`/${passwordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("password")}}/>
             </div>
             <div className="input-bar" id="password-input-bar">
               <input type={`${passwordType}`} id="password" name="password" placeholder="Enter password" value={credentials.password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
@@ -181,7 +181,7 @@ export default function AdminSignup() {
           <div style={{marginBottom: "28px"}}>
             <div className="flex items-center justify-between pr-1">
               <label htmlFor="confirm_password"><b>Confirm password</b></label>
-              <img src={`${confirmPasswordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("confirm_password")}}/>
+              <img src={`/${confirmPasswordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("confirm_password")}}/>
             </div>
             <div className="input-bar" id="confirm-password-input-bar">
               <input type={`${confirmPasswordType}`} id="confirm_password" name="confirm_password" placeholder="Enter confirm password" value={credentials.confirm_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("confirm-password")}} onBlur={()=>{removeBorderHighlight("confirm-password")}}/>

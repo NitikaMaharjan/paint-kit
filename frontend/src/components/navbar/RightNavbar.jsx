@@ -55,6 +55,13 @@ export default function RightNavbar(props) {
         setInputColor(e.target.value);
     }
 
+    const handleDiscardChanges = async()=> {
+        let ans = await showConfirm("Discard changes");
+        if (ans){
+            navigate("/userviewdrawing");
+        }
+    }
+
     useEffect(() => {
       setSelectedColor(inputColor);
     }, [inputColor]);
@@ -90,6 +97,7 @@ export default function RightNavbar(props) {
                 </div>
                 <button className="confirm-btn" onClick={()=>{setShowDrawingInfoFormModal(true)}}>Save drawing</button>
                 <Link className="confirm-btn" to="/userviewdrawing">View your drawing</Link>
+                <button className="confirm-btn" onClick={handleDiscardChanges}>Discard changes</button>
                 <UserViewColorPalette/>
                 <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button>
             </div>
