@@ -13,13 +13,14 @@ export default function RightNavbar(props) {
 
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
-    const { setSelectedColor, handleExport } = useContext(DrawContext);
+    const { setPenColor, setTextColor, handleExport } = useContext(DrawContext);
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [showExportDropDown, setShowExportDropDown] = useState(false);
     const [showCreateColorPaletteModal, setShowCreateColorPaletteModal] = useState(false);
     const [showDrawingInfoFormModal, setShowDrawingInfoFormModal] = useState(false);
-    const [inputColor, setInputColor] = useState("#000000");
+    const [inputPenColor, setInputPenColor] = useState("#000000");
+    const [inputTextColor, setInputTextColor] = useState("#000000");
 
     const handleSignOut = async()=> {
         let ans = await showConfirm("Sign out");
@@ -52,8 +53,12 @@ export default function RightNavbar(props) {
         document.getElementById("user-info").style.backgroundColor="transparent";
     }
 
-    const handleInputColor = (e)=> {
-        setInputColor(e.target.value);
+    const handleInputPenColor = (e)=> {
+        setInputPenColor(e.target.value);
+    }
+    
+    const handleInputTextColor = (e)=> {
+        setInputTextColor(e.target.value);
     }
 
     const handleDiscardChanges = async()=> {
@@ -64,8 +69,12 @@ export default function RightNavbar(props) {
     }
 
     useEffect(() => {
-      setSelectedColor(inputColor);
-    }, [inputColor]);
+      setPenColor(inputPenColor);
+    }, [inputPenColor]);
+    
+    useEffect(() => {
+      setTextColor(inputTextColor);
+    }, [inputTextColor]);
 
     return (
         <>
@@ -93,8 +102,12 @@ export default function RightNavbar(props) {
                     </div>
                 </div>
                 <div style={{paddingTop: "18px"}}>
-                    <p>Pick a color</p>
-                    <input type="color" value={inputColor} onChange={handleInputColor} style={{height: "32px", width: "32px", cursor: "pointer"}}/>
+                    <p>Pick pen color:</p>
+                    <input type="color" value={inputPenColor} onChange={handleInputPenColor} style={{height: "32px", width: "32px", cursor: "pointer"}}/>
+                </div>
+                <div style={{paddingTop: "18px"}}>
+                    <p>Pick text color:</p>
+                    <input type="color" value={inputTextColor} onChange={handleInputTextColor} style={{height: "32px", width: "32px", cursor: "pointer"}}/>
                 </div>
                 <button className="confirm-btn" onClick={()=>{setShowDrawingInfoFormModal(true)}}>Save drawing</button>
                 <Link className="confirm-btn" to="/userviewdrawing">View your drawing</Link>

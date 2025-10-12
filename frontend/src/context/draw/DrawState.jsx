@@ -15,7 +15,8 @@ export default function DrawState(props) {
   const [tool, setTool] = useState("pen");
   const [penStrokeWidth, setPenStrokeWidth] = useState(2);
   const [eraserStrokeWidth, setEraserStrokeWidth] = useState(4);
-  const [selectedColor, setSelectedColor] = useState("#000000");
+  const [penColor, setPenColor] = useState("#000000");
+  const [textColor, setTextColor] = useState("#000000");
   const [fetchedDrawings, setFetchedDrawings] = useState([]);
 
   const canvasRef = useRef(null);
@@ -40,7 +41,7 @@ export default function DrawState(props) {
       setDrawing(true);
       ctx.beginPath();
       ctx.moveTo(posX, posY);
-      ctx.strokeStyle = selectedColor;
+      ctx.strokeStyle = penColor;
       ctx.lineWidth = penStrokeWidth;
       ctx.lineCap = "round";
     }else if(tool==="eraser") {
@@ -51,11 +52,15 @@ export default function DrawState(props) {
       ctx.lineWidth = eraserStrokeWidth;
       ctx.lineCap = "round";
     }else if(tool==="bucket fill") {
-      const rgbaColor = convertHexToRgba(selectedColor);
+      const rgbaColor = convertHexToRgba(penColor);
       floodFill(Math.floor(posX), Math.floor(posY), rgbaColor); // Math.floor() removes decimal and rounds down number to nearest integer
     }else if(tool==="bucket eraser") {
       const rgbaColor = convertHexToRgba("#ffffff");
       floodFill(Math.floor(posX), Math.floor(posY), rgbaColor);
+    }else if(tool==="text"){
+      ctx.font = "24px serif";
+      ctx.fillStyle = textColor;
+      ctx.fillText("Paint Kit", posX, posY);
     }
   }
 
@@ -238,7 +243,7 @@ export default function DrawState(props) {
   }
 
   return(
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport }}>
       {props.children}
     </DrawContext.Provider>
   )
