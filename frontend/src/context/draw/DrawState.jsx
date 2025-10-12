@@ -17,6 +17,8 @@ export default function DrawState(props) {
   const [eraserStrokeWidth, setEraserStrokeWidth] = useState(4);
   const [penColor, setPenColor] = useState("#000000");
   const [textColor, setTextColor] = useState("#000000");
+  const [textSize, setTextSize] = useState("24");
+  const [textFont, setTextFont] = useState("serif");
   const [fetchedDrawings, setFetchedDrawings] = useState([]);
 
   const canvasRef = useRef(null);
@@ -58,7 +60,7 @@ export default function DrawState(props) {
       const rgbaColor = convertHexToRgba("#ffffff");
       floodFill(Math.floor(posX), Math.floor(posY), rgbaColor);
     }else if(tool==="text"){
-      ctx.font = "24px serif";
+      ctx.font = textSize+"px "+textFont;
       ctx.fillStyle = textColor;
       ctx.fillText("Paint Kit", posX, posY);
     }
@@ -243,7 +245,7 @@ export default function DrawState(props) {
   }
 
   return(
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport, setTextSize, setTextFont }}>
       {props.children}
     </DrawContext.Provider>
   )
