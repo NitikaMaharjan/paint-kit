@@ -13,9 +13,10 @@ export default function RightNavbar(props) {
 
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
-    const { setSelectedColor } = useContext(DrawContext);
+    const { setSelectedColor, handleExport } = useContext(DrawContext);
 
     const [showDropDown, setShowDropDown] = useState(false);
+    const [showExportDropDown, setShowExportDropDown] = useState(false);
     const [showCreateColorPaletteModal, setShowCreateColorPaletteModal] = useState(false);
     const [showDrawingInfoFormModal, setShowDrawingInfoFormModal] = useState(false);
     const [inputColor, setInputColor] = useState("#000000");
@@ -103,6 +104,17 @@ export default function RightNavbar(props) {
                     :
                     <></>
                 }
+                <div>
+                    <button className="dropdown-btn" onClick={()=>{setShowExportDropDown(!showExportDropDown)}}>Export <img src="/down-arrow.png" style={{height: "14px", width: "14px"}}/></button>
+                    {
+                        showExportDropDown
+                        &&
+                        <div className="dropdown-content">
+                            <button className="dropdown-content-button" onClick={()=>{handleExport(props.title, "png")}}>Export as png</button>
+                            <button className="dropdown-content-button" onClick={()=>{handleExport(props.title, "jpeg")}}>Export as jpeg</button>
+                        </div>
+                    }
+                </div>
                 <UserViewColorPalette/>
                 <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button>
             </div>

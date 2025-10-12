@@ -206,6 +206,16 @@ export default function DrawState(props) {
     }
   }
 
+  const handleExport = (drawing_title, export_type)=> {
+    const canvas = canvasRef.current;
+    const drawingURL = canvas.toDataURL("image/"+export_type);
+
+    const link = document.createElement("a");
+    link.href = drawingURL;
+    link.download = drawing_title;
+    link.click();
+  }
+
   const fetchUserDrawing = async()=> {
     try{
       const response = await fetch(`http://localhost:5000/api/drawing/drawing/fetchuserdrawing`, {
@@ -228,7 +238,7 @@ export default function DrawState(props) {
   }
 
   return(
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport }}>
       {props.children}
     </DrawContext.Provider>
   )
