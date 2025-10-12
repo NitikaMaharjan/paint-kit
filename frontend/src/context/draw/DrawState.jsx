@@ -13,6 +13,8 @@ export default function DrawState(props) {
 
   const [drawing, setDrawing] = useState(false);
   const [tool, setTool] = useState("pen");
+  const [penStrokeWidth, setPenStrokeWidth] = useState(2);
+  const [eraserStrokeWidth, setEraserStrokeWidth] = useState(4);
   const [selectedColor, setSelectedColor] = useState("#000000");
   const [fetchedDrawings, setFetchedDrawings] = useState([]);
 
@@ -39,14 +41,14 @@ export default function DrawState(props) {
       ctx.beginPath();
       ctx.moveTo(posX, posY);
       ctx.strokeStyle = selectedColor;
-      ctx.lineWidth = 2;
+      ctx.lineWidth = penStrokeWidth;
       ctx.lineCap = "round";
     }else if(tool==="eraser") {
       setDrawing(true);
       ctx.beginPath();
       ctx.moveTo(posX, posY);
       ctx.strokeStyle = "#ffffff";
-      ctx.lineWidth = 4;
+      ctx.lineWidth = eraserStrokeWidth;
       ctx.lineCap = "round";
     }else if(tool==="bucket fill") {
       const rgbaColor = convertHexToRgba(selectedColor);
@@ -226,7 +228,7 @@ export default function DrawState(props) {
   }
 
   return(
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setSelectedColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth }}>
       {props.children}
     </DrawContext.Provider>
   )
