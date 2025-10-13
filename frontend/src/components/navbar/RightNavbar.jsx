@@ -13,7 +13,7 @@ export default function RightNavbar(props) {
 
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
-    const { setPenColor, setTextColor, handleExport, setTextSize, setTextFont } = useContext(DrawContext);
+    const { setPenColor, setTextColor, handleExport, setTextSize, setTextFont, setText } = useContext(DrawContext);
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [showExportDropDown, setShowExportDropDown] = useState(false);
@@ -23,6 +23,7 @@ export default function RightNavbar(props) {
     const [inputTextColor, setInputTextColor] = useState("#000000");
     const [inputTextSize, setInputTextSize] = useState("24");
     const [inputTextFont, setInputTextFont] = useState("serif");
+    const [inputText, setInputText] = useState("");
 
     const handleSignOut = async()=> {
         let ans = await showConfirm("Sign out");
@@ -70,6 +71,10 @@ export default function RightNavbar(props) {
     const handleInputTextFont = (e)=> {
         setInputTextFont(e.target.value);
     }
+    
+    const handleInputText = (e)=> {
+        setInputText(e.target.value);
+    }
 
     const handleDiscardChanges = async()=> {
         let ans = await showConfirm("Discard changes");
@@ -93,6 +98,10 @@ export default function RightNavbar(props) {
     useEffect(() => {
       setTextFont(inputTextFont);
     }, [inputTextFont]);
+    
+    useEffect(() => {
+      setText(inputText);
+    }, [inputText]);
 
     return (
         <>
@@ -134,6 +143,10 @@ export default function RightNavbar(props) {
                 <div>
                     <p>Text Font:</p>
                     <input type="text" value={inputTextFont} onChange={handleInputTextFont} style={{cursor: "pointer"}}/>
+                </div>
+                <div>
+                    <p>Text:</p>
+                    <input type="text" value={inputText} onChange={handleInputText} style={{cursor: "pointer"}}/>
                 </div>
                 <button className="confirm-btn" onClick={()=>{setShowDrawingInfoFormModal(true)}}>Save drawing</button>
                 <Link className="confirm-btn" to="/userviewdrawing">View your drawing</Link>

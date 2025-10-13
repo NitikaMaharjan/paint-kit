@@ -19,6 +19,7 @@ export default function DrawState(props) {
   const [textColor, setTextColor] = useState("#000000");
   const [textSize, setTextSize] = useState("24");
   const [textFont, setTextFont] = useState("serif");
+  const [text, setText] = useState("");
   const [fetchedDrawings, setFetchedDrawings] = useState([]);
 
   const canvasRef = useRef(null);
@@ -62,7 +63,11 @@ export default function DrawState(props) {
     }else if(tool==="text"){
       ctx.font = textSize+"px "+textFont;
       ctx.fillStyle = textColor;
-      ctx.fillText("Paint Kit", posX, posY);
+      if (text===""){
+        showAlert("Warning", "Please enter some text!");
+      }else{
+        ctx.fillText(text, posX, posY);
+      }
     }
   }
 
@@ -245,7 +250,7 @@ export default function DrawState(props) {
   }
 
   return(
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport, setTextSize, setTextFont }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport, setTextSize, setTextFont, setText }}>
       {props.children}
     </DrawContext.Provider>
   )
