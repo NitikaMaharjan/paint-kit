@@ -24,6 +24,8 @@ export default function DrawState(props) {
   const [colorOpacity, setColorOpacity] = useState(255);
 
   const canvasRef = useRef(null);
+  const lineImageDataRef = useRef(null);
+  const lineStartPointRef = useRef(null);
 
   const handleMouseDown = (e)=> {
     const canvas = canvasRef.current;
@@ -69,16 +71,29 @@ export default function DrawState(props) {
       }else{
         ctx.fillText(text, posX, posY);
       }
+    }else if(tool==="line"){
+      setDrawing(true);
+      lineImageDataRef.current = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      lineStartPointRef.current = [posX, posY];
     }
   }
 
   const handleMouseMove = (e)=> {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    const canvasBox = canvas.getBoundingClientRect();
+    const posX = e.clientX - canvasBox.left;
+    const posY = e.clientY - canvasBox.top;
+
     if (drawing===true && (tool==="pen" || tool==="eraser")){
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d", { willReadFrequently: true });
-      const canvasBox = canvas.getBoundingClientRect();
-      const posX = e.clientX - canvasBox.left;
-      const posY = e.clientY - canvasBox.top;
+      ctx.lineTo(posX, posY);
+      ctx.stroke();
+    }else if (drawing===true && tool==="line"){
+      ctx.putImageData(lineImageDataRef.current, 0, 0);
+      ctx.beginPath();
+      ctx.strokeStyle = convertHexToRgba(penColor);
+      ctx.lineWidth = penStrokeWidth;
+      ctx.moveTo(lineStartPointRef.current[0], lineStartPointRef.current[1]);
       ctx.lineTo(posX, posY);
       ctx.stroke();
     }else{
@@ -86,9 +101,24 @@ export default function DrawState(props) {
     }
   }
 
-  const handleMouseUp = ()=> {
-    if (tool==="pen" || tool==="eraser"){
+  const handleMouseUp = (e)=> {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    const canvasBox = canvas.getBoundingClientRect();
+    const posX = e.clientX - canvasBox.left;
+    const posY = e.clientY - canvasBox.top;
+
+    if (tool==="pen" || tool==="eraser" || tool==="line"){
       setDrawing(false);
+      if (tool==="line"){
+        ctx.putImageData(lineImageDataRef.current, 0, 0);
+        ctx.beginPath();
+        ctx.strokeStyle = convertHexToRgba(penColor);
+        ctx.lineWidth = penStrokeWidth;
+        ctx.moveTo(lineStartPointRef.current[0], lineStartPointRef.current[1]);
+        ctx.lineTo(posX, posY);
+        ctx.stroke();
+      }
     }
   }
 
@@ -182,7 +212,7 @@ export default function DrawState(props) {
     const g = parseInt(color_without_hash.substring(2, 4), 16);
     const b = parseInt(color_without_hash.substring(4, 6), 16);
 
-    return tool==="pen" || tool==="text"?`rgba(${r},${g},${b},${colorOpacity/255})`:[r, g, b, colorOpacity];// value at index 3 is a(alpha) which represents opacity of color, 255 means fully opaque, while 0 means fully transparent, also when 255/255=1 fully opaque, 128/255=0.502 half transparent and 0/255=0 fully transparent
+    return tool==="pen" || tool==="text" || tool==="line"?`rgba(${r},${g},${b},${colorOpacity/255})`:[r, g, b, colorOpacity];// value at index 3 is a(alpha) which represents opacity of color, 255 means fully opaque, while 0 means fully transparent, also when 255/255=1 fully opaque, 128/255=0.502 half transparent and 0/255=0 fully transparent
   }
 
   const handleClearCanvas = async()=> {
