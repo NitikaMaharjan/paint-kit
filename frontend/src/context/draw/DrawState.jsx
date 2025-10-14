@@ -21,6 +21,7 @@ export default function DrawState(props) {
   const [textFont, setTextFont] = useState("serif");
   const [text, setText] = useState("");
   const [fetchedDrawings, setFetchedDrawings] = useState([]);
+  const [colorOpacity, setColorOpacity] = useState(255);
 
   const canvasRef = useRef(null);
 
@@ -44,7 +45,7 @@ export default function DrawState(props) {
       setDrawing(true);
       ctx.beginPath();
       ctx.moveTo(posX, posY);
-      ctx.strokeStyle = penColor;
+      ctx.strokeStyle = convertHexToRgba(penColor);
       ctx.lineWidth = penStrokeWidth;
       ctx.lineCap = "round";
     }else if(tool==="eraser") {
@@ -62,7 +63,7 @@ export default function DrawState(props) {
       floodFill(Math.floor(posX), Math.floor(posY), rgbaColor);
     }else if(tool==="text"){
       ctx.font = textSize+"px "+textFont;
-      ctx.fillStyle = textColor;
+      ctx.fillStyle = convertHexToRgba(textColor);
       if (text===""){
         showAlert("Warning", "Please enter some text!");
       }else{
@@ -181,7 +182,7 @@ export default function DrawState(props) {
     const g = parseInt(color_without_hash.substring(2, 4), 16);
     const b = parseInt(color_without_hash.substring(4, 6), 16);
 
-    return [r, g, b, 255]; // value at index 3 is a(alpha) which represents opacity of color, 255 means fully opaque, while 0 means fully transparent
+    return tool==="pen" || tool==="text"?`rgba(${r},${g},${b},${colorOpacity/255})`:[r, g, b, colorOpacity];// value at index 3 is a(alpha) which represents opacity of color, 255 means fully opaque, while 0 means fully transparent, also when 255/255=1 fully opaque, 128/255=0.502 half transparent and 0/255=0 fully transparent
   }
 
   const handleClearCanvas = async()=> {
@@ -250,7 +251,7 @@ export default function DrawState(props) {
   }
 
   return(
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport, setTextSize, setTextFont, setText }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport, setTextSize, setTextFont, setText, setColorOpacity }}>
       {props.children}
     </DrawContext.Provider>
   )
