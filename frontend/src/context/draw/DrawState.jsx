@@ -24,7 +24,7 @@ export default function DrawState(props) {
   const [colorOpacity, setColorOpacity] = useState(255);
 
   const canvasRef = useRef(null);
-  const lineImageDataRef = useRef(null);
+  const BeforeLineCanvasStateImageDataRef = useRef(null);
   const lineStartPointRef = useRef(null);
 
   const handleMouseDown = (e)=> {
@@ -73,7 +73,7 @@ export default function DrawState(props) {
       }
     }else if(tool==="line"){
       setDrawing(true);
-      lineImageDataRef.current = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      BeforeLineCanvasStateImageDataRef.current = ctx.getImageData(0, 0, canvas.width, canvas.height);
       lineStartPointRef.current = [posX, posY];
     }
   }
@@ -89,12 +89,12 @@ export default function DrawState(props) {
       ctx.lineTo(posX, posY);
       ctx.stroke();
     }else if (drawing===true && tool==="line"){
-      ctx.putImageData(lineImageDataRef.current, 0, 0);
+      ctx.putImageData(BeforeLineCanvasStateImageDataRef.current, 0, 0);
       ctx.beginPath();
       ctx.strokeStyle = convertHexToRgba(penColor);
       ctx.lineWidth = penStrokeWidth;
-      ctx.moveTo(lineStartPointRef.current[0], lineStartPointRef.current[1]);
-      ctx.lineTo(posX, posY);
+      ctx.moveTo(lineStartPointRef.current[0], lineStartPointRef.current[1]); // draw from starting point i.e saved starting mouse position
+      ctx.lineTo(posX, posY); // draw to current mouse position 
       ctx.stroke();
     }else{
       return;
@@ -111,7 +111,7 @@ export default function DrawState(props) {
     if (tool==="pen" || tool==="eraser" || tool==="line"){
       setDrawing(false);
       if (tool==="line"){
-        ctx.putImageData(lineImageDataRef.current, 0, 0);
+        ctx.putImageData(BeforeLineCanvasStateImageDataRef.current, 0, 0);
         ctx.beginPath();
         ctx.strokeStyle = convertHexToRgba(penColor);
         ctx.lineWidth = penStrokeWidth;
