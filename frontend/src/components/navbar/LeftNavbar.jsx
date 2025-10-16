@@ -37,6 +37,14 @@ export default function LeftNavbar(props) {
             <img src="/line.png" style={{height: "20px", width: "20px"}}/>
           </div>
         </div>
+        <div className="flex" style={{borderBottom: "1px solid black"}}>
+          <div className="tool" style={{borderRight: "1px solid black"}} onClick={()=>{setTool("circle")}}>
+            <img src="/circle.png" style={{height: "22px", width: "22px"}}/>
+          </div>
+          <div className="tool" onClick={()=>{setTool("square")}}>
+            <img src="/square.png" style={{height: "22px", width: "22px"}}/>
+          </div>
+        </div>
       </div>
     </div>
   )

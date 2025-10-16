@@ -24,8 +24,8 @@ export default function DrawState(props) {
   const [colorOpacity, setColorOpacity] = useState(255);
 
   const canvasRef = useRef(null);
-  const BeforeLineCanvasStateImageDataRef = useRef(null);
-  const lineStartPointRef = useRef(null);
+  const BeforeShapeCanvasStateImageDataRef = useRef(null);
+  const shapeStartPointRef = useRef(null);
 
   const handleMouseDown = (e)=> {
     const canvas = canvasRef.current;
@@ -71,10 +71,10 @@ export default function DrawState(props) {
       }else{
         ctx.fillText(text, posX, posY);
       }
-    }else if(tool==="line"){
+    }else if(tool==="line" || tool==="circle" || tool==="square"){
       setDrawing(true);
-      BeforeLineCanvasStateImageDataRef.current = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      lineStartPointRef.current = [posX, posY];
+      BeforeShapeCanvasStateImageDataRef.current = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      shapeStartPointRef.current = [posX, posY];
     }
   }
 
@@ -88,13 +88,20 @@ export default function DrawState(props) {
     if (drawing===true && (tool==="pen" || tool==="eraser")){
       ctx.lineTo(posX, posY);
       ctx.stroke();
-    }else if (drawing===true && tool==="line"){
-      ctx.putImageData(BeforeLineCanvasStateImageDataRef.current, 0, 0);
+    }else if (drawing===true && (tool==="line" || tool==="circle" || tool==="square")){
+      ctx.putImageData(BeforeShapeCanvasStateImageDataRef.current, 0, 0);
       ctx.beginPath();
       ctx.strokeStyle = convertHexToRgba(penColor);
       ctx.lineWidth = penStrokeWidth;
-      ctx.moveTo(lineStartPointRef.current[0], lineStartPointRef.current[1]); // draw from starting point i.e saved starting mouse position
-      ctx.lineTo(posX, posY); // draw to current mouse position 
+      if (tool==="line"){
+        ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]); // sets the line starting point as the starting point (draw from starting point)
+        ctx.lineTo(posX, posY); // draw to current mouse position 
+      }else if (tool==="circle"){
+        const radius = Math.hypot(posX-shapeStartPointRef.current[0], posY-shapeStartPointRef.current[1]);
+        ctx.arc(shapeStartPointRef.current[0], shapeStartPointRef.current[1], radius, 0, 2 * Math.PI);
+      }else if (tool==="square"){
+        ctx.rect(shapeStartPointRef.current[0], shapeStartPointRef.current[1], posX-shapeStartPointRef.current[0], posY-shapeStartPointRef.current[1]);
+      }
       ctx.stroke();
     }else{
       return;
@@ -108,15 +115,22 @@ export default function DrawState(props) {
     const posX = e.clientX - canvasBox.left;
     const posY = e.clientY - canvasBox.top;
 
-    if (tool==="pen" || tool==="eraser" || tool==="line"){
+    if (tool==="pen" || tool==="eraser" || tool==="line" || tool==="circle" || tool==="square"){
       setDrawing(false);
-      if (tool==="line"){
-        ctx.putImageData(BeforeLineCanvasStateImageDataRef.current, 0, 0);
+      if (tool==="line" || tool==="circle" || tool==="square"){
+        ctx.putImageData(BeforeShapeCanvasStateImageDataRef.current, 0, 0);
         ctx.beginPath();
         ctx.strokeStyle = convertHexToRgba(penColor);
         ctx.lineWidth = penStrokeWidth;
-        ctx.moveTo(lineStartPointRef.current[0], lineStartPointRef.current[1]);
-        ctx.lineTo(posX, posY);
+        if (tool==="line"){
+          ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]); // sets the line starting point as the starting point (draw from starting point)
+          ctx.lineTo(posX, posY); // draw to current mouse position 
+        }else if (tool==="circle"){
+          const radius = Math.hypot(posX-shapeStartPointRef.current[0], posY-shapeStartPointRef.current[1]);
+          ctx.arc(shapeStartPointRef.current[0], shapeStartPointRef.current[1], radius, 0, 2 * Math.PI);
+        }else if (tool==="square"){
+          ctx.rect(shapeStartPointRef.current[0], shapeStartPointRef.current[1], posX-shapeStartPointRef.current[0], posY-shapeStartPointRef.current[1]);
+        }
         ctx.stroke();
       }
     }
@@ -212,7 +226,7 @@ export default function DrawState(props) {
     const g = parseInt(color_without_hash.substring(2, 4), 16);
     const b = parseInt(color_without_hash.substring(4, 6), 16);
 
-    return tool==="pen" || tool==="text" || tool==="line"?`rgba(${r},${g},${b},${colorOpacity/255})`:[r, g, b, colorOpacity];// value at index 3 is a(alpha) which represents opacity of color, 255 means fully opaque, while 0 means fully transparent, also when 255/255=1 fully opaque, 128/255=0.502 half transparent and 0/255=0 fully transparent
+    return tool==="bucket fill" || tool==="bucket eraser"?[r, g, b, colorOpacity]:`rgba(${r},${g},${b},${colorOpacity/255})`;// value at index 3 is a(alpha) which represents opacity of color, 255 means fully opaque, while 0 means fully transparent, also when 255/255=1 fully opaque, 128/255=0.502 half transparent and 0/255=0 fully transparent
   }
 
   const handleClearCanvas = async()=> {
