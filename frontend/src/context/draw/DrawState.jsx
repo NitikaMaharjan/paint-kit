@@ -71,7 +71,7 @@ export default function DrawState(props) {
       }else{
         ctx.fillText(text, posX, posY);
       }
-    }else if(tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle"){
+    }else if(tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle" || tool==="up parabola" || tool==="down parabola" || tool==="ellipse" || tool==="parallelogram" || tool==="star" || tool==="heart"){
       setDrawing(true);
       BeforeShapeCanvasStateImageDataRef.current = ctx.getImageData(0, 0, canvas.width, canvas.height);
       shapeStartPointRef.current = [posX, posY];
@@ -88,7 +88,7 @@ export default function DrawState(props) {
     if (drawing===true && (tool==="pen" || tool==="eraser")){
       ctx.lineTo(posX, posY);
       ctx.stroke();
-    }else if (drawing===true && (tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle")){
+    }else if (drawing===true && (tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle" || tool==="up parabola" || tool==="down parabola" || tool==="ellipse" || tool==="parallelogram" || tool==="star" || tool==="heart")){
       ctx.putImageData(BeforeShapeCanvasStateImageDataRef.current, 0, 0);
       ctx.beginPath();
       ctx.strokeStyle = convertHexToRgba(penColor);
@@ -108,6 +108,20 @@ export default function DrawState(props) {
         ctx.lineTo(shapeStartPointRef.current[0],posY); // bottom left vertex
         ctx.lineTo(posX,posY); // bottom right vertex
         ctx.closePath();
+      }else if (tool==="up parabola"){
+        ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]);
+        ctx.bezierCurveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]+100, posX, shapeStartPointRef.current[1]+100, posX, posY);
+      }else if (tool==="down parabola"){
+        ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]);
+        ctx.bezierCurveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]-100, posX, shapeStartPointRef.current[1]-100, posX, posY);
+      }else if (tool==="ellipse"){
+      
+      }else if (tool==="parallelogram"){
+
+      }else if (tool==="star"){
+
+      }else if (tool==="heart"){
+
       }
       ctx.stroke();
     }else{
@@ -122,9 +136,9 @@ export default function DrawState(props) {
     const posX = e.clientX - canvasBox.left;
     const posY = e.clientY - canvasBox.top;
 
-    if (tool==="pen" || tool==="eraser" || tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle"){
+    if (tool==="pen" || tool==="eraser" || tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle" || tool==="up parabola" || tool==="down parabola" || tool==="ellipse" || tool==="parallelogram" || tool==="star" || tool==="heart"){
       setDrawing(false);
-      if (tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle"){
+      if (tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle" || tool==="up parabola" || tool==="down parabola" || tool==="ellipse" || tool==="parallelogram" || tool==="star" || tool==="heart"){
         ctx.putImageData(BeforeShapeCanvasStateImageDataRef.current, 0, 0);
         ctx.beginPath();
         ctx.strokeStyle = convertHexToRgba(penColor);
@@ -144,6 +158,20 @@ export default function DrawState(props) {
           ctx.lineTo(shapeStartPointRef.current[0],posY); // bottom left vertex
           ctx.lineTo(posX,posY); // bottom right vertex
           ctx.closePath();
+        }else if (tool==="up parabola"){
+          ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]);
+          ctx.bezierCurveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]+100, posX, shapeStartPointRef.current[1]+100, posX, posY);
+        }else if (tool==="down parabola"){
+          ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]);
+          ctx.bezierCurveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]-100, posX, shapeStartPointRef.current[1]-100, posX, posY);
+        }else if (tool==="ellipse"){
+        
+        }else if (tool==="parallelogram"){
+
+        }else if (tool==="star"){
+
+        }else if (tool==="heart"){
+
         }
         ctx.stroke();
       }

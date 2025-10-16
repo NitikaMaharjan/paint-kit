@@ -31,7 +31,7 @@ export default function LeftNavbar(props) {
         </div>
         <div className="flex" style={{borderBottom: "1px solid black"}}>
           <div className="tool" style={{borderRight: "1px solid black"}} onClick={()=>{setTool("text")}}>
-            <img src="/text.png" style={{height: "22px", width: "22px"}}/>
+            <img src="/text.png" style={{height: "25px", width: "25px"}}/>
           </div>
           <div className="tool" onClick={()=>{setTool("line")}}>
             <img src="/line.png" style={{height: "20px", width: "20px"}}/>
@@ -51,6 +51,30 @@ export default function LeftNavbar(props) {
           </div>
           <div className="tool" onClick={()=>{setTool("triangle")}}>
             <img src="/triangle.png" style={{height: "23px", width: "23px"}}/>
+          </div>
+        </div>
+        <div className="flex" style={{borderBottom: "1px solid black"}}>
+          <div className="tool" style={{borderRight: "1px solid black"}} onClick={()=>{setTool("up parabola")}}>
+            <img src="/upparabola.png" style={{height: "16px", width: "16px"}}/>
+          </div>
+          <div className="tool" onClick={()=>{setTool("down parabola")}}>
+            <img src="/downparabola.png" style={{height: "16px", width: "16px"}}/>
+          </div>
+        </div>
+        <div className="flex" style={{borderBottom: "1px solid black"}}>
+          <div className="tool" style={{borderRight: "1px solid black"}} onClick={()=>{setTool("ellipse")}}>
+            <img src="/ellipse.png" style={{height: "18px", width: "18px"}}/>
+          </div>
+          <div className="tool" onClick={()=>{setTool("parallelogram")}}>
+            <img src="/parallelogram.png" style={{height: "20px", width: "20px"}}/>
+          </div>
+        </div>
+        <div className="flex" style={{borderBottom: "1px solid black"}}>
+          <div className="tool" style={{borderRight: "1px solid black"}} onClick={()=>{setTool("star")}}>
+            <img src="/star.png" style={{height: "20px", width: "20px"}}/>
+          </div>
+          <div className="tool" onClick={()=>{setTool("heart")}}>
+            <img src="/heart.png" style={{height: "20px", width: "20px"}}/>
           </div>
         </div>
       </div>
