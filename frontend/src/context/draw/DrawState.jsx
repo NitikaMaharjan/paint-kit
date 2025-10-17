@@ -115,7 +115,7 @@ export default function DrawState(props) {
         ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]);
         ctx.bezierCurveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]-100, posX, shapeStartPointRef.current[1]-100, posX, posY);
       }else if (tool==="ellipse"){
-      
+        ctx.ellipse(shapeStartPointRef.current[0]+(posX-shapeStartPointRef.current[0])/2, shapeStartPointRef.current[1]+(posY-shapeStartPointRef.current[1])/2, Math.abs((posX-shapeStartPointRef.current[0])/2), Math.abs((posY-shapeStartPointRef.current[1])/2), 0, 0, 2 * Math.PI);
       }else if (tool==="parallelogram"){
 
       }else if (tool==="star"){
@@ -165,7 +165,7 @@ export default function DrawState(props) {
           ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]);
           ctx.bezierCurveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]-100, posX, shapeStartPointRef.current[1]-100, posX, posY);
         }else if (tool==="ellipse"){
-        
+          ctx.ellipse(shapeStartPointRef.current[0]+(posX-shapeStartPointRef.current[0])/2, shapeStartPointRef.current[1]+(posY-shapeStartPointRef.current[1])/2, Math.abs((posX-shapeStartPointRef.current[0])/2), Math.abs((posY-shapeStartPointRef.current[1])/2), 0, 0, 2 * Math.PI);
         }else if (tool==="parallelogram"){
 
         }else if (tool==="star"){
