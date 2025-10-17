@@ -94,7 +94,7 @@ export default function DrawState(props) {
       ctx.strokeStyle = convertHexToRgba(penColor);
       ctx.lineWidth = penStrokeWidth;
       if (tool==="line"){
-        ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]); // sets the line starting point as the starting point (draw from starting point)
+        ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]); // sets starting point (draw from starting point)
         ctx.lineTo(posX, posY); // draw to current mouse position 
       }else if (tool==="circle"){
         const radius = Math.hypot(posX-shapeStartPointRef.current[0], posY-shapeStartPointRef.current[1]);
@@ -123,9 +123,39 @@ export default function DrawState(props) {
         ctx.lineTo(shapeStartPointRef.current[0] - (posX-shapeStartPointRef.current[0])/5, posY);
         ctx.closePath();
       }else if (tool==="star"){
-
+        const startX = shapeStartPointRef.current[0];
+        const startY = shapeStartPointRef.current[1];
+        const width = posX - startX;
+        const height = posY - startY;
+        const outerRadius = Math.hypot(width, height) / 2;
+        const innerRadius = outerRadius / 2.5;
+        const centerX = startX + width / 2;
+        const centerY = startY + height / 2;
+        for (let i = 0; i < 10; i++) {
+          const angle = (Math.PI / 5) * i - Math.PI / 2;
+          const radius = i % 2 === 0 ? outerRadius : innerRadius;
+          const x = centerX + radius * Math.cos(angle);
+          const y = centerY + radius * Math.sin(angle);
+          if (i === 0) {
+            ctx.moveTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+        ctx.closePath();
       }else if (tool==="heart"){
-
+        const startX = shapeStartPointRef.current[0];
+        const startY = shapeStartPointRef.current[1];
+        const width = posX - startX;
+        const height = posY - startY;
+        const centerX = startX + width / 2;
+        const centerY = startY + height / 2;
+        const topCurveHeight = height * 0.3;
+        const sideCurveWidth = width * 0.3;
+        ctx.moveTo(centerX, startY + topCurveHeight);
+        ctx.bezierCurveTo(centerX - sideCurveWidth / 2, startY - topCurveHeight, startX, centerY - topCurveHeight / 2, centerX, startY + height);
+        ctx.bezierCurveTo(posX, centerY - topCurveHeight / 2, centerX + sideCurveWidth / 2, startY - topCurveHeight, centerX, startY + topCurveHeight);
+        ctx.closePath();
       }
       ctx.stroke();
     }else{
@@ -177,9 +207,39 @@ export default function DrawState(props) {
           ctx.lineTo(shapeStartPointRef.current[0] - (posX-shapeStartPointRef.current[0])/5, posY);
           ctx.closePath();
         }else if (tool==="star"){
-
+          const startX = shapeStartPointRef.current[0];
+          const startY = shapeStartPointRef.current[1];
+          const width = posX - startX;
+          const height = posY - startY;
+          const outerRadius = Math.hypot(width, height) / 2;
+          const innerRadius = outerRadius / 2.5;
+          const centerX = startX + width / 2;
+          const centerY = startY + height / 2;
+          for (let i = 0; i < 10; i++) {
+            const angle = (Math.PI / 5) * i - Math.PI / 2;
+            const radius = i % 2 === 0 ? outerRadius : innerRadius;
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+            if (i === 0) {
+              ctx.moveTo(x, y);
+            } else {
+              ctx.lineTo(x, y);
+            }
+          }
+          ctx.closePath();
         }else if (tool==="heart"){
-
+          const startX = shapeStartPointRef.current[0];
+          const startY = shapeStartPointRef.current[1];
+          const width = posX - startX;
+          const height = posY - startY;
+          const centerX = startX + width / 2;
+          const centerY = startY + height / 2;
+          const topCurveHeight = height * 0.3;
+          const sideCurveWidth = width * 0.3;
+          ctx.moveTo(centerX, startY + topCurveHeight);
+          ctx.bezierCurveTo(centerX - sideCurveWidth / 2, startY - topCurveHeight, startX, centerY - topCurveHeight / 2, centerX, startY + height);
+          ctx.bezierCurveTo(posX, centerY - topCurveHeight / 2, centerX + sideCurveWidth / 2, startY - topCurveHeight, centerX, startY + topCurveHeight);
+          ctx.closePath();
         }
         ctx.stroke();
       }
