@@ -93,40 +93,49 @@ export default function DrawState(props) {
       ctx.beginPath();
       ctx.strokeStyle = convertHexToRgba(penColor);
       ctx.lineWidth = penStrokeWidth;
+
+      const startX = shapeStartPointRef.current[0];
+      const startY = shapeStartPointRef.current[1];
+      const width = posX - startX;
+      const height = posY - startY;
+
       if (tool==="line"){
-        ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]); // sets starting point (draw from starting point)
+        ctx.moveTo(startX, startY); // sets starting point (draw from starting point)
         ctx.lineTo(posX, posY); // draw to current mouse position 
       }else if (tool==="circle"){
-        const radius = Math.hypot(posX-shapeStartPointRef.current[0], posY-shapeStartPointRef.current[1]);
-        ctx.arc(shapeStartPointRef.current[0], shapeStartPointRef.current[1], radius, 0, 2 * Math.PI);
+        const radius = Math.hypot(width, height);
+        ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
       }else if (tool==="square"){
-        ctx.rect(shapeStartPointRef.current[0], shapeStartPointRef.current[1], posX-shapeStartPointRef.current[0], posY-shapeStartPointRef.current[1]);
+        const size = Math.min(Math.abs(width), Math.abs(height));
+        ctx.rect(startX, startY, width < 0 ? -size : size, height < 0 ? -size : size);
       }else if (tool==="rectangle"){
-        ctx.rect(shapeStartPointRef.current[0], shapeStartPointRef.current[1], posX-shapeStartPointRef.current[0], posY-shapeStartPointRef.current[1]);
+        ctx.rect(startX, startY, width, height);
       }else if (tool==="triangle"){
-        ctx.moveTo(shapeStartPointRef.current[0]+(posX-shapeStartPointRef.current[0])/2,shapeStartPointRef.current[1]); // top vertex
-        ctx.lineTo(shapeStartPointRef.current[0],posY); // bottom left vertex
-        ctx.lineTo(posX,posY); // bottom right vertex
+        const midX = startX + width / 2;
+        ctx.moveTo(midX, startY); // top vertex
+        ctx.lineTo(startX, startY + height); // bottom left vertex
+        ctx.lineTo(startX + width, startY + height); // bottom right vertex
         ctx.closePath();
       }else if (tool==="up parabola"){
-        ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]);
-        ctx.bezierCurveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]+100, posX, shapeStartPointRef.current[1]+100, posX, posY);
+        ctx.moveTo(startX, startY);
+        ctx.bezierCurveTo(startX, startY + 100, posX, startY + 100, posX, posY);
       }else if (tool==="down parabola"){
-        ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]);
-        ctx.bezierCurveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]-100, posX, shapeStartPointRef.current[1]-100, posX, posY);
+        ctx.moveTo(startX, startY);
+        ctx.bezierCurveTo(startX, startY - 100, posX, startY - 100, posX, posY);
       }else if (tool==="ellipse"){
-        ctx.ellipse(shapeStartPointRef.current[0]+(posX-shapeStartPointRef.current[0])/2, shapeStartPointRef.current[1]+(posY-shapeStartPointRef.current[1])/2, Math.abs((posX-shapeStartPointRef.current[0])/2), Math.abs((posY-shapeStartPointRef.current[1])/2), 0, 0, 2 * Math.PI);
+        const cx = startX + width / 2;
+        const cy = startY + height / 2;
+        const rx = Math.abs(width / 2);
+        const ry = Math.abs(height / 2);
+        ctx.ellipse(cx, cy, rx, ry, 0, 0, 2 * Math.PI);
       }else if (tool==="parallelogram"){
-        ctx.moveTo(shapeStartPointRef.current[0] + (posX-shapeStartPointRef.current[0])/5, shapeStartPointRef.current[1]);
-        ctx.lineTo(posX + (posX-shapeStartPointRef.current[0])/5, shapeStartPointRef.current[1]);
-        ctx.lineTo(posX - (posX-shapeStartPointRef.current[0])/5, posY);
-        ctx.lineTo(shapeStartPointRef.current[0] - (posX-shapeStartPointRef.current[0])/5, posY);
+        const offsetX = width / 5;
+        ctx.moveTo(startX + offsetX, startY);
+        ctx.lineTo(posX + offsetX, startY);
+        ctx.lineTo(posX - offsetX, posY);
+        ctx.lineTo(startX - offsetX, posY);
         ctx.closePath();
       }else if (tool==="star"){
-        const startX = shapeStartPointRef.current[0];
-        const startY = shapeStartPointRef.current[1];
-        const width = posX - startX;
-        const height = posY - startY;
         const outerRadius = Math.hypot(width, height) / 2;
         const innerRadius = outerRadius / 2.5;
         const centerX = startX + width / 2;
@@ -144,10 +153,6 @@ export default function DrawState(props) {
         }
         ctx.closePath();
       }else if (tool==="heart"){
-        const startX = shapeStartPointRef.current[0];
-        const startY = shapeStartPointRef.current[1];
-        const width = posX - startX;
-        const height = posY - startY;
         const centerX = startX + width / 2;
         const centerY = startY + height / 2;
         const topCurveHeight = height * 0.3;
@@ -177,40 +182,49 @@ export default function DrawState(props) {
         ctx.beginPath();
         ctx.strokeStyle = convertHexToRgba(penColor);
         ctx.lineWidth = penStrokeWidth;
+
+        const startX = shapeStartPointRef.current[0];
+        const startY = shapeStartPointRef.current[1];
+        const width = posX - startX;
+        const height = posY - startY;
+
         if (tool==="line"){
-          ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]); // sets the line starting point as the starting point (draw from starting point)
-          ctx.lineTo(posX, posY); // draw to current mouse position 
+          ctx.moveTo(startX, startY);
+          ctx.lineTo(posX, posY);
         }else if (tool==="circle"){
-          const radius = Math.hypot(posX-shapeStartPointRef.current[0], posY-shapeStartPointRef.current[1]);
-          ctx.arc(shapeStartPointRef.current[0], shapeStartPointRef.current[1], radius, 0, 2 * Math.PI);
+          const radius = Math.hypot(width, height);
+          ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
         }else if (tool==="square"){
-          ctx.rect(shapeStartPointRef.current[0], shapeStartPointRef.current[1], posX-shapeStartPointRef.current[0], posY-shapeStartPointRef.current[1]);
+          const size = Math.min(Math.abs(width), Math.abs(height));
+          ctx.rect(startX, startY, width < 0 ? -size : size, height < 0 ? -size : size);
         }else if (tool==="rectangle"){
-          ctx.rect(shapeStartPointRef.current[0], shapeStartPointRef.current[1], posX-shapeStartPointRef.current[0], posY-shapeStartPointRef.current[1]);
+          ctx.rect(startX, startY, width, height);
         }else if (tool==="triangle"){
-          ctx.moveTo(shapeStartPointRef.current[0]+(posX-shapeStartPointRef.current[0])/2,shapeStartPointRef.current[1]); // top vertex
-          ctx.lineTo(shapeStartPointRef.current[0],posY); // bottom left vertex
-          ctx.lineTo(posX,posY); // bottom right vertex
+          const midX = startX + width / 2;
+          ctx.moveTo(midX, startY);
+          ctx.lineTo(startX, startY + height);
+          ctx.lineTo(startX + width, startY + height);
           ctx.closePath();
         }else if (tool==="up parabola"){
-          ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]);
-          ctx.bezierCurveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]+100, posX, shapeStartPointRef.current[1]+100, posX, posY);
+          ctx.moveTo(startX, startY);
+          ctx.bezierCurveTo(startX, startY + 100, posX, startY + 100, posX, posY);
         }else if (tool==="down parabola"){
-          ctx.moveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]);
-          ctx.bezierCurveTo(shapeStartPointRef.current[0], shapeStartPointRef.current[1]-100, posX, shapeStartPointRef.current[1]-100, posX, posY);
+          ctx.moveTo(startX, startY);
+          ctx.bezierCurveTo(startX, startY - 100, posX, startY - 100, posX, posY);
         }else if (tool==="ellipse"){
-          ctx.ellipse(shapeStartPointRef.current[0]+(posX-shapeStartPointRef.current[0])/2, shapeStartPointRef.current[1]+(posY-shapeStartPointRef.current[1])/2, Math.abs((posX-shapeStartPointRef.current[0])/2), Math.abs((posY-shapeStartPointRef.current[1])/2), 0, 0, 2 * Math.PI);
+          const cx = startX + width / 2;
+          const cy = startY + height / 2;
+          const rx = Math.abs(width / 2);
+          const ry = Math.abs(height / 2);
+          ctx.ellipse(cx, cy, rx, ry, 0, 0, 2 * Math.PI);
         }else if (tool==="parallelogram"){
-          ctx.moveTo(shapeStartPointRef.current[0] + (posX-shapeStartPointRef.current[0])/5, shapeStartPointRef.current[1]);
-          ctx.lineTo(posX + (posX-shapeStartPointRef.current[0])/5, shapeStartPointRef.current[1]);
-          ctx.lineTo(posX - (posX-shapeStartPointRef.current[0])/5, posY);
-          ctx.lineTo(shapeStartPointRef.current[0] - (posX-shapeStartPointRef.current[0])/5, posY);
+          const offsetX = width / 5;
+          ctx.moveTo(startX + offsetX, startY);
+          ctx.lineTo(posX + offsetX, startY);
+          ctx.lineTo(posX - offsetX, posY);
+          ctx.lineTo(startX - offsetX, posY);
           ctx.closePath();
         }else if (tool==="star"){
-          const startX = shapeStartPointRef.current[0];
-          const startY = shapeStartPointRef.current[1];
-          const width = posX - startX;
-          const height = posY - startY;
           const outerRadius = Math.hypot(width, height) / 2;
           const innerRadius = outerRadius / 2.5;
           const centerX = startX + width / 2;
@@ -228,10 +242,6 @@ export default function DrawState(props) {
           }
           ctx.closePath();
         }else if (tool==="heart"){
-          const startX = shapeStartPointRef.current[0];
-          const startY = shapeStartPointRef.current[1];
-          const width = posX - startX;
-          const height = posY - startY;
           const centerX = startX + width / 2;
           const centerY = startY + height / 2;
           const topCurveHeight = height * 0.3;
