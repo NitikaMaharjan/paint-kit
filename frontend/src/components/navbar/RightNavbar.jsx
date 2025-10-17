@@ -6,6 +6,7 @@ import DrawContext from "../../context/draw/DrawContext";
 import CreateColorPalette from "../colorpalette/CreateColorPalette";
 import UserViewColorPalette from "../colorpalette/UserViewColorPalette";
 import DrawingInfoForm from "../draw/DrawingInfoForm";
+import ImageUploadForm from "../draw/ImageUploadForm";
 
 export default function RightNavbar(props) {
 
@@ -13,12 +14,13 @@ export default function RightNavbar(props) {
 
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
-    const { setPenColor, setTextColor, handleExport, setTextSize, setTextFont, setText } = useContext(DrawContext);
+    const { canvasRef, setPenColor, setTextColor, handleExport, setTextSize, setTextFont, setText } = useContext(DrawContext);
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [showExportDropDown, setShowExportDropDown] = useState(false);
     const [showCreateColorPaletteModal, setShowCreateColorPaletteModal] = useState(false);
     const [showDrawingInfoFormModal, setShowDrawingInfoFormModal] = useState(false);
+    const [showImageUploadFormModal, setShowImageUploadFormModal] = useState(false);
     const [inputPenColor, setInputPenColor] = useState("#000000");
     const [inputTextColor, setInputTextColor] = useState("#000000");
     const [inputTextSize, setInputTextSize] = useState("24");
@@ -80,6 +82,40 @@ export default function RightNavbar(props) {
         let ans = await showConfirm("Discard changes");
         if (ans){
             navigate("/userviewdrawing");
+        }
+    }
+
+    const handleImageUpload = (imageUrl)=> {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+        const img = new Image();
+        img.src = imageUrl;
+
+        img.onload = ()=> {
+            const imgAspect = img.width / img.height;
+            const canvasAspect = canvas.width / canvas.height;
+
+            let drawWidth, drawHeight;
+
+            if (imgAspect>canvasAspect){
+                drawWidth = canvas.width;
+                drawHeight = canvas.width / imgAspect;
+            }else{
+                drawHeight = canvas.height;
+                drawWidth = canvas.height * imgAspect;
+            }
+
+            const offsetX = (canvas.width - drawWidth) / 2;
+            const offsetY = (canvas.height - drawHeight) / 2;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+            
+            showAlert("Success", "Uploaded image loaded successfully!");
+        }
+
+        img.onerror = ()=> {
+            showAlert("Error", "Failed to load image. Please try again!");
         }
     }
 
@@ -148,6 +184,7 @@ export default function RightNavbar(props) {
                     <p>Text:</p>
                     <input type="text" value={inputText} onChange={handleInputText} style={{cursor: "pointer"}}/>
                 </div>
+                <button className="confirm-btn" onClick={()=>{setShowImageUploadFormModal(true)}}>Upload image</button>
                 <button className="confirm-btn" onClick={()=>{setShowDrawingInfoFormModal(true)}}>Save drawing</button>
                 <Link className="confirm-btn" to="/userviewdrawing">View your drawing</Link>
                 {
@@ -191,6 +228,18 @@ export default function RightNavbar(props) {
                             <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
                         </div>
                         <DrawingInfoForm title={props.title} tag={props.tag} edit={props.edit} drawingid={props.drawingid}/>
+                    </div>
+                </div>
+            }
+            {
+                showImageUploadFormModal
+                &&
+                <div className="confirm-modal-background">
+                    <div className="flex items-center pt-8 gap-10">
+                        <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowImageUploadFormModal(false)}}>
+                            <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
+                        </div>
+                        <ImageUploadForm handleImageUpload={handleImageUpload} setShowImageUploadFormModal={setShowImageUploadFormModal}/>
                     </div>
                 </div>
             }
