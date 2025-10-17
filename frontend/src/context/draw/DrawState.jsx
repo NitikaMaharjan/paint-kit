@@ -117,7 +117,11 @@ export default function DrawState(props) {
       }else if (tool==="ellipse"){
         ctx.ellipse(shapeStartPointRef.current[0]+(posX-shapeStartPointRef.current[0])/2, shapeStartPointRef.current[1]+(posY-shapeStartPointRef.current[1])/2, Math.abs((posX-shapeStartPointRef.current[0])/2), Math.abs((posY-shapeStartPointRef.current[1])/2), 0, 0, 2 * Math.PI);
       }else if (tool==="parallelogram"){
-
+        ctx.moveTo(shapeStartPointRef.current[0] + (posX-shapeStartPointRef.current[0])/5, shapeStartPointRef.current[1]);
+        ctx.lineTo(posX + (posX-shapeStartPointRef.current[0])/5, shapeStartPointRef.current[1]);
+        ctx.lineTo(posX - (posX-shapeStartPointRef.current[0])/5, posY);
+        ctx.lineTo(shapeStartPointRef.current[0] - (posX-shapeStartPointRef.current[0])/5, posY);
+        ctx.closePath();
       }else if (tool==="star"){
 
       }else if (tool==="heart"){
@@ -167,7 +171,11 @@ export default function DrawState(props) {
         }else if (tool==="ellipse"){
           ctx.ellipse(shapeStartPointRef.current[0]+(posX-shapeStartPointRef.current[0])/2, shapeStartPointRef.current[1]+(posY-shapeStartPointRef.current[1])/2, Math.abs((posX-shapeStartPointRef.current[0])/2), Math.abs((posY-shapeStartPointRef.current[1])/2), 0, 0, 2 * Math.PI);
         }else if (tool==="parallelogram"){
-
+          ctx.moveTo(shapeStartPointRef.current[0] + (posX-shapeStartPointRef.current[0])/5, shapeStartPointRef.current[1]);
+          ctx.lineTo(posX + (posX-shapeStartPointRef.current[0])/5, shapeStartPointRef.current[1]);
+          ctx.lineTo(posX - (posX-shapeStartPointRef.current[0])/5, posY);
+          ctx.lineTo(shapeStartPointRef.current[0] - (posX-shapeStartPointRef.current[0])/5, posY);
+          ctx.closePath();
         }else if (tool==="star"){
 
         }else if (tool==="heart"){
