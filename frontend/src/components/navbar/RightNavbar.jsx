@@ -108,7 +108,8 @@ export default function RightNavbar(props) {
             const offsetX = (canvas.width - drawWidth) / 2;
             const offsetY = (canvas.height - drawHeight) / 2;
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
             
             showAlert("Success", "Uploaded image loaded successfully!");
