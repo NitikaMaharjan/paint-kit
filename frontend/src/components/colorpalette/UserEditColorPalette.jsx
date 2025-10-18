@@ -2,18 +2,18 @@ import { useContext, useState, useRef } from "react";
 import AlertContext from "../../context/alert/AlertContext";
 import ColorPaletteDetailsContext from "../../context/colorpalette/ColorPaletteDetailsContext";
 
-export default function CreateColorPalette(props) {
+export default function UserEditColorPalette(props) {
 
     const { showAlert } = useContext(AlertContext);
     const { userFetchUserColorPalette } = useContext(ColorPaletteDetailsContext);
 
     const [inputValue, setInputValue] = useState({
-        color_palette_name: "",
+        color_palette_name: props.selectedColorPalette.color_palette_name,
         color_name: ""
     });
-    const [colors, setColors] = useState([]);
+    const [colors, setColors] = useState(props.selectedColorPalette.colors);
 
-    const pickAColor = useRef(null);
+    const pickAColor = useRef(null);    
 
     const updateInputValue = (e) => {
         setInputValue({...inputValue, [e.target.name]: e.target.value.trimStart()});
@@ -120,12 +120,10 @@ export default function CreateColorPalette(props) {
         e.preventDefault();
         if(validateInputValue()){
             try{
-                const response = await fetch("http://localhost:5000/api/colorpalette/colorpalette/addcolorpalette", {
-                    method: "POST",
+                const response = await fetch(`http://localhost:5000/api/colorpalette/colorpalette/editcolorpalette/${props.selectedColorPalette.color_palette_id}`, {
+                    method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                            by_admin: localStorage.getItem("adminSignedIn")?true:false,
-                            user_id: localStorage.getItem("adminSignedIn")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),
                             color_palette_name: inputValue.color_palette_name.trim(),
                             colors: colors
                         })
@@ -134,7 +132,7 @@ export default function CreateColorPalette(props) {
         
                 if(json.success){
                     await userFetchUserColorPalette();
-                    props.setShowCreateColorPaletteModal(false);
+                    props.setShowEditColorPaletteModal(false);
                     showAlert("Success", "Your color palette looks awesome. It has been saved successfully!");
                 }else{
                     if(json.error){
@@ -153,7 +151,7 @@ export default function CreateColorPalette(props) {
     return (
         <>
             <div className="auth-form-box">
-                <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Create color palette</b></h1>
+                <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Edit color palette</b></h1>
                 <form className="auth-form">
                     <div className="mb-1">
                         <label htmlFor="color_palette_name"><b>Color palette name</b></label>
@@ -173,7 +171,7 @@ export default function CreateColorPalette(props) {
                             <button className="add-color-btn" onClick={addColor}>+</button>
                         </div>
                     </div>
-                    <button type="submit" className="submit-btn" onClick={handleSubmit}><b>Save color palette</b></button>
+                    <button type="submit" className="submit-btn" onClick={handleSubmit}><b>Update color palette</b></button>
                 </form>
             </div>
             <div className="auth-form-box">

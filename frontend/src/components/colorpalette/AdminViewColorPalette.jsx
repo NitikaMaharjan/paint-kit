@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import ColorPaletteDetailsContext from "../../context/colorpalette/ColorPaletteDetailsContext";
-import ColorPaletteItem from "./ColorPaletteItem";
+import AdminColorPaletteItem from "./AdminColorPaletteItem";
 
 export default function AdminViewColorPalette() {
 
@@ -21,7 +21,7 @@ export default function AdminViewColorPalette() {
         :
           <div>
             {(adminColorPaletteDetails).map((colorpalette)=>{
-                  return <ColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors}/>
+                  return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors}/>
               })}
           </div>
       }

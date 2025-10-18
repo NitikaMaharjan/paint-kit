@@ -68,4 +68,28 @@ router.get('/adminfetchcolorpalette', async (req, res) => {
   }
 });
 
+// Route 4: delete color palette using DELETE method, URL '/api/colorpalette/colorpalette/deletecolorpalette'
+router.delete('/deletecolorpalette', async (req, res) => {
+  try {
+
+    await ColorPalette.findByIdAndDelete(req.header('_id'));
+    res.json({ success: true });
+
+  } catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Route 5: update color palette using PUT method, URL '/api/colorpalette/colorpalette/editcolorpalette/:id'
+router.put("/editcolorpalette/:id", async (req, res) => {
+
+  try {
+    const edit_date = new Date();
+    await ColorPalette.findByIdAndUpdate(req.params.id, { color_palette_name: req.body.color_palette_name, colors: req.body.colors, date: edit_date.toISOString() }, { new: true });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;

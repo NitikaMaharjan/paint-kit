@@ -1,10 +1,12 @@
 import { useContext, useState } from "react";
 import ColorPaletteDetailsContext from "./ColorPaletteDetailsContext";
 import AlertContext from "../alert/AlertContext";
+import ConfirmContext from "../confirm/ConfirmContext";
 
 export default function ColorPaletteDetailsState(props) {
 
     const { showAlert } = useContext(AlertContext);
+    const { showConfirm } = useContext(ConfirmContext);
 
     const [userColorPaletteDetails, setUserColorPaletteDetails] = useState([]);
     const [adminColorPaletteDetails, setAdminColorPaletteDetails] = useState([]);
@@ -45,8 +47,33 @@ export default function ColorPaletteDetailsState(props) {
         }
     }
 
+    const handleDeleteColorPalette = async(id)=> {
+        let ans = await showConfirm("Delete color palette");
+        if (ans){
+            try{
+                const response = await fetch(`http://localhost:5000/api/colorpalette/colorpalette/deletecolorpalette`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "_id": id
+                    }
+                });
+                const json = await response.json();
+
+                if(json.success){
+                    showAlert("Success", "Your color palette has been deleted successfully!");
+                    userFetchUserColorPalette();
+                }else{
+                    showAlert("Error", json.error);
+                }
+            }catch(err){
+                showAlert("Error", "Network error. Please check your connection or try again later!");
+            }
+        }
+    }
+
     return(
-        <ColorPaletteDetailsContext.Provider value={{ userColorPaletteDetails, userFetchUserColorPalette, adminColorPaletteDetails, adminFetchColorPalette }}>
+        <ColorPaletteDetailsContext.Provider value={{ userColorPaletteDetails, userFetchUserColorPalette, adminColorPaletteDetails, adminFetchColorPalette, handleDeleteColorPalette }}>
             {props.children}
         </ColorPaletteDetailsContext.Provider>
     );

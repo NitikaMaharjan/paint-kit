@@ -1,4 +1,4 @@
-export default function ColorPaletteItem(props) {
+export default function AdminColorPaletteItem(props) {
     const { color_palette_name, colors } = props;
     return (
         <div className="color-palette-item">

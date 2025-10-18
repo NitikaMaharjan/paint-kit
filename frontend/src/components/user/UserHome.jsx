@@ -23,9 +23,9 @@ export default function UserHome() {
 
   return (
     <>
+      <BottomNavbar/>
       <LeftNavbar title="Untitled" tag="General"/>
       <RightNavbar title="Untitled" tag="General" edit={false} drawingid=""/>
-      <BottomNavbar/>
       <Canvas url=""/>
     </>
   )
