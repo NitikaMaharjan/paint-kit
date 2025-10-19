@@ -30,7 +30,6 @@ export default function UserEditDrawing() {
             if(json.success){
                 setDrawingInfo(json.fetchedUserEditDrawing);
             }else{
-                showAlert("Error", json.error);
                 navigate("/userhome");
             }
         }catch(err){
@@ -48,9 +47,9 @@ export default function UserEditDrawing() {
             {
                 drawingInfo.length!==0?
                     <>
+                        <BottomNavbar/>
                         <LeftNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag}/>
                         <RightNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag} edit={true} drawingid={drawingid}/>
-                        <BottomNavbar/>
                         <Canvas url={drawingInfo.drawing_url}/>
                     </>
                 :
