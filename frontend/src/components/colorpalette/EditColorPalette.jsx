@@ -5,7 +5,7 @@ import ColorPaletteDetailsContext from "../../context/colorpalette/ColorPaletteD
 export default function UserEditColorPalette(props) {
 
     const { showAlert } = useContext(AlertContext);
-    const { userFetchUserColorPalette } = useContext(ColorPaletteDetailsContext);
+    const { userFetchUserColorPalette, adminFetchColorPalette  } = useContext(ColorPaletteDetailsContext);
 
     const [inputValue, setInputValue] = useState({
         color_palette_name: props.selectedColorPalette.color_palette_name,
@@ -131,7 +131,11 @@ export default function UserEditColorPalette(props) {
                 const json = await response.json();
         
                 if(json.success){
-                    await userFetchUserColorPalette();
+                    if (localStorage.getItem("adminSignedIn")){
+                        await adminFetchColorPalette();
+                    }else{
+                        await userFetchUserColorPalette();
+                    }
                     props.setShowEditColorPaletteModal(false);
                     showAlert("Success", "Your color palette looks awesome. It has been saved successfully!");
                 }else{

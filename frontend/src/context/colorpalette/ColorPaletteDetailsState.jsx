@@ -62,7 +62,11 @@ export default function ColorPaletteDetailsState(props) {
 
                 if(json.success){
                     showAlert("Success", "Your color palette has been deleted successfully!");
-                    userFetchUserColorPalette();
+                    if (localStorage.getItem("adminSignedIn")){
+                        await adminFetchColorPalette();
+                    }else{
+                        await userFetchUserColorPalette();
+                    }
                 }else{
                     showAlert("Error", json.error);
                 }

@@ -1,9 +1,10 @@
-import { useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import AlertContext from "../../context/alert/AlertContext";
 import ConfirmContext from "../../context/confirm/ConfirmContext";
 import AdminViewColorPalette from "../colorpalette/AdminViewColorPalette";
+import CreateColorPalette from "../colorpalette/CreateColorPalette";
 
 export default function AdminDashboard() {
 
@@ -12,6 +13,8 @@ export default function AdminDashboard() {
   const { showProgress } = useContext(ProgressBarContext);
   const { showAlert } = useContext(AlertContext);
   const { showConfirm } = useContext(ConfirmContext);
+
+  const [showCreateColorPaletteModal,setShowCreateColorPaletteModal] = useState(false);
 
   const handleSignOut = async()=> {
     let ans = await showConfirm("Sign out");
@@ -37,11 +40,25 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <div className="content">
-      <h1>Welcome, {localStorage.getItem("admin_username")}!</h1>
-      <Link to="/createcolorpalette" className="add-color-btn">Create Color Palette</Link>
-      <button className="signout-btn" onClick={handleSignOut}><b>Sign out</b></button>
-      <AdminViewColorPalette/>
-    </div>
+    <>
+      <div className="content">
+        <h1>Welcome, {localStorage.getItem("admin_username")}!</h1>
+        <button className="confirm-btn" onClick={()=>{setShowCreateColorPaletteModal(true)}}>Create Color Palette</button>
+        <button className="signout-btn" onClick={handleSignOut}><b>Sign out</b></button>
+        <AdminViewColorPalette/>
+      </div>
+      {
+        showCreateColorPaletteModal
+        &&
+        <div className="confirm-modal-background">
+            <div className="flex items-center pt-8 gap-10">
+                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowCreateColorPaletteModal(false)}}>
+                    <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
+                </div>
+                <CreateColorPalette setShowCreateColorPaletteModal={setShowCreateColorPaletteModal}/>
+            </div>
+        </div>
+      }
+    </>
   )
 }

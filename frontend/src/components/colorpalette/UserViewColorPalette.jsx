@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import ColorPaletteDetailsContext from "../../context/colorpalette/ColorPaletteDetailsContext";
 import AdminColorPaletteItem from "./AdminColorPaletteItem";
 import UserColorPaletteItem from "./UserColorPaletteItem";
-import UserEditColorPalette from "./UserEditColorPalette";
+import EditColorPalette from "./EditColorPalette";
 
 export default function UserViewColorPalette() {
 
@@ -68,7 +68,7 @@ export default function UserViewColorPalette() {
                 <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowEditColorPaletteModal(false)}}>
                     <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
                 </div>
-                <UserEditColorPalette selectedColorPalette={selectedColorPalette} setShowEditColorPaletteModal={setShowEditColorPaletteModal}/>
+                <EditColorPalette selectedColorPalette={selectedColorPalette} setShowEditColorPaletteModal={setShowEditColorPaletteModal}/>
             </div>
         </div>
       }
