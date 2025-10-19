@@ -83,7 +83,7 @@ export default function DrawingInfoForm(props) {
     const drawingURL = canvas.toDataURL("image/png");
     if (validateInputValue()){
       try{
-        const response = await fetch("http://localhost:5000/api/drawing/drawing/savedrawing", {
+        const response = await fetch(`http://localhost:5000/api/drawing/drawing/savedrawing`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

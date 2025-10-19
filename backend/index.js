@@ -24,6 +24,9 @@ app.use('/api/colorpalette/colorpalette', require('./routes/colorpalette/colorpa
 // For drawing
 app.use('/api/drawing/drawing', require('./routes/drawing/drawing'));
 
+// For template
+app.use('/api/template/template', require('./routes/template/template'));
+
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });

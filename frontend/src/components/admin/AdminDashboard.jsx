@@ -4,6 +4,7 @@ import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import AlertContext from "../../context/alert/AlertContext";
 import ConfirmContext from "../../context/confirm/ConfirmContext";
 import AdminViewColorPalette from "../colorpalette/AdminViewColorPalette";
+import AddTemplate from "../template/AddTemplate";
 import CreateColorPalette from "../colorpalette/CreateColorPalette";
 
 export default function AdminDashboard() {
@@ -14,6 +15,7 @@ export default function AdminDashboard() {
   const { showAlert } = useContext(AlertContext);
   const { showConfirm } = useContext(ConfirmContext);
 
+  const [showAddTemplateModal,setShowAddTemplateModal] = useState(false);
   const [showCreateColorPaletteModal,setShowCreateColorPaletteModal] = useState(false);
 
   const handleSignOut = async()=> {
@@ -43,10 +45,23 @@ export default function AdminDashboard() {
     <>
       <div className="content">
         <h1>Welcome, {localStorage.getItem("admin_username")}!</h1>
+        <button className="confirm-btn" onClick={()=>{setShowAddTemplateModal(true)}}>Add Template</button>
         <button className="confirm-btn" onClick={()=>{setShowCreateColorPaletteModal(true)}}>Create Color Palette</button>
         <button className="signout-btn" onClick={handleSignOut}><b>Sign out</b></button>
         <AdminViewColorPalette/>
       </div>
+      {
+        showAddTemplateModal
+        &&
+        <div className="confirm-modal-background">
+            <div className="flex items-center pt-8 gap-10">
+                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowAddTemplateModal(false)}}>
+                    <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
+                </div>
+                <AddTemplate setShowAddTemplateModal={setShowAddTemplateModal}/>
+            </div>
+        </div>
+      }
       {
         showCreateColorPaletteModal
         &&

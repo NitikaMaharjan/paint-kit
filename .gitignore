@@ -31,3 +31,6 @@ frontend/.env
 *.njsproj
 *.sln
 *.sw?
+
+# Images
+frontend/public/uploads/

@@ -4,7 +4,7 @@ export default function ImageUploadForm(props) {
 
     const [inputFile, setInputFile] = useState(null);
 
-    const updateInputValue = (e)=> {
+    const updateImageUrl = (e)=> {
         const file = e.target.files[0];
         if (file){
             const fileURL = URL.createObjectURL(file);
@@ -25,7 +25,7 @@ export default function ImageUploadForm(props) {
                 <div style={{marginBottom: "28px"}}>
                     <label>Upload Image</label>
                     <div className="input-bar">
-                        <input type="file" accept="image/*" onChange={updateInputValue}/>
+                        <input type="file" accept="image/*" onChange={updateImageUrl}/>
                     </div>
                 </div>
                 <button type="submit" className="submit-btn" onClick={handleImageUpload}><b>Upload Image</b></button>
