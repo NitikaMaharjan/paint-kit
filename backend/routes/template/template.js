@@ -54,4 +54,16 @@ router.get('/fetchtemplate', async (req, res) => {
   }
 });
 
+// Route 3: delete template using DELETE method, URL '/api/template/template/deletetemplate'
+router.delete('/deletetemplate', async (req, res) => {
+  try {
+
+    await Template.findByIdAndDelete(req.header('_id'));
+    res.json({ success: true });
+
+  } catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;
