@@ -38,8 +38,8 @@ export default function UserViewColorPalette() {
         {
           showColorPalette === "community"?
             adminColorPaletteDetails.length === 0 ?
-            <div>
-                <p>nothing to show</p>
+              <div>
+                no color palettes
               </div>
             :
               <div>
@@ -48,12 +48,12 @@ export default function UserViewColorPalette() {
                 }).reverse()}
               </div>
           :
-          userColorPaletteDetails.length === 0 ?
+            userColorPaletteDetails.length === 0 ?
               <div>
-                <p>get started with your own custom palettes</p>
+                no color palettes
               </div>
             :
-            <div>
+              <div>
                 {(userColorPaletteDetails).map((colorpalette)=>{
                   return <UserColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setShowEditColorPaletteModal={setShowEditColorPaletteModal} setSelectedColorPalette={setSelectedColorPalette}/>
                   }).reverse()}

@@ -77,4 +77,18 @@ router.put("/edittemplate/:id", async (req, res) => {
   }
 });
 
+// Route 5: fetch template info to use using GET method, URL '/api/template/template/fetchtemplateinfo'
+router.get('/fetchtemplateinfo', async (req, res) => {
+  try {
+    const fetchedTemplateInfo = await Template.findById({ _id: req.header('_id') }).select('-user_id -date -__v');
+    if (fetchedTemplateInfo){
+      res.json({ success: true, fetchedTemplateInfo });
+    }else{
+      res.json({ success: false, error: 'Template not found!' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;

@@ -186,6 +186,7 @@ export default function RightNavbar(props) {
                     <input type="text" value={inputText} onChange={handleInputText} style={{cursor: "pointer"}}/>
                 </div>
                 <button className="confirm-btn" onClick={()=>{setShowImageUploadFormModal(true)}}>Upload image</button>
+                <Link className="confirm-btn" to="/viewtemplate">View template</Link>
                 <button className="confirm-btn" onClick={()=>{setShowDrawingInfoFormModal(true)}}>Save drawing</button>
                 <Link className="confirm-btn" to="/userviewdrawing">View your drawing</Link>
                 {

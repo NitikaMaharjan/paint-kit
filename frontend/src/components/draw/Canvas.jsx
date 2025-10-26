@@ -19,8 +19,36 @@ export default function Canvas(props) {
             const ctx = canvas.getContext("2d", { willReadFrequently: true });
             const img = new Image();
             img.src = props.url;
-            ctx.drawImage(img, 0, 0);
-        }
+
+            if(props.url.includes("uploads")){
+                img.onload = ()=> {
+                    const imgAspect = img.width / img.height;
+                    const canvasAspect = canvas.width / canvas.height;
+    
+                    let drawWidth, drawHeight;
+    
+                    if (imgAspect>canvasAspect){
+                        drawWidth = canvas.width;
+                        drawHeight = canvas.width / imgAspect;
+                    }else{
+                        drawHeight = canvas.height;
+                        drawWidth = canvas.height * imgAspect;
+                    }
+    
+                    const offsetX = (canvas.width - drawWidth) / 2;
+                    const offsetY = (canvas.height - drawHeight) / 2;
+    
+                    ctx.fillStyle = "white";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+                }
+                img.onerror = ()=> {
+                    showAlert("Error", "Failed to load image. Please try again!");
+                }
+            }else{
+                ctx.drawImage(img, 0, 0);
+            }
+        }        
         // eslint-disable-next-line
     }, []);
 

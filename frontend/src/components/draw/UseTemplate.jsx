@@ -7,30 +7,30 @@ import RightNavbar from "../navbar/RightNavbar";
 import BottomNavbar from "../navbar/BottomNavbar";
 import Canvas from "./Canvas";
 
-export default function UserEditDrawing() {
+export default function UseTemplate() {
 
     let navigate = useNavigate();
 
-    const { drawingid } = useParams();
+    const { templateid } = useParams();
 
     const { showProgress } = useContext(ProgressBarContext);
     const { showAlert } = useContext(AlertContext);
 
-    const [drawingInfo, setDrawingInfo] = useState([]);
+    const [templateInfo, setTemplateInfo] = useState([]);
 
-    const fetchUserEditDrawing = async()=> {
+    const fetchTemplateInfo = async()=> {
         try{
-            const response = await fetch(`http://localhost:5000/api/drawing/drawing/fetchusereditdrawing`, {
+            const response = await fetch(`http://localhost:5000/api/template/template/fetchtemplateinfo`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "_id": drawingid
+                    "_id": templateid
                 }
             });
             const json = await response.json();
 
             if(json.success){
-                setDrawingInfo(json.fetchedUserEditDrawing);
+                setTemplateInfo(json.fetchedTemplateInfo);
             }else{
                 navigate("/userhome");
             }
@@ -49,23 +49,23 @@ export default function UserEditDrawing() {
     }, []);
 
     useEffect(() => {
-        fetchUserEditDrawing();
+        fetchTemplateInfo();
         // eslint-disable-next-line
     }, []);
 
     return (
         <>  
             {
-                drawingInfo.length!==0?
+                templateInfo.length!==0?
                     <>
                         <BottomNavbar/>
-                        <LeftNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag}/>
-                        <RightNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag} edit={true} drawingid={drawingid}/>
-                        <Canvas url={drawingInfo.drawing_url}/>
+                        <LeftNavbar title={templateInfo.template_title} tag={templateInfo.template_tag}/>
+                        <RightNavbar title={templateInfo.template_title} tag={templateInfo.template_tag} edit={false} drawingid=""/>
+                        <Canvas url={templateInfo.image_url}/>
                     </>
                 :
                     <>
-                        drawing not found
+                        template not found
                     </>
             }
         </>

@@ -18,6 +18,7 @@ import AdminSignup from "./components/admin/AdminSignup";
 import UserViewDrawing from "./components/draw/UserViewDrawing";
 import UserEditDrawing from "./components/draw/UserEditDrawing";
 import ViewTemplate from "./components/template/ViewTemplate";
+import UseTemplate from "./components/draw/UseTemplate";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
                         <Route path="/userviewdrawing" element={<UserViewDrawing/>}/>
                         <Route path="/usereditdrawing/:drawingid" element={<UserEditDrawing/>}/>
                         <Route path="/viewtemplate" element={<ViewTemplate/>}/>
+                        <Route path="/usetemplate/:templateid" element={<UseTemplate/>}/>
                       </Routes>
                     </BrowserRouter>
                   </ColorPaletteDetailsState>

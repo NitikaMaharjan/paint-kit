@@ -9,7 +9,7 @@ export default function AdminColorPaletteItem(props) {
 
     return (
         <>
-            {localStorage.getItem("adminSignedIn")?
+            {localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token")?
                 <div className="color-palette-item">
                     <button className="confirm-btn" onClick={()=>{setSelectedColorPalette({color_palette_id: color_palette_id, color_palette_name: color_palette_name, colors: colors}); setShowEditColorPaletteModal(true);}}>Edit</button>
                     <button className="confirm-btn" onClick={()=>{handleDeleteColorPalette(color_palette_id)}}>Delete</button>

@@ -25,7 +25,9 @@ export default function AdminViewColorPalette() {
     <>
       {
         adminColorPaletteDetails.length === 0 ?
-          <></>
+          <div>
+            no color palettes
+          </div>
         :
           <div>
             {(adminColorPaletteDetails).map((colorpalette)=>{

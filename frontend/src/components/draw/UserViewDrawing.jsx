@@ -1,10 +1,24 @@
 import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import DrawContext from "../../context/draw/DrawContext";
 import DrawingItem from "./DrawingItem";
 
 export default function UserViewDrawing() {
 
+  let navigate = useNavigate();
+
+  const { showProgress } = useContext(ProgressBarContext);
   const { fetchUserDrawing, fetchedDrawings } = useContext(DrawContext);
+
+  useEffect(() => {
+    if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("user_token")){
+      navigate("/usersignin");
+    }else{
+      showProgress();
+    }
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     fetchUserDrawing();
