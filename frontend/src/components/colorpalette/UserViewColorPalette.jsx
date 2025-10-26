@@ -4,7 +4,7 @@ import AdminColorPaletteItem from "./AdminColorPaletteItem";
 import UserColorPaletteItem from "./UserColorPaletteItem";
 import EditColorPalette from "./EditColorPalette";
 
-export default function UserViewColorPalette() {
+export default function UserViewColorPalette(props) {
 
   const { adminColorPaletteDetails, adminFetchColorPalette, userColorPaletteDetails, userFetchUserColorPalette } = useContext(ColorPaletteDetailsContext);
 
@@ -55,7 +55,7 @@ export default function UserViewColorPalette() {
             :
               <div>
                 {(userColorPaletteDetails).map((colorpalette)=>{
-                  return <UserColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setShowEditColorPaletteModal={setShowEditColorPaletteModal} setSelectedColorPalette={setSelectedColorPalette}/>
+                  return <UserColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setShowEditColorPaletteModal={setShowEditColorPaletteModal} setSelectedColorPalette={setSelectedColorPalette} setUseColorPalette={props.setUseColorPalette}/>
                   }).reverse()}
               </div>
         }

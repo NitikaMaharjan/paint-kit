@@ -3,12 +3,13 @@ import ColorPaletteDetailsContext from "../../context/colorpalette/ColorPaletteD
 
 export default function UserColorPaletteItem(props) {
 
-    const { color_palette_id, color_palette_name, colors, setShowEditColorPaletteModal, setSelectedColorPalette } = props;
+    const { color_palette_id, color_palette_name, colors, setShowEditColorPaletteModal, setSelectedColorPalette, setUseColorPalette } = props;
 
     const { handleDeleteColorPalette } = useContext(ColorPaletteDetailsContext);
 
     return (
         <div className="color-palette-item">
+            <button className="confirm-btn" onClick={()=>{setUseColorPalette({color_palette_name: color_palette_name, colors: colors})}}>Use</button>
             <button className="confirm-btn" onClick={()=>{setSelectedColorPalette({color_palette_id: color_palette_id, color_palette_name: color_palette_name, colors: colors}); setShowEditColorPaletteModal(true);}}>Edit</button>
             <button className="confirm-btn" onClick={()=>{handleDeleteColorPalette(color_palette_id)}}>Delete</button>
             <div style={{padding: "12px 12px 4px 12px"}}>

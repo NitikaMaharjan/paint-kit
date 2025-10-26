@@ -14,7 +14,7 @@ export default function RightNavbar(props) {
 
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
-    const { canvasRef, setPenColor, setTextColor, handleExport, setTextSize, setTextFont, setText } = useContext(DrawContext);
+    const { canvasRef, penColor, setPenColor, setTextColor, handleExport, setTextSize, setTextFont, setText } = useContext(DrawContext);
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [showExportDropDown, setShowExportDropDown] = useState(false);
@@ -26,6 +26,10 @@ export default function RightNavbar(props) {
     const [inputTextSize, setInputTextSize] = useState("24");
     const [inputTextFont, setInputTextFont] = useState("serif");
     const [inputText, setInputText] = useState("");
+    const [useColorPalette, setUseColorPalette] = useState({
+        color_palette_name: "",
+        colors: ""
+    });
 
     const handleSignOut = async()=> {
         let ans = await showConfirm("Sign out");
@@ -166,9 +170,29 @@ export default function RightNavbar(props) {
                     </div>
                 </div>
                 <div style={{paddingTop: "18px"}}>
+                    <p>Pen color:</p>
+                    <div style={{height: "32px", width: "32px", backgroundColor: `${penColor}`}}></div>
+                </div>
+                <div style={{paddingTop: "18px"}}>
                     <p>Pick pen color:</p>
                     <input type="color" value={inputPenColor} onChange={handleInputPenColor} style={{height: "32px", width: "32px", cursor: "pointer"}}/>
                 </div>
+                {   
+                    useColorPalette.color_palette_name!=="" && useColorPalette.colors.length!==0?
+                        <div className="color-palette-item">
+                            <div style={{padding: "12px 12px 4px 12px"}}>
+                                <p title={useColorPalette.color_palette_name} style={{fontSize: "13px"}}>{useColorPalette.color_palette_name}</p>
+                            </div>
+                            <div style={{padding: "0px 12px 12px 12px"}}>
+                                <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>
+                                    {useColorPalette.colors.map((a_color, index)=>{return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}} onClick={()=>{setPenColor(a_color)}}></div>}).reverse()}
+                                </div>
+                            </div>
+                        </div>
+                    :
+                        <>
+                        </>
+                }
                 <div style={{paddingTop: "18px"}}>
                     <p>Pick text color:</p>
                     <input type="color" value={inputTextColor} onChange={handleInputTextColor} style={{height: "32px", width: "32px", cursor: "pointer"}}/>
@@ -206,7 +230,7 @@ export default function RightNavbar(props) {
                         </div>
                     }
                 </div>
-                <UserViewColorPalette/>
+                <UserViewColorPalette setUseColorPalette={setUseColorPalette}/>
                 <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button>
             </div>
             {
