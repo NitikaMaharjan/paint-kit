@@ -137,7 +137,7 @@ export default function UserEditColorPalette(props) {
                         await userFetchUserColorPalette();
                     }
                     props.setShowEditColorPaletteModal(false);
-                    showAlert("Success", "Your color palette looks awesome. It has been saved successfully!");
+                    showAlert("Success", "Your color palette looks awesome. It has been updated successfully!");
                 }else{
                     if(json.error){
                         showAlert("Error", json.error);

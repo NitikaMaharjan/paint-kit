@@ -98,8 +98,10 @@ export default function DrawingInfoForm(props) {
         if(json.success){
           if (props.edit===true){
             handleEditedDrawingDelete();
+            showAlert("Success", "Your drawing looks awesome. It has been updated successfully!");
+          }else{
+            showAlert("Success", "Your drawing looks awesome. It has been saved successfully!");
           }
-          showAlert("Success", "Your drawing looks awesome. It has been saved successfully!");
           navigate("/userviewdrawing");
         }else{
           if(json.error){

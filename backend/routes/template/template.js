@@ -66,4 +66,15 @@ router.delete('/deletetemplate', async (req, res) => {
   }
 });
 
+// Route 4: update template using PUT method, URL '/api/template/template/edittemplate/:id'
+router.put("/edittemplate/:id", async (req, res) => {
+  try {
+    const edit_date = new Date();
+    await Template.findByIdAndUpdate(req.params.id, { user_id: req.body.user_id, template_title: req.body.template_title, template_tag: req.body.template_tag, image_url: req.body.image_url, date: edit_date.toISOString() }, { new: true });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;
