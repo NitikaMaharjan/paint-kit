@@ -3,13 +3,15 @@ import DrawContext from "../../context/draw/DrawContext";
 
 export default function Canvas(props) {
 
-    const { canvasRef, handleMouseDown, handleMouseMove, handleMouseUp } = useContext(DrawContext);
+    const { canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, undoStack, redoStack } = useContext(DrawContext);
 
     useEffect(() => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d", { willReadFrequently: true }); // ctx in short for drawing context is an object that gives you all the drawing tools
-        ctx.fillStyle = "white";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        if (props.url===""){
+            const canvas = canvasRef.current;
+            const ctx = canvas.getContext("2d", { willReadFrequently: true }); // ctx in short for drawing context is an object that gives you all the drawing tools
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
         // eslint-disable-next-line
     }, []);
     
@@ -20,8 +22,8 @@ export default function Canvas(props) {
             const img = new Image();
             img.src = props.url;
 
-            if(props.url.includes("uploads")){
-                img.onload = ()=> {
+            img.onload = ()=> {
+                if(props.url.includes("/uploads/")){
                     const imgAspect = img.width / img.height;
                     const canvasAspect = canvas.width / canvas.height;
     
@@ -41,16 +43,22 @@ export default function Canvas(props) {
                     ctx.fillStyle = "white";
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                     ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+                }else{
+                    ctx.drawImage(img, 0, 0);
                 }
-                img.onerror = ()=> {
-                    showAlert("Error", "Failed to load image. Please try again!");
-                }
-            }else{
-                ctx.drawImage(img, 0, 0);
+            }
+            img.onerror = ()=> {
+                showAlert("Error", "Failed to load image. Please try again!");
             }
         }        
         // eslint-disable-next-line
     }, []);
+
+    useEffect(() => {
+      undoStack.current = [];
+      redoStack.current = [];
+      // eslint-disable-next-line
+    }, []);    
 
     return (
         <div style={{marginTop: "20px", marginLeft: "120px"}}>

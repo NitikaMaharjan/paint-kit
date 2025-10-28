@@ -14,7 +14,7 @@ export default function RightNavbar(props) {
 
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
-    const { canvasRef, penColor, setPenColor, setTextColor, handleExport, setTextSize, setTextFont, setText } = useContext(DrawContext);
+    const { canvasRef, penColor, setPenColor, setTextColor, handleExport, setTextSize, setTextFont, setText, undoStack } = useContext(DrawContext);
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [showExportDropDown, setShowExportDropDown] = useState(false);
@@ -92,6 +92,7 @@ export default function RightNavbar(props) {
     const handleImageUpload = (imageUrl)=> {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d", { willReadFrequently: true });
+        undoStack.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
         const img = new Image();
         img.src = imageUrl;
 

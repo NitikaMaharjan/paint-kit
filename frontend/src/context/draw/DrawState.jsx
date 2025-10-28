@@ -415,7 +415,7 @@ export default function DrawState(props) {
   }
 
   return(
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, penColor, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport, setTextSize, setTextFont, setText, setColorOpacity }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, penColor, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport, setTextSize, setTextFont, setText, setColorOpacity, undoStack, redoStack }}>
       {props.children}
     </DrawContext.Provider>
   )
