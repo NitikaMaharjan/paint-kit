@@ -44,7 +44,7 @@ export default function UserViewColorPalette(props) {
             :
               <div>
                 {(adminColorPaletteDetails).map((colorpalette)=>{
-                  return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors}/>
+                  return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setUseColorPalette={props.setUseColorPalette}/>
                 }).reverse()}
               </div>
           :
