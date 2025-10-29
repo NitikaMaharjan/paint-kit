@@ -100,8 +100,7 @@ export default function DrawState(props) {
       const height = posY - startY;
 
       if (tool==="line"){
-        ctx.moveTo(startX, startY); // sets starting point (draw from starting point)
-        ctx.lineTo(posX, posY); // draw to current mouse position 
+        bresenhamLine(startX, startY, posX, posY, convertHexToRgba(penColor)); 
       }else if (tool==="circle"){
         const radius = Math.hypot(width, height);
         ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
@@ -162,7 +161,9 @@ export default function DrawState(props) {
         ctx.bezierCurveTo(posX, centerY - topCurveHeight / 2, centerX + sideCurveWidth / 2, startY - topCurveHeight, centerX, startY + topCurveHeight);
         ctx.closePath();
       }
-      ctx.stroke();
+      if (tool!=="line"){
+        ctx.stroke();
+      }
     }else{
       return;
     }
@@ -189,8 +190,7 @@ export default function DrawState(props) {
         const height = posY - startY;
 
         if (tool==="line"){
-          ctx.moveTo(startX, startY);
-          ctx.lineTo(posX, posY);
+          bresenhamLine(startX, startY, posX, posY, convertHexToRgba(penColor));
         }else if (tool==="circle"){
           const radius = Math.hypot(width, height);
           ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
@@ -251,9 +251,49 @@ export default function DrawState(props) {
           ctx.bezierCurveTo(posX, centerY - topCurveHeight / 2, centerX + sideCurveWidth / 2, startY - topCurveHeight, centerX, startY + topCurveHeight);
           ctx.closePath();
         }
-        ctx.stroke();
+        if (tool!=="line"){
+          ctx.stroke();
+        }
       }
     }
+  }
+
+  const bresenhamLine = (x0, y0, x1, y1, color) => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const pixels = imageData.data;
+
+    const setPixel = (x, y) => {
+      const half = Math.floor(penStrokeWidth / 2);
+      for (let i = -half; i <= half; i++) {
+        for (let j = -half; j <= half; j++) {
+          const px = x + i;
+          const py = y + j;
+          if (px < 0 || py < 0 || px >= canvas.width || py >= canvas.height) continue;
+          const index = (py * canvas.width + px) * 4;
+          pixels[index] = color[0];
+          pixels[index + 1] = color[1];
+          pixels[index + 2] = color[2];
+          pixels[index + 3] = color[3];
+        }
+      }
+    }
+
+    let dx = Math.abs(x1 - x0);
+    let dy = Math.abs(y1 - y0);
+    let sx = x0 < x1 ? 1 : -1;
+    let sy = y0 < y1 ? 1 : -1;
+    let err = dx - dy;
+
+    while (true) {
+      setPixel(x0, y0);
+      if (x0 === x1 && y0 === y1) break;
+      let e2 = 2 * err;
+      if (e2 > -dy) { err -= dy; x0 += sx; }
+      if (e2 < dx) { err += dx; y0 += sy; }
+    }
+    ctx.putImageData(imageData, 0, 0);
   }
 
   const floodFill = (posX, posY, fillColor)=> {
@@ -346,7 +386,7 @@ export default function DrawState(props) {
     const g = parseInt(color_without_hash.substring(2, 4), 16);
     const b = parseInt(color_without_hash.substring(4, 6), 16);
 
-    return tool==="bucket fill" || tool==="bucket eraser"?[r, g, b, colorOpacity]:`rgba(${r},${g},${b},${colorOpacity/255})`;// value at index 3 is a(alpha) which represents opacity of color, 255 means fully opaque, while 0 means fully transparent, also when 255/255=1 fully opaque, 128/255=0.502 half transparent and 0/255=0 fully transparent
+    return tool==="bucket fill" || tool==="bucket eraser" || tool==="line" ?[r, g, b, colorOpacity]:`rgba(${r},${g},${b},${colorOpacity/255})`;// value at index 3 is a(alpha) which represents opacity of color, 255 means fully opaque, while 0 means fully transparent, also when 255/255=1 fully opaque, 128/255=0.502 half transparent and 0/255=0 fully transparent
   }
 
   const handleClearCanvas = async()=> {
