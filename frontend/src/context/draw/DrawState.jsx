@@ -103,7 +103,7 @@ export default function DrawState(props) {
         bresenhamLine(startX, startY, posX, posY, convertHexToRgba(penColor)); 
       }else if (tool==="circle"){
         const radius = Math.hypot(width, height);
-        ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
+        midpointCircle(Math.floor(startX), Math.floor(startY), Math.floor(radius), convertHexToRgba(penColor));
       }else if (tool==="square"){
         const size = Math.min(Math.abs(width), Math.abs(height));
         ctx.rect(startX, startY, width < 0 ? -size : size, height < 0 ? -size : size);
@@ -161,7 +161,7 @@ export default function DrawState(props) {
         ctx.bezierCurveTo(posX, centerY - topCurveHeight / 2, centerX + sideCurveWidth / 2, startY - topCurveHeight, centerX, startY + topCurveHeight);
         ctx.closePath();
       }
-      if (tool!=="line"){
+      if (tool!=="line" && tool!=="circle"){
         ctx.stroke();
       }
     }else{
@@ -193,7 +193,7 @@ export default function DrawState(props) {
           bresenhamLine(startX, startY, posX, posY, convertHexToRgba(penColor));
         }else if (tool==="circle"){
           const radius = Math.hypot(width, height);
-          ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
+          midpointCircle(Math.floor(startX), Math.floor(startY), Math.floor(radius), convertHexToRgba(penColor));
         }else if (tool==="square"){
           const size = Math.min(Math.abs(width), Math.abs(height));
           ctx.rect(startX, startY, width < 0 ? -size : size, height < 0 ? -size : size);
@@ -251,7 +251,7 @@ export default function DrawState(props) {
           ctx.bezierCurveTo(posX, centerY - topCurveHeight / 2, centerX + sideCurveWidth / 2, startY - topCurveHeight, centerX, startY + topCurveHeight);
           ctx.closePath();
         }
-        if (tool!=="line"){
+        if (tool!=="line"  && tool!=="circle"){
           ctx.stroke();
         }
       }
@@ -293,6 +293,59 @@ export default function DrawState(props) {
       if (e2 > -dy) { err -= dy; x0 += sx; }
       if (e2 < dx) { err += dx; y0 += sy; }
     }
+    ctx.putImageData(imageData, 0, 0);
+  }
+
+  const midpointCircle = (xc, yc, radius, color) => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const pixels = imageData.data;
+
+    const setPixel = (x, y) => {
+      const half = Math.floor(penStrokeWidth / 2);
+      for (let i = -half; i <= half; i++) {
+        for (let j = -half; j <= half; j++) {
+          const px = x + i;
+          const py = y + j;
+          if (px < 0 || py < 0 || px >= canvas.width || py >= canvas.height) continue;
+          const index = (py * canvas.width + px) * 4;
+          pixels[index] = color[0];
+          pixels[index + 1] = color[1];
+          pixels[index + 2] = color[2];
+          pixels[index + 3] = color[3];
+        }
+      }
+    }
+
+    let x = 0;
+    let y = radius;
+    let d = 1 - radius;
+
+    const drawCirclePoints = (xc, yc, x, y) => {
+      setPixel(xc + x, yc + y);
+      setPixel(xc - x, yc + y);
+      setPixel(xc + x, yc - y);
+      setPixel(xc - x, yc - y);
+      setPixel(xc + y, yc + x);
+      setPixel(xc - y, yc + x);
+      setPixel(xc + y, yc - x);
+      setPixel(xc - y, yc - x);
+    }
+
+    drawCirclePoints(xc, yc, x, y);
+
+    while (x < y) {
+      x++;
+      if (d < 0) {
+        d = d + 2 * x + 1;
+      } else {
+        y--;
+        d = d + 2 * (x - y) + 1;
+      }
+      drawCirclePoints(xc, yc, x, y);
+    }
+
     ctx.putImageData(imageData, 0, 0);
   }
 
@@ -386,7 +439,7 @@ export default function DrawState(props) {
     const g = parseInt(color_without_hash.substring(2, 4), 16);
     const b = parseInt(color_without_hash.substring(4, 6), 16);
 
-    return tool==="bucket fill" || tool==="bucket eraser" || tool==="line" ?[r, g, b, colorOpacity]:`rgba(${r},${g},${b},${colorOpacity/255})`;// value at index 3 is a(alpha) which represents opacity of color, 255 means fully opaque, while 0 means fully transparent, also when 255/255=1 fully opaque, 128/255=0.502 half transparent and 0/255=0 fully transparent
+    return tool==="bucket fill" || tool==="bucket eraser" || tool==="line" || tool==="circle" ?[r, g, b, colorOpacity]:`rgba(${r},${g},${b},${colorOpacity/255})`;// value at index 3 is a(alpha) which represents opacity of color, 255 means fully opaque, while 0 means fully transparent, also when 255/255=1 fully opaque, 128/255=0.502 half transparent and 0/255=0 fully transparent
   }
 
   const handleClearCanvas = async()=> {
