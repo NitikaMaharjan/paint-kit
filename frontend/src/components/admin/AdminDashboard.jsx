@@ -47,6 +47,7 @@ export default function AdminDashboard() {
         <h1>Welcome, {localStorage.getItem("admin_username")}!</h1>
         <button className="confirm-btn" onClick={()=>{setShowAddTemplateModal(true)}}>Add Template</button>
         <Link className="confirm-btn" to="/viewtemplate">View template</Link>
+        <Link className="confirm-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>
         <button className="confirm-btn" onClick={()=>{setShowCreateColorPaletteModal(true)}}>Create Color Palette</button>
         <button className="signout-btn" onClick={handleSignOut}><b>Sign out</b></button>
         <AdminViewColorPalette/>

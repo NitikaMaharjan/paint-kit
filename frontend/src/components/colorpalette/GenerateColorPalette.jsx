@@ -321,8 +321,8 @@ export default function GenerateColorPalette() {
   }
 
   useEffect(() => {
-    if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("user_token")){
-      navigate("/usersignin");
+    if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("adminSignedIn")){
+      navigate("/");
     }else{
       showProgress();
     }

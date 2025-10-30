@@ -80,8 +80,8 @@ export default function ColorPaletteNameForm(props) {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                            by_admin: false,
-                            user_id: localStorage.getItem("user_id"),
+                            by_admin: localStorage.getItem("adminSignedIn")?true:false,
+                            user_id: localStorage.getItem("adminSignedIn")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),
                             color_palette_name: inputValue.color_palette_name.trim(),
                             colors: colors
                         })
