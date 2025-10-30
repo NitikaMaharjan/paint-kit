@@ -1,6 +1,12 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
+import AlertContext from "../../context/alert/AlertContext";
+import ColorPaletteNameForm from "./ColorPaletteNameForm";
 
 export default function GenerateColorPalette() {
+
+  let navigate = useNavigate();
 
   const DEFAULT_K = 32;
   const MAIN_COLS = 12;
@@ -9,10 +15,17 @@ export default function GenerateColorPalette() {
   const MAX_SAMPLES = 60000;
 
   const fileInputRef = useRef(null);
-  const canvasRef = useRef(null);
+  const colorPaletteCanvasRef = useRef(null);
+
+  const { showAlert } = useContext(AlertContext);
+  const { showProgress } = useContext(ProgressBarContext);
 
   const [palette, setPalette] = useState([]);
+  const [colors, setColors] = useState([]);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [showColorPaletteNameFormModal, setShowColorPaletteNameFormModal] = useState(false);
+  const [colorCopied,setColorCopied] = useState(false);
+  const [copiedColor,setCopiedColor] = useState("");
 
   const toHex = (r, g, b) =>
     "#" +
@@ -53,7 +66,7 @@ export default function GenerateColorPalette() {
     (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2;
 
   const drawImageToCanvas = (img) => {
-    const canvas = canvasRef.current;
+    const canvas = colorPaletteCanvasRef.current;
         const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
             const imgAspect = img.width / img.height;
@@ -78,7 +91,7 @@ export default function GenerateColorPalette() {
   };
 
   const samplePixels = (step) => {
-    const canvas = canvasRef.current;
+    const canvas = colorPaletteCanvasRef.current;
     const ctx = canvas.getContext("2d");
     const { width: w, height: h } = canvas;
     const data = ctx.getImageData(0, 0, w, h).data;
@@ -170,7 +183,7 @@ export default function GenerateColorPalette() {
   
 
   const runSimpleKMeans = async () => {
-    const canvas = canvasRef.current;
+    const canvas = colorPaletteCanvasRef.current;
     if (!canvas) return;
 
     const pixels = samplePixels(STEP);
@@ -273,53 +286,116 @@ export default function GenerateColorPalette() {
   const clearAll = () => {
     setPalette([]);
     setImageLoaded(false);
-    if (canvasRef.current) {
-      const ctx = canvasRef.current.getContext("2d");
-      ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    if (colorPaletteCanvasRef.current) {
+      const ctx = colorPaletteCanvasRef.current.getContext("2d");
+      ctx.clearRect(0, 0, colorPaletteCanvasRef.current.width, colorPaletteCanvasRef.current.height);
     }
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
+
+  const calculateBrightness = (hexColor)=> {
+    let color_without_hash = hexColor.replace("#", "");
+
+    const r = parseInt(color_without_hash.substring(0, 2), 16);
+    const g = parseInt(color_without_hash.substring(2, 4), 16);
+    const b = parseInt(color_without_hash.substring(4, 6), 16);
+
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    
+    if(colorCopied===true && copiedColor===hexColor){
+      return brightness>128?"/copied-black.png":"/copied-white.png";
+    }else{
+      return brightness>128?"/copy-black.png":"/copy-white.png";
+    }
+  }
+
+  const handleCopy = (color) => {
+    setColorCopied(true);
+    setCopiedColor(color);
+    navigator.clipboard.writeText(color);
+    showAlert("Success", "Color copied to clipboard!");
+    setTimeout(() => {
+      setColorCopied(false);
+      setCopiedColor("");
+    }, 1500);
+  }
+
+  useEffect(() => {
+    if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("user_token")){
+      navigate("/usersignin");
+    }else{
+      showProgress();
+    }
+    // eslint-disable-next-line
+  }, []);
 
   // Run K-Means automatically when image is loaded
   useEffect(() => {
     if (imageLoaded) runSimpleKMeans();
   }, [imageLoaded]);
 
+  useEffect(() => {
+    if(palette.length!==0){
+      const colorsArray = [];
+      for(let i=0;i<12;i++){
+        colorsArray.push(palette[i].hex);
+      }
+      setColors(colorsArray);
+    }
+  }, [palette]);  
+
   return (
-    <div className="flex items-center pt-8 gap-10">
-      <div className="auth-form-box">
-        <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Generate color palette</b></h1>
-        <form className="auth-form">
-          <div style={{marginBottom: "20px"}}>
-            <label>Upload Image</label>
-            <div className="input-bar">
-              <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFile}/>
+    <>
+      <div className="content gap-8">
+        <div className="auth-form-box">
+          <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Generate color palette</b></h1>
+          <div className="auth-form">
+            <div style={{marginBottom: "20px"}}>
+              <label>Upload Image</label>
+              <div className="input-bar">
+                <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFile}/>
+              </div>
+            </div>
+            <div>
+              <canvas ref={colorPaletteCanvasRef} height={"200px"} width={"350px"}></canvas>
+            </div>
+          <button className="submit-btn" onClick={()=>{setShowColorPaletteNameFormModal(true)}}>Save color palette</button>
+          </div>
+        </div>
+        <div className="auth-form-box">
+          <div className="flex items-center justify-end" style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
+              <img src="/close.png" title="clear all button" style={{height: "13px", width: "13px", cursor: "pointer", marginRight: "14px"}} onClick={clearAll}/>
+          </div>
+          <div style={{height: "448px", width: "304px", padding: "12px"}}>
+            <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", justifyItems: "center", gap: "12px"}}>
+              {palette.length !== 0 ?
+                  palette.map((a_color, index)=>{
+                    return  <div key={index} style={{height: "100px", width: "85px", border: "1px solid black"}}>
+                              <div style={{display: "flex", justifyContent: "right", padding: "4px", height:"78px", backgroundColor: `${a_color.hex}`}} title={`${a_color.hex}`}>
+                                <img src={calculateBrightness(a_color.hex)} alt="copy color button image" title="copy button" style={{height: "18px", width: "18px", cursor: "pointer"}} onClick={()=>{handleCopy(a_color.hex)}}/>
+                              </div>
+                              <p style={{padding: "0px 4px", fontSize: "12px", height: "20px", backgroundColor: "white"}}>{a_color.hex}</p>
+                            </div>
+                  })
+                :
+                <div></div>
+              }
             </div>
           </div>
-          <div>
-            <canvas ref={canvasRef} height={"200px"} width={"350px"}></canvas>
-          </div>
-        </form>
-      </div>
-      <div className="auth-form-box">
-        <div className="flex items-center justify-end" style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
-            <img src="/close.png" title="clear all button" style={{height: "13px", width: "13px", cursor: "pointer", marginRight: "14px"}} onClick={clearAll}/>
-        </div>
-        <div style={{height: "448px", width: "304px", padding: "12px"}}>
-          <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", justifyItems: "center", gap: "12px"}}>
-            {palette.length !== 0 ?
-              palette.map((a_color, index)=>{
-                return  <div key={index} style={{height: "100px", width: "85px", border: "1px solid black"}}>
-                          <div style={{display: "flex", justifyContent: "right", padding: "4px", height:"78px", backgroundColor: `${a_color.hex}`}} title={`${a_color.hex}`}></div>
-                          <p style={{padding: "0px 4px", fontSize: "12px", height: "20px", backgroundColor: "white"}}>{a_color.hex}</p>
-                        </div>
-              })
-              :
-              <div></div>
-            }
-          </div>
         </div>
       </div>
-    </div>
+      {
+        showColorPaletteNameFormModal
+        &&
+        <div className="confirm-modal-background">
+            <div className="flex items-center pt-8 gap-10">
+                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowColorPaletteNameFormModal(false)}}>
+                    <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
+                </div>
+                <ColorPaletteNameForm colors={colors} setShowColorPaletteNameFormModal={setShowColorPaletteNameFormModal}/>
+            </div>
+        </div>
+      }
+    </>
   )
 }

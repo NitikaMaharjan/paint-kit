@@ -214,6 +214,7 @@ export default function RightNavbar(props) {
                 <Link className="confirm-btn" to="/viewtemplate">View template</Link>
                 <button className="confirm-btn" onClick={()=>{setShowDrawingInfoFormModal(true)}}>Save drawing</button>
                 <Link className="confirm-btn" to="/userviewdrawing">View your drawing</Link>
+                <Link className="confirm-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>
                 {
                     props.edit===true?
                     <button className="confirm-btn" onClick={handleDiscardChanges}>Discard changes</button>

@@ -19,6 +19,7 @@ import UserViewDrawing from "./components/draw/UserViewDrawing";
 import UserEditDrawing from "./components/draw/UserEditDrawing";
 import ViewTemplate from "./components/template/ViewTemplate";
 import UseTemplate from "./components/draw/UseTemplate";
+import GenerateColorPalette from "./components/colorpalette/GenerateColorPalette";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
                         <Route path="/usereditdrawing/:drawingid" element={<UserEditDrawing/>}/>
                         <Route path="/viewtemplate" element={<ViewTemplate/>}/>
                         <Route path="/usetemplate/:templateid" element={<UseTemplate/>}/>
+                        <Route path="/generatecolorpalette" element={<GenerateColorPalette/>}/>
                       </Routes>
                     </BrowserRouter>
                   </ColorPaletteDetailsState>
