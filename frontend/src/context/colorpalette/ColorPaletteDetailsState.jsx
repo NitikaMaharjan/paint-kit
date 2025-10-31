@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-import ColorPaletteDetailsContext from "./ColorPaletteDetailsContext";
 import AlertContext from "../alert/AlertContext";
 import ConfirmContext from "../confirm/ConfirmContext";
+import ColorPaletteDetailsContext from "./ColorPaletteDetailsContext";
 
 export default function ColorPaletteDetailsState(props) {
 
@@ -11,11 +11,13 @@ export default function ColorPaletteDetailsState(props) {
     const [userColorPaletteDetails, setUserColorPaletteDetails] = useState([]);
     const [adminColorPaletteDetails, setAdminColorPaletteDetails] = useState([]);
     
-    const userFetchUserColorPalette = async()=>{
+    const userFetchUserColorPalette = async() => {
         try{
             const response = await fetch(`http://localhost:5000/api/colorpalette/colorpalette/userfetchcolorpalette?user_id=${localStorage.getItem("user_id")}`, {
                 method: "GET",
-                headers: {"Content-Type": "application/json"}
+                headers: {
+                    "Content-Type": "application/json"
+                }
             });
             const json = await response.json();
 
@@ -29,11 +31,13 @@ export default function ColorPaletteDetailsState(props) {
         }
     }
     
-    const adminFetchColorPalette = async()=>{
+    const adminFetchColorPalette = async() => {
         try{
             const response = await fetch(`http://localhost:5000/api/colorpalette/colorpalette/adminfetchcolorpalette`, {
                 method: "GET",
-                headers: {"Content-Type": "application/json"}
+                headers: {
+                    "Content-Type": "application/json"
+                }
             });
             const json = await response.json();
 
@@ -47,9 +51,9 @@ export default function ColorPaletteDetailsState(props) {
         }
     }
 
-    const handleDeleteColorPalette = async(id)=> {
+    const handleDeleteColorPalette = async(id) => {
         let ans = await showConfirm("Delete color palette");
-        if (ans){
+        if(ans){
             try{
                 const response = await fetch(`http://localhost:5000/api/colorpalette/colorpalette/deletecolorpalette`, {
                     method: "DELETE",
@@ -62,7 +66,7 @@ export default function ColorPaletteDetailsState(props) {
 
                 if(json.success){
                     showAlert("Success", "Your color palette has been deleted successfully!");
-                    if (localStorage.getItem("adminSignedIn")){
+                    if(localStorage.getItem("adminSignedIn")){
                         await adminFetchColorPalette();
                     }else{
                         await userFetchUserColorPalette();

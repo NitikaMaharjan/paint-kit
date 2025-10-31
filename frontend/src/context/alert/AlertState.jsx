@@ -19,15 +19,13 @@ export default function AlertState(props) {
 
     return(
         <>
-            <AlertContext.Provider value={{showAlert}}>
+            <AlertContext.Provider value={{ showAlert }}>
                 {props.children}
             </AlertContext.Provider>
 
             {
                 alert 
-                
                 &&
-
                 <div className="alert-modal-background" onClick={()=>{setAlert(false)}}>
                     <div className="alert-modal">
                         <div className="flex items-center gap-2" style={{padding: "6px 12px", borderRight: "1px solid black"}}>

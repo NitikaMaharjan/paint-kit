@@ -3,9 +3,10 @@ import ConfirmContext from "./ConfirmContext";
 
 export default function ConfirmState(props) {
 
+    const answerRef = useRef(null);
+
     const [confirm, setConfirm] = useState(false);
     const [confirmMsg, setConfirmMsg] = useState("");
-    const answerRef = useRef(null);
 
     const showConfirm = (msg) => {
         setConfirm(true);
@@ -31,15 +32,13 @@ export default function ConfirmState(props) {
 
     return(
         <>
-            <ConfirmContext.Provider value={{showConfirm}}>
+            <ConfirmContext.Provider value={{ showConfirm }}>
                 {props.children}
             </ConfirmContext.Provider>
 
             {
-                confirm
-                
+                confirm                
                 &&
-
                 <div className="confirm-modal-background" onClick={handleCancel}>
                     <div className="confirm-modal">
                         <div className="flex items-center" style={{borderBottom: "1px solid black"}}>

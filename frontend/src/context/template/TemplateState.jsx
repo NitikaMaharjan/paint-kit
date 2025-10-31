@@ -5,7 +5,7 @@ export default function TemplateState(props) {
 
     const [fetchedTemplates, setFetchedTemplates] = useState([]);
 
-    const fetchTemplate = async()=> {
+    const fetchTemplate = async() => {
         try{
             const response = await fetch(`http://localhost:5000/api/template/template/fetchtemplate`, {
                 method: "GET",
@@ -25,9 +25,9 @@ export default function TemplateState(props) {
         }
     }
 
-    return (
+    return(
         <TemplateContext.Provider value={{ fetchTemplate, fetchedTemplates }}>
             {props.children}
         </TemplateContext.Provider>
-    )
+    );
 }

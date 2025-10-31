@@ -10,11 +10,11 @@ export default function ProgressState(props) {
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve();
-            }, 150); //150ms is 0.15s
+            }, 150); // 150ms is 0.15s
         });
     }
     
-    const showProgress = async () => {
+    const showProgress = async() => {
         setProgress(0);
         await wait();
         setProgress(10);
@@ -30,13 +30,13 @@ export default function ProgressState(props) {
         setProgress(100);
     };
 
-    return (
+    return(
         <>
-            <ProgressBarContext.Provider value={{showProgress}}>
+            <ProgressBarContext.Provider value={{ showProgress }}>
                 {props.children}
             </ProgressBarContext.Provider>
 
             <LoadingBar color="#6d6d6dff" progress={progress} height={3}/>
         </>
-    )
+    );
 }

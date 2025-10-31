@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import SignedInUserDetailsContext from "./SignedInUserDetailsContext";
 import AlertContext from "../alert/AlertContext";
+import SignedInUserDetailsContext from "./SignedInUserDetailsContext";
 
 export default function SignedInUserDetailsState(props) {
 
     const { showAlert } = useContext(AlertContext);
     
-    const fetchSignedInUserDetails = async()=>{
+    const fetchSignedInUserDetails = async() => {
         try{
             const response = await fetch(`http://localhost:5000/api/auth/user/fetchuserdetails`, {
                 method: "GET",
@@ -33,7 +33,7 @@ export default function SignedInUserDetailsState(props) {
     }
 
     return(
-        <SignedInUserDetailsContext.Provider value={{fetchSignedInUserDetails}}>
+        <SignedInUserDetailsContext.Provider value={{ fetchSignedInUserDetails }}>
             {props.children}
         </SignedInUserDetailsContext.Provider>
     );
