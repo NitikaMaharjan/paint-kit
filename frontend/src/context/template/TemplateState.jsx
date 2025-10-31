@@ -7,7 +7,7 @@ export default function TemplateState(props) {
 
     const fetchTemplate = async() => {
         try{
-            const response = await fetch(`http://localhost:5000/api/template/template/fetchtemplate`, {
+            const response = await fetch(`http://localhost:5000/api/template/fetchtemplate`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"

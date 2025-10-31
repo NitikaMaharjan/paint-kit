@@ -20,7 +20,7 @@ export default function UseTemplate() {
 
     const fetchTemplateInfo = async()=> {
         try{
-            const response = await fetch(`http://localhost:5000/api/template/template/fetchtemplateinfo`, {
+            const response = await fetch(`http://localhost:5000/api/template/fetchtemplatetouse`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

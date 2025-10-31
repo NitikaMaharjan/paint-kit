@@ -1,5 +1,5 @@
 const express = require('express');
-const User = require('../../models/User');
+const User = require('../models/User');
 const router = express.Router();
 
 const { body, validationResult } = require('express-validator');
@@ -8,31 +8,30 @@ const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const jwt_secret = process.env.JWT_SECRET;
 
-var verifyUserToken = require('../../middleware/verifyUserToken');
+var verifyUserToken = require('../middleware/verifyUserToken');
 
-// Route 1: sign up using POST method, URL '/api/auth/user/usersignup'
+// Route 1: sign up using POST method, URL '/api/user/usersignup'
 router.post('/usersignup', [
-  body('email').notEmpty().withMessage('Email is required.'),
+  body('email').notEmpty().withMessage('email is required.'),
 
-  body('username').notEmpty().withMessage('Username is required.'),
+  body('username').notEmpty().withMessage('username is required.'),
   
-  body('password').notEmpty().withMessage('Password is required.')
-], async (req, res) => {
+  body('password').notEmpty().withMessage('password is required.')
+], async(req, res) => {
 
-  // checking if the request passed all validation rules
+  // check if the request passed all validation rules
   const errors = validationResult(req);
 
   // if validation failes
-  if (!errors.isEmpty()) {
+  if(!errors.isEmpty()){
     return res.status(400).json({ success: false, errors: errors.array() });
   }
 
-  try {
+  try{
+    // check if user with same email already exists
+    const user_exists = await User.findOne({ email: req.body.email });
 
-    // checking if user with same email already exists
-    const user_exists = await User.findOne({email: req.body.email});
-
-    if (user_exists){
+    if(user_exists){
       // if user already exists
       return res.status(400).json({ success: false, error: 'An account with this email already exists!' });
     }
@@ -42,51 +41,50 @@ router.post('/usersignup', [
 
     // if validation passes and user does not exists already then create a new user with the request data
     await User.create({
-        email: req.body.email,
-        username: req.body.username,
-        password: hashedPassword
+      email: req.body.email,
+      username: req.body.username,
+      password: hashedPassword
     });
 
     // if user is successfully created, respond with success true
     res.json({ success: true });
-
-  } catch (err) {
-    // if server-side issues like database connection, undefined variables, etc.
+  }catch(err){
+    // if server-side issues like database connection, undefined variables, etc
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-// Route 2: sign in using POST method, URL '/api/auth/user/usersignin'
+// Route 2: sign in using POST method, URL '/api/user/usersignin'
 router.post('/usersignin', [
-  body('email').notEmpty().withMessage('Email is required.'),
+  body('email').notEmpty().withMessage('email is required.'),
   
-  body('password').notEmpty().withMessage('Password is required.')
-], async (req, res) => {
+  body('password').notEmpty().withMessage('password is required.')
+], async(req, res) => {
 
-  // checking if the request passed all validation rules
+  // check if the request passed all validation rules
   const errors = validationResult(req);
 
   // if validation failes
-  if (!errors.isEmpty()) {
+  if(!errors.isEmpty()) {
     return res.status(400).json({ success: false, errors: errors.array() });
   }
 
-  const {email, password} = req.body;
+  const { email, password } = req.body;
 
-  try {
+  try{
+    // check if user exists
+    const user_exists = await User.findOne({ email });
 
-    // checking if user exists
-    const user_exists = await User.findOne({email});
-
-    if (!user_exists){
+    if(!user_exists){
       // if user doesn't exists
       return res.status(400).json({ success: false, error: 'An account with this email does not exists!' });
     }
 
-    // checking if the password is correct
+    // check if the password is correct
     const password_matched = await bcrypt.compare(password, user_exists.password);
 
-    if (!password_matched){
+    if(!password_matched){
+      // if password doesn't match
       return res.status(400).json({ success: false, error: 'Incorrect password. Please enter password again!' });
     }
 
@@ -100,24 +98,22 @@ router.post('/usersignin', [
 
     // if sign in is successfull, respond with success true and authentication token
     res.json({ success: true, authtoken });
-
-  } catch (err) {
-    // if server-side issues like database connection, undefined variables, etc.
+  }catch(err){
+    // if server-side issues like database connection, undefined variables, etc
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-// Route 3: fetching signed in user details using GET method, URL '/api/auth/user/fetchuserdetails'
+// Route 3: fetch signed in user details using GET method, URL '/api/user/fetchuserdetails'
 // verifyUserToken is a middleware which verifies the authtoken
-router.get('/fetchuserdetails', verifyUserToken, async (req, res) => {
-  try {
+router.get('/fetchuserdetails', verifyUserToken, async(req, res) => {
+  try{
     const user_id = req.user.id;
-    
-    // fetching user's email and username using user_id excluding password, date and __v
+
+    // fetch user's email and username using user_id excluding password, date and __v
     const signedInUserDetails = await User.findById(user_id).select('-password -date -__v');
     res.json({ success: true, signedInUserDetails });
-    
-  } catch (err) {
+  }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

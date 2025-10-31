@@ -1,5 +1,5 @@
 const express = require('express');
-const Admin = require('../../models/Admin');
+const Admin = require('../models/Admin');
 const router = express.Router();
 
 const { body, validationResult } = require('express-validator');
@@ -8,31 +8,30 @@ const bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const jwt_secret = process.env.JWT_SECRET;
 
-var verifyAdminToken = require('../../middleware/verifyAdminToken');
+var verifyAdminToken = require('../middleware/verifyAdminToken');
 
-// Route 1: sign up using POST method, URL '/api/auth/admin/adminsignup'
+// Route 1: sign up using POST method, URL '/api/admin/adminsignup'
 router.post('/adminsignup', [
-  body('email').notEmpty().withMessage('Email is required.'),
+  body('email').notEmpty().withMessage('email is required.'),
 
-  body('username').notEmpty().withMessage('Username is required.'),
+  body('username').notEmpty().withMessage('username is required.'),
   
-  body('password').notEmpty().withMessage('Password is required.')
-], async (req, res) => {
+  body('password').notEmpty().withMessage('password is required.')
+], async(req, res) => {
 
-  // checking if the request passed all validation rules
+  // check if the request passed all validation rules
   const errors = validationResult(req);
 
   // if validation failes
-  if (!errors.isEmpty()) {
+  if(!errors.isEmpty()){
     return res.status(400).json({ success: false, errors: errors.array() });
   }
 
-  try {
+  try{
+    // check if admin with same email already exists
+    const admin_exists = await Admin.findOne({ email: req.body.email });
 
-    // checking if admin with same email already exists
-    const admin_exists = await Admin.findOne({email: req.body.email});
-
-    if (admin_exists){
+    if(admin_exists){
       // if admin already exists
       return res.status(400).json({ success: false, error: 'An account with this email already exists!' });
     }
@@ -42,51 +41,50 @@ router.post('/adminsignup', [
 
     // if validation passes and admin does not exists already then create a new admin with the request data
     await Admin.create({
-        email: req.body.email,
-        username: req.body.username,
-        password: hashedPassword
+      email: req.body.email,
+      username: req.body.username,
+      password: hashedPassword
     });
 
     // if admin is successfully created, respond with success true
     res.json({ success: true });
-
-  } catch (err) {
-    // if server-side issues like database connection, undefined variables, etc.
+  }catch(err){
+    // if server-side issues like database connection, undefined variables, etc
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-// Route 2: sign in using POST method, URL '/api/auth/admin/adminsignin'
+// Route 2: sign in using POST method, URL '/api/admin/adminsignin'
 router.post('/adminsignin', [
-  body('email').notEmpty().withMessage('Email is required.'),
+  body('email').notEmpty().withMessage('email is required.'),
   
-  body('password').notEmpty().withMessage('Password is required.')
-], async (req, res) => {
+  body('password').notEmpty().withMessage('password is required.')
+], async(req, res) => {
 
-  // checking if the request passed all validation rules
+  // check if the request passed all validation rules
   const errors = validationResult(req);
 
   // if validation failes
-  if (!errors.isEmpty()) {
+  if(!errors.isEmpty()) {
     return res.status(400).json({ success: false, errors: errors.array() });
   }
 
-  const {email, password} = req.body;
+  const { email, password } = req.body;
 
-  try {
+  try{
+    // check if admin exists
+    const admin_exists = await Admin.findOne({ email });
 
-    // checking if admin exists
-    const admin_exists = await Admin.findOne({email});
-
-    if (!admin_exists){
+    if(!admin_exists){
       // if admin doesn't exists
       return res.status(400).json({ success: false, error: 'An account with this email does not exists!' });
     }
 
-    // checking if the password is correct
+    // check if the password is correct
     const password_matched = await bcrypt.compare(password, admin_exists.password);
 
-    if (!password_matched){
+    if(!password_matched){
+      // if password doesn't match
       return res.status(400).json({ success: false, error: 'Incorrect password. Please enter password again!' });
     }
 
@@ -100,24 +98,22 @@ router.post('/adminsignin', [
 
     // if sign in is successfull, respond with success true and authentication token
     res.json({ success: true, authtoken });
-
-  } catch (err) {
-    // if server-side issues like database connection, undefined variables, etc.
+  }catch(err){
+    // if server-side issues like database connection, undefined variables, etc
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-// Route 3: fetching signed in admin details using GET method, URL '/api/auth/admin/fetchadmindetails'
+// Route 3: fetch signed in admin details using GET method, URL '/api/admin/fetchadmindetails'
 // verifyAdminToken is a middleware which verifies the authtoken
-router.get('/fetchadmindetails', verifyAdminToken, async (req, res) => {
-  try {
+router.get('/fetchadmindetails', verifyAdminToken, async(req, res) => {
+  try{
     const admin_id = req.admin.id;
     
-    // fetching admin's email and username using user_id excluding password, date and __v
+    // fetch admin's email and username using user_id excluding password, date and __v
     const signedInAdminDetails = await Admin.findById(admin_id).select('-password -date -__v');
     res.json({ success: true, signedInAdminDetails });
-    
-  } catch (err) {
+  }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

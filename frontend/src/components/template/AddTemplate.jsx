@@ -85,7 +85,7 @@ export default function AddTemplate(props) {
     e.preventDefault();
     if (validateInputValue()){
       try{
-        const response = await fetch(`http://localhost:5000/api/template/template/savetemplate`, {
+        const response = await fetch(`http://localhost:5000/api/template/savetemplate`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

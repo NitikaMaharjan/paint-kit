@@ -496,7 +496,7 @@ export default function DrawState(props) {
 
   const fetchUserDrawing = async() => {
     try{
-      const response = await fetch(`http://localhost:5000/api/drawing/drawing/fetchuserdrawing`, {
+      const response = await fetch(`http://localhost:5000/api/drawing/fetchdrawing`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

@@ -4,7 +4,7 @@ const cors = require('cors');
 const connectToMongo = require('./db');
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 
 connectToMongo();
 
@@ -14,18 +14,20 @@ app.use(cors());
 
 // Routes:
 
-// For admin and user authentication
-app.use('/api/auth/admin', require('./routes/auth/admin')); 
-app.use('/api/auth/user', require('./routes/auth/user')); 
+// For admin
+app.use('/api/admin', require('./routes/admin'));
+
+// For user
+app.use('/api/user', require('./routes/user'));
 
 // For color palette
-app.use('/api/colorpalette/colorpalette', require('./routes/colorpalette/colorpalette')); 
+app.use('/api/colorpalette', require('./routes/colorpalette')); 
 
 // For drawing
-app.use('/api/drawing/drawing', require('./routes/drawing/drawing'));
+app.use('/api/drawing', require('./routes/drawing'));
 
 // For template
-app.use('/api/template/template', require('./routes/template/template'));
+app.use('/api/template', require('./routes/template'));
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

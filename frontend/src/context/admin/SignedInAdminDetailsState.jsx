@@ -8,7 +8,7 @@ export default function SignedInAdminDetailsState(props) {
     
     const fetchSignedInAdminDetails = async() => {
         try{
-            const response = await fetch(`http://localhost:5000/api/auth/admin/fetchadmindetails`, {
+            const response = await fetch(`http://localhost:5000/api/admin/fetchadmindetails`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

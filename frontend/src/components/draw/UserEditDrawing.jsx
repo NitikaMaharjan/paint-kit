@@ -20,7 +20,7 @@ export default function UserEditDrawing() {
 
     const fetchUserEditDrawing = async()=> {
         try{
-            const response = await fetch(`http://localhost:5000/api/drawing/drawing/fetchusereditdrawing`, {
+            const response = await fetch(`http://localhost:5000/api/drawing/fetchdrawingtoedit`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

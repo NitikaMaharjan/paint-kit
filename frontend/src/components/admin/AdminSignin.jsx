@@ -58,7 +58,7 @@ export default function AdminSignin() {
     e.preventDefault();
     if(clientSideValidation()){
       try{
-        const response = await fetch(`http://localhost:5000/api/auth/admin/adminsignin`, {
+        const response = await fetch(`http://localhost:5000/api/admin/adminsignin`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

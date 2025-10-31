@@ -120,7 +120,7 @@ export default function UserEditColorPalette(props) {
         e.preventDefault();
         if(validateInputValue()){
             try{
-                const response = await fetch(`http://localhost:5000/api/colorpalette/colorpalette/editcolorpalette/${props.selectedColorPalette.color_palette_id}`, {
+                const response = await fetch(`http://localhost:5000/api/colorpalette/editcolorpalette/${props.selectedColorPalette.color_palette_id}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({

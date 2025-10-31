@@ -25,7 +25,7 @@ export default function DrawingItem(props) {
     let ans = await showConfirm("Delete template");
     if (ans){
       try{
-        const response = await fetch(`http://localhost:5000/api/template/template/deletetemplate`, {
+        const response = await fetch(`http://localhost:5000/api/template/deletetemplate`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
