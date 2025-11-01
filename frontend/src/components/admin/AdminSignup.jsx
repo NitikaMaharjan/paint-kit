@@ -8,16 +8,16 @@ export default function AdminSignup() {
 
   const { showAlert } = useContext(AlertContext);
   
-  const [passwordType, setPasswordType] = useState("password");
-  const [confirmPasswordType, setConfirmPasswordType] = useState("password");
   const [credentials, setCredentials] = useState({
     email: "",
     username: "",
     password: "",
     confirm_password: ""
   })
+  const [passwordType, setPasswordType] = useState("password");
+  const [confirmPasswordType, setConfirmPasswordType] = useState("password");
 
-  const updateInputValue = (e)=> {
+  const updateInputValue = (e) => {
     setCredentials({...credentials, [e.target.name]: e.target.value.trimStart()});
   }
 
@@ -25,7 +25,7 @@ export default function AdminSignup() {
     setCredentials({...credentials, [input_field]: ""});
   }
 
-  const changePasswordType = (type)=> {
+  const changePasswordType = (type) => {
     if(type==="password"){
       passwordType==="password"?setPasswordType("text"):setPasswordType("password");
     }else{
@@ -33,7 +33,15 @@ export default function AdminSignup() {
     }
   }
 
-  const clientSideValidation = ()=> {
+  const addBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
+  }
+  
+  const removeBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
+  }
+
+  const clientSideValidation = () => {
     const nameRegex = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
     const passwordRegex = /^[A-Za-z0-9!@#$%^&*()_+\-={};':"|,.<>/?]+$/;
 
@@ -62,7 +70,7 @@ export default function AdminSignup() {
       return false;
     }
     
-    if (trimmed_email==="" || trimmed_username==="" || trimmed_password==="" || trimmed_confirm_password===""){
+    if(trimmed_email==="" || trimmed_username==="" || trimmed_password==="" || trimmed_confirm_password===""){
       showAlert("Warning", "Please enter your credentials to sign up!");
       return false;
     }
@@ -72,50 +80,52 @@ export default function AdminSignup() {
       return false;
     }
     
-    if (trimmed_username.length<3){
+    if(trimmed_username.length<3){
       showAlert("Warning", "Username must be atleast 3 characters!");
       return false;
     }
     
-    if (trimmed_username.length>25){
+    if(trimmed_username.length>25){
       showAlert("Warning", "Username cannot be more than 25 characters!");
       return false;
     }
     
-    if (!nameRegex.test(trimmed_username)){
+    if(!nameRegex.test(trimmed_username)){
       showAlert("Warning", "Username can only contain letters and single consecutive space!");
       return false;
     }
     
-    if (trimmed_password.length<5){
+    if(trimmed_password.length<5){
       showAlert("Warning", "Password must be atleast 5 characters!");
       return false;
     }
     
-    if (trimmed_password.length>10){
+    if(trimmed_password.length>10){
       showAlert("Warning", "Password cannot be more than 10 characters!");
       return false;
     }
     
-    if (!passwordRegex.test(trimmed_password)){
+    if(!passwordRegex.test(trimmed_password)){
       showAlert("Warning", "Password can only contain letters, numbers, and special characters!");
       return false;
     }
     
-    if (trimmed_password !== trimmed_confirm_password){
+    if(trimmed_password !== trimmed_confirm_password){
       showAlert("Warning", "Password and confirm password must match!");
       return false;
     }
     return true;
   }
 
-  const handleSubmit = async(e) =>{
+  const handleSubmit = async(e) => {
     e.preventDefault();
     if(clientSideValidation()){
       try{
         const response = await fetch(`http://localhost:5000/api/admin/adminsignup`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json" 
+          },
           body: JSON.stringify({
             email: credentials.email.trim().toLowerCase(), 
             username: credentials.username.trim(),
@@ -141,14 +151,6 @@ export default function AdminSignup() {
     }
   }
 
-  const addBorderHighlight = (type)=> {
-    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
-  }
-  
-  const removeBorderHighlight = (type)=> {
-    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
-  }
-
   return (
     <div className="content">
       <div className="auth-form-box">
@@ -158,14 +160,14 @@ export default function AdminSignup() {
             <label htmlFor="email"><b>Email</b></label>
             <div className="input-bar" id="email-input-bar">
               <input type="email" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
-              <img src="/close.png" alt="close button image" onClick={() => {clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
             </div>
           </div>
           <div className="mb-1">
             <label htmlFor="username"><b>Username</b></label>
             <div className="input-bar" id="username-input-bar">
               <input type="text" id="username" name="username" placeholder="Enter username" value={credentials.username} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("username")}} onBlur={()=>{removeBorderHighlight("username")}}/>
-              <img src="/close.png" alt="close button image" onClick={() => {clearInput("username")}} style={{opacity: `${credentials.username===""?0:1}`}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("username")}} style={{opacity: `${credentials.username===""?0:1}`}}/>
             </div>
           </div>          
           <div className="mb-1">
@@ -175,7 +177,7 @@ export default function AdminSignup() {
             </div>
             <div className="input-bar" id="password-input-bar">
               <input type={`${passwordType}`} id="password" name="password" placeholder="Enter password" value={credentials.password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
-              <img src="/close.png" alt="close button image" onClick={() => {clearInput("password")}} style={{opacity: `${credentials.password===""?0:1}`}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("password")}} style={{opacity: `${credentials.password===""?0:1}`}}/>
             </div>
           </div>
           <div style={{marginBottom: "28px"}}>
@@ -185,7 +187,7 @@ export default function AdminSignup() {
             </div>
             <div className="input-bar" id="confirm-password-input-bar">
               <input type={`${confirmPasswordType}`} id="confirm_password" name="confirm_password" placeholder="Enter confirm password" value={credentials.confirm_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("confirm-password")}} onBlur={()=>{removeBorderHighlight("confirm-password")}}/>
-              <img src="/close.png" alt="close button image" onClick={() => {clearInput("confirm_password")}} style={{opacity: `${credentials.confirm_password===""?0:1}`}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("confirm_password")}} style={{opacity: `${credentials.confirm_password===""?0:1}`}}/>
             </div>
           </div>
           <div className="flex flex-col justify-center">
@@ -195,5 +197,5 @@ export default function AdminSignup() {
         </form>
       </div>
     </div>
-  )
+  );
 }

@@ -18,7 +18,7 @@ export default function UseTemplate() {
 
     const [templateInfo, setTemplateInfo] = useState([]);
 
-    const fetchTemplateInfo = async()=> {
+    const fetchTemplateInfo = async() => {
         try{
             const response = await fetch(`http://localhost:5000/api/template/fetchtemplatetouse`, {
                 method: "GET",
@@ -56,7 +56,7 @@ export default function UseTemplate() {
     return (
         <>  
             {
-                templateInfo.length!==0?
+                templateInfo.length !==0 ?
                     <>
                         <BottomNavbar/>
                         <LeftNavbar title={templateInfo.template_title} tag={templateInfo.template_tag}/>
@@ -69,5 +69,5 @@ export default function UseTemplate() {
                     </>
             }
         </>
-    )
+    );
 }

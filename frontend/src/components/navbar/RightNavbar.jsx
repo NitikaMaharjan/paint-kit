@@ -31,9 +31,9 @@ export default function RightNavbar(props) {
         colors: ""
     });
 
-    const handleSignOut = async()=> {
+    const handleSignOut = async() => {
         let ans = await showConfirm("Sign out");
-        if (ans){
+        if(ans){
             localStorage.removeItem("userSignedIn");
             localStorage.removeItem("userAuthToken");
             localStorage.removeItem("user_token");
@@ -47,62 +47,62 @@ export default function RightNavbar(props) {
 
     const handleCapitalizeFirstLetter = (text) => {
         let words = text.split(" ");
-        for (let i=0; i<words.length; i++){
+        for (let i=0; i<words.length; i++) {
             words[i] = words[i].charAt(0).toUpperCase()+words[i].substring(1).toLowerCase();
         }
         text = (words.join(" "));
         return text.length>18?text.slice(0,18)+"...":text;
     }
 
-    const handleMouseOver = ()=> {
+    const handleMouseOver = () => {
         document.getElementById("user-info").style.backgroundColor="rgba(0, 0, 0, 0.1)";
     }
     
-    const handleMouseOut = ()=> {
+    const handleMouseOut = () => {
         document.getElementById("user-info").style.backgroundColor="transparent";
     }
 
-    const handleInputPenColor = (e)=> {
+    const handleInputPenColor = (e) => {
         setInputPenColor(e.target.value);
     }
     
-    const handleInputTextColor = (e)=> {
+    const handleInputTextColor = (e) => {
         setInputTextColor(e.target.value);
     }
     
-    const handleInputTextSize = (e)=> {
+    const handleInputTextSize = (e) => {
         setInputTextSize(e.target.value);
     }
     
-    const handleInputTextFont = (e)=> {
+    const handleInputTextFont = (e) => {
         setInputTextFont(e.target.value);
     }
     
-    const handleInputText = (e)=> {
+    const handleInputText = (e) => {
         setInputText(e.target.value);
     }
 
-    const handleDiscardChanges = async()=> {
+    const handleDiscardChanges = async() => {
         let ans = await showConfirm("Discard changes");
-        if (ans){
+        if(ans){
             navigate("/userviewdrawing");
         }
     }
 
-    const handleImageUpload = (imageUrl)=> {
+    const handleImageUpload = (imageUrl) => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d", { willReadFrequently: true });
         undoStack.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
         const img = new Image();
         img.src = imageUrl;
 
-        img.onload = ()=> {
+        img.onload = () => {
             const imgAspect = img.width / img.height;
             const canvasAspect = canvas.width / canvas.height;
 
             let drawWidth, drawHeight;
 
-            if (imgAspect>canvasAspect){
+            if(imgAspect>canvasAspect){
                 drawWidth = canvas.width;
                 drawHeight = canvas.width / imgAspect;
             }else{
@@ -120,7 +120,7 @@ export default function RightNavbar(props) {
             showAlert("Success", "Uploaded image loaded successfully!");
         }
 
-        img.onerror = ()=> {
+        img.onerror = () => {
             showAlert("Error", "Failed to load image. Please try again!");
         }
     }
@@ -179,7 +179,7 @@ export default function RightNavbar(props) {
                     <input type="color" value={inputPenColor} onChange={handleInputPenColor} style={{height: "32px", width: "32px", cursor: "pointer"}}/>
                 </div>
                 {   
-                    useColorPalette.color_palette_name!=="" && useColorPalette.colors.length!==0?
+                    useColorPalette.color_palette_name!=="" && useColorPalette.colors.length!==0 ?
                         <div className="color-palette-item">
                             <div style={{padding: "12px 12px 4px 12px"}}>
                                 <p title={useColorPalette.color_palette_name} style={{fontSize: "13px"}}>{useColorPalette.color_palette_name}</p>
@@ -191,8 +191,7 @@ export default function RightNavbar(props) {
                             </div>
                         </div>
                     :
-                        <>
-                        </>
+                        <div></div>
                 }
                 <div style={{paddingTop: "18px"}}>
                     <p>Pick text color:</p>
@@ -210,16 +209,16 @@ export default function RightNavbar(props) {
                     <p>Text:</p>
                     <input type="text" value={inputText} onChange={handleInputText} style={{cursor: "pointer"}}/>
                 </div>
-                <button className="confirm-btn" onClick={()=>{setShowImageUploadFormModal(true)}}>Upload image</button>
                 <Link className="confirm-btn" to="/viewtemplate">View template</Link>
+                <button className="confirm-btn" onClick={()=>{setShowImageUploadFormModal(true)}}>Upload image</button>
+                <Link className="confirm-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>
                 <button className="confirm-btn" onClick={()=>{setShowDrawingInfoFormModal(true)}}>Save drawing</button>
                 <Link className="confirm-btn" to="/userviewdrawing">View your drawing</Link>
-                <Link className="confirm-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>
                 {
-                    props.edit===true?
+                    props.edit===true ?
                     <button className="confirm-btn" onClick={handleDiscardChanges}>Discard changes</button>
                     :
-                    <></>
+                    <div></div>
                 }
                 <div>
                     <button className="dropdown-btn" onClick={()=>{setShowExportDropDown(!showExportDropDown)}}>Export <img src="/down-arrow.png" style={{height: "14px", width: "14px"}}/></button>
@@ -235,6 +234,7 @@ export default function RightNavbar(props) {
                 <UserViewColorPalette setUseColorPalette={setUseColorPalette}/>
                 <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button>
             </div>
+            
             {
                 showCreateColorPaletteModal
                 &&
@@ -247,6 +247,7 @@ export default function RightNavbar(props) {
                     </div>
                 </div>
             }
+
             {
                 showDrawingInfoFormModal
                 &&
@@ -259,6 +260,7 @@ export default function RightNavbar(props) {
                     </div>
                 </div>
             }
+
             {
                 showImageUploadFormModal
                 &&
@@ -272,5 +274,5 @@ export default function RightNavbar(props) {
                 </div>
             }
         </>
-    )
+    );
 }

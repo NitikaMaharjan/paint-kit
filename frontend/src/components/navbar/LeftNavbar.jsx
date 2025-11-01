@@ -79,5 +79,5 @@ export default function LeftNavbar(props) {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -32,7 +32,7 @@ export default function SignedInUserDetailsState(props) {
         }
     }
 
-    return(
+    return (
         <SignedInUserDetailsContext.Provider value={{ fetchSignedInUserDetails }}>
             {props.children}
         </SignedInUserDetailsContext.Provider>

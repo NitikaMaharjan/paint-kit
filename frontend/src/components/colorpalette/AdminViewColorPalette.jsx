@@ -15,7 +15,7 @@ export default function AdminViewColorPalette() {
   });
   
   useEffect(() => {
-    if (localStorage.getItem("adminSignedIn")){
+    if(localStorage.getItem("adminSignedIn")){
       adminFetchColorPalette();
     }
     // eslint-disable-next-line
@@ -24,17 +24,18 @@ export default function AdminViewColorPalette() {
   return (
     <>
       {
-        adminColorPaletteDetails.length === 0 ?
+        adminColorPaletteDetails.length !== 0 ?
           <div>
-            no color palettes
-          </div>
-        :
-          <div>
-            {(adminColorPaletteDetails).map((colorpalette)=>{
+            {adminColorPaletteDetails.map((colorpalette)=>{
                   return <AdminColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setShowEditColorPaletteModal={setShowEditColorPaletteModal} setSelectedColorPalette={setSelectedColorPalette}/>
               }).reverse()}
           </div>
+        :
+          <div>
+            no color palettes
+          </div>
       }
+
       {
         showEditColorPaletteModal
         &&
@@ -48,5 +49,5 @@ export default function AdminViewColorPalette() {
         </div>
       }
     </>
-  )
+  );
 }

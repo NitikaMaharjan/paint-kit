@@ -28,7 +28,7 @@ export default function UserViewDrawing() {
   return (
     <>
       {
-        fetchedDrawings.length!==0?
+        fetchedDrawings.length !==0 ?
           <div>
             {fetchedDrawings.map((drawingInfo, index)=>{
               return <DrawingItem key={index} drawingInfo={drawingInfo}/>
@@ -40,5 +40,5 @@ export default function UserViewDrawing() {
           </div>
       }
     </>
-  )
+  );
 }

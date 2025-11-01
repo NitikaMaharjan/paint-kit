@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import AlertContext from "../../context/alert/AlertContext";
 
 export default function ColorPaletteNameForm(props) {
@@ -16,20 +16,20 @@ export default function ColorPaletteNameForm(props) {
 
     const clearInput = (input_field) => {
         setInputValue({...inputValue, [input_field]: ""});
-        if (input_field==="color_name"){
+        if(input_field==="color_name"){
             removeBorderHighlight("color-name");
         }
     }
     
-    const addBorderHighlight = (type)=> {
+    const addBorderHighlight = (type) => {
         document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
     }
     
-    const removeBorderHighlight = (type)=> {
+    const removeBorderHighlight = (type) => {
         document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
     }
 
-    const validateInputValue = ()=> {
+    const validateInputValue = () => {
         const colorPaletteNameRegex = /^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/;
 
         let trimmed_color_palette_name = inputValue.color_palette_name.trim();
@@ -44,47 +44,48 @@ export default function ColorPaletteNameForm(props) {
             return false;
         }
         
-        if (trimmed_color_palette_name==="" || colors.length===0){
+        if(trimmed_color_palette_name==="" || colors.length===0){
             showAlert("Warning", "Please enter the input data to create the color palette!");
             return false;
         }
         
-        if (!colorPaletteNameRegex.test(trimmed_color_palette_name)){
+        if(!colorPaletteNameRegex.test(trimmed_color_palette_name)){
             showAlert("Warning", "Color palette name can only contain letters, numbers and single consecutive space!");
             return false;
         }
         
-        if (trimmed_color_palette_name.length<3){
+        if(trimmed_color_palette_name.length<3){
             showAlert("Warning", "Color palette name must be atleast 3 characters!");
             return false;
         }
         
-        if (trimmed_color_palette_name.length>25){
+        if(trimmed_color_palette_name.length>25){
             showAlert("Warning", "Color palette name cannot be more than 25 characters!");
             return false;
         }
 
-        if (colors.length<1){
+        if(colors.length<1){
             showAlert("Warning", "There must be at least 1 color in the color palette!");
             return false;
         }
-
         return true;
     }
 
-    const handleSubmit = async(e)=>{
+    const handleSubmit = async(e) => {
         e.preventDefault();
         if(validateInputValue()){
             try{
                 const response = await fetch(`http://localhost:5000/api/colorpalette/savecolorpalette`, {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: { 
+                        "Content-Type": "application/json" 
+                    },
                     body: JSON.stringify({
-                            by_admin: localStorage.getItem("adminSignedIn")?true:false,
-                            user_id: localStorage.getItem("adminSignedIn")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),
-                            color_palette_name: inputValue.color_palette_name.trim(),
-                            colors: colors
-                        })
+                        by_admin: localStorage.getItem("adminSignedIn")?true:false,
+                        user_id: localStorage.getItem("adminSignedIn")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),
+                        color_palette_name: inputValue.color_palette_name.trim(),
+                        colors: colors
+                    })
                 });
                 const json = await response.json();
         
@@ -118,11 +119,11 @@ export default function ColorPaletteNameForm(props) {
                     <label htmlFor="color_palette_name"><b>Color palette name</b></label>
                     <div className="input-bar" id="color-palette-input-bar" style={{width: "240px"}}>
                         <input type="text" id="color_palette_name" name="color_palette_name" placeholder="Enter color palette name" value={inputValue.color_palette_name} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("color-palette")}} onBlur={()=>{removeBorderHighlight("color-palette")}}/>
-                        <img src="/close.png" alt="close button image" onClick={() => {clearInput("color_palette_name")}} style={{opacity: `${inputValue.color_palette_name===""?0:1}`}}/>
+                        <img src="/close.png" alt="close button image" onClick={()=>{clearInput("color_palette_name")}} style={{opacity: `${inputValue.color_palette_name===""?0:1}`}}/>
                     </div>
                 </div>
                 <button type="submit" className="submit-btn" onClick={handleSubmit}><b>Save color palette</b></button>
             </form>
         </div>
-    )
+    );
 }

@@ -18,7 +18,7 @@ export default function UserEditDrawing() {
 
     const [drawingInfo, setDrawingInfo] = useState([]);
 
-    const fetchUserEditDrawing = async()=> {
+    const fetchUserEditDrawing = async() => {
         try{
             const response = await fetch(`http://localhost:5000/api/drawing/fetchdrawingtoedit`, {
                 method: "GET",
@@ -56,7 +56,7 @@ export default function UserEditDrawing() {
     return (
         <>  
             {
-                drawingInfo.length!==0?
+                drawingInfo.length !==0 ?
                     <>
                         <BottomNavbar/>
                         <LeftNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag}/>
@@ -69,5 +69,5 @@ export default function UserEditDrawing() {
                     </>
             }
         </>
-    )
+    );
 }

@@ -4,15 +4,15 @@ export default function ImageUploadForm(props) {
 
     const [inputFile, setInputFile] = useState(null);
 
-    const updateImageUrl = (e)=> {
+    const updateImageUrl = (e) => {
         const file = e.target.files[0];
-        if (file){
+        if(file){
             const fileURL = URL.createObjectURL(file);
             setInputFile(fileURL);
         }
     }
 
-    const handleImageUpload = (e)=> {
+    const handleImageUpload = (e) => {
         e.preventDefault();
         props.handleImageUpload(inputFile);
         props.setShowImageUploadFormModal(false);
@@ -31,5 +31,5 @@ export default function ImageUploadForm(props) {
                 <button type="submit" className="submit-btn" onClick={handleImageUpload}><b>Upload Image</b></button>
             </form>
         </div>
-    )
+    );
 }

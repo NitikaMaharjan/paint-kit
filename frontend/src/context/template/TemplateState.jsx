@@ -25,7 +25,7 @@ export default function TemplateState(props) {
         }
     }
 
-    return(
+    return (
         <TemplateContext.Provider value={{ fetchTemplate, fetchedTemplates }}>
             {props.children}
         </TemplateContext.Provider>

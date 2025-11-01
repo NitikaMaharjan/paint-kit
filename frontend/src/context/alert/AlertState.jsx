@@ -17,7 +17,7 @@ export default function AlertState(props) {
         }, 1500);
     }
 
-    return(
+    return (
         <>
             <AlertContext.Provider value={{ showAlert }}>
                 {props.children}

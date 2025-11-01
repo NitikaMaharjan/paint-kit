@@ -30,7 +30,7 @@ export default function ProgressState(props) {
         setProgress(100);
     };
 
-    return(
+    return (
         <>
             <ProgressBarContext.Provider value={{ showProgress }}>
                 {props.children}

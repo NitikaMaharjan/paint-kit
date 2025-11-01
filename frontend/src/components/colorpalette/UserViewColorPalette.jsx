@@ -36,30 +36,31 @@ export default function UserViewColorPalette(props) {
           </div>
         </div>
         {
-          showColorPalette === "community"?
-            adminColorPaletteDetails.length === 0 ?
-              <div>
-                no color palettes
-              </div>
-            :
+          showColorPalette === "community" ?
+            adminColorPaletteDetails.length !== 0 ?
               <div>
                 {(adminColorPaletteDetails).map((colorpalette)=>{
                   return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setUseColorPalette={props.setUseColorPalette}/>
                 }).reverse()}
               </div>
-          :
-            userColorPaletteDetails.length === 0 ?
+            :
               <div>
                 no color palettes
               </div>
-            :
+          :
+            userColorPaletteDetails.length !== 0 ?
               <div>
                 {(userColorPaletteDetails).map((colorpalette)=>{
                   return <UserColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setShowEditColorPaletteModal={setShowEditColorPaletteModal} setSelectedColorPalette={setSelectedColorPalette} setUseColorPalette={props.setUseColorPalette}/>
-                  }).reverse()}
+                }).reverse()}
+              </div>
+            :
+              <div>
+                no color palettes
               </div>
         }
       </div>
+      
       {
         showEditColorPaletteModal
         &&
@@ -73,5 +74,5 @@ export default function UserViewColorPalette(props) {
         </div>
       }
     </>
-  )
+  );
 }

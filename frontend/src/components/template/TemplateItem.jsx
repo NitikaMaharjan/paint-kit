@@ -21,9 +21,9 @@ export default function DrawingItem(props) {
     image_url: ""
   });
 
-  const handleTemplateDelete = async(id)=> {
+  const handleTemplateDelete = async(id) => {
     let ans = await showConfirm("Delete template");
-    if (ans){
+    if(ans){
       try{
         const response = await fetch(`http://localhost:5000/api/template/deletetemplate`, {
           method: "DELETE",
@@ -48,23 +48,25 @@ export default function DrawingItem(props) {
 
   return (
     <>
-      {localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token")?
-        <div>
-          <button className="confirm-btn" onClick={()=>{setSelectedTemplate({template_id: _id, template_title: template_title, template_tag: template_tag, image_url: image_url}); setShowEditTemplateModal(true);}}>Edit</button>
-          <button className="confirm-btn" onClick={()=>{handleTemplateDelete(_id)}}>Delete</button>
-          <h1>{template_title}</h1>
-          <p>{template_tag}</p>
-          <p>{date}</p>
-          <img src={image_url} style={{height: "120px", width: "200px"}}/>
-        </div>
-      :
-        <div>
-          <Link className="confirm-btn" to={`/usetemplate/${_id}`}>Use</Link>
-          <h1>{template_title}</h1>
-          <p>{template_tag}</p>
-          <img src={image_url} style={{height: "120px", width: "200px"}}/>
-        </div>
+      {
+        localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token") ?
+          <div>
+            <button className="confirm-btn" onClick={()=>{setSelectedTemplate({template_id: _id, template_title: template_title, template_tag: template_tag, image_url: image_url}); setShowEditTemplateModal(true);}}>Edit</button>
+            <button className="confirm-btn" onClick={()=>{handleTemplateDelete(_id)}}>Delete</button>
+            <h1>{template_title}</h1>
+            <p>{template_tag}</p>
+            <p>{date}</p>
+            <img src={image_url} style={{height: "120px", width: "200px"}}/>
+          </div>
+        :
+          <div>
+            <Link className="confirm-btn" to={`/usetemplate/${_id}`}>Use</Link>
+            <h1>{template_title}</h1>
+            <p>{template_tag}</p>
+            <img src={image_url} style={{height: "120px", width: "200px"}}/>
+          </div>
       }
+
       {
         showEditTemplateModal
         &&
@@ -78,5 +80,5 @@ export default function DrawingItem(props) {
         </div>
       }
     </>
-  )
+  );
 }

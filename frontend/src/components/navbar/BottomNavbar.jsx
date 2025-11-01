@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react"
-import DrawContext from "../../context/draw/DrawContext"
+import { useContext, useEffect, useState } from "react";
+import DrawContext from "../../context/draw/DrawContext";
 
 export default function BottomNavbar() {
     
@@ -9,15 +9,15 @@ export default function BottomNavbar() {
     const [inputEraserStrokeWidth, setInputEraserStrokeWidth] = useState(4);
     const [inputColorOpacity, setInputColorOpacity] = useState(255);
 
-    const handlePenStrokeWidthChange = (e)=> {
+    const handlePenStrokeWidthChange = (e) => {
         setInputPenStrokeWidth(e.target.value);
     }
     
-    const handleEraserStrokeWidthChange = (e)=> {
+    const handleEraserStrokeWidthChange = (e) => {
         setInputEraserStrokeWidth(e.target.value);
     }
     
-    const handleColorOpacityChange = (e)=> {
+    const handleColorOpacityChange = (e) => {
         setInputColorOpacity(e.target.value);
     }
 
@@ -47,5 +47,5 @@ export default function BottomNavbar() {
                 <input type="range" id="color_opacity" name="color_opacity" min="0" max="255" value={inputColorOpacity} onChange={handleColorOpacityChange}/>
             </div>
         </div>
-    )
+    );
 }

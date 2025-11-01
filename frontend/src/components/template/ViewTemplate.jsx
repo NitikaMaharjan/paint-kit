@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import TemplateContext from "../../context/template/TemplateContext";
 import TemplateItem from "./TemplateItem";
-import { useNavigate } from "react-router-dom";
 
 export default function ViewTemplate() {
 
@@ -28,7 +28,7 @@ export default function ViewTemplate() {
   return (
     <>
       {
-        fetchedTemplates.length!==0?
+        fetchedTemplates.length !==0 ?
           <div>
             {fetchedTemplates.map((templateInfo, index)=>{
               return <TemplateItem key={index} templateInfo={templateInfo}/>
@@ -40,5 +40,5 @@ export default function ViewTemplate() {
           </div>
       }
     </>
-  )
+  );
 }

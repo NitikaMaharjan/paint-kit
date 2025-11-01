@@ -80,7 +80,7 @@ export default function ColorPaletteDetailsState(props) {
         }
     }
 
-    return(
+    return (
         <ColorPaletteDetailsContext.Provider value={{ userColorPaletteDetails, userFetchUserColorPalette, adminColorPaletteDetails, adminFetchColorPalette, handleDeleteColorPalette }}>
             {props.children}
         </ColorPaletteDetailsContext.Provider>

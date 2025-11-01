@@ -30,7 +30,7 @@ export default function ConfirmState(props) {
         setConfirm(false);
     }
 
-    return(
+    return (
         <>
             <ConfirmContext.Provider value={{ showConfirm }}>
                 {props.children}

@@ -12,9 +12,9 @@ export default function DrawingItem(props) {
   const { showConfirm } = useContext(ConfirmContext);
   const { fetchUserDrawing } = useContext(DrawContext);
 
-  const handleDrawingDelete = async(id)=> {
+  const handleDrawingDelete = async(id) => {
     let ans = await showConfirm("Delete drawing");
-    if (ans){
+    if(ans){
       try{
         const response = await fetch(`http://localhost:5000/api/drawing/deletedrawing`, {
           method: "DELETE",
@@ -46,5 +46,5 @@ export default function DrawingItem(props) {
       <p>{date}</p>
       <img src={drawing_url} style={{height: "120px", width: "200px"}}/>
     </div>
-  )
+  );
 }

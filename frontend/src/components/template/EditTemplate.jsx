@@ -16,7 +16,7 @@ export default function AddTemplate(props) {
   });
   const [inputFile, setInputFile] = useState(null);
 
-  const updateInputValue = (e)=> {
+  const updateInputValue = (e) => {
     setInputValue({...inputValue, [e.target.name]: e.target.value.trimStart()});
   }
 
@@ -24,12 +24,20 @@ export default function AddTemplate(props) {
     setInputValue({...inputValue, [input_field]: ""});
   }
 
-  const updateImageUrl = (e)=> {
+  const addBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
+  }
+  
+  const removeBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
+  }
+
+  const updateImageUrl = (e) => {
     const file = e.target.files[0];
     setInputFile(file.name);
   }
 
-  const validateInputValue = ()=> {
+  const validateInputValue = () => {
     const textRegex = /^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/;
 
     let template_title = inputValue.template_title.trim();
@@ -45,51 +53,52 @@ export default function AddTemplate(props) {
       return false;
     }
     
-    if (template_title==="" || template_tag===""){
+    if(template_title==="" || template_tag===""){
       showAlert("Warning", "Please enter the input data to save the template!");
       return false;
     }
 
-    if (template_title.length<3){
+    if(template_title.length<3){
       showAlert("Warning", "Title must be atleast 3 characters!");
       return false;
     }
         
-    if (template_title.length>25){
+    if(template_title.length>25){
       showAlert("Warning", "Title cannot be more than 25 characters!");
       return false;
     }
 
-    if (!textRegex.test(template_title)){
+    if(!textRegex.test(template_title)){
       showAlert("Warning", "Title can only contain letters, numbers and single consecutive space!");
       return false;
     }
     
-    if (template_tag.length<3){
+    if(template_tag.length<3){
       showAlert("Warning", "Tag must be atleast 3 characters!");
       return false;
     }
         
-    if (template_tag.length>20){
+    if(template_tag.length>20){
       showAlert("Warning", "Tag cannot be more than 20 characters!");
       return false;
     }
 
-    if (!textRegex.test(template_tag)){
+    if(!textRegex.test(template_tag)){
       showAlert("Warning", "Tag can only contain letters, numbers and single consecutive space!");
       return false;
     }
-
     return true;
   }
   
-  const handleUpdateTemplate = async(e)=> {
+  const handleUpdateTemplate = async(e) => {
     e.preventDefault();
-    if (validateInputValue()){
+    if(validateInputValue()){
       try{
         const response = await fetch(`http://localhost:5000/api/template/edittemplate/${props.selectedTemplate.template_id}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json" 
+          },
           body: JSON.stringify({
             user_id: localStorage.getItem("admin_id"),
             template_title: inputValue.template_title.trim(),
@@ -118,14 +127,6 @@ export default function AddTemplate(props) {
     }
   }
 
-  const addBorderHighlight = (type)=> {
-    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
-  }
-  
-  const removeBorderHighlight = (type)=> {
-    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
-  }
-
   return (
     <div className="auth-form-box">
       <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Edit template</b></h1>
@@ -134,14 +135,14 @@ export default function AddTemplate(props) {
           <label htmlFor="template_title"><b>Title</b></label>
           <div className="input-bar" id="template-title-input-bar">
             <input type="text" id="template_title" name="template_title" placeholder="Enter title" value={inputValue.template_title} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("template-title")}} onBlur={()=>{removeBorderHighlight("template-title")}}/>
-            <img src="/close.png" alt="close button image" onClick={() => {clearInput("template_title")}} style={{opacity: `${inputValue.template_title===""?0:1}`}}/>
+            <img src="/close.png" alt="close button image" onClick={()=>{clearInput("template_title")}} style={{opacity: `${inputValue.template_title===""?0:1}`}}/>
           </div>
         </div>          
         <div className="mb-1">
           <label htmlFor="template_tag"><b>Tag</b></label>
           <div className="input-bar" id="template-tag-input-bar">
             <input type="text" id="template_tag" name="template_tag" placeholder="Enter tag" value={inputValue.template_tag} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("template-tag")}} onBlur={()=>{removeBorderHighlight("template-tag")}}/>
-            <img src="/close.png" alt="close button image" onClick={() => {clearInput("template_tag")}} style={{opacity: `${inputValue.template_tag===""?0:1}`}}/>
+            <img src="/close.png" alt="close button image" onClick={()=>{clearInput("template_tag")}} style={{opacity: `${inputValue.template_tag===""?0:1}`}}/>
           </div>
         </div>
         <div style={{marginBottom: "28px"}}>
@@ -154,5 +155,5 @@ export default function AddTemplate(props) {
         <button type="submit" className="submit-btn" onClick={handleUpdateTemplate}><b>Update template</b></button>
       </form>
     </div>
-  )
+  );
 }

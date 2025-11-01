@@ -10,13 +10,13 @@ export default function AdminSignin() {
   const { showAlert } = useContext(AlertContext);
   const { fetchSignedInAdminDetails } = useContext(SignedInAdminDetailsContext);
   
-  const [passwordType, setPasswordType] = useState("password");
   const [credentials, setCredentials] = useState({
     email: "",
     password: ""
   })
+  const [passwordType, setPasswordType] = useState("password");
 
-  const updateInputValue = (e)=> {
+  const updateInputValue = (e) => {
     setCredentials({...credentials, [e.target.name]: e.target.value.trim()});
   }
 
@@ -24,11 +24,19 @@ export default function AdminSignin() {
     setCredentials({...credentials, [input_field]: ""});
   }
 
-  const changePasswordType = ()=> {
+  const changePasswordType = () => {
     passwordType==="password"?setPasswordType("text"):setPasswordType("password");
   }
 
-  const clientSideValidation = ()=> {
+  const addBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
+  }
+  
+  const removeBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
+  }
+
+  const clientSideValidation = () => {
     let email = credentials.email;
     let password = credentials.password;
 
@@ -42,7 +50,7 @@ export default function AdminSignin() {
       return false;
     }
     
-    if (email==="" || password===""){
+    if(email==="" || password===""){
       showAlert("Warning", "Please enter your credentials to sign in!");
       return false;
     }
@@ -54,13 +62,15 @@ export default function AdminSignin() {
     return true;
   }
 
-  const handleSubmit = async(e) =>{
+  const handleSubmit = async(e) => {
     e.preventDefault();
     if(clientSideValidation()){
       try{
         const response = await fetch(`http://localhost:5000/api/admin/adminsignin`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json" 
+          },
           body: JSON.stringify({
             email: credentials.email,
             password: credentials.password
@@ -90,14 +100,6 @@ export default function AdminSignin() {
     }
   }
 
-  const addBorderHighlight = (type)=> {
-    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
-  }
-  
-  const removeBorderHighlight = (type)=> {
-    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
-  }
-
   return (
     <div className="content">
       <div className="auth-form-box">
@@ -107,7 +109,7 @@ export default function AdminSignin() {
             <label htmlFor="email"><b>Email</b></label>
             <div className="input-bar" id="email-input-bar">
               <input type="email" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
-              <img src="/close.png" alt="close button image" onClick={() => {clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
             </div>
           </div>          
           <div style={{marginBottom: "28px"}}>
@@ -117,7 +119,7 @@ export default function AdminSignin() {
             </div>
             <div className="input-bar" id="password-input-bar">
               <input type={`${passwordType}`} id="password" name="password" placeholder="Enter password" value={credentials.password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
-              <img src="/close.png" alt="close button image" onClick={() => {clearInput("password")}} style={{opacity: `${credentials.password===""?0:1}`}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("password")}} style={{opacity: `${credentials.password===""?0:1}`}}/>
             </div>
           </div>
           <div className="flex flex-col justify-center">
@@ -127,5 +129,5 @@ export default function AdminSignin() {
         </form>
       </div>
     </div>
-  )
+  );
 }

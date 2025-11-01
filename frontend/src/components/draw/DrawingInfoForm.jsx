@@ -15,7 +15,7 @@ export default function DrawingInfoForm(props) {
     drawing_tag: props.tag
   });
 
-  const updateInputValue = (e)=> {
+  const updateInputValue = (e) => {
     setInputValue({...inputValue, [e.target.name]: e.target.value.trimStart()});
   }
 
@@ -23,7 +23,15 @@ export default function DrawingInfoForm(props) {
     setInputValue({...inputValue, [input_field]: ""});
   }
 
-  const validateInputValue = ()=> {
+  const addBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
+  }
+  
+  const removeBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
+  }
+
+  const validateInputValue = () => {
     const textRegex = /^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/;
 
     let drawing_title = inputValue.drawing_title.trim();
@@ -39,53 +47,54 @@ export default function DrawingInfoForm(props) {
       return false;
     }
     
-    if (drawing_title==="" || drawing_tag===""){
+    if(drawing_title==="" || drawing_tag===""){
       showAlert("Warning", "Please enter the input data to save the drawing!");
       return false;
     }
 
-    if (drawing_title.length<3){
+    if(drawing_title.length<3){
       showAlert("Warning", "Title must be atleast 3 characters!");
       return false;
     }
         
-    if (drawing_title.length>25){
+    if(drawing_title.length>25){
       showAlert("Warning", "Title cannot be more than 25 characters!");
       return false;
     }
 
-    if (!textRegex.test(drawing_title)){
+    if(!textRegex.test(drawing_title)){
       showAlert("Warning", "Title can only contain letters, numbers and single consecutive space!");
       return false;
     }
     
-    if (drawing_tag.length<3){
+    if(drawing_tag.length<3){
       showAlert("Warning", "Tag must be atleast 3 characters!");
       return false;
     }
         
-    if (drawing_tag.length>20){
+    if(drawing_tag.length>20){
       showAlert("Warning", "Tag cannot be more than 20 characters!");
       return false;
     }
 
-    if (!textRegex.test(drawing_tag)){
+    if(!textRegex.test(drawing_tag)){
       showAlert("Warning", "Tag can only contain letters, numbers and single consecutive space!");
       return false;
     }
-
     return true;
   }
   
-  const handleSaveDrawing = async(e)=> {
+  const handleSaveDrawing = async(e) => {
     e.preventDefault();
     const canvas = canvasRef.current;
     const drawingURL = canvas.toDataURL("image/png");
-    if (validateInputValue()){
+    if(validateInputValue()){
       try{
         const response = await fetch(`http://localhost:5000/api/drawing/savedrawing`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { 
+            "Content-Type": "application/json" 
+          },
           body: JSON.stringify({
             user_id: localStorage.getItem("user_id"),
             drawing_title: inputValue.drawing_title.trim(),
@@ -96,7 +105,7 @@ export default function DrawingInfoForm(props) {
         const json = await response.json();
 
         if(json.success){
-          if (props.edit===true){
+          if(props.edit===true){
             handleEditedDrawingDelete();
             showAlert("Success", "Your drawing looks awesome. It has been updated successfully!");
           }else{
@@ -117,22 +126,14 @@ export default function DrawingInfoForm(props) {
     }
   }
 
-  const addBorderHighlight = (type)=> {
-    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
-  }
-  
-  const removeBorderHighlight = (type)=> {
-    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
-  }
-
-  const handleEditedDrawingDelete = async()=> {
+  const handleEditedDrawingDelete = async() => {
     try{
       const response = await fetch(`http://localhost:5000/api/drawing/deletedrawing`, {
-      method: "DELETE",
-      headers: {
+        method: "DELETE",
+        headers: {
           "Content-Type": "application/json",
           "_id": props.drawingid
-      }
+        }
       });
       const json = await response.json();
 
@@ -152,18 +153,18 @@ export default function DrawingInfoForm(props) {
           <label htmlFor="drawing_title"><b>Title</b></label>
           <div className="input-bar" id="drawing-title-input-bar">
             <input type="text" id="drawing_title" name="drawing_title" placeholder="Enter title" value={inputValue.drawing_title} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("drawing-title")}} onBlur={()=>{removeBorderHighlight("drawing-title")}}/>
-            <img src="/close.png" alt="close button image" onClick={() => {clearInput("drawing_title")}} style={{opacity: `${inputValue.drawing_title===""?0:1}`}}/>
+            <img src="/close.png" alt="close button image" onClick={()=>{clearInput("drawing_title")}} style={{opacity: `${inputValue.drawing_title===""?0:1}`}}/>
           </div>
         </div>          
         <div style={{marginBottom: "28px"}}>
           <label htmlFor="drawing_tag"><b>Tag</b></label>
           <div className="input-bar" id="drawing-tag-input-bar">
             <input type="text" id="drawing_tag" name="drawing_tag" placeholder="Enter tag" value={inputValue.drawing_tag} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("drawing-tag")}} onBlur={()=>{removeBorderHighlight("drawing-tag")}}/>
-            <img src="/close.png" alt="close button image" onClick={() => {clearInput("drawing_tag")}} style={{opacity: `${inputValue.drawing_tag===""?0:1}`}}/>
+            <img src="/close.png" alt="close button image" onClick={()=>{clearInput("drawing_tag")}} style={{opacity: `${inputValue.drawing_tag===""?0:1}`}}/>
           </div>
         </div>
         <button type="submit" className="submit-btn" onClick={handleSaveDrawing}><b>Save drawing</b></button>
       </form>
     </div>
-  )
+  );
 }

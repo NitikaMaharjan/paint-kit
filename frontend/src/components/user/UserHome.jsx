@@ -28,5 +28,5 @@ export default function UserHome() {
       <RightNavbar title="Untitled" tag="General" edit={false} drawingid=""/>
       <Canvas url=""/>
     </>
-  )
+  );
 }

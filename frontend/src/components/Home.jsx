@@ -14,5 +14,5 @@ export default function Home() {
     <div className="content">
       Hello World!
     </div>
-  )
+  );
 }

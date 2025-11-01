@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useContext } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import AlertContext from "../../context/alert/AlertContext";
@@ -8,24 +8,24 @@ export default function GenerateColorPalette() {
 
   let navigate = useNavigate();
 
+  const fileInputRef = useRef(null);
+  const colorPaletteCanvasRef = useRef(null);
+  
+  const { showProgress } = useContext(ProgressBarContext);
+  const { showAlert } = useContext(AlertContext);
+
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [palette, setPalette] = useState([]);
+  const [colors, setColors] = useState([]);
+  const [showColorPaletteNameFormModal, setShowColorPaletteNameFormModal] = useState(false);
+  const [colorCopied,setColorCopied] = useState(false);
+  const [copiedColor,setCopiedColor] = useState("");
+
   const DEFAULT_K = 32;
   const MAIN_COLS = 12;
   const STEP = 3;
   const ITERS = 20;
   const MAX_SAMPLES = 60000;
-
-  const fileInputRef = useRef(null);
-  const colorPaletteCanvasRef = useRef(null);
-
-  const { showAlert } = useContext(AlertContext);
-  const { showProgress } = useContext(ProgressBarContext);
-
-  const [palette, setPalette] = useState([]);
-  const [colors, setColors] = useState([]);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [showColorPaletteNameFormModal, setShowColorPaletteNameFormModal] = useState(false);
-  const [colorCopied,setColorCopied] = useState(false);
-  const [copiedColor,setCopiedColor] = useState("");
 
   const toHex = (r, g, b) =>
     "#" +
@@ -368,7 +368,8 @@ export default function GenerateColorPalette() {
           </div>
           <div style={{height: "448px", width: "304px", padding: "12px"}}>
             <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", justifyItems: "center", gap: "12px"}}>
-              {palette.length !== 0 ?
+              {
+                palette.length !== 0 ?
                   palette.map((a_color, index)=>{
                     return  <div key={index} style={{height: "100px", width: "85px", border: "1px solid black"}}>
                               <div style={{display: "flex", justifyContent: "right", padding: "4px", height:"78px", backgroundColor: `${a_color.hex}`}} title={`${a_color.hex}`}>
@@ -378,12 +379,15 @@ export default function GenerateColorPalette() {
                             </div>
                   })
                 :
-                <div></div>
+                  <div>
+                    no colors generated
+                  </div>
               }
             </div>
           </div>
         </div>
       </div>
+
       {
         showColorPaletteNameFormModal
         &&
@@ -397,5 +401,5 @@ export default function GenerateColorPalette() {
         </div>
       }
     </>
-  )
+  );
 }
