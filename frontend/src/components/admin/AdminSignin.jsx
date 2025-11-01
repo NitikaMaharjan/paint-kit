@@ -62,7 +62,7 @@ export default function AdminSignin() {
     return true;
   }
 
-  const handleSubmit = async(e) => {
+  const handleSignIn = async(e) => {
     e.preventDefault();
     if(clientSideValidation()){
       try{
@@ -123,7 +123,7 @@ export default function AdminSignin() {
             </div>
           </div>
           <div className="flex flex-col justify-center">
-            <button type="submit" className="submit-btn" onClick={handleSubmit}><b>Sign in</b></button>
+            <button type="submit" className="submit-btn" onClick={handleSignIn}><b>Sign in</b></button>
             <p style={{marginTop: "6px",textAlign: "center",fontSize: "13px"}}>Don't have an account? <Link to="/adminsignup" style={{borderBottom: "1px solid black"}}>Sign up</Link></p>
           </div>
         </form>

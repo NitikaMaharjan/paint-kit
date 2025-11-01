@@ -494,7 +494,7 @@ export default function DrawState(props) {
     link.click();
   }
 
-  const fetchUserDrawing = async() => {
+  const fetchDrawing = async() => {
     try{
       const response = await fetch(`http://localhost:5000/api/drawing/fetchdrawing`, {
         method: "GET",
@@ -506,7 +506,7 @@ export default function DrawState(props) {
       const json = await response.json();
 
       if(json.success){
-        setFetchedDrawings(json.userDrawings);
+        setFetchedDrawings(json.fetchedDrawings);
       }else{
         showAlert("Error", json.error);
       }
@@ -516,7 +516,7 @@ export default function DrawState(props) {
   }
 
   return (
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, penColor, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchUserDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport, setTextSize, setTextFont, setText, setColorOpacity, undoStack, redoStack }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, penColor, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport, setTextSize, setTextFont, setText, setColorOpacity, undoStack, redoStack }}>
       {props.children}
     </DrawContext.Provider>
   );

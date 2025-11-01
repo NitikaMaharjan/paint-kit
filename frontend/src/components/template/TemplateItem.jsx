@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import AlertContext from "../../context/alert/AlertContext";
 import ConfirmContext from "../../context/confirm/ConfirmContext";
 import TemplateContext from "../../context/template/TemplateContext";
-import EditTemplate from "../template/EditTemplate";
+import EditTemplateForm from "../template/EditTemplateForm";
 
 export default function DrawingItem(props) {
 
@@ -13,7 +13,7 @@ export default function DrawingItem(props) {
   const { showConfirm } = useContext(ConfirmContext);
   const { fetchTemplate } = useContext(TemplateContext);
 
-  const [showEditTemplateModal,setShowEditTemplateModal] = useState(false);
+  const [showEditTemplateFormModal,setShowEditTemplateFormModal] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState({
     template_id: "",
     template_title: "",
@@ -21,7 +21,7 @@ export default function DrawingItem(props) {
     image_url: ""
   });
 
-  const handleTemplateDelete = async(id) => {
+  const handleDeleteTemplate = async(id) => {
     let ans = await showConfirm("Delete template");
     if(ans){
       try{
@@ -36,7 +36,7 @@ export default function DrawingItem(props) {
 
         if(json.success){
           showAlert("Success", "Your template has been deleted successfully!");
-          fetchTemplate();
+          await fetchTemplate();
         }else{
           showAlert("Error", json.error);
         }
@@ -51,8 +51,8 @@ export default function DrawingItem(props) {
       {
         localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token") ?
           <div>
-            <button className="confirm-btn" onClick={()=>{setSelectedTemplate({template_id: _id, template_title: template_title, template_tag: template_tag, image_url: image_url}); setShowEditTemplateModal(true);}}>Edit</button>
-            <button className="confirm-btn" onClick={()=>{handleTemplateDelete(_id)}}>Delete</button>
+            <button className="confirm-btn" onClick={()=>{setSelectedTemplate({ template_id: _id, template_title: template_title, template_tag: template_tag, image_url: image_url }); setShowEditTemplateFormModal(true);}}>Edit</button>
+            <button className="confirm-btn" onClick={()=>{handleDeleteTemplate(_id)}}>Delete</button>
             <h1>{template_title}</h1>
             <p>{template_tag}</p>
             <p>{date}</p>
@@ -68,14 +68,14 @@ export default function DrawingItem(props) {
       }
 
       {
-        showEditTemplateModal
+        showEditTemplateFormModal
         &&
         <div className="confirm-modal-background">
             <div className="flex items-center pt-8 gap-10">
-                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowEditTemplateModal(false)}}>
+                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowEditTemplateFormModal(false)}}>
                     <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
                 </div>
-                <EditTemplate selectedTemplate={selectedTemplate} setShowEditTemplateModal={setShowEditTemplateModal}/>
+                <EditTemplateForm selectedTemplate={selectedTemplate} setShowEditTemplateFormModal={setShowEditTemplateFormModal}/>
             </div>
         </div>
       }

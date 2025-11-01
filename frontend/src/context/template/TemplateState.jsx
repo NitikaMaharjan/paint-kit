@@ -16,7 +16,7 @@ export default function TemplateState(props) {
             const json = await response.json();
 
             if(json.success){
-                setFetchedTemplates(json.templates);
+                setFetchedTemplates(json.fetchedTemplates);
             }else{
                 showAlert("Error", json.error);
             }

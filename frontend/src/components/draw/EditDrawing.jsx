@@ -7,7 +7,7 @@ import RightNavbar from "../navbar/RightNavbar";
 import BottomNavbar from "../navbar/BottomNavbar";
 import Canvas from "./Canvas";
 
-export default function UserEditDrawing() {
+export default function EditDrawing() {
 
     let navigate = useNavigate();
 
@@ -18,7 +18,7 @@ export default function UserEditDrawing() {
 
     const [drawingInfo, setDrawingInfo] = useState([]);
 
-    const fetchUserEditDrawing = async() => {
+    const fetchDrawingInfo = async() => {
         try{
             const response = await fetch(`http://localhost:5000/api/drawing/fetchdrawingtoedit`, {
                 method: "GET",
@@ -30,7 +30,7 @@ export default function UserEditDrawing() {
             const json = await response.json();
 
             if(json.success){
-                setDrawingInfo(json.fetchedUserEditDrawing);
+                setDrawingInfo(json.fetchedDrawingInfo);
             }else{
                 navigate("/userhome");
             }
@@ -49,7 +49,7 @@ export default function UserEditDrawing() {
     }, []);
 
     useEffect(() => {
-        fetchUserEditDrawing();
+        fetchDrawingInfo();
         // eslint-disable-next-line
     }, []);
 

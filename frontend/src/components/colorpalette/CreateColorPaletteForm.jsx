@@ -1,13 +1,13 @@
 import { useContext, useState, useRef } from "react";
 import AlertContext from "../../context/alert/AlertContext";
-import ColorPaletteDetailsContext from "../../context/colorpalette/ColorPaletteDetailsContext";
+import ColorPaletteContext from "../../context/colorpalette/ColorPaletteContext";
 
-export default function CreateColorPalette(props) {
+export default function CreateColorPaletteForm(props) {
     
     const pickAColor = useRef(null);
 
     const { showAlert } = useContext(AlertContext);
-    const { userFetchUserColorPalette, adminFetchColorPalette } = useContext(ColorPaletteDetailsContext);
+    const { fetchUserColorPalette, fetchAdminColorPalette } = useContext(ColorPaletteContext);
 
     const [inputValue, setInputValue] = useState({
         color_palette_name: "",
@@ -135,11 +135,11 @@ export default function CreateColorPalette(props) {
         
                 if(json.success){
                     if(localStorage.getItem("adminSignedIn")){
-                        await adminFetchColorPalette();
+                        await fetchAdminColorPalette();
                     }else{
-                        await userFetchUserColorPalette();
+                        await fetchUserColorPalette();
                     }
-                    props.setShowCreateColorPaletteModal(false);
+                    props.setShowCreateColorPaletteFormModal(false);
                     showAlert("Success", "Your color palette looks awesome. It has been saved successfully!");
                 }else{
                     if(json.error){

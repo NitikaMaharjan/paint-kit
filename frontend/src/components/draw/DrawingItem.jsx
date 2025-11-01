@@ -10,9 +10,9 @@ export default function DrawingItem(props) {
 
   const { showAlert } = useContext(AlertContext);
   const { showConfirm } = useContext(ConfirmContext);
-  const { fetchUserDrawing } = useContext(DrawContext);
+  const { fetchDrawing } = useContext(DrawContext);
 
-  const handleDrawingDelete = async(id) => {
+  const handleDeleteDrawing = async(id) => {
     let ans = await showConfirm("Delete drawing");
     if(ans){
       try{
@@ -27,7 +27,7 @@ export default function DrawingItem(props) {
 
         if(json.success){
           showAlert("Success", "Your drawing has been deleted successfully!");
-          fetchUserDrawing();
+          await fetchDrawing();
         }else{
           showAlert("Error", json.error);
         }
@@ -39,8 +39,8 @@ export default function DrawingItem(props) {
 
   return (
     <div>      
-      <Link className="confirm-btn" to={`/usereditdrawing/${_id}`}>Edit</Link>
-      <button className="confirm-btn" onClick={()=>{handleDrawingDelete(`${_id}`)}}>Delete</button>
+      <Link className="confirm-btn" to={`/editdrawing/${_id}`}>Edit</Link>
+      <button className="confirm-btn" onClick={()=>{handleDeleteDrawing(`${_id}`)}}>Delete</button>
       <h1>{drawing_title}</h1>
       <p>{drawing_tag}</p>
       <p>{date}</p>

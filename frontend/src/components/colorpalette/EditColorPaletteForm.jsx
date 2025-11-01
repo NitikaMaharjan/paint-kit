@@ -1,13 +1,13 @@
 import { useContext, useState, useRef } from "react";
 import AlertContext from "../../context/alert/AlertContext";
-import ColorPaletteDetailsContext from "../../context/colorpalette/ColorPaletteDetailsContext";
+import ColorPaletteContext from "../../context/colorpalette/ColorPaletteContext";
 
-export default function UserEditColorPalette(props) {
+export default function EditColorPaletteForm(props) {
 
     const pickAColor = useRef(null);
 
     const { showAlert } = useContext(AlertContext);
-    const { userFetchUserColorPalette, adminFetchColorPalette  } = useContext(ColorPaletteDetailsContext);
+    const { fetchUserColorPalette, fetchAdminColorPalette  } = useContext(ColorPaletteContext);
 
     const [inputValue, setInputValue] = useState({
         color_palette_name: props.selectedColorPalette.color_palette_name,
@@ -133,11 +133,11 @@ export default function UserEditColorPalette(props) {
         
                 if(json.success){
                     if(localStorage.getItem("adminSignedIn")){
-                        await adminFetchColorPalette();
+                        await fetchAdminColorPalette();
                     }else{
-                        await userFetchUserColorPalette();
+                        await fetchUserColorPalette();
                     }
-                    props.setShowEditColorPaletteModal(false);
+                    props.setShowEditColorPaletteFormModal(false);
                     showAlert("Success", "Your color palette looks awesome. It has been updated successfully!");
                 }else{
                     if(json.error){

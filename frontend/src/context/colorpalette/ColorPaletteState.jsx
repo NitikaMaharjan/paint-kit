@@ -1,17 +1,17 @@
 import { useContext, useState } from "react";
 import AlertContext from "../alert/AlertContext";
 import ConfirmContext from "../confirm/ConfirmContext";
-import ColorPaletteDetailsContext from "./ColorPaletteDetailsContext";
+import ColorPaletteContext from "./ColorPaletteContext";
 
-export default function ColorPaletteDetailsState(props) {
+export default function ColorPaletteState(props) {
 
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
 
-    const [userColorPaletteDetails, setUserColorPaletteDetails] = useState([]);
-    const [adminColorPaletteDetails, setAdminColorPaletteDetails] = useState([]);
+    const [userColorPalettes, setUserColorPalettes] = useState([]);
+    const [adminColorPalettes, setAdminColorPalettes] = useState([]);
     
-    const userFetchUserColorPalette = async() => {
+    const fetchUserColorPalette = async() => {
         try{
             const response = await fetch(`http://localhost:5000/api/colorpalette/fetchusercolorpalette?user_id=${localStorage.getItem("user_id")}`, {
                 method: "GET",
@@ -22,7 +22,7 @@ export default function ColorPaletteDetailsState(props) {
             const json = await response.json();
 
             if(json.success){
-                setUserColorPaletteDetails(json.colorPaletteDetails);
+                setUserColorPalettes(json.fetchedUserColorPalette);
             }else{
                 showAlert("Error", json.error);
             }
@@ -31,7 +31,7 @@ export default function ColorPaletteDetailsState(props) {
         }
     }
     
-    const adminFetchColorPalette = async() => {
+    const fetchAdminColorPalette = async() => {
         try{
             const response = await fetch(`http://localhost:5000/api/colorpalette/fetchadmincolorpalette`, {
                 method: "GET",
@@ -42,7 +42,7 @@ export default function ColorPaletteDetailsState(props) {
             const json = await response.json();
 
             if(json.success){
-                setAdminColorPaletteDetails(json.colorPaletteDetails);
+                setAdminColorPalettes(json.fetchedAdminColorPalette);
             }else{
                 showAlert("Error", json.error);
             }
@@ -67,9 +67,9 @@ export default function ColorPaletteDetailsState(props) {
                 if(json.success){
                     showAlert("Success", "Your color palette has been deleted successfully!");
                     if(localStorage.getItem("adminSignedIn")){
-                        await adminFetchColorPalette();
+                        await fetchAdminColorPalette();
                     }else{
-                        await userFetchUserColorPalette();
+                        await fetchUserColorPalette();
                     }
                 }else{
                     showAlert("Error", json.error);
@@ -81,8 +81,8 @@ export default function ColorPaletteDetailsState(props) {
     }
 
     return (
-        <ColorPaletteDetailsContext.Provider value={{ userColorPaletteDetails, userFetchUserColorPalette, adminColorPaletteDetails, adminFetchColorPalette, handleDeleteColorPalette }}>
+        <ColorPaletteContext.Provider value={{ userColorPalettes, fetchUserColorPalette, adminColorPalettes, fetchAdminColorPalette, handleDeleteColorPalette }}>
             {props.children}
-        </ColorPaletteDetailsContext.Provider>
+        </ColorPaletteContext.Provider>
     );
 }

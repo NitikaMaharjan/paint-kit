@@ -4,12 +4,12 @@ import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import DrawContext from "../../context/draw/DrawContext";
 import DrawingItem from "./DrawingItem";
 
-export default function UserViewDrawing() {
+export default function ViewDrawing() {
 
   let navigate = useNavigate();
 
   const { showProgress } = useContext(ProgressBarContext);
-  const { fetchUserDrawing, fetchedDrawings } = useContext(DrawContext);
+  const { fetchDrawing, fetchedDrawings } = useContext(DrawContext);
 
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("user_token")){
@@ -21,7 +21,7 @@ export default function UserViewDrawing() {
   }, []);
 
   useEffect(() => {
-    fetchUserDrawing();
+    fetchDrawing();
     // eslint-disable-next-line
   }, []);
   

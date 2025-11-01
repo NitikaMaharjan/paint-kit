@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import AlertContext from "../../context/alert/AlertContext";
 import ConfirmContext from "../../context/confirm/ConfirmContext";
 import DrawContext from "../../context/draw/DrawContext";
-import CreateColorPalette from "../colorpalette/CreateColorPalette";
+import CreateColorPaletteForm from "../colorpalette/CreateColorPaletteForm";
 import UserViewColorPalette from "../colorpalette/UserViewColorPalette";
-import DrawingInfoForm from "../draw/DrawingInfoForm";
+import SaveDrawingForm from "../draw/SaveDrawingForm";
 import ImageUploadForm from "../draw/ImageUploadForm";
 
 export default function RightNavbar(props) {
@@ -16,17 +16,17 @@ export default function RightNavbar(props) {
     const { showConfirm } = useContext(ConfirmContext);
     const { canvasRef, penColor, setPenColor, setTextColor, handleExport, setTextSize, setTextFont, setText, undoStack } = useContext(DrawContext);
 
-    const [showDropDown, setShowDropDown] = useState(false);
+    const [showSettingDropDown, setShowSettingDropDown] = useState(false);
     const [showExportDropDown, setShowExportDropDown] = useState(false);
-    const [showCreateColorPaletteModal, setShowCreateColorPaletteModal] = useState(false);
-    const [showDrawingInfoFormModal, setShowDrawingInfoFormModal] = useState(false);
+    const [showCreateColorPaletteFormModal, setShowCreateColorPaletteFormModal] = useState(false);
+    const [showSaveDrawingFormModal, setShowSaveDrawingFormModal] = useState(false);
     const [showImageUploadFormModal, setShowImageUploadFormModal] = useState(false);
     const [inputPenColor, setInputPenColor] = useState("#000000");
     const [inputTextColor, setInputTextColor] = useState("#000000");
     const [inputTextSize, setInputTextSize] = useState("24");
     const [inputTextFont, setInputTextFont] = useState("serif");
     const [inputText, setInputText] = useState("");
-    const [useColorPalette, setUseColorPalette] = useState({
+    const [colorPaletteInUse, setColorPaletteInUse] = useState({
         color_palette_name: "",
         colors: ""
     });
@@ -85,7 +85,7 @@ export default function RightNavbar(props) {
     const handleDiscardChanges = async() => {
         let ans = await showConfirm("Discard changes");
         if(ans){
-            navigate("/userviewdrawing");
+            navigate("/viewdrawing");
         }
     }
 
@@ -159,12 +159,12 @@ export default function RightNavbar(props) {
                         </div>
                     </div>
                     <div>
-                        <button className="dropdown-btn" onClick={()=>{setShowDropDown(!showDropDown)}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}><img src="/down-arrow.png" style={{height: "14px", width: "14px"}}/></button>
+                        <button className="dropdown-btn" onClick={()=>{setShowSettingDropDown(!showSettingDropDown)}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}><img src="/down-arrow.png" style={{height: "14px", width: "14px"}}/></button>
                         {
-                            showDropDown
+                            showSettingDropDown
                             &&
                             <div className="dropdown-content">
-                                <button className="dropdown-content-button">Settings</button>
+                                <button className="dropdown-content-button">Others</button>
                                 <button className="dropdown-content-button" onClick={handleSignOut}>Sign out</button>
                             </div>
                         }
@@ -179,14 +179,14 @@ export default function RightNavbar(props) {
                     <input type="color" value={inputPenColor} onChange={handleInputPenColor} style={{height: "32px", width: "32px", cursor: "pointer"}}/>
                 </div>
                 {   
-                    useColorPalette.color_palette_name!=="" && useColorPalette.colors.length!==0 ?
+                    colorPaletteInUse.color_palette_name!=="" && colorPaletteInUse.colors.length!==0 ?
                         <div className="color-palette-item">
                             <div style={{padding: "12px 12px 4px 12px"}}>
-                                <p title={useColorPalette.color_palette_name} style={{fontSize: "13px"}}>{useColorPalette.color_palette_name}</p>
+                                <p title={colorPaletteInUse.color_palette_name} style={{fontSize: "13px"}}>{colorPaletteInUse.color_palette_name}</p>
                             </div>
                             <div style={{padding: "0px 12px 12px 12px"}}>
                                 <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>
-                                    {useColorPalette.colors.map((a_color, index)=>{return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}} onClick={()=>{setPenColor(a_color)}}></div>}).reverse()}
+                                    {colorPaletteInUse.colors.map((a_color, index)=>{return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}} onClick={()=>{setPenColor(a_color)}}></div>}).reverse()}
                                 </div>
                             </div>
                         </div>
@@ -212,8 +212,8 @@ export default function RightNavbar(props) {
                 <Link className="confirm-btn" to="/viewtemplate">View template</Link>
                 <button className="confirm-btn" onClick={()=>{setShowImageUploadFormModal(true)}}>Upload image</button>
                 <Link className="confirm-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>
-                <button className="confirm-btn" onClick={()=>{setShowDrawingInfoFormModal(true)}}>Save drawing</button>
-                <Link className="confirm-btn" to="/userviewdrawing">View your drawing</Link>
+                <button className="confirm-btn" onClick={()=>{setShowSaveDrawingFormModal(true)}}>Save drawing</button>
+                <Link className="confirm-btn" to="/viewdrawing">View your drawing</Link>
                 {
                     props.edit===true ?
                     <button className="confirm-btn" onClick={handleDiscardChanges}>Discard changes</button>
@@ -231,32 +231,32 @@ export default function RightNavbar(props) {
                         </div>
                     }
                 </div>
-                <UserViewColorPalette setUseColorPalette={setUseColorPalette}/>
-                <button onClick={()=>{setShowCreateColorPaletteModal(true)}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button>
+                <UserViewColorPalette setColorPaletteInUse={setColorPaletteInUse}/>
+                <button onClick={()=>{setShowCreateColorPaletteFormModal(true)}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button>
             </div>
             
             {
-                showCreateColorPaletteModal
+                showCreateColorPaletteFormModal
                 &&
                 <div className="confirm-modal-background">
                     <div className="flex items-center pt-8 gap-10">
-                        <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowCreateColorPaletteModal(false)}}>
+                        <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowCreateColorPaletteFormModal(false)}}>
                             <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
                         </div>
-                        <CreateColorPalette setShowCreateColorPaletteModal={setShowCreateColorPaletteModal}/>
+                        <CreateColorPaletteForm setShowCreateColorPaletteFormModal={setShowCreateColorPaletteFormModal}/>
                     </div>
                 </div>
             }
 
             {
-                showDrawingInfoFormModal
+                showSaveDrawingFormModal
                 &&
                 <div className="confirm-modal-background">
                     <div className="flex items-center pt-8 gap-10">
-                        <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowDrawingInfoFormModal(false)}}>
+                        <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowSaveDrawingFormModal(false)}}>
                             <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
                         </div>
-                        <DrawingInfoForm title={props.title} tag={props.tag} edit={props.edit} drawingid={props.drawingid}/>
+                        <SaveDrawingForm title={props.title} tag={props.tag} edit={props.edit} drawingid={props.drawingid}/>
                     </div>
                 </div>
             }

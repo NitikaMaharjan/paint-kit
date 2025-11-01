@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import AlertContext from "../../context/alert/AlertContext";
 import ConfirmContext from "../../context/confirm/ConfirmContext";
-import CreateColorPalette from "../colorpalette/CreateColorPalette";
+import CreateColorPaletteForm from "../colorpalette/CreateColorPaletteForm";
 import AdminViewColorPalette from "../colorpalette/AdminViewColorPalette";
-import AddTemplate from "../template/AddTemplate";
+import AddTemplateForm from "../template/AddTemplateForm";
 
 export default function AdminDashboard() {
 
@@ -15,8 +15,8 @@ export default function AdminDashboard() {
   const { showAlert } = useContext(AlertContext);
   const { showConfirm } = useContext(ConfirmContext);
 
-  const [showCreateColorPaletteModal,setShowCreateColorPaletteModal] = useState(false);
-  const [showAddTemplateModal,setShowAddTemplateModal] = useState(false);
+  const [showCreateColorPaletteFormModal,setShowCreateColorPaletteFormModal] = useState(false);
+  const [showAddTemplateFormModal,setShowAddTemplateFormModal] = useState(false);
 
   const handleSignOut = async() => {
     let ans = await showConfirm("Sign out");
@@ -45,36 +45,36 @@ export default function AdminDashboard() {
     <>
       <div className="content">
         <h1>Welcome, {localStorage.getItem("admin_username")}!</h1>
-        <button className="confirm-btn" onClick={()=>{setShowCreateColorPaletteModal(true)}}>Create Color Palette</button>
+        <button className="confirm-btn" onClick={()=>{setShowCreateColorPaletteFormModal(true)}}>Create Color Palette</button>
         <Link className="confirm-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>
         <AdminViewColorPalette/>
-        <button className="confirm-btn" onClick={()=>{setShowAddTemplateModal(true)}}>Add Template</button>
+        <button className="confirm-btn" onClick={()=>{setShowAddTemplateFormModal(true)}}>Add Template</button>
         <Link className="confirm-btn" to="/viewtemplate">View template</Link>
         <button className="signout-btn" onClick={handleSignOut}><b>Sign out</b></button>
       </div>
 
       {
-        showCreateColorPaletteModal
+        showCreateColorPaletteFormModal
         &&
         <div className="confirm-modal-background">
             <div className="flex items-center pt-8 gap-10">
-                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowCreateColorPaletteModal(false)}}>
+                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowCreateColorPaletteFormModal(false)}}>
                     <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
                 </div>
-                <CreateColorPalette setShowCreateColorPaletteModal={setShowCreateColorPaletteModal}/>
+                <CreateColorPaletteForm setShowCreateColorPaletteFormModal={setShowCreateColorPaletteFormModal}/>
             </div>
         </div>
       }
 
       {
-        showAddTemplateModal
+        showAddTemplateFormModal
         &&
         <div className="confirm-modal-background">
             <div className="flex items-center pt-8 gap-10">
-                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowAddTemplateModal(false)}}>
+                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowAddTemplateFormModal(false)}}>
                     <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
                 </div>
-                <AddTemplate setShowAddTemplateModal={setShowAddTemplateModal}/>
+                <AddTemplateForm setShowAddTemplateFormModal={setShowAddTemplateFormModal}/>
             </div>
         </div>
       }

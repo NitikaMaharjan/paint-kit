@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AlertContext from "../../context/alert/AlertContext";
 import DrawContext from "../../context/draw/DrawContext";
 
-export default function DrawingInfoForm(props) {
+export default function SaveDrawingForm(props) {
 
   let navigate = useNavigate();
 
@@ -106,12 +106,12 @@ export default function DrawingInfoForm(props) {
 
         if(json.success){
           if(props.edit===true){
-            handleEditedDrawingDelete();
+            handleDeletePreviousDrawing();
             showAlert("Success", "Your drawing looks awesome. It has been updated successfully!");
           }else{
             showAlert("Success", "Your drawing looks awesome. It has been saved successfully!");
           }
-          navigate("/userviewdrawing");
+          navigate("/viewdrawing");
         }else{
           if(json.error){
             showAlert("Error", json.error);
@@ -126,7 +126,7 @@ export default function DrawingInfoForm(props) {
     }
   }
 
-  const handleEditedDrawingDelete = async() => {
+  const handleDeletePreviousDrawing = async() => {
     try{
       const response = await fetch(`http://localhost:5000/api/drawing/deletedrawing`, {
         method: "DELETE",

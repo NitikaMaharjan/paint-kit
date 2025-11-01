@@ -43,8 +43,8 @@ router.post('/savetemplate', [
 router.get('/fetchtemplate', async(req, res) => {
   try{
     // fetch template using excluding user_id and __v
-    const templates = await Template.find().select('-user_id -__v');
-    res.json({ success: true, templates });
+    const fetchedTemplates = await Template.find().select('-user_id -__v');
+    res.json({ success: true, fetchedTemplates });
   }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });
   }

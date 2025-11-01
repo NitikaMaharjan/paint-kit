@@ -1,15 +1,15 @@
 import { useContext, useEffect, useState } from "react";
-import ColorPaletteDetailsContext from "../../context/colorpalette/ColorPaletteDetailsContext";
+import ColorPaletteContext from "../../context/colorpalette/ColorPaletteContext";
 import AdminColorPaletteItem from "./AdminColorPaletteItem";
 import UserColorPaletteItem from "./UserColorPaletteItem";
-import EditColorPalette from "./EditColorPalette";
+import EditColorPaletteForm from "./EditColorPaletteForm";
 
 export default function UserViewColorPalette(props) {
 
-  const { adminColorPaletteDetails, adminFetchColorPalette, userColorPaletteDetails, userFetchUserColorPalette } = useContext(ColorPaletteDetailsContext);
+  const { adminColorPalettes, fetchAdminColorPalette, userColorPalettes, fetchUserColorPalette } = useContext(ColorPaletteContext);
 
   const [showColorPalette, setShowColorPalette] = useState("community");
-  const [showEditColorPaletteModal, setShowEditColorPaletteModal] = useState(false);
+  const [showEditColorPaletteFormModal, setShowEditColorPaletteFormModal] = useState(false);
   const [selectedColorPalette, setSelectedColorPalette] = useState({
     color_palette_id: "",
     color_palette_name: "",
@@ -18,8 +18,8 @@ export default function UserViewColorPalette(props) {
   
   useEffect(() => {
     if (localStorage.getItem("userSignedIn")){
-      adminFetchColorPalette();
-      userFetchUserColorPalette();
+      fetchAdminColorPalette();
+      fetchUserColorPalette();
     }
     // eslint-disable-next-line
   }, []);
@@ -37,10 +37,10 @@ export default function UserViewColorPalette(props) {
         </div>
         {
           showColorPalette === "community" ?
-            adminColorPaletteDetails.length !== 0 ?
+            adminColorPalettes.length !== 0 ?
               <div>
-                {(adminColorPaletteDetails).map((colorpalette)=>{
-                  return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setUseColorPalette={props.setUseColorPalette}/>
+                {(adminColorPalettes).map((colorpalette)=>{
+                  return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setColorPaletteInUse={props.setColorPaletteInUse}/>
                 }).reverse()}
               </div>
             :
@@ -48,10 +48,10 @@ export default function UserViewColorPalette(props) {
                 no color palettes
               </div>
           :
-            userColorPaletteDetails.length !== 0 ?
+            userColorPalettes.length !== 0 ?
               <div>
-                {(userColorPaletteDetails).map((colorpalette)=>{
-                  return <UserColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setShowEditColorPaletteModal={setShowEditColorPaletteModal} setSelectedColorPalette={setSelectedColorPalette} setUseColorPalette={props.setUseColorPalette}/>
+                {(userColorPalettes).map((colorpalette)=>{
+                  return <UserColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette} setColorPaletteInUse={props.setColorPaletteInUse}/>
                 }).reverse()}
               </div>
             :
@@ -62,14 +62,14 @@ export default function UserViewColorPalette(props) {
       </div>
       
       {
-        showEditColorPaletteModal
+        showEditColorPaletteFormModal
         &&
         <div className="confirm-modal-background">
             <div className="flex items-center pt-8 gap-10">
-                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowEditColorPaletteModal(false)}}>
+                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowEditColorPaletteFormModal(false)}}>
                     <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
                 </div>
-                <EditColorPalette selectedColorPalette={selectedColorPalette} setShowEditColorPaletteModal={setShowEditColorPaletteModal}/>
+                <EditColorPaletteForm selectedColorPalette={selectedColorPalette} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal}/>
             </div>
         </div>
       }

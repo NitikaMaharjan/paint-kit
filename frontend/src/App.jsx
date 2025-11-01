@@ -7,7 +7,7 @@ import SignedInAdminDetailsState from "./context/admin/SignedInAdminDetailsState
 import SignedInUserDetailsState from "./context/user/SignedInUserDetailsState";
 import TemplateState from "./context/template/TemplateState";
 import DrawState from "./context/draw/DrawState";
-import ColorPaletteDetailsState from "./context/colorpalette/ColorPaletteDetailsState";
+import ColorPaletteState from "./context/colorpalette/ColorPaletteState";
 import Home from "./components/Home";
 import UserHome from "./components/user/UserHome";
 import UserSignin from "./components/user/UserSignin";
@@ -15,8 +15,8 @@ import UserSignup from "./components/user/UserSignup";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AdminSignin from "./components/admin/AdminSignin";
 import AdminSignup from "./components/admin/AdminSignup";
-import UserViewDrawing from "./components/draw/UserViewDrawing";
-import UserEditDrawing from "./components/draw/UserEditDrawing";
+import ViewDrawing from "./components/draw/ViewDrawing";
+import EditDrawing from "./components/draw/EditDrawing";
 import ViewTemplate from "./components/template/ViewTemplate";
 import UseTemplate from "./components/draw/UseTemplate";
 import GenerateColorPalette from "./components/colorpalette/GenerateColorPalette";
@@ -30,7 +30,7 @@ function App() {
             <SignedInUserDetailsState>
               <TemplateState>
                 <DrawState>
-                  <ColorPaletteDetailsState>
+                  <ColorPaletteState>
                     <BrowserRouter>
                       <Routes>
                         <Route path="/" element={<Home/>}/>
@@ -40,14 +40,14 @@ function App() {
                         <Route path="/admindashboard" element={<AdminDashboard/>}/>
                         <Route path="/adminsignin" element={<AdminSignin/>}/>
                         <Route path="/adminsignup" element={<AdminSignup/>}/>
-                        <Route path="/userviewdrawing" element={<UserViewDrawing/>}/>
-                        <Route path="/usereditdrawing/:drawingid" element={<UserEditDrawing/>}/>
+                        <Route path="/viewdrawing" element={<ViewDrawing/>}/>
+                        <Route path="/editdrawing/:drawingid" element={<EditDrawing/>}/>
                         <Route path="/viewtemplate" element={<ViewTemplate/>}/>
                         <Route path="/usetemplate/:templateid" element={<UseTemplate/>}/>
                         <Route path="/generatecolorpalette" element={<GenerateColorPalette/>}/>
                       </Routes>
                     </BrowserRouter>
-                  </ColorPaletteDetailsState>
+                  </ColorPaletteState>
                 </DrawState>
               </TemplateState>
             </SignedInUserDetailsState>

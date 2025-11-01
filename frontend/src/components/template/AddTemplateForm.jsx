@@ -1,18 +1,16 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AlertContext from "../../context/alert/AlertContext";
-import TemplateContext from "../../context/template/TemplateContext";
 
-export default function AddTemplate(props) {
+export default function AddTemplateForm(props) {
 
   let navigate = useNavigate();
 
   const { showAlert } = useContext(AlertContext);
-  const { fetchTemplate } = useContext(TemplateContext);
 
   const [inputValue, setInputValue] = useState({
-    template_title: props.selectedTemplate.template_title,
-    template_tag: props.selectedTemplate.template_tag
+    template_title: "",
+    template_tag: ""
   });
   const [inputFile, setInputFile] = useState(null);
 
@@ -90,12 +88,12 @@ export default function AddTemplate(props) {
     return true;
   }
   
-  const handleUpdateTemplate = async(e) => {
+  const handleSaveTemplate = async(e) => {
     e.preventDefault();
     if(validateInputValue()){
       try{
-        const response = await fetch(`http://localhost:5000/api/template/edittemplate/${props.selectedTemplate.template_id}`, {
-          method: "PUT",
+        const response = await fetch(`http://localhost:5000/api/template/savetemplate`, {
+          method: "POST",
           headers: { 
             "Content-Type": "application/json" 
           },
@@ -103,15 +101,14 @@ export default function AddTemplate(props) {
             user_id: localStorage.getItem("admin_id"),
             template_title: inputValue.template_title.trim(),
             template_tag: inputValue.template_tag.trim(),
-            image_url: inputFile===null?props.selectedTemplate.image_url:"/uploads/"+inputFile
+            image_url: "/uploads/"+inputFile
           })
         });
         const json = await response.json();
 
         if(json.success){
-          props.setShowEditTemplateModal(false);
-          showAlert("Success", "Template has been updated successfully!");
-          fetchTemplate();
+          props.setShowAddTemplateFormModal(false);
+          showAlert("Success", "Template has been saved successfully!");
           navigate("/viewtemplate");
         }else{
           if(json.error){
@@ -129,7 +126,7 @@ export default function AddTemplate(props) {
 
   return (
     <div className="auth-form-box">
-      <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Edit template</b></h1>
+      <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Add template</b></h1>
       <form className="auth-form">
         <div className="mb-1">
           <label htmlFor="template_title"><b>Title</b></label>
@@ -150,9 +147,8 @@ export default function AddTemplate(props) {
           <div className="input-bar">
               <input type="file" accept="image/*" onChange={updateImageUrl}/>
           </div>
-          <img src={`${inputFile===null?props.selectedTemplate.image_url:"/uploads/"+inputFile}`} style={{height: "120px", width: "200px"}}/>
         </div>
-        <button type="submit" className="submit-btn" onClick={handleUpdateTemplate}><b>Update template</b></button>
+        <button type="submit" className="submit-btn" onClick={handleSaveTemplate}><b>Save template</b></button>
       </form>
     </div>
   );

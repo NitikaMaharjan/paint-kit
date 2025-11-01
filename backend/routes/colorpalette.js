@@ -45,8 +45,8 @@ router.get('/fetchusercolorpalette', async(req, res) => {
     const user_id = req.query.user_id;
     
     // fetch user's color palette using user_id excluding -by_admin, -user_id, -date, -__v
-    const colorPaletteDetails = await ColorPalette.find({ user_id }).select('-by_admin -user_id -date -__v');
-    res.json({ success: true, colorPaletteDetails });
+    const fetchedUserColorPalette = await ColorPalette.find({ user_id }).select('-by_admin -user_id -date -__v');
+    res.json({ success: true, fetchedUserColorPalette });
   }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -56,8 +56,8 @@ router.get('/fetchusercolorpalette', async(req, res) => {
 router.get('/fetchadmincolorpalette', async(req, res) => {
   try{
     // fetch admin's color palette using by_admin excluding -by_admin, -user_id, -date, -__v
-    const colorPaletteDetails = await ColorPalette.find({ by_admin: true }).select('-by_admin -user_id -date -__v');
-    res.json({ success: true, colorPaletteDetails });
+    const fetchedAdminColorPalette = await ColorPalette.find({ by_admin: true }).select('-by_admin -user_id -date -__v');
+    res.json({ success: true, fetchedAdminColorPalette });
   }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });
   }

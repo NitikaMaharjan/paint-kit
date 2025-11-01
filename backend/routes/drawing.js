@@ -43,8 +43,8 @@ router.post('/savedrawing', [
 router.get('/fetchdrawing', async(req, res) => {
   try{
     // fetch user drawings using user id excluding user_id and __v
-    const userDrawings = await Drawing.find({ user_id: req.header('user_id') }).select('-user_id -__v');
-    res.json({ success: true, userDrawings });
+    const fetchedDrawings = await Drawing.find({ user_id: req.header('user_id') }).select('-user_id -__v');
+    res.json({ success: true, fetchedDrawings });
   }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -63,9 +63,9 @@ router.delete('/deletedrawing', async(req, res) => {
 // Route 4: fetch drawing to edit info using GET method, URL '/api/drawing/fetchdrawingtoedit'
 router.get('/fetchdrawingtoedit', async(req, res) => {
   try{
-    const fetchedUserEditDrawing = await Drawing.findById({ _id: req.header('_id') }).select('-user_id -__v');
-    if(fetchedUserEditDrawing){
-      res.json({ success: true, fetchedUserEditDrawing });
+    const fetchedDrawingInfo = await Drawing.findById({ _id: req.header('_id') }).select('-user_id -__v');
+    if(fetchedDrawingInfo){
+      res.json({ success: true, fetchedDrawingInfo });
     }else{
       res.json({ success: false, error: 'Drawing not found!' });
     }

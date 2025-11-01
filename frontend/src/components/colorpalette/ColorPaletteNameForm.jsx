@@ -71,7 +71,7 @@ export default function ColorPaletteNameForm(props) {
         return true;
     }
 
-    const handleSubmit = async(e) => {
+    const handleSaveColorPalette = async(e) => {
         e.preventDefault();
         if(validateInputValue()){
             try{
@@ -122,7 +122,7 @@ export default function ColorPaletteNameForm(props) {
                         <img src="/close.png" alt="close button image" onClick={()=>{clearInput("color_palette_name")}} style={{opacity: `${inputValue.color_palette_name===""?0:1}`}}/>
                     </div>
                 </div>
-                <button type="submit" className="submit-btn" onClick={handleSubmit}><b>Save color palette</b></button>
+                <button type="submit" className="submit-btn" onClick={handleSaveColorPalette}><b>Save color palette</b></button>
             </form>
         </div>
     );
