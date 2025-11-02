@@ -41,7 +41,7 @@ export default function ConfirmState(props) {
                 &&
                 <div className="confirm-modal-background" onClick={handleCancel}>
                     <div className="confirm-modal">
-                        <div className="flex items-center" style={{borderBottom: "1px solid black"}}>
+                        <div className="flex items-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
                             <h1 style={{margin: "0px 0px 0px 14px", fontSize: "14px", width: "100%", textAlign: "center"}}><b>{confirmMsg}</b></h1>
                             <div style={{padding: "8px", borderLeft: "1px solid black"}}>
                                 <img src="/close.png" alt="close button image" style={{height: "12px", width: "12px", cursor: "pointer"}} onClick={handleCancel}/>
