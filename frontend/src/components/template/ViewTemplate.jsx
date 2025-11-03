@@ -15,7 +15,9 @@ export default function ViewTemplate() {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("adminSignedIn")){
       navigate("/");
     }else{
-      showProgress();
+      if(localStorage.getItem("userSignedIn")){
+        showProgress();
+      }
     }
     // eslint-disable-next-line
   }, []);
@@ -30,13 +32,15 @@ export default function ViewTemplate() {
       {
         fetchedTemplates.length !==0 ?
           <div>
-            {fetchedTemplates.map((templateInfo, index)=>{
-              return <TemplateItem key={index} templateInfo={templateInfo}/>
-            }).reverse()}
+            <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px"}}>
+              {fetchedTemplates.map((templateInfo, index)=>{
+                return <TemplateItem key={index} templateInfo={templateInfo}/>
+              }).reverse()}
+            </div>
           </div>
         :
-          <div>
-            no templates
+          <div className="flex items-center justify-center" style={{height: "100%"}}>
+            <p style={{fontSize: "14px"}}><b>Add templates to get started!</b></p>
           </div>
       }
     </>

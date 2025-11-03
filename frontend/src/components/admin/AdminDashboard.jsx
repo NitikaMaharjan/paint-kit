@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import AlertContext from "../../context/alert/AlertContext";
@@ -6,27 +6,35 @@ import ConfirmContext from "../../context/confirm/ConfirmContext";
 import CreateColorPaletteForm from "../colorpalette/CreateColorPaletteForm";
 import AdminViewColorPalette from "../colorpalette/AdminViewColorPalette";
 import AddTemplateForm from "../template/AddTemplateForm";
+import ViewTemplate from "../template/ViewTemplate";
 
 export default function AdminDashboard() {
 
   let navigate = useNavigate();
 
+  const scrollRef = useRef(null);
+
   const { showProgress } = useContext(ProgressBarContext);
   const { showAlert } = useContext(AlertContext);
   const { showConfirm } = useContext(ConfirmContext);
 
+  const [showSettingDropDown, setShowSettingDropDown] = useState(false);
+  const [selectedContent, setSelectedContent] = useState("template");
+  const [yScroll, setYScroll] = useState(false);
   const [showCreateColorPaletteFormModal,setShowCreateColorPaletteFormModal] = useState(false);
   const [showAddTemplateFormModal,setShowAddTemplateFormModal] = useState(false);
 
-  const giveMeDay = () => {
-    let date_object = new Date();
-    return date_object.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  } 
-    
-  const giveMeTime = () => {
-    let date_object = new Date();
-    return date_object.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+  const handleMouseOver = () => {
+    document.getElementById("arrow").style.backgroundColor="rgba(0, 0, 0, 0.048)";
   }
+    
+  const handleMouseOut = () => {
+    document.getElementById("arrow").style.backgroundColor="transparent";
+  }
+
+  const scrollToTop = () => {
+    scrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleSignOut = async() => {
     let ans = await showConfirm("Sign out");
@@ -47,46 +55,91 @@ export default function AdminDashboard() {
       navigate("/adminsignin");
     }else{
       showProgress();
+      scrollRef.current.addEventListener("scroll", () => {
+        if(scrollRef.current.scrollTop > 0) {
+          setYScroll(true);
+        }else{
+          setYScroll(false);
+        }
+      });
     }
     // eslint-disable-next-line
   }, []);
 
   return (
     <>
-      <div>
-        <div className="flex items-center justify-between" style={{height: "40px", width: "100%", position: "fixed", top: "0", backgroundColor: "white", borderBottom: "1px solid #aaaaaa", padding: "4px 24px", boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.15)"}}>
-          <h1 style={{fontSize: "15px"}}>Welcome back, {localStorage.getItem("admin_username")}!</h1>
-          <p style={{fontSize: "13px"}}>{localStorage.getItem("admin_email")} <b>|</b> {giveMeDay()} <b>|</b> {giveMeTime()}</p>
-          <button style={{fontSize: "13px", cursor: "pointer"}} onClick={handleSignOut}><b>Sign out</b></button>
+      <div className="flex items-center justify-between" style={{height: "40px", width: "100%", position: "fixed", top: "0", backgroundColor: "white", borderBottom: "1px solid #aaaaaa", padding: "4px 40px", boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.15)"}}>
+        <div className="flex items-center gap-2">
+          <img src="/logo.png" alt="logo" style={{height: "22px"}}/>
+          <h1 style={{fontSize: "14px", marginTop: "2px"}}><b>Paint Kit</b></h1>
         </div>
-        <div className="side-navbar">
-          <div style={{margin: "80px 0px 0px 40px", boxShadow: "3px 3px 0px rgba(0, 0, 0)", backgroundColor: "white", border: "1px solid black"}}>
-            <div style={{padding: "7px 12px 5px 12px", backgroundColor: "#ccc", borderBottom: "1px solid black"}}>
-              <h1 style={{fontSize: "15px"}}><b>Dashboard</b></h1>
+        <div className="flex items-center">
+          <div className="flex items-center justify-center" style={{border: "1px solid rgba(0, 0, 0, 0.7)", height: "18px", width: "18px", borderRadius: "18px"}}>
+            <img src="/user.png" alt="user icon" style={{height: "12px", width: "12px"}}/>
+          </div>&nbsp;
+          <p style={{fontSize: "14px"}}>{localStorage.getItem("admin_username")}</p>&nbsp;
+          <p style={{fontSize: "13px"}}><b>|</b> {localStorage.getItem("admin_email")}</p>&nbsp;
+          <div>
+            <div id="arrow" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} style={{padding: "4px"}}>
+              <button className="dropdown-btn" onClick={()=>{setShowSettingDropDown(!showSettingDropDown)}}><img src="/down-arrow.png" alt="down arrow icon" style={{height: "14px", width: "14px"}}/></button>
             </div>
-            <div className="flex flex-col">
-              <button className="side-navbar-button" onClick={()=>{setShowAddTemplateFormModal(true)}}>Add Template</button>
-              <Link className="side-navbar-button" to="/viewtemplate" target="_blank">View Template</Link>
-              <button className="side-navbar-button" onClick={()=>{setShowCreateColorPaletteFormModal(true)}}>Create Color Palette</button>
-              <Link className="side-navbar-button" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>
-            </div>
+            {
+              showSettingDropDown
+              &&
+              <div className="dropdown-content">
+                  <button className="dropdown-content-button">Others</button>
+                  <button className="dropdown-content-button" onClick={handleSignOut}>Sign out</button>
+              </div>
+            }
           </div>
         </div>
-        <div className="dashboard-content">
-          <AdminViewColorPalette/>
+      </div>
+
+      <div className="side-navbar">
+        <div style={{margin: "80px 40px 0px 40px", backgroundColor: "white", border: "1px solid black", boxShadow: "3px 3px 0px rgba(0, 0, 0)"}}>
+          <div style={{padding: "12px", backgroundColor: "#ccc", borderBottom: "1px solid black"}}>
+            <h1 style={{fontSize: "14px"}}><b>Dashboard</b></h1>
+          </div>
+          <div className="flex flex-col" style={{padding: "6px"}}>
+            <button className={`side-navbar-button ${selectedContent==="template"?"selected":"not-selected"}`} onClick={()=>{setSelectedContent("template")}}>Template</button>
+            <button className={`side-navbar-button ${selectedContent==="colorpalette"?"selected":"not-selected"}`} onClick={()=>{setSelectedContent("colorpalette")}}>Color Palette</button>
+          </div>
         </div>
       </div>
+
+      {
+        selectedContent==="template"
+        &&
+        <div className="dashboard-content">
+          <div ref={scrollRef} style={{height: "500px", overflowY: "auto", scrollbarWidth: "none"}}>
+            <ViewTemplate/>
+            <button className={`up-scroll-btn${yScroll?"-show":""}`} onClick={scrollToTop}><img src="/up-arrow.png" style={{height: "14px", width: "14px"}}/></button>
+          </div>
+          <div className="flex justify-center mt-4">
+            <button className="action-btn" onClick={()=>{setShowAddTemplateFormModal(true)}}>Add Template</button>
+          </div>
+        </div>
+      }
+        
+      {
+        selectedContent==="colorpalette"
+        &&
+        <div className="dashboard-content">
+          <div className="flex justify-end gap-6">
+            <Link className="action-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>
+            <button className="action-btn" onClick={()=>{setShowCreateColorPaletteFormModal(true)}}>Create color palette</button>
+          </div>
+          <div>
+            <AdminViewColorPalette/>
+          </div>
+        </div>
+      }
       
       {
         showAddTemplateFormModal
         &&
         <div className="confirm-modal-background">
-            <div className="flex items-center pt-8 gap-10">
-                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowAddTemplateFormModal(false)}}>
-                    <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
-                </div>
-                <AddTemplateForm setShowAddTemplateFormModal={setShowAddTemplateFormModal}/>
-            </div>
+          <AddTemplateForm setShowAddTemplateFormModal={setShowAddTemplateFormModal}/>
         </div>
       }
 
@@ -96,7 +149,7 @@ export default function AdminDashboard() {
         <div className="confirm-modal-background">
             <div className="flex items-center pt-8 gap-10">
                 <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowCreateColorPaletteFormModal(false)}}>
-                    <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
+                    <img src="/close-white.png" alt="close icon" style={{height: "18px", width: "18px"}}/>
                 </div>
                 <CreateColorPaletteForm setShowCreateColorPaletteFormModal={setShowCreateColorPaletteFormModal}/>
             </div>

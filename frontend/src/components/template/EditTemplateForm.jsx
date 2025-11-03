@@ -1,11 +1,10 @@
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useState, useRef } from "react";
 import AlertContext from "../../context/alert/AlertContext";
 import TemplateContext from "../../context/template/TemplateContext";
 
 export default function EditTemplateForm(props) {
 
-  let navigate = useNavigate();
+  const fileInputRef = useRef(null);
 
   const { showAlert } = useContext(AlertContext);
   const { fetchTemplate } = useContext(TemplateContext);
@@ -21,7 +20,12 @@ export default function EditTemplateForm(props) {
   }
 
   const clearInput = (input_field) => {
-    setInputValue({...inputValue, [input_field]: ""});
+    if(input_field==="template_url"){
+      setInputFile(null);
+      fileInputRef.current.value = "";
+    }else{
+      setInputValue({...inputValue, [input_field]: ""});
+    }
   }
 
   const addBorderHighlight = (type) => {
@@ -34,11 +38,14 @@ export default function EditTemplateForm(props) {
 
   const updateImageUrl = (e) => {
     const file = e.target.files[0];
-    setInputFile(file.name);
+    setInputFile(file);
   }
 
   const validateInputValue = () => {
     const textRegex = /^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/;
+    const validTypes = ["image/png", "image/jpeg"];
+    const maxSizeMB = 2;
+    const maxSizeBytes = maxSizeMB * 1024 * 1024;
 
     let template_title = inputValue.template_title.trim();
     let template_tag = inputValue.template_tag.trim();
@@ -87,6 +94,17 @@ export default function EditTemplateForm(props) {
       showAlert("Warning", "Tag can only contain letters, numbers and single consecutive space!");
       return false;
     }
+    if(inputFile!==null){
+      if(!validTypes.includes(inputFile.type)){
+        showAlert("Warning", "Only PNG and JPEG images are allowed!");
+        return false;
+      }
+      
+      if(inputFile.size>maxSizeBytes){
+        showAlert("Warning", `Image size must be less than ${maxSizeMB} MB!`);
+        return false;
+      }
+    }
     return true;
   }
   
@@ -103,16 +121,15 @@ export default function EditTemplateForm(props) {
             user_id: localStorage.getItem("admin_id"),
             template_title: inputValue.template_title.trim(),
             template_tag: inputValue.template_tag.trim(),
-            image_url: inputFile===null?props.selectedTemplate.image_url:"/uploads/"+inputFile
+            image_url: inputFile===null?props.selectedTemplate.image_url:"/uploads/"+inputFile.name
           })
         });
         const json = await response.json();
 
         if(json.success){
+          await fetchTemplate();
           props.setShowEditTemplateFormModal(false);
           showAlert("Success", "Template has been updated successfully!");
-          await fetchTemplate();
-          navigate("/viewtemplate");
         }else{
           if(json.error){
             showAlert("Error", json.error);
@@ -129,28 +146,36 @@ export default function EditTemplateForm(props) {
 
   return (
     <div className="auth-form-box">
-      <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Edit template</b></h1>
+      <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc", width: "100%"}}>
+        <h1 style={{fontSize: "14px", textAlign: "center", width: "86%", padding: "8px 0px", borderRight: "1px solid black"}}><b>Edit template</b></h1>
+        <div style={{marginLeft: "10px", cursor: "pointer"}} onClick={()=>{props.setShowEditTemplateFormModal(false)}}>
+          <img src="/close.png" alt="close icon" style={{height: "14px", width: "14px"}}/>
+        </div>
+      </div>
       <form className="auth-form">
         <div className="mb-1">
           <label htmlFor="template_title"><b>Title</b></label>
           <div className="input-bar" id="template-title-input-bar">
             <input type="text" id="template_title" name="template_title" placeholder="Enter title" value={inputValue.template_title} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("template-title")}} onBlur={()=>{removeBorderHighlight("template-title")}}/>
-            <img src="/close.png" alt="close button image" onClick={()=>{clearInput("template_title")}} style={{opacity: `${inputValue.template_title===""?0:1}`}}/>
+            <img src="/close.png" alt="close icon" onClick={()=>{clearInput("template_title")}} style={{opacity: `${inputValue.template_title===""?0:1}`}}/>
           </div>
         </div>          
         <div className="mb-1">
           <label htmlFor="template_tag"><b>Tag</b></label>
           <div className="input-bar" id="template-tag-input-bar">
             <input type="text" id="template_tag" name="template_tag" placeholder="Enter tag" value={inputValue.template_tag} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("template-tag")}} onBlur={()=>{removeBorderHighlight("template-tag")}}/>
-            <img src="/close.png" alt="close button image" onClick={()=>{clearInput("template_tag")}} style={{opacity: `${inputValue.template_tag===""?0:1}`}}/>
+            <img src="/close.png" alt="close icon" onClick={()=>{clearInput("template_tag")}} style={{opacity: `${inputValue.template_tag===""?0:1}`}}/>
           </div>
         </div>
         <div style={{marginBottom: "28px"}}>
-          <label><b>Upload Image</b></label>
-          <div className="input-bar">
-              <input type="file" accept="image/*" onChange={updateImageUrl}/>
+          <label htmlFor="template_url"><b>Image</b></label>
+          <div className="input-bar" id="template-url-input-bar">
+            <input type="file" id="template_url" name="template_url" accept="image/*" ref={fileInputRef} onChange={updateImageUrl} onFocus={()=>{addBorderHighlight("template-url")}} onBlur={()=>{removeBorderHighlight("template-url")}} style={{color: `${inputFile===null?"rgba(0, 0, 0, 0.6)":"black"}`, fontSize: "13px"}}/>
+            <img src="/close.png" alt="close icon" onClick={()=>{clearInput("template_url")}} style={{opacity: `${inputFile===null?0:1}`}}/>
           </div>
-          <img src={`${inputFile===null?props.selectedTemplate.image_url:"/uploads/"+inputFile}`} style={{height: "120px", width: "200px"}}/>
+          <div className="flex items-center justify-center"style={{marginTop: "8px", height: "180px", width: "100%", border: "1px solid rgba(0, 0, 0, 0.3)"}}>
+            <img src={`${inputFile===null?props.selectedTemplate.image_url:"/uploads/"+inputFile.name}`} alt="uploaded image" style={{height: "100%", width: "100%", objectFit: "cover"}}/>
+          </div>
         </div>
         <button type="submit" className="submit-btn" onClick={handleUpdateTemplate}><b>Update template</b></button>
       </form>

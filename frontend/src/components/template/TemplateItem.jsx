@@ -35,8 +35,8 @@ export default function DrawingItem(props) {
         const json = await response.json();
 
         if(json.success){
-          showAlert("Success", "Your template has been deleted successfully!");
           await fetchTemplate();
+          showAlert("Success", "Your template has been deleted successfully!");
         }else{
           showAlert("Error", json.error);
         }
@@ -50,20 +50,25 @@ export default function DrawingItem(props) {
     <>
       {
         localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token") ?
-          <div>
-            <button className="confirm-btn" onClick={()=>{setSelectedTemplate({ template_id: _id, template_title: template_title, template_tag: template_tag, image_url: image_url }); setShowEditTemplateFormModal(true);}}>Edit</button>
-            <button className="confirm-btn" onClick={()=>{handleDeleteTemplate(_id)}}>Delete</button>
-            <h1>{template_title}</h1>
-            <p>{template_tag}</p>
-            <p>{date}</p>
-            <img src={image_url} style={{height: "120px", width: "200px"}}/>
+          <div className="template-item">
+            <div className="flex items-center justify-between mb-2">
+              <div>
+                <h1 style={{fontSize: "14px"}}><b>Title:</b> {template_title}</h1>
+                <p style={{fontSize: "13px"}}><b>Tag:</b> {template_tag}</p>
+              </div>
+              <div className="flex items-center justify-end">
+                <button className="icon-btn" onClick={()=>{setSelectedTemplate({ template_id: _id, template_title: template_title, template_tag: template_tag, image_url: image_url }); setShowEditTemplateFormModal(true);}}><img src="/edit.png" style={{height: "20px", width: "20px"}}/></button>
+                <button className="icon-btn" onClick={()=>{handleDeleteTemplate(_id)}}><img src="/delete.png" style={{height: "18px", width: "18px"}}/></button>
+              </div>
+            </div>
+            <img src={image_url} style={{height: "280px", width: "100%", objectFit: "cover"}}/>
           </div>
         :
-          <div>
+          <div className="template-item">
             <Link className="confirm-btn" to={`/usetemplate/${_id}`}>Use</Link>
             <h1>{template_title}</h1>
             <p>{template_tag}</p>
-            <img src={image_url} style={{height: "120px", width: "200px"}}/>
+            <img src={image_url} style={{height: "280px", width: "100%", objectFit: "cover"}}/>
           </div>
       }
 
@@ -71,12 +76,7 @@ export default function DrawingItem(props) {
         showEditTemplateFormModal
         &&
         <div className="confirm-modal-background">
-            <div className="flex items-center pt-8 gap-10">
-                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowEditTemplateFormModal(false)}}>
-                    <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
-                </div>
-                <EditTemplateForm selectedTemplate={selectedTemplate} setShowEditTemplateFormModal={setShowEditTemplateFormModal}/>
-            </div>
+          <EditTemplateForm selectedTemplate={selectedTemplate} setShowEditTemplateFormModal={setShowEditTemplateFormModal}/>
         </div>
       }
     </>
