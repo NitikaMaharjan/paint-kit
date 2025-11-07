@@ -12,7 +12,8 @@ export default function AdminDashboard() {
 
   let navigate = useNavigate();
 
-  const scrollRef = useRef(null);
+  const templateScrollRef = useRef(null);
+  const colorPaletteScrollRef = useRef(null);
 
   const { showProgress } = useContext(ProgressBarContext);
   const { showAlert } = useContext(AlertContext);
@@ -20,7 +21,8 @@ export default function AdminDashboard() {
 
   const [showSettingDropDown, setShowSettingDropDown] = useState(false);
   const [selectedContent, setSelectedContent] = useState("template");
-  const [yScroll, setYScroll] = useState(false);
+  const [templateYScroll, setTemplateYScroll] = useState(false);
+  const [colorPaletteYScroll, setColorPaletteYScroll] = useState(false);
   const [showCreateColorPaletteFormModal,setShowCreateColorPaletteFormModal] = useState(false);
   const [showAddTemplateFormModal,setShowAddTemplateFormModal] = useState(false);
 
@@ -32,8 +34,12 @@ export default function AdminDashboard() {
     document.getElementById("arrow").style.backgroundColor="transparent";
   }
 
-  const scrollToTop = () => {
-    scrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+  const templateScrollToTop = () => {
+    templateScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  
+  const colorPaletteScrollToTop = () => {
+    colorPaletteScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSignOut = async() => {
@@ -55,13 +61,6 @@ export default function AdminDashboard() {
       navigate("/adminsignin");
     }else{
       showProgress();
-      scrollRef.current.addEventListener("scroll", () => {
-        if(scrollRef.current.scrollTop > 0) {
-          setYScroll(true);
-        }else{
-          setYScroll(false);
-        }
-      });
     }
     // eslint-disable-next-line
   }, []);
@@ -111,9 +110,9 @@ export default function AdminDashboard() {
         selectedContent==="template"
         &&
         <div className="dashboard-content">
-          <div ref={scrollRef} style={{height: "500px", overflowY: "auto", scrollbarWidth: "none"}}>
+          <div ref={templateScrollRef} style={{height: "500px", overflowY: "auto"}} onScroll={() => setTemplateYScroll(templateScrollRef.current.scrollTop > 0)}>
             <ViewTemplate/>
-            <button className={`up-scroll-btn${yScroll?"-show":""}`} onClick={scrollToTop}><img src="/up-arrow.png" style={{height: "14px", width: "14px"}}/></button>
+            <button className={`up-scroll-btn${templateYScroll?"-show":""}`} onClick={templateScrollToTop}><img src="/up-arrow.png" style={{height: "14px", width: "14px"}}/></button>
           </div>
           <div className="flex justify-center mt-4">
             <button className="action-btn" onClick={()=>{setShowAddTemplateFormModal(true)}}>Add Template</button>
@@ -125,12 +124,13 @@ export default function AdminDashboard() {
         selectedContent==="colorpalette"
         &&
         <div className="dashboard-content">
-          <div className="flex justify-end gap-6">
+          <div ref={colorPaletteScrollRef} style={{height: "500px", overflowY: "auto"}} onScroll={() => setColorPaletteYScroll(colorPaletteScrollRef.current.scrollTop > 0)}>
+            <AdminViewColorPalette/>
+            <button className={`up-scroll-btn${colorPaletteYScroll?"-show":""}`} onClick={colorPaletteScrollToTop}><img src="/up-arrow.png" style={{height: "14px", width: "14px"}}/></button>
+          </div>
+          <div className="flex justify-center mt-4 gap-8">
             <Link className="action-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>
             <button className="action-btn" onClick={()=>{setShowCreateColorPaletteFormModal(true)}}>Create color palette</button>
-          </div>
-          <div>
-            <AdminViewColorPalette/>
           </div>
         </div>
       }
@@ -147,12 +147,7 @@ export default function AdminDashboard() {
         showCreateColorPaletteFormModal
         &&
         <div className="confirm-modal-background">
-            <div className="flex items-center pt-8 gap-10">
-                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowCreateColorPaletteFormModal(false)}}>
-                    <img src="/close-white.png" alt="close icon" style={{height: "18px", width: "18px"}}/>
-                </div>
-                <CreateColorPaletteForm setShowCreateColorPaletteFormModal={setShowCreateColorPaletteFormModal}/>
-            </div>
+          <CreateColorPaletteForm setShowCreateColorPaletteFormModal={setShowCreateColorPaletteFormModal}/>
         </div>
       }
     </>
