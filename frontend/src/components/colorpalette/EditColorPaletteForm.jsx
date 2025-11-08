@@ -160,15 +160,17 @@ export default function EditColorPaletteForm(props) {
                     <h1 style={{fontSize: "14px", marginLeft: "14px"}}><b>{inputValue.color_palette_name}</b></h1>
                 </div>
                 <div style={{height: "504px", width: "304px", padding: "12px"}}>
-                    <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", justifyItems: "center", gap: "12px"}}>
-                        {colors.map((a_color, index)=>{
-                            return  <div key={index} style={{height: "100px", width: "85px", border: "1px solid black"}}>
-                                        <div style={{display: "flex", justifyContent: "right", padding: "4px", height:"78px", backgroundColor: `${a_color}`}} title={`${a_color}`}>
-                                            <img src={calculateBrightness(a_color)} alt="close button image" title="close button" style={{height: "12px", width: "12px", cursor: "pointer"}} onClick={()=>{removeColor(`${a_color}`)}}/>
+                    <div style={{height: "436px"}}>
+                        <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", justifyItems: "center", gap: "12px"}}>
+                            {colors.map((a_color, index)=>{
+                                return  <div key={index} style={{height: "100px", width: "85px", border: "1px solid black"}}>
+                                            <div style={{display: "flex", justifyContent: "right", padding: "4px", height:"78px", backgroundColor: `${a_color}`}} title={`${a_color}`}>
+                                                <img src={calculateBrightness(a_color)} alt="close button image" title="close button" style={{height: "12px", width: "12px", cursor: "pointer"}} onClick={()=>{removeColor(`${a_color}`)}}/>
+                                            </div>
+                                            <p style={{padding: "0px 4px", fontSize: "12px", height: "20px", backgroundColor: "white"}}>{a_color}</p>
                                         </div>
-                                        <p style={{padding: "0px 4px", fontSize: "12px", height: "20px", backgroundColor: "white"}}>{a_color}</p>
-                                    </div>
-                        }).reverse()}
+                            }).reverse()}
+                        </div>
                     </div>
                     <div className="flex justify-center">
                         <button className="action-btn" style={{marginTop: "12px", cursor: "pointer", opacity: `${colors.length>1?"1":"0"}`}} onClick={()=>{setColors([])}}>clear all</button>
@@ -179,7 +181,7 @@ export default function EditColorPaletteForm(props) {
                 <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc", width: "100%"}}>
                     <h1 style={{fontSize: "14px", textAlign: "center", width: "86%", padding: "8px 0px", borderRight: "1px solid black"}}><b>Edit color palette</b></h1>
                     <div style={{marginLeft: "10px", cursor: "pointer"}} onClick={()=>{props.setShowEditColorPaletteFormModal(false)}}>
-                    <img src="/close.png" alt="close icon" style={{height: "14px", width: "14px"}}/>
+                        <img src="/close.png" alt="close icon" style={{height: "14px", width: "14px"}}/>
                     </div>
                 </div>
                 <form className="auth-form">

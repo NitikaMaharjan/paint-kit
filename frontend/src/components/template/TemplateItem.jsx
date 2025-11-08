@@ -63,11 +63,17 @@ export default function DrawingItem(props) {
             </div>
             <img src={image_url} style={{height: "280px", width: "100%", objectFit: "cover"}}/>
           </div>
-        :
+        : 
           <div className="template-item">
-            <Link className="confirm-btn" to={`/usetemplate/${_id}`}>Use</Link>
-            <h1>{template_title}</h1>
-            <p>{template_tag}</p>
+            <div className="flex items-center justify-between mb-2">
+              <div>
+                <h1 style={{fontSize: "14px"}}><b>Title:</b> {template_title}</h1>
+                <p style={{fontSize: "13px"}}><b>Tag:</b> {template_tag}</p>
+              </div>
+              <div className="flex items-center justify-end">
+                <Link className="action-btn" to={`/usetemplate/${_id}`}>Use</Link>
+              </div>
+            </div>
             <img src={image_url} style={{height: "280px", width: "100%", objectFit: "cover"}}/>
           </div>
       }

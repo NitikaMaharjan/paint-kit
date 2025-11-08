@@ -65,12 +65,7 @@ export default function UserViewColorPalette(props) {
         showEditColorPaletteFormModal
         &&
         <div className="confirm-modal-background">
-            <div className="flex items-center pt-8 gap-10">
-                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowEditColorPaletteFormModal(false)}}>
-                    <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
-                </div>
-                <EditColorPaletteForm selectedColorPalette={selectedColorPalette} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal}/>
-            </div>
+          <EditColorPaletteForm selectedColorPalette={selectedColorPalette} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal}/>
         </div>
       }
     </>

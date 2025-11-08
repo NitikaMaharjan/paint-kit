@@ -14,7 +14,7 @@ export default function RightNavbar(props) {
 
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
-    const { canvasRef, penColor, setPenColor, setTextColor, handleExport, setTextSize, setTextFont, setText, undoStack } = useContext(DrawContext);
+    const { canvasRef, tool, penColor, setPenColor, setTextColor, handleExport, setTextSize, setTextFont, setText, undoStack } = useContext(DrawContext);
 
     const [showSettingDropDown, setShowSettingDropDown] = useState(false);
     const [showExportDropDown, setShowExportDropDown] = useState(false);
@@ -60,6 +60,14 @@ export default function RightNavbar(props) {
     
     const handleMouseOut = () => {
         document.getElementById("user-info").style.backgroundColor="transparent";
+    }
+    
+    const handleArrowMouseOver = () => {
+        document.getElementById("arrow").style.backgroundColor="rgba(0, 0, 0, 0.048)";
+    }
+    
+    const handleArrowMouseOut = () => {
+        document.getElementById("arrow").style.backgroundColor="transparent";
     }
 
     const handleInputPenColor = (e) => {
@@ -170,58 +178,73 @@ export default function RightNavbar(props) {
                         }
                     </div>
                 </div>
-                <div style={{paddingTop: "18px"}}>
-                    <p>Pen color:</p>
-                    <div style={{height: "32px", width: "32px", backgroundColor: `${penColor}`}}></div>
-                </div>
-                <div style={{paddingTop: "18px"}}>
-                    <p>Pick pen color:</p>
-                    <input type="color" value={inputPenColor} onChange={handleInputPenColor} style={{height: "32px", width: "32px", cursor: "pointer"}}/>
-                </div>
-                {   
-                    colorPaletteInUse.color_palette_name!=="" && colorPaletteInUse.colors.length!==0 ?
-                        <div className="color-palette-item">
-                            <div style={{padding: "12px 12px 4px 12px"}}>
-                                <p title={colorPaletteInUse.color_palette_name} style={{fontSize: "13px"}}>{colorPaletteInUse.color_palette_name}</p>
+                {
+                    (tool!=="text")
+                    &&
+                    <div style={{padding: "18px 0px"}}>
+                        <div>
+                            <div className="flex flex-col">
+                                <p>Pen color</p>
+                                <div style={{height: "36px", width: "36px", backgroundColor: `${penColor}`}}></div>
                             </div>
-                            <div style={{padding: "0px 12px 12px 12px"}}>
-                                <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>
-                                    {colorPaletteInUse.colors.map((a_color, index)=>{return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}} onClick={()=>{setPenColor(a_color)}}></div>}).reverse()}
-                                </div>
+                        </div>
+                        <div style={{marginTop: "12px"}}>
+                            <div className="flex items-center">                            
+                                <p>Pick pen color:</p>
+                                <input type="color" value={inputPenColor} onChange={handleInputPenColor} style={{height: "36px", width: "36px", cursor: "pointer"}}/>
+                            </div>
+                        </div>
+                    </div>
+                }
+                {   
+                    colorPaletteInUse.color_palette_name!=="" && colorPaletteInUse.colors.length!==0 && tool!=="text" ?
+                        <div style={{margin: "0px 0px 18px 0px", width: "min-content"}}>
+                            <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
+                                {colorPaletteInUse.colors.map((a_color, index)=>{return <div key={index} title={a_color} style={{height: "36px", width: "36px", backgroundColor: `${a_color}`, border: `${penColor===a_color?"2px solid black":"2px solid transparent"}`}} onClick={()=>{setPenColor(a_color)}}></div>}).reverse()}
                             </div>
                         </div>
                     :
                         <div></div>
                 }
-                <div style={{paddingTop: "18px"}}>
-                    <p>Pick text color:</p>
-                    <input type="color" value={inputTextColor} onChange={handleInputTextColor} style={{height: "32px", width: "32px", cursor: "pointer"}}/>
-                </div>
-                <div>
-                    <p>Text Size:</p>
-                    <input type="number" value={inputTextSize} onChange={handleInputTextSize} style={{cursor: "pointer"}}/>
-                </div>
-                <div>
-                    <p>Text Font:</p>
-                    <input type="text" value={inputTextFont} onChange={handleInputTextFont} style={{cursor: "pointer"}}/>
-                </div>
-                <div>
-                    <p>Text:</p>
-                    <input type="text" value={inputText} onChange={handleInputText} style={{cursor: "pointer"}}/>
-                </div>
-                <Link className="confirm-btn" to="/viewtemplate">View template</Link>
-                <button className="confirm-btn" onClick={()=>{setShowImageUploadFormModal(true)}}>Upload image</button>
-                <Link className="confirm-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>
-                <button className="confirm-btn" onClick={()=>{setShowSaveDrawingFormModal(true)}}>Save drawing</button>
-                <Link className="confirm-btn" to="/viewdrawing">View your drawing</Link>
+                {   
+                    (tool==="text")
+                    &&
+                    <div style={{padding: "18px 0px"}}>  
+                        <div className="mb-2">
+                            <div className="flex items-center">
+                                <p>Pick text color:</p>
+                                <input type="color" value={inputTextColor} onChange={handleInputTextColor} style={{height: "36px", width: "36px", cursor: "pointer"}}/>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <p>Text Size:</p>
+                            <input type="number" value={inputTextSize} onChange={handleInputTextSize} style={{cursor: "pointer", width: "140px", fontSize: "14px", border: "1px solid #ccc"}}/>
+                        </div>
+                        <div className="flex items-center gap-2 mb-2">
+                            <p>Text Font:</p>
+                            <input type="text" value={inputTextFont} onChange={handleInputTextFont} style={{cursor: "pointer", width: "140px", fontSize: "14px", border: "1px solid #ccc"}}/>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <p>Text:</p>
+                            <input type="text" value={inputText} onChange={handleInputText} style={{cursor: "pointer", width: "190px", fontSize: "14px", border: "1px solid #ccc"}}/>
+                        </div>
+                    </div>
+                }
+                <Link className="action-btn" to="/viewtemplate">View template</Link><br/>
+                <button className="action-btn mt-2 mb-2" onClick={()=>{setShowImageUploadFormModal(true)}}>Upload image</button><br/>
+                <Link className="action-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link><br/>
+                <button className="action-btn mt-2 mb-2" onClick={()=>{setShowSaveDrawingFormModal(true)}}>Save drawing</button><br/>
+                <Link className="action-btn" to="/viewdrawing">View your drawing</Link><br/>
                 {
                     props.edit===true ?
-                    <button className="confirm-btn" onClick={handleDiscardChanges}>Discard changes</button>
+                    <button className="action-btn mt-2" onClick={handleDiscardChanges}>Discard changes</button>
                     :
                     <div></div>
                 }
-                <div>
-                    <button className="dropdown-btn" onClick={()=>{setShowExportDropDown(!showExportDropDown)}}>Export <img src="/down-arrow.png" style={{height: "14px", width: "14px"}}/></button>
+                <div className="mt-2">
+                    <div id="arrow" onMouseOver={handleArrowMouseOver} onMouseOut={handleArrowMouseOut} style={{padding: "4px", width: "min-content"}}>
+                        <button className="dropdown-btn flex gap-4" style={{width: "100px"}} onClick={()=>{setShowExportDropDown(!showExportDropDown)}}><p>Export</p><img src="/down-arrow.png" style={{height: "14px", width: "14px"}}/></button>
+                    </div>
                     {
                         showExportDropDown
                         &&
@@ -239,12 +262,7 @@ export default function RightNavbar(props) {
                 showCreateColorPaletteFormModal
                 &&
                 <div className="confirm-modal-background">
-                    <div className="flex items-center pt-8 gap-10">
-                        <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowCreateColorPaletteFormModal(false)}}>
-                            <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
-                        </div>
-                        <CreateColorPaletteForm setShowCreateColorPaletteFormModal={setShowCreateColorPaletteFormModal}/>
-                    </div>
+                    <CreateColorPaletteForm setShowCreateColorPaletteFormModal={setShowCreateColorPaletteFormModal}/>
                 </div>
             }
 
@@ -252,12 +270,7 @@ export default function RightNavbar(props) {
                 showSaveDrawingFormModal
                 &&
                 <div className="confirm-modal-background">
-                    <div className="flex items-center pt-8 gap-10">
-                        <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowSaveDrawingFormModal(false)}}>
-                            <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
-                        </div>
-                        <SaveDrawingForm title={props.title} tag={props.tag} edit={props.edit} drawingid={props.drawingid}/>
-                    </div>
+                    <SaveDrawingForm title={props.title} tag={props.tag} edit={props.edit} drawingid={props.drawingid} setShowSaveDrawingFormModal={setShowSaveDrawingFormModal}/>
                 </div>
             }
 

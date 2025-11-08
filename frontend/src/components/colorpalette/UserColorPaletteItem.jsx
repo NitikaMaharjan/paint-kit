@@ -8,19 +8,19 @@ export default function UserColorPaletteItem(props) {
     const { handleDeleteColorPalette } = useContext(ColorPaletteContext);
 
     return (
-        <div className="color-palette-item">
-            <button className="confirm-btn" onClick={()=>{setColorPaletteInUse({ color_palette_name: color_palette_name, colors: colors })}}>Use</button>
-            <button className="confirm-btn" onClick={()=>{setSelectedColorPalette({color_palette_id: color_palette_id, color_palette_name: color_palette_name, colors: colors}); setShowEditColorPaletteFormModal(true);}}>Edit</button>
-            <button className="confirm-btn" onClick={()=>{handleDeleteColorPalette(color_palette_id)}}>Delete</button>
-            <div style={{padding: "12px 12px 4px 12px"}}>
-                <p title={color_palette_name}style={{fontSize: "13px"}}>{color_palette_name}</p>
-            </div>
-            <div style={{padding: "0px 12px 12px 12px"}}>
-                <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>
-                    {colors.map((a_color, index)=>{
-                        return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}}></div>
-                    }).reverse()}
+        <div style={{margin: "0px 0px 18px 0px", width: "min-content"}}>
+            <div className="flex items-center justify-between mb-1" style={{padding: "12px 0px"}}>
+                <p title={color_palette_name} style={{fontSize: "13px"}}>{color_palette_name.length>10?color_palette_name.slice(0,10)+"...":color_palette_name}</p>
+                <div className="flex items-center">
+                    <button className="icon-btn" onClick={()=>{setSelectedColorPalette({color_palette_id: color_palette_id, color_palette_name: color_palette_name, colors: colors}); setShowEditColorPaletteFormModal(true);}}><img src="/edit.png" style={{height: "20px", width: "20px"}}/></button>
+                    <button className="icon-btn" onClick={()=>{handleDeleteColorPalette(color_palette_id)}}><img src="/delete.png" style={{height: "18px", width: "18px"}}/></button>
+                    <button className="action-btn" onClick={()=>{setColorPaletteInUse({ color_palette_name: color_palette_name, colors: colors })}}>Use</button>
                 </div>
+            </div>
+            <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
+                {colors.map((a_color, index)=>{
+                    return <div key={index} title={a_color} style={{height: "36px", width: "36px", backgroundColor: `${a_color}`}}></div>
+                }).reverse()}
             </div>
         </div>
     );

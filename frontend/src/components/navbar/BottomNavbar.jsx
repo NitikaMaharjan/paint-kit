@@ -36,15 +36,19 @@ export default function BottomNavbar() {
     return (
         <div className="bottom-navbar">
             <div className="bottom-tool-bar">
-                <button className="confirm-btn" onClick={handleClearCanvas}>clear all</button>
-                <button className="confirm-btn" onClick={handleUndo}>Undo</button>
-                <button className="confirm-btn" onClick={handleRedo}>Redo</button>
-                <label htmlFor="pen_stroke_width">Pen Stroke Width:</label>
-                <input type="range" id="pen_stroke_width" name="pen_stroke_width" min="0" max="25" value={inputPenStrokeWidth} onChange={handlePenStrokeWidthChange}/>
-                <label htmlFor="eraser_stroke_width">Eraser Stroke Width:</label>
-                <input type="range" id="eraser_stroke_width" name="eraser_stroke_width" min="0" max="25" value={inputEraserStrokeWidth} onChange={handleEraserStrokeWidthChange}/>
-                <label htmlFor="color_opacity">Color Opacity:</label>
-                <input type="range" id="color_opacity" name="color_opacity" min="0" max="255" value={inputColorOpacity} onChange={handleColorOpacityChange}/>
+                <div className="flex items-center justify-between p-2">
+                    <label htmlFor="pen_stroke_width">Pen Stroke Width:</label>
+                    <input type="range" id="pen_stroke_width" name="pen_stroke_width" min="0" max="25" value={inputPenStrokeWidth} onChange={handlePenStrokeWidthChange}/>
+                    <label htmlFor="eraser_stroke_width">Eraser Stroke Width:</label>
+                    <input type="range" id="eraser_stroke_width" name="eraser_stroke_width" min="0" max="25" value={inputEraserStrokeWidth} onChange={handleEraserStrokeWidthChange}/>
+                    <label htmlFor="color_opacity">Color Opacity:</label>
+                    <input type="range" id="color_opacity" name="color_opacity" min="0" max="255" value={inputColorOpacity} onChange={handleColorOpacityChange}/>
+                </div>
+                <div className="flex justify-end pr-4 gap-4">
+                    <button className="action-btn" onClick={handleUndo}>Undo</button>
+                    <button className="action-btn" onClick={handleRedo}>Redo</button>
+                    <button className="action-btn" onClick={handleClearCanvas}>clear all</button>
+                </div>
             </div>
         </div>
     );

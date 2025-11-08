@@ -31,8 +31,8 @@ export default function ViewTemplate() {
     <>
       {
         fetchedTemplates.length !==0 ?
-          <div>
-            <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px"}}>
+          <div style={{padding: `${localStorage.getItem("userSignedIn")?"32px":""}`}}>
+            <div style={{display: "grid", gridTemplateColumns: `${localStorage.getItem("userSignedIn")?"repeat(4, 1fr)":"repeat(3, 1fr)"}`, gap: "24px"}}>
               {fetchedTemplates.map((templateInfo, index)=>{
                 return <TemplateItem key={index} templateInfo={templateInfo}/>
               }).reverse()}

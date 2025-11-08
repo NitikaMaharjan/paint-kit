@@ -30,17 +30,15 @@ export default function AdminColorPaletteItem(props) {
                         </div>
                     </div>
                 :
-                    <div className="color-palette-item">
-                        <button className="confirm-btn" onClick={()=>{setColorPaletteInUse({ color_palette_name: color_palette_name, colors: colors })}}>Use</button>
-                        <div style={{padding: "12px 12px 4px 12px"}}>
-                            <p title={color_palette_name}style={{fontSize: "13px"}}>{color_palette_name}</p>
+                    <div style={{margin: "0px 0px 18px 0px", width: "min-content"}}>
+                        <div className="flex items-center justify-between mb-1" style={{padding: "12px 0px"}}>
+                            <p style={{fontSize: "13px"}}>{color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name}</p>
+                            <button className="action-btn" onClick={()=>{setColorPaletteInUse({ color_palette_name: color_palette_name, colors: colors })}}>Use</button>
                         </div>
-                        <div style={{padding: "0px 12px 12px 12px"}}>
-                            <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>
-                                {colors.map((a_color, index)=>{
-                                    return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}}></div>
-                                }).reverse()}
-                            </div>
+                        <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
+                            {colors.map((a_color, index)=>{
+                                return <div key={index} title={a_color} style={{height: "36px", width: "36px", backgroundColor: `${a_color}`}}></div>
+                            }).reverse()}
                         </div>
                     </div>
             }

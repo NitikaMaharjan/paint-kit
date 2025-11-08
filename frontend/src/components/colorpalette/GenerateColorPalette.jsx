@@ -348,9 +348,36 @@ export default function GenerateColorPalette() {
     <>
       <div className="content gap-8">
         <div className="auth-form-box">
+          <div className="flex items-center justify-end" style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
+            
+          </div>
+          <div style={{height: "504px", width: "304px", padding: "12px"}}>
+            <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", justifyItems: "center", gap: "12px"}}>
+              {
+                palette.length !== 0 ?
+                  palette.map((a_color, index)=>{
+                    return  <div key={index} style={{height: "100px", width: "85px", border: "1px solid black"}}>
+                              <div style={{display: "flex", justifyContent: "right", padding: "4px", height:"78px", backgroundColor: `${a_color.hex}`}} title={`${a_color.hex}`}>
+                                <img src={calculateBrightness(a_color.hex)} alt="copy color button image" title="copy button" style={{height: "18px", width: "18px", cursor: "pointer"}} onClick={()=>{handleCopy(a_color.hex)}}/>
+                              </div>
+                              <p style={{padding: "0px 4px", fontSize: "12px", height: "20px", backgroundColor: "white"}}>{a_color.hex}</p>
+                            </div>
+                  }).reverse()
+                :
+                  <div>
+                    
+                  </div>
+              }
+            </div>
+            <div className="flex justify-center">
+              <button className="action-btn" style={{marginTop: "12px", cursor: "pointer", opacity: `${palette.length>1?"1":"0"}`}} onClick={clearAll}>clear all</button>
+            </div>
+          </div>
+        </div>
+        <div className="auth-form-box">
           <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Generate color palette</b></h1>
           <div className="auth-form">
-            <div style={{marginBottom: "20px"}}>
+            <div>
               <label>Upload Image</label>
               <div className="input-bar">
                 <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFile}/>
@@ -362,42 +389,13 @@ export default function GenerateColorPalette() {
           <button className="submit-btn" onClick={()=>{setShowColorPaletteNameFormModal(true)}}>Save color palette</button>
           </div>
         </div>
-        <div className="auth-form-box">
-          <div className="flex items-center justify-end" style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
-              <img src="/close.png" title="clear all button" style={{height: "13px", width: "13px", cursor: "pointer", marginRight: "14px"}} onClick={clearAll}/>
-          </div>
-          <div style={{height: "448px", width: "304px", padding: "12px"}}>
-            <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", justifyItems: "center", gap: "12px"}}>
-              {
-                palette.length !== 0 ?
-                  palette.map((a_color, index)=>{
-                    return  <div key={index} style={{height: "100px", width: "85px", border: "1px solid black"}}>
-                              <div style={{display: "flex", justifyContent: "right", padding: "4px", height:"78px", backgroundColor: `${a_color.hex}`}} title={`${a_color.hex}`}>
-                                <img src={calculateBrightness(a_color.hex)} alt="copy color button image" title="copy button" style={{height: "18px", width: "18px", cursor: "pointer"}} onClick={()=>{handleCopy(a_color.hex)}}/>
-                              </div>
-                              <p style={{padding: "0px 4px", fontSize: "12px", height: "20px", backgroundColor: "white"}}>{a_color.hex}</p>
-                            </div>
-                  })
-                :
-                  <div>
-                    no colors generated
-                  </div>
-              }
-            </div>
-          </div>
-        </div>
       </div>
 
       {
         showColorPaletteNameFormModal
         &&
         <div className="confirm-modal-background">
-            <div className="flex items-center pt-8 gap-10">
-                <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowColorPaletteNameFormModal(false)}}>
-                    <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
-                </div>
-                <ColorPaletteNameForm colors={colors} setShowColorPaletteNameFormModal={setShowColorPaletteNameFormModal}/>
-            </div>
+          <ColorPaletteNameForm colors={colors} setShowColorPaletteNameFormModal={setShowColorPaletteNameFormModal}/>
         </div>
       }
     </>

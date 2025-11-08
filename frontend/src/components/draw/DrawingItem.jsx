@@ -38,13 +38,18 @@ export default function DrawingItem(props) {
   }
 
   return (
-    <div>      
-      <Link className="confirm-btn" to={`/editdrawing/${_id}`}>Edit</Link>
-      <button className="confirm-btn" onClick={()=>{handleDeleteDrawing(`${_id}`)}}>Delete</button>
-      <h1>{drawing_title}</h1>
-      <p>{drawing_tag}</p>
-      <p>{date}</p>
-      <img src={drawing_url} style={{height: "120px", width: "200px"}}/>
+    <div className="template-item">
+      <div className="flex items-center justify-between mb-2"> 
+        <div>
+          <h1 style={{fontSize: "14px"}}><b>Title:</b> {drawing_title.length>14?drawing_title.slice(0,14)+"...":drawing_title}</h1>
+          <p style={{fontSize: "13px"}}><b>Tag:</b> {drawing_tag}</p>
+        </div>  
+        <div className="flex items-center justify-end">
+          <Link className="icon-btn" to={`/editdrawing/${_id}`}><img src="/edit.png" style={{height: "20px", width: "20px"}}/></Link>
+          <button className="icon-btn" onClick={()=>{handleDeleteDrawing(`${_id}`)}}><img src="/delete.png" style={{height: "18px", width: "18px"}}/></button>
+        </div>
+      </div> 
+      <img src={drawing_url} style={{height: "280px", width: "100%", objectFit: "cover"}}/>
     </div>
   );
 }

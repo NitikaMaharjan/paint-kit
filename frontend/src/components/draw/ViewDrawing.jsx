@@ -29,14 +29,16 @@ export default function ViewDrawing() {
     <>
       {
         fetchedDrawings.length !==0 ?
-          <div>
-            {fetchedDrawings.map((drawingInfo, index)=>{
-              return <DrawingItem key={index} drawingInfo={drawingInfo}/>
-            }).reverse()}
+          <div style={{padding: "32px"}}>
+            <div style={{display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "24px"}}>
+              {fetchedDrawings.map((drawingInfo, index)=>{
+                return <DrawingItem key={index} drawingInfo={drawingInfo}/>
+              }).reverse()}
+            </div>
           </div>
         :
-          <div>
-            no drawings
+          <div className="flex items-center justify-center" style={{height: "100%"}}>
+            <p style={{fontSize: "14px"}}><b>Start creating to get started!</b></p>
           </div>
       }
     </>
