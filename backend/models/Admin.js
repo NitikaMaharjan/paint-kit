@@ -2,20 +2,20 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const AdminSchema = new Schema({
-    email:{
+    admin_email:{
         type: String,
         required: true,
         unique: true
     },
-    username:{
+    admin_username:{
         type: String,
         required: true
     },
-    password:{
+    admin_password:{
         type: String,
         required: true
     },
-    date:{
+    admin_registered_date:{
         type: Date,
         default: Date.now
     }

@@ -9,9 +9,9 @@ export default function AdminSignup() {
   const { showAlert } = useContext(AlertContext);
   
   const [credentials, setCredentials] = useState({
-    email: "",
-    username: "",
-    password: "",
+    admin_email: "",
+    admin_username: "",
+    admin_password: "",
     confirm_password: ""
   })
   const [passwordType, setPasswordType] = useState("password");
@@ -42,12 +42,12 @@ export default function AdminSignup() {
   }
 
   const clientSideValidation = () => {
-    const nameRegex = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
+    const nameRegex = /^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/;
     const passwordRegex = /^[A-Za-z0-9!@#$%^&*()_+\-={};':"|,.<>/?]+$/;
 
-    let trimmed_email = credentials.email.trim().toLowerCase();
-    let trimmed_username = credentials.username.trim();
-    let trimmed_password = credentials.password.trim();
+    let trimmed_email = credentials.admin_email.trim().toLowerCase();
+    let trimmed_username = credentials.admin_username.trim();
+    let trimmed_password = credentials.admin_password.trim();
     let trimmed_confirm_password = credentials.confirm_password.trim();
 
     if(trimmed_email==="" && trimmed_username!=="" && trimmed_password!=="" && trimmed_confirm_password!==""){
@@ -75,7 +75,7 @@ export default function AdminSignup() {
       return false;
     }
     
-    if(!document.getElementById("email").checkValidity()){
+    if(!document.getElementById("admin_email").checkValidity()){
       showAlert("Warning", "Please enter a valid email address!");
       return false;
     }
@@ -91,7 +91,7 @@ export default function AdminSignup() {
     }
     
     if(!nameRegex.test(trimmed_username)){
-      showAlert("Warning", "Username can only contain letters and single consecutive space!");
+      showAlert("Warning", "Username can only contain letters, numbers and single consecutive space!");
       return false;
     }
     
@@ -127,9 +127,9 @@ export default function AdminSignup() {
             "Content-Type": "application/json" 
           },
           body: JSON.stringify({
-            email: credentials.email.trim().toLowerCase(), 
-            username: credentials.username.trim(),
-            password: credentials.password.trim()
+            admin_email: credentials.admin_email.trim().toLowerCase(), 
+            admin_username: credentials.admin_username.trim(),
+            admin_password: credentials.admin_password.trim()
           })
         });
         const json = await response.json();
@@ -157,27 +157,27 @@ export default function AdminSignup() {
         <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Get started with your account</b></h1>
         <form className="auth-form">
           <div className="mb-1">
-            <label htmlFor="email"><b>Email</b></label>
+            <label htmlFor="admin_email"><b>Email</b></label>
             <div className="input-bar" id="email-input-bar">
-              <input type="email" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
-              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
+              <input type="email" id="admin_email" name="admin_email" placeholder="Enter email" value={credentials.admin_email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("admin_email")}} style={{opacity: `${credentials.admin_email===""?0:1}`}}/>
             </div>
           </div>
           <div className="mb-1">
-            <label htmlFor="username"><b>Username</b></label>
+            <label htmlFor="admin_username"><b>Username</b></label>
             <div className="input-bar" id="username-input-bar">
-              <input type="text" id="username" name="username" placeholder="Enter username" value={credentials.username} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("username")}} onBlur={()=>{removeBorderHighlight("username")}}/>
-              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("username")}} style={{opacity: `${credentials.username===""?0:1}`}}/>
+              <input type="text" id="admin_username" name="admin_username" placeholder="Enter username" value={credentials.admin_username} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("username")}} onBlur={()=>{removeBorderHighlight("username")}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("admin_username")}} style={{opacity: `${credentials.admin_username===""?0:1}`}}/>
             </div>
           </div>          
           <div className="mb-1">
             <div className="flex items-center justify-between pr-1">
-              <label htmlFor="password"><b>Password</b></label>
+              <label htmlFor="admin_password"><b>Password</b></label>
               <img src={`/${passwordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("password")}}/>
             </div>
             <div className="input-bar" id="password-input-bar">
-              <input type={`${passwordType}`} id="password" name="password" placeholder="Enter password" value={credentials.password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
-              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("password")}} style={{opacity: `${credentials.password===""?0:1}`}}/>
+              <input type={`${passwordType}`} id="admin_password" name="admin_password" placeholder="Enter password" value={credentials.admin_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("admin_password")}} style={{opacity: `${credentials.admin_password===""?0:1}`}}/>
             </div>
           </div>
           <div style={{marginBottom: "28px"}}>

@@ -12,11 +12,11 @@ var verifyAdminToken = require('../middleware/verifyAdminToken');
 
 // Route 1: sign up using POST method, URL '/api/admin/adminsignup'
 router.post('/adminsignup', [
-  body('email').notEmpty().withMessage('email is required.'),
+  body('admin_email').notEmpty().withMessage('email is required.'),
 
-  body('username').notEmpty().withMessage('username is required.'),
+  body('admin_username').notEmpty().withMessage('username is required.'),
   
-  body('password').notEmpty().withMessage('password is required.')
+  body('admin_password').notEmpty().withMessage('password is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules
@@ -29,7 +29,7 @@ router.post('/adminsignup', [
 
   try{
     // check if admin with same email already exists
-    const admin_exists = await Admin.findOne({ email: req.body.email });
+    const admin_exists = await Admin.findOne({ admin_email: req.body.admin_email });
 
     if(admin_exists){
       // if admin already exists
@@ -37,13 +37,13 @@ router.post('/adminsignup', [
     }
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const hashedPassword = await bcrypt.hash(req.body.admin_password, salt);
 
     // if validation passes and admin does not exists already then create a new admin with the request data
     await Admin.create({
-      email: req.body.email,
-      username: req.body.username,
-      password: hashedPassword
+      admin_email: req.body.admin_email,
+      admin_username: req.body.admin_username,
+      admin_password: hashedPassword
     });
 
     // if admin is successfully created, respond with success true
@@ -56,9 +56,9 @@ router.post('/adminsignup', [
 
 // Route 2: sign in using POST method, URL '/api/admin/adminsignin'
 router.post('/adminsignin', [
-  body('email').notEmpty().withMessage('email is required.'),
+  body('admin_email').notEmpty().withMessage('email is required.'),
   
-  body('password').notEmpty().withMessage('password is required.')
+  body('admin_password').notEmpty().withMessage('password is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules
@@ -69,11 +69,11 @@ router.post('/adminsignin', [
     return res.status(400).json({ success: false, errors: errors.array() });
   }
 
-  const { email, password } = req.body;
+  const { admin_email, admin_password } = req.body;
 
   try{
     // check if admin exists
-    const admin_exists = await Admin.findOne({ email });
+    const admin_exists = await Admin.findOne({ admin_email });
 
     if(!admin_exists){
       // if admin doesn't exists
@@ -81,7 +81,7 @@ router.post('/adminsignin', [
     }
 
     // check if the password is correct
-    const password_matched = await bcrypt.compare(password, admin_exists.password);
+    const password_matched = await bcrypt.compare(admin_password, admin_exists.admin_password);
 
     if(!password_matched){
       // if password doesn't match
@@ -110,8 +110,8 @@ router.get('/fetchadmindetails', verifyAdminToken, async(req, res) => {
   try{
     const admin_id = req.admin.id;
     
-    // fetch admin's email and username using user_id excluding password, date and __v
-    const signedInAdminDetails = await Admin.findById(admin_id).select('-password -date -__v');
+    // fetch admin's email and username using user_id excluding admin_password, admin_registered_date and __v
+    const signedInAdminDetails = await Admin.findById(admin_id).select('-admin_password -admin_registered_date -__v');
     res.json({ success: true, signedInAdminDetails });
   }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });

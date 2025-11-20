@@ -20,8 +20,8 @@ export default function SignedInAdminDetailsState(props) {
             if(json.success){
                 localStorage.setItem("admin_token", true);
                 localStorage.setItem("admin_id", json.signedInAdminDetails._id);
-                localStorage.setItem("admin_email", json.signedInAdminDetails.email);
-                localStorage.setItem("admin_username", json.signedInAdminDetails.username);
+                localStorage.setItem("admin_email", json.signedInAdminDetails.admin_email);
+                localStorage.setItem("admin_username", json.signedInAdminDetails.admin_username);
             }else{
                 localStorage.removeItem("adminSignedIn");
                 localStorage.removeItem("adminAuthToken");
