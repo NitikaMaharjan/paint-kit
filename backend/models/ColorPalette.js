@@ -18,7 +18,7 @@ const ColorPaletteSchema = new Schema({
         type: [String],
         required: true
     },
-    date:{
+    palette_updated_date:{
         type: Date,
         default: Date.now
     }

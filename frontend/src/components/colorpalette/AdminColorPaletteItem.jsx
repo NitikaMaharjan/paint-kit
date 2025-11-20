@@ -3,7 +3,7 @@ import ColorPaletteContext from "../../context/colorpalette/ColorPaletteContext"
 
 export default function AdminColorPaletteItem(props) {
 
-    const { color_palette_id, color_palette_name, colors, setShowEditColorPaletteFormModal, setSelectedColorPalette, setColorPaletteInUse } = props;
+    const { color_palette_id, color_palette_name, colors, palette_updated_date, setShowEditColorPaletteFormModal, setSelectedColorPalette, setColorPaletteInUse } = props;
 
     const { handleDeleteColorPalette } = useContext(ColorPaletteContext);
 

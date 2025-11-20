@@ -44,8 +44,8 @@ router.get('/fetchusercolorpalette', async(req, res) => {
   try{
     const user_id = req.query.user_id;
     
-    // fetch user's color palette using user_id excluding -by_admin, -user_id, -date, -__v
-    const fetchedUserColorPalette = await ColorPalette.find({ user_id }).select('-by_admin -user_id -date -__v');
+    // fetch user's color palette using user_id excluding -by_admin, -user_id, -__v
+    const fetchedUserColorPalette = await ColorPalette.find({ user_id }).select('-by_admin -user_id -__v');
     res.json({ success: true, fetchedUserColorPalette });
   }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });
@@ -55,8 +55,8 @@ router.get('/fetchusercolorpalette', async(req, res) => {
 // Route 3: fetch admin's color palettes using GET method, URL '/api/colorpalette/fetchadmincolorpalette'
 router.get('/fetchadmincolorpalette', async(req, res) => {
   try{
-    // fetch admin's color palette using by_admin excluding -by_admin, -user_id, -date, -__v
-    const fetchedAdminColorPalette = await ColorPalette.find({ by_admin: true }).select('-by_admin -user_id -date -__v');
+    // fetch admin's color palette using by_admin excluding -by_admin, -user_id, -__v
+    const fetchedAdminColorPalette = await ColorPalette.find({ by_admin: true }).select('-by_admin -user_id -__v');
     res.json({ success: true, fetchedAdminColorPalette });
   }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });
@@ -77,7 +77,7 @@ router.delete('/deletecolorpalette', async(req, res) => {
 router.put("/editcolorpalette/:id", async(req, res) => {
   try{
     const edit_date = new Date();
-    await ColorPalette.findByIdAndUpdate(req.params.id, { color_palette_name: req.body.color_palette_name, colors: req.body.colors, date: edit_date.toISOString() }, { new: true });
+    await ColorPalette.findByIdAndUpdate(req.params.id, { color_palette_name: req.body.color_palette_name, colors: req.body.colors, palette_updated_date: edit_date.toISOString() }, { new: true });
     res.json({ success: true });
   }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });
