@@ -271,6 +271,24 @@ export default function GenerateColorPalette() {
   const handleFile = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // file validation
+    const validTypes = ["image/png", "image/jpeg"];
+    const maxSizeMB = 2;
+    const maxSizeBytes = maxSizeMB * 1024 * 1024;
+
+    if (!validTypes.includes(file.type)) {
+      showAlert("Warning", "Only PNG and JPEG images are allowed!");
+      fileInputRef.current.value = ""; 
+      return;
+    }
+
+    if (file.size > maxSizeBytes) {
+      showAlert("Warning", `Image size must be less than ${maxSizeMB} MB!`);
+      fileInputRef.current.value = "";
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = (ev) => {
       const img = new Image();
@@ -318,6 +336,15 @@ export default function GenerateColorPalette() {
       setColorCopied(false);
       setCopiedColor("");
     }, 1500);
+  }
+
+  const handleSavingColorPalette = () => {
+    if(fileInputRef.current.value!==""){
+      setShowColorPaletteNameFormModal(true);
+    }else{
+      showAlert("Warning", "Please select an image and generate color palette before saving it!");
+      return;
+    }
   }
 
   useEffect(() => {
@@ -386,7 +413,7 @@ export default function GenerateColorPalette() {
             <div>
               <canvas ref={colorPaletteCanvasRef} height={"200px"} width={"350px"}></canvas>
             </div>
-          <button className="submit-btn" onClick={()=>{setShowColorPaletteNameFormModal(true)}}>Save color palette</button>
+          <button className="submit-btn" onClick={handleSavingColorPalette}>Save color palette</button>
           </div>
         </div>
       </div>
