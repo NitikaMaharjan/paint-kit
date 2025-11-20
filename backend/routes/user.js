@@ -12,11 +12,11 @@ var verifyUserToken = require('../middleware/verifyUserToken');
 
 // Route 1: sign up using POST method, URL '/api/user/usersignup'
 router.post('/usersignup', [
-  body('email').notEmpty().withMessage('email is required.'),
+  body('user_email').notEmpty().withMessage('email is required.'),
 
-  body('username').notEmpty().withMessage('username is required.'),
+  body('user_username').notEmpty().withMessage('username is required.'),
   
-  body('password').notEmpty().withMessage('password is required.')
+  body('user_password').notEmpty().withMessage('password is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules
@@ -29,7 +29,7 @@ router.post('/usersignup', [
 
   try{
     // check if user with same email already exists
-    const user_exists = await User.findOne({ email: req.body.email });
+    const user_exists = await User.findOne({ user_email: req.body.user_email });
 
     if(user_exists){
       // if user already exists
@@ -37,13 +37,13 @@ router.post('/usersignup', [
     }
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const hashedPassword = await bcrypt.hash(req.body.user_password, salt);
 
     // if validation passes and user does not exists already then create a new user with the request data
     await User.create({
-      email: req.body.email,
-      username: req.body.username,
-      password: hashedPassword
+      user_email: req.body.user_email,
+      user_username: req.body.user_username,
+      user_password: hashedPassword
     });
 
     // if user is successfully created, respond with success true
@@ -56,9 +56,9 @@ router.post('/usersignup', [
 
 // Route 2: sign in using POST method, URL '/api/user/usersignin'
 router.post('/usersignin', [
-  body('email').notEmpty().withMessage('email is required.'),
+  body('user_email').notEmpty().withMessage('email is required.'),
   
-  body('password').notEmpty().withMessage('password is required.')
+  body('user_password').notEmpty().withMessage('password is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules
@@ -69,11 +69,11 @@ router.post('/usersignin', [
     return res.status(400).json({ success: false, errors: errors.array() });
   }
 
-  const { email, password } = req.body;
+  const { user_email, user_password } = req.body;
 
   try{
     // check if user exists
-    const user_exists = await User.findOne({ email });
+    const user_exists = await User.findOne({ user_email });
 
     if(!user_exists){
       // if user doesn't exists
@@ -81,7 +81,7 @@ router.post('/usersignin', [
     }
 
     // check if the password is correct
-    const password_matched = await bcrypt.compare(password, user_exists.password);
+    const password_matched = await bcrypt.compare(user_password, user_exists.user_password);
 
     if(!password_matched){
       // if password doesn't match
@@ -110,8 +110,8 @@ router.get('/fetchuserdetails', verifyUserToken, async(req, res) => {
   try{
     const user_id = req.user.id;
 
-    // fetch user's email and username using user_id excluding password, date and __v
-    const signedInUserDetails = await User.findById(user_id).select('-password -date -__v');
+    // fetch user's email and username using user_id excluding user_password, user_registered_date and __v
+    const signedInUserDetails = await User.findById(user_id).select('-user_password -user_registered_date -__v');
     res.json({ success: true, signedInUserDetails });
   }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });

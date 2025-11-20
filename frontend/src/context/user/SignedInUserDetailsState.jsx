@@ -20,8 +20,8 @@ export default function SignedInUserDetailsState(props) {
             if(json.success){
                 localStorage.setItem("user_token", true);
                 localStorage.setItem("user_id", json.signedInUserDetails._id);
-                localStorage.setItem("user_email", json.signedInUserDetails.email);
-                localStorage.setItem("user_username", json.signedInUserDetails.username);
+                localStorage.setItem("user_email", json.signedInUserDetails.user_email);
+                localStorage.setItem("user_username", json.signedInUserDetails.user_username);
             }else{
                 localStorage.removeItem("userSignedIn");
                 localStorage.removeItem("userAuthToken");

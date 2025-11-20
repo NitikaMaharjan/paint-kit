@@ -11,8 +11,8 @@ export default function UserSignin() {
   const { fetchSignedInUserDetails } = useContext(SignedInUserDetailsContext);
   
   const [credentials, setCredentials] = useState({
-    email: "",
-    password: ""
+    user_email: "",
+    user_password: ""
   })
   const [passwordType, setPasswordType] = useState("password");
 
@@ -37,8 +37,8 @@ export default function UserSignin() {
   }
 
   const clientSideValidation = () => {
-    let email = credentials.email;
-    let password = credentials.password;
+    let email = credentials.user_email;
+    let password = credentials.user_password;
 
     if(email==="" && password!==""){
       showAlert("Warning", "Email is required. Please try again!");
@@ -55,7 +55,7 @@ export default function UserSignin() {
       return false;
     }
     
-    if(!document.getElementById("email").checkValidity()){
+    if(!document.getElementById("user_email").checkValidity()){
       showAlert("Warning", "Please enter a valid email address!");
       return false;
     }
@@ -72,8 +72,8 @@ export default function UserSignin() {
             "Content-Type": "application/json" 
           },
           body: JSON.stringify({
-            email: credentials.email,
-            password: credentials.password
+            user_email: credentials.user_email,
+            user_password: credentials.user_password
           })
         });
         const json = await response.json();
@@ -106,20 +106,20 @@ export default function UserSignin() {
         <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Welcome back</b></h1>
         <form className="auth-form">
           <div className="mb-1">
-            <label htmlFor="email"><b>Email</b></label>
+            <label htmlFor="user_email"><b>Email</b></label>
             <div className="input-bar" id="email-input-bar">
-              <input type="email" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
-              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
+              <input type="email" id="user_email" name="user_email" placeholder="Enter email" value={credentials.user_email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("user_email")}} style={{opacity: `${credentials.user_email===""?0:1}`}}/>
             </div>
           </div>          
           <div style={{marginBottom: "28px"}}>
             <div className="flex items-center justify-between pr-1">
-              <label htmlFor="password"><b>Password</b></label>
+              <label htmlFor="user_password"><b>Password</b></label>
               <img src={`/${passwordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType()}}/>
             </div>
             <div className="input-bar" id="password-input-bar">
-              <input type={`${passwordType}`} id="password" name="password" placeholder="Enter password" value={credentials.password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
-              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("password")}} style={{opacity: `${credentials.password===""?0:1}`}}/>
+              <input type={`${passwordType}`} id="user_password" name="user_password" placeholder="Enter password" value={credentials.user_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("user_password")}} style={{opacity: `${credentials.user_password===""?0:1}`}}/>
             </div>
           </div>
           <div className="flex flex-col justify-center">

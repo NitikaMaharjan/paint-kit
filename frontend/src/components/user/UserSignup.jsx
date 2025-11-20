@@ -9,9 +9,9 @@ export default function UserSignup() {
   const { showAlert } = useContext(AlertContext);
   
   const [credentials, setCredentials] = useState({
-    email: "",
-    username: "",
-    password: "",
+    user_email: "",
+    user_username: "",
+    user_password: "",
     confirm_password: ""
   })
   const [passwordType, setPasswordType] = useState("password");
@@ -42,12 +42,12 @@ export default function UserSignup() {
   }
 
   const clientSideValidation = () => {
-    const nameRegex = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
+    const nameRegex = /^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/;
     const passwordRegex = /^[A-Za-z0-9!@#$%^&*()_+\-={};':"|,.<>/?]+$/;
 
-    let trimmed_email = credentials.email.trim().toLowerCase();
-    let trimmed_username = credentials.username.trim();
-    let trimmed_password = credentials.password.trim();
+    let trimmed_email = credentials.user_email.trim().toLowerCase();
+    let trimmed_username = credentials.user_username.trim();
+    let trimmed_password = credentials.user_password.trim();
     let trimmed_confirm_password = credentials.confirm_password.trim();
 
     if(trimmed_email==="" && trimmed_username!=="" && trimmed_password!=="" && trimmed_confirm_password!==""){
@@ -75,7 +75,7 @@ export default function UserSignup() {
       return false;
     }
     
-    if(!document.getElementById("email").checkValidity()){
+    if(!document.getElementById("user_email").checkValidity()){
       showAlert("Warning", "Please enter a valid email address!");
       return false;
     }
@@ -91,7 +91,7 @@ export default function UserSignup() {
     }
     
     if(!nameRegex.test(trimmed_username)){
-      showAlert("Warning", "Username can only contain letters and single consecutive space!");
+      showAlert("Warning", "Username can only contain letters, numbers and single consecutive space!");
       return false;
     }
     
@@ -127,9 +127,9 @@ export default function UserSignup() {
             "Content-Type": "application/json" 
           },
           body: JSON.stringify({
-            email: credentials.email.trim().toLowerCase(), 
-            username: credentials.username.trim(),
-            password: credentials.password.trim()
+            user_email: credentials.user_email.trim().toLowerCase(), 
+            user_username: credentials.user_username.trim(),
+            user_password: credentials.user_password.trim()
           })
         });
         const json = await response.json();
@@ -157,27 +157,27 @@ export default function UserSignup() {
         <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Get started with your account</b></h1>
         <form className="auth-form">
           <div className="mb-1">
-            <label htmlFor="email"><b>Email</b></label>
+            <label htmlFor="user_email"><b>Email</b></label>
             <div className="input-bar" id="email-input-bar">
-              <input type="email" id="email" name="email" placeholder="Enter email" value={credentials.email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
-              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("email")}} style={{opacity: `${credentials.email===""?0:1}`}}/>
+              <input type="email" id="user_email" name="user_email" placeholder="Enter email" value={credentials.user_email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("user_email")}} style={{opacity: `${credentials.user_email===""?0:1}`}}/>
             </div>
           </div>
           <div className="mb-1">
-            <label htmlFor="username"><b>Username</b></label>
+            <label htmlFor="user_username"><b>Username</b></label>
             <div className="input-bar" id="username-input-bar">
-              <input type="text" id="username" name="username" placeholder="Enter username" value={credentials.username} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("username")}} onBlur={()=>{removeBorderHighlight("username")}}/>
-              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("username")}} style={{opacity: `${credentials.username===""?0:1}`}}/>
+              <input type="text" id="user_username" name="user_username" placeholder="Enter username" value={credentials.user_username} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("username")}} onBlur={()=>{removeBorderHighlight("username")}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("user_username")}} style={{opacity: `${credentials.user_username===""?0:1}`}}/>
             </div>
           </div>          
           <div className="mb-1">
             <div className="flex items-center justify-between pr-1">
-              <label htmlFor="password"><b>Password</b></label>
+              <label htmlFor="user_password"><b>Password</b></label>
               <img src={`/${passwordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("password")}}/>
             </div>
             <div className="input-bar" id="password-input-bar">
-              <input type={`${passwordType}`} id="password" name="password" placeholder="Enter password" value={credentials.password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
-              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("password")}} style={{opacity: `${credentials.password===""?0:1}`}}/>
+              <input type={`${passwordType}`} id="user_password" name="user_password" placeholder="Enter password" value={credentials.user_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
+              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("user_password")}} style={{opacity: `${credentials.user_password===""?0:1}`}}/>
             </div>
           </div>
           <div style={{marginBottom: "28px"}}>
