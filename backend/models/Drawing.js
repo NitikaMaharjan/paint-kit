@@ -18,7 +18,7 @@ const DrawingSchema = new Schema({
         type: String,
         required: true
     },
-    date:{
+    drawing_updated_date:{
         type: Date,
         default: Date.now
     }

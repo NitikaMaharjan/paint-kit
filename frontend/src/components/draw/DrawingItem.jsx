@@ -6,7 +6,7 @@ import DrawContext from "../../context/draw/DrawContext";
 
 export default function DrawingItem(props) {
 
-  const { _id, drawing_title, drawing_tag, drawing_url, date } = props.drawingInfo;
+  const { _id, drawing_title, drawing_tag, drawing_url, drawing_updated_date } = props.drawingInfo;
 
   const { showAlert } = useContext(AlertContext);
   const { showConfirm } = useContext(ConfirmContext);
