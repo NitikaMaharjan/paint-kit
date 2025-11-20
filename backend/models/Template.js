@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const TemplateSchema = new Schema({
-    user_id:{
+    admin_id:{
         type: Schema.Types.ObjectId,
         required: true
     },
@@ -14,11 +14,11 @@ const TemplateSchema = new Schema({
         type: String,
         required: true
     },
-    image_url:{
+    template_url:{
         type: String,
         required: true
     },
-    date:{
+    template_updated_date:{
         type: Date,
         default: Date.now
     }

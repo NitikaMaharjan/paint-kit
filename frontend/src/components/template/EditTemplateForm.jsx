@@ -118,10 +118,10 @@ export default function EditTemplateForm(props) {
             "Content-Type": "application/json" 
           },
           body: JSON.stringify({
-            user_id: localStorage.getItem("admin_id"),
+            template_id: localStorage.getItem("admin_id"),
             template_title: inputValue.template_title.trim(),
             template_tag: inputValue.template_tag.trim(),
-            image_url: inputFile===null?props.selectedTemplate.image_url:"/uploads/"+inputFile.name
+            template_url: inputFile===null?props.selectedTemplate.template_url:"/uploads/"+inputFile.name
           })
         });
         const json = await response.json();
@@ -174,7 +174,7 @@ export default function EditTemplateForm(props) {
             <img src="/close.png" alt="close icon" onClick={()=>{clearInput("template_url")}} style={{opacity: `${inputFile===null?0:1}`}}/>
           </div>
           <div className="flex items-center justify-center"style={{marginTop: "8px", height: "180px", width: "100%", border: "1px solid rgba(0, 0, 0, 0.3)"}}>
-            <img src={`${inputFile===null?props.selectedTemplate.image_url:"/uploads/"+inputFile.name}`} alt="uploaded image" style={{height: "100%", width: "100%", objectFit: "cover"}}/>
+            <img src={`${inputFile===null?props.selectedTemplate.template_url:"/uploads/"+inputFile.name}`} alt="uploaded image" style={{height: "100%", width: "100%", objectFit: "cover"}}/>
           </div>
         </div>
         <button type="submit" className="submit-btn" onClick={handleUpdateTemplate}><b>Update template</b></button>

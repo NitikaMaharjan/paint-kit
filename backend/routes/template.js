@@ -6,13 +6,13 @@ const { body, validationResult } = require('express-validator');
 
 // Route 1: save template using POST method, URL '/api/template/savetemplate'
 router.post('/savetemplate', [
-  body('user_id').notEmpty().withMessage('user id is required.'),
+  body('admin_id').notEmpty().withMessage('user id is required.'),
 
   body('template_title').notEmpty().withMessage('template title is required.'),
   
   body('template_tag').notEmpty().withMessage('template tag is required.'),
   
-  body('image_url').notEmpty().withMessage('image url is required.')
+  body('template_url').notEmpty().withMessage('image url is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules
@@ -25,10 +25,10 @@ router.post('/savetemplate', [
 
   try{
     await Template.create({
-      user_id: req.body.user_id,
+      admin_id: req.body.admin_id,
       template_title: req.body.template_title,
       template_tag: req.body.template_tag,
-      image_url: req.body.image_url
+      template_url: req.body.template_url
     });
 
     // if template is successfully saved, respond with success true
@@ -42,8 +42,8 @@ router.post('/savetemplate', [
 // Route 2: fetch templates using GET method, URL '/api/template/fetchtemplate'
 router.get('/fetchtemplate', async(req, res) => {
   try{
-    // fetch template using excluding user_id and __v
-    const fetchedTemplates = await Template.find().select('-user_id -__v');
+    // fetch template excluding admin_id and __v
+    const fetchedTemplates = await Template.find().select('-admin_id -__v');
     res.json({ success: true, fetchedTemplates });
   }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });
@@ -64,7 +64,7 @@ router.delete('/deletetemplate', async(req, res) => {
 router.put("/edittemplate/:id", async(req, res) => {
   try{
     const edit_date = new Date();
-    await Template.findByIdAndUpdate(req.params.id, { user_id: req.body.user_id, template_title: req.body.template_title, template_tag: req.body.template_tag, image_url: req.body.image_url, date: edit_date.toISOString() }, { new: true });
+    await Template.findByIdAndUpdate(req.params.id, { admin_id: req.body.admin_id, template_title: req.body.template_title, template_tag: req.body.template_tag, template_url: req.body.template_url, template_updated_date: edit_date.toISOString() }, { new: true });
     res.json({ success: true });
   }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });
@@ -74,7 +74,7 @@ router.put("/edittemplate/:id", async(req, res) => {
 // Route 5: fetch template to use info using GET method, URL '/api/template/fetchtemplatetouse'
 router.get('/fetchtemplatetouse', async(req, res) => {
   try{
-    const fetchedTemplateInfo = await Template.findById({ _id: req.header('_id') }).select('-user_id -date -__v');
+    const fetchedTemplateInfo = await Template.findById({ _id: req.header('_id') }).select('-admin_id -__v');
     if(fetchedTemplateInfo){
       res.json({ success: true, fetchedTemplateInfo });
     }else{

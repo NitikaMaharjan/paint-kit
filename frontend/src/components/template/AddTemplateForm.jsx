@@ -122,10 +122,10 @@ export default function AddTemplateForm(props) {
             "Content-Type": "application/json" 
           },
           body: JSON.stringify({
-            user_id: localStorage.getItem("admin_id"),
+            admin_id: localStorage.getItem("admin_id"),
             template_title: inputValue.template_title.trim(),
             template_tag: inputValue.template_tag.trim(),
-            image_url: "/uploads/"+inputFile.name
+            template_url: "/uploads/"+inputFile.name
           })
         });
         const json = await response.json();

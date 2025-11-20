@@ -7,7 +7,7 @@ import EditTemplateForm from "../template/EditTemplateForm";
 
 export default function DrawingItem(props) {
 
-  const { _id, template_title, template_tag, image_url, date } = props.templateInfo;
+  const { _id, template_title, template_tag, template_url, template_updated_date } = props.templateInfo;
 
   const { showAlert } = useContext(AlertContext);
   const { showConfirm } = useContext(ConfirmContext);
@@ -18,7 +18,7 @@ export default function DrawingItem(props) {
     template_id: "",
     template_title: "",
     template_tag: "",
-    image_url: ""
+    template_url: ""
   });
 
   const handleDeleteTemplate = async(id) => {
@@ -57,11 +57,11 @@ export default function DrawingItem(props) {
                 <p style={{fontSize: "13px"}}><b>Tag:</b> {template_tag}</p>
               </div>
               <div className="flex items-center justify-end">
-                <button className="icon-btn" onClick={()=>{setSelectedTemplate({ template_id: _id, template_title: template_title, template_tag: template_tag, image_url: image_url }); setShowEditTemplateFormModal(true);}}><img src="/edit.png" style={{height: "20px", width: "20px"}}/></button>
+                <button className="icon-btn" onClick={()=>{setSelectedTemplate({ template_id: _id, template_title: template_title, template_tag: template_tag, template_url: template_url }); setShowEditTemplateFormModal(true);}}><img src="/edit.png" style={{height: "20px", width: "20px"}}/></button>
                 <button className="icon-btn" onClick={()=>{handleDeleteTemplate(_id)}}><img src="/delete.png" style={{height: "18px", width: "18px"}}/></button>
               </div>
             </div>
-            <img src={image_url} style={{height: "280px", width: "100%", objectFit: "cover"}}/>
+            <img src={template_url} style={{height: "280px", width: "100%", objectFit: "cover"}}/>
           </div>
         : 
           <div className="template-item">
@@ -74,7 +74,7 @@ export default function DrawingItem(props) {
                 <Link className="action-btn" to={`/usetemplate/${_id}`}>Use</Link>
               </div>
             </div>
-            <img src={image_url} style={{height: "280px", width: "100%", objectFit: "cover"}}/>
+            <img src={template_url} style={{height: "280px", width: "100%", objectFit: "cover"}}/>
           </div>
       }
 

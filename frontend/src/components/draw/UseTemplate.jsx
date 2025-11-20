@@ -61,7 +61,7 @@ export default function UseTemplate() {
                         <BottomNavbar/>
                         <LeftNavbar title={templateInfo.template_title} tag={templateInfo.template_tag}/>
                         <RightNavbar title={templateInfo.template_title} tag={templateInfo.template_tag} edit={false} drawingid=""/>
-                        <Canvas url={templateInfo.image_url}/>
+                        <Canvas url={templateInfo.template_url}/>
                     </>
                 :
                     <>
