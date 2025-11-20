@@ -313,7 +313,7 @@ export default function GenerateColorPalette() {
     setColorCopied(true);
     setCopiedColor(color);
     navigator.clipboard.writeText(color);
-    showAlert("Success", "Color copied to clipboard!");
+    showAlert("Success", `${color} copied to clipboard!`);
     setTimeout(() => {
       setColorCopied(false);
       setCopiedColor("");

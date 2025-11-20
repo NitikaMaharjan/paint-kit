@@ -21,7 +21,7 @@ export default function DrawingItem(props) {
     template_url: ""
   });
 
-  const handleDeleteTemplate = async(id) => {
+  const handleDeleteTemplate = async(template_id) => {
     let ans = await showConfirm("Delete template");
     if(ans){
       try{
@@ -29,7 +29,7 @@ export default function DrawingItem(props) {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            "_id": id
+            "_id": template_id
           }
         });
         const json = await response.json();

@@ -51,7 +51,7 @@ export default function ColorPaletteState(props) {
         }
     }
 
-    const handleDeleteColorPalette = async(id) => {
+    const handleDeleteColorPalette = async(palette_id) => {
         let ans = await showConfirm("Delete color palette");
         if(ans){
             try{
@@ -59,7 +59,7 @@ export default function ColorPaletteState(props) {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
-                        "_id": id
+                        "_id": palette_id
                     }
                 });
                 const json = await response.json();

@@ -12,7 +12,7 @@ export default function DrawingItem(props) {
   const { showConfirm } = useContext(ConfirmContext);
   const { fetchDrawing } = useContext(DrawContext);
 
-  const handleDeleteDrawing = async(id) => {
+  const handleDeleteDrawing = async(drawing_id) => {
     let ans = await showConfirm("Delete drawing");
     if(ans){
       try{
@@ -20,7 +20,7 @@ export default function DrawingItem(props) {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            "_id": id
+            "_id": drawing_id
           }
         });
         const json = await response.json();
