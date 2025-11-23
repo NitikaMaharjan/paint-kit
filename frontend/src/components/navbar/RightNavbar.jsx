@@ -14,7 +14,7 @@ export default function RightNavbar(props) {
 
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
-    const { canvasRef, tool, penColor, setPenColor, setTextColor, handleExport, setTextSize, setTextFont, setText, undoStack } = useContext(DrawContext);
+    const { canvasRef, tool, penColor, textColor, setPenColor, setTextColor, handleExport, setTextSize, setTextFont, setText, undoStack } = useContext(DrawContext);
 
     const [showSettingDropDown, setShowSettingDropDown] = useState(false);
     const [showExportDropDown, setShowExportDropDown] = useState(false);
@@ -200,7 +200,7 @@ export default function RightNavbar(props) {
                     colorPaletteInUse.color_palette_name!=="" && colorPaletteInUse.colors.length!==0 && tool!=="text" ?
                         <div style={{margin: "0px 0px 18px 0px", width: "min-content"}}>
                             <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
-                                {colorPaletteInUse.colors.map((a_color, index)=>{return <div key={index} title={a_color} style={{height: "36px", width: "36px", backgroundColor: `${a_color}`, border: `${penColor===a_color?"2px solid black":"2px solid transparent"}`}} onClick={()=>{setPenColor(a_color)}}></div>}).reverse()}
+                                {colorPaletteInUse.colors.map((a_color, index)=>{return <div key={index} title={a_color} style={{height: "36px", width: "36px", backgroundColor: `${a_color}`, border: `${penColor===a_color?"2px solid black":"2px solid transparent"}`}} onClick={()=>{setPenColor(a_color); setTextColor(a_color);}}></div>}).reverse()}
                             </div>
                         </div>
                     :
@@ -210,12 +210,34 @@ export default function RightNavbar(props) {
                     (tool==="text")
                     &&
                     <div style={{padding: "18px 0px"}}>  
-                        <div className="mb-2">
+                        <div>
+                            <div className="flex flex-col">
+                                <p>Text color</p>
+                                <div style={{height: "36px", width: "36px", backgroundColor: `${textColor}`}}></div>
+                            </div>
+                        </div>
+                        <div style={{marginTop: "12px"}}>
                             <div className="flex items-center">
                                 <p>Pick text color:</p>
                                 <input type="color" value={inputTextColor} onChange={handleInputTextColor} style={{height: "36px", width: "36px", cursor: "pointer"}}/>
                             </div>
                         </div>
+                    </div>
+                }
+                {   
+                    colorPaletteInUse.color_palette_name!=="" && colorPaletteInUse.colors.length!==0 && tool==="text" ?
+                        <div style={{margin: "0px 0px 18px 0px", width: "min-content"}}>
+                            <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
+                                {colorPaletteInUse.colors.map((a_color, index)=>{return <div key={index} title={a_color} style={{height: "36px", width: "36px", backgroundColor: `${a_color}`, border: `${penColor===a_color?"2px solid black":"2px solid transparent"}`}} onClick={()=>{setTextColor(a_color); setPenColor(a_color);}}></div>}).reverse()}
+                            </div>
+                        </div>
+                    :
+                        <div></div>
+                }
+                {   
+                    (tool==="text")
+                    &&
+                    <>
                         <div className="flex items-center gap-2 mb-2">
                             <p>Text Size:</p>
                             <input type="number" value={inputTextSize} onChange={handleInputTextSize} style={{cursor: "pointer", width: "140px", fontSize: "14px", border: "1px solid #ccc"}}/>
@@ -224,11 +246,11 @@ export default function RightNavbar(props) {
                             <p>Text Font:</p>
                             <input type="text" value={inputTextFont} onChange={handleInputTextFont} style={{cursor: "pointer", width: "140px", fontSize: "14px", border: "1px solid #ccc"}}/>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 mb-4">
                             <p>Text:</p>
                             <input type="text" value={inputText} onChange={handleInputText} style={{cursor: "pointer", width: "190px", fontSize: "14px", border: "1px solid #ccc"}}/>
                         </div>
-                    </div>
+                    </>
                 }
                 <Link className="action-btn" to="/viewtemplate">View template</Link><br/>
                 <button className="action-btn mt-2 mb-2" onClick={()=>{setShowImageUploadFormModal(true)}}>Upload image</button><br/>
