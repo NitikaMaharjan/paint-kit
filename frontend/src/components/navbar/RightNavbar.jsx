@@ -244,7 +244,16 @@ export default function RightNavbar(props) {
                         </div>
                         <div className="flex items-center gap-2 mb-2">
                             <p>Text Font:</p>
-                            <input type="text" value={inputTextFont} onChange={handleInputTextFont} style={{cursor: "pointer", width: "140px", fontSize: "14px", border: "1px solid #ccc"}}/>
+                            <select value={inputTextFont} onChange={handleInputTextFont} style={{cursor: "pointer", width: "140px", fontSize: "14px", border: "1px solid #ccc"}}>
+                                <option value="serif">Serif</option>
+                                <option value="sans-serif">Sans Serif</option>
+                                <option value="monospace">Monospace</option>
+                                <option value="fantasy">Fantasy</option>
+                                <option value="cursive">Cursive</option>
+                                <option value="Verdana">Verdana</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                            </select>
                         </div>
                         <div className="flex items-center gap-2 mb-4">
                             <p>Text:</p>

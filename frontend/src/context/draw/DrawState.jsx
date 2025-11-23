@@ -67,7 +67,9 @@ export default function DrawState(props) {
       ctx.fillStyle = convertHexToRgba(textColor);
       if(text===""){
         showAlert("Warning", "Please enter some text!");
-      }else{
+      }else if(textSize<12){
+        showAlert("Warning", "Text size cannot be less than 12!");
+      }else{      
         ctx.fillText(text, posX, posY);
       }
     }else if(tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle" || tool==="up parabola" || tool==="down parabola" || tool==="ellipse" || tool==="parallelogram" || tool==="star" || tool==="heart"){
