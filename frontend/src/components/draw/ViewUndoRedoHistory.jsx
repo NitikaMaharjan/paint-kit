@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import DrawContext from "../../context/draw/DrawContext";
 import CanvasItem from "./CanvasItem";
 
-export default function ViewUndoRedoHistory() {
+export default function ViewUndoRedoHistory(props) {
 
     const { canvasRef, undoStack, redoStack } = useContext(DrawContext);
 
@@ -23,7 +23,7 @@ export default function ViewUndoRedoHistory() {
                         <>
                             <p>undo stack is not empty {undoStack.current.length}</p>
                             {undoStack.current.map((imageData, index)=>{
-                                return <CanvasItem key={index} imageData={imageData}/>
+                                return <CanvasItem key={index} imageData={imageData} setShowUndoRedoHistoryModal={props.setShowUndoRedoHistoryModal}/>
                             }).reverse()}
                         </>
                     :
@@ -42,7 +42,7 @@ export default function ViewUndoRedoHistory() {
                         <>
                             <p>redo stack is not empty {redoStack.current.length}</p>
                             {redoStack.current.map((imageData, index)=>{
-                                return <CanvasItem key={index} imageData={imageData}/>
+                                return <CanvasItem key={index} imageData={imageData} setShowUndoRedoHistoryModal={props.setShowUndoRedoHistoryModal}/>
                             }).reverse()}
                         </>
                     :
