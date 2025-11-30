@@ -14,8 +14,8 @@ export default function CursorState(props) {
         const posY = e.clientY;
 
         if (cursor) {
-            cursor.style.left = `${posX}px`;
-            cursor.style.top = `${posY}px`;
+            cursor.style.left = `${tool==="pen" || tool==="eraser" || tool==="bucket" || tool==="bucketeraser" || tool==="text"?posX+12:posX}px`;
+            cursor.style.top = `${tool==="pen" || tool==="eraser" || tool==="bucket" || tool==="bucketeraser" || tool==="text"?posY-12:posY}px`;
         }
     };
 
@@ -40,7 +40,7 @@ export default function CursorState(props) {
             window.removeEventListener("mousemove", handleCursor);
         };
         // eslint-disable-next-line
-    }, [cursor]);
+    }, [cursor, tool]);
 
     return(
         <>

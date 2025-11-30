@@ -23,8 +23,8 @@ export default function LeftNavbar(props) {
             <img src="/bucket.png" style={{height: "20px", width: "20px"}}/>
           </div>
           <div className={`tool ${tool==="bucketeraser"?"selected-tool":""}`} onClick={()=>{setTool("bucketeraser")}}>
-            <img src="/bucket.png" style={{height: "18px", width: "18px"}}/>
             <img src="/eraser.png" style={{height: "18px", width: "18px"}}/>
+            <img src="/bucket.png" style={{height: "18px", width: "18px"}}/>
           </div>
         </div>
         <div className="flex" style={{borderBottom: "1px solid black"}}>
