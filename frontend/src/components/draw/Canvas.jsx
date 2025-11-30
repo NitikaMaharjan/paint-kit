@@ -1,8 +1,10 @@
 import { useContext, useEffect } from "react";
 import DrawContext from "../../context/draw/DrawContext";
+import CursorContext from "../../context/cursor/CursorContext";
 
 export default function Canvas(props) {
 
+    const { handleCanvasEnter, handleCanvasLeave } = useContext(CursorContext);
     const { canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, undoStack, redoStack } = useContext(DrawContext);
 
     useEffect(() => {
@@ -62,7 +64,7 @@ export default function Canvas(props) {
 
     return (
         <div style={{marginTop: "20px", marginLeft: "120px"}}>
-            <canvas ref={canvasRef} height={"498px"} width={"918px"} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}></canvas>
+            <canvas ref={canvasRef} height={"498px"} width={"918px"} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseEnter={handleCanvasEnter} onMouseLeave={handleCanvasLeave}></canvas>
         </div>
     );
 }

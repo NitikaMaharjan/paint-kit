@@ -339,3 +339,12 @@
     justify-content: center;
     overflow-y: auto;
 }
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  z-index: 1056;
+  pointer-events: none;
+}

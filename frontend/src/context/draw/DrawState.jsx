@@ -56,10 +56,10 @@ export default function DrawState(props) {
       ctx.strokeStyle = "#ffffff";
       ctx.lineWidth = eraserStrokeWidth;
       ctx.lineCap = "round";
-    }else if(tool==="bucket fill") {
+    }else if(tool==="bucket") {
       const rgbaColor = convertHexToRgba(penColor);
       floodFill(Math.floor(posX), Math.floor(posY), rgbaColor); // Math.floor() removes decimal and rounds down number to nearest integer
-    }else if(tool==="bucket eraser") {
+    }else if(tool==="bucketeraser") {
       const rgbaColor = convertHexToRgba("#ffffff");
       floodFill(Math.floor(posX), Math.floor(posY), rgbaColor);
     }else if(tool==="text"){
@@ -72,7 +72,7 @@ export default function DrawState(props) {
       }else{      
         ctx.fillText(text, posX, posY);
       }
-    }else if(tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle" || tool==="up parabola" || tool==="down parabola" || tool==="ellipse" || tool==="parallelogram" || tool==="star" || tool==="heart"){
+    }else if(tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle" || tool==="upparabola" || tool==="downparabola" || tool==="ellipse" || tool==="parallelogram" || tool==="star" || tool==="heart"){
       setDrawing(true);
       BeforeShapeCanvasStateImageDataRef.current = ctx.getImageData(0, 0, canvas.width, canvas.height);
       shapeStartPointRef.current = [posX, posY];
@@ -89,7 +89,7 @@ export default function DrawState(props) {
     if(drawing===true && (tool==="pen" || tool==="eraser")){
       ctx.lineTo(posX, posY);
       ctx.stroke();
-    }else if(drawing===true && (tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle" || tool==="up parabola" || tool==="down parabola" || tool==="ellipse" || tool==="parallelogram" || tool==="star" || tool==="heart")){
+    }else if(drawing===true && (tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle" || tool==="upparabola" || tool==="downparabola" || tool==="ellipse" || tool==="parallelogram" || tool==="star" || tool==="heart")){
       ctx.putImageData(BeforeShapeCanvasStateImageDataRef.current, 0, 0);
       ctx.beginPath();
       ctx.strokeStyle = convertHexToRgba(penColor);
@@ -116,10 +116,10 @@ export default function DrawState(props) {
         ctx.lineTo(startX, startY + height); // bottom left vertex
         ctx.lineTo(startX + width, startY + height); // bottom right vertex
         ctx.closePath();
-      }else if(tool==="up parabola"){
+      }else if(tool==="upparabola"){
         ctx.moveTo(startX, startY);
         ctx.bezierCurveTo(startX, startY + 100, posX, startY + 100, posX, posY);
-      }else if(tool==="down parabola"){
+      }else if(tool==="downparabola"){
         ctx.moveTo(startX, startY);
         ctx.bezierCurveTo(startX, startY - 100, posX, startY - 100, posX, posY);
       }else if(tool==="ellipse"){
@@ -177,9 +177,9 @@ export default function DrawState(props) {
     const posX = e.clientX - canvasBox.left;
     const posY = e.clientY - canvasBox.top;
 
-    if(tool==="pen" || tool==="eraser" || tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle" || tool==="up parabola" || tool==="down parabola" || tool==="ellipse" || tool==="parallelogram" || tool==="star" || tool==="heart"){
+    if(tool==="pen" || tool==="eraser" || tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle" || tool==="upparabola" || tool==="downparabola" || tool==="ellipse" || tool==="parallelogram" || tool==="star" || tool==="heart"){
       setDrawing(false);
-      if(tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle" || tool==="up parabola" || tool==="down parabola" || tool==="ellipse" || tool==="parallelogram" || tool==="star" || tool==="heart"){
+      if(tool==="line" || tool==="circle" || tool==="square" || tool==="rectangle" || tool==="triangle" || tool==="upparabola" || tool==="downparabola" || tool==="ellipse" || tool==="parallelogram" || tool==="star" || tool==="heart"){
         ctx.putImageData(BeforeShapeCanvasStateImageDataRef.current, 0, 0);
         ctx.beginPath();
         ctx.strokeStyle = convertHexToRgba(penColor);
@@ -206,10 +206,10 @@ export default function DrawState(props) {
           ctx.lineTo(startX, startY + height);
           ctx.lineTo(startX + width, startY + height);
           ctx.closePath();
-        }else if(tool==="up parabola"){
+        }else if(tool==="upparabola"){
           ctx.moveTo(startX, startY);
           ctx.bezierCurveTo(startX, startY + 100, posX, startY + 100, posX, posY);
-        }else if(tool==="down parabola"){
+        }else if(tool==="downparabola"){
           ctx.moveTo(startX, startY);
           ctx.bezierCurveTo(startX, startY - 100, posX, startY - 100, posX, posY);
         }else if(tool==="ellipse"){
@@ -452,7 +452,7 @@ export default function DrawState(props) {
     const g = parseInt(color_without_hash.substring(2, 4), 16);
     const b = parseInt(color_without_hash.substring(4, 6), 16);
 
-    return tool==="bucket fill" || tool==="bucket eraser" || tool==="line" || tool==="circle" ? [r, g, b, colorOpacity] : `rgba(${r},${g},${b},${colorOpacity/255})`; // value at index 3 is a(alpha) which represents opacity of color, 255 means fully opaque, while 0 means fully transparent, also when 255/255=1 fully opaque, 128/255=0.502 half transparent and 0/255=0 fully transparent
+    return tool==="bucket" || tool==="bucketeraser" || tool==="line" || tool==="circle" ? [r, g, b, colorOpacity] : `rgba(${r},${g},${b},${colorOpacity/255})`; // value at index 3 is a(alpha) which represents opacity of color, 255 means fully opaque, while 0 means fully transparent, also when 255/255=1 fully opaque, 128/255=0.502 half transparent and 0/255=0 fully transparent
   }
 
   const handleClearCanvas = async() => {

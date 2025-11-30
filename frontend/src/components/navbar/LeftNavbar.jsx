@@ -19,10 +19,10 @@ export default function LeftNavbar(props) {
           </div>
         </div>
         <div className="flex" style={{borderBottom: "1px solid black"}}>
-          <div className={`tool ${tool==="bucket fill"?"selected-tool":""}`} style={{borderRight: "1px solid black"}} onClick={()=>{setTool("bucket fill")}}>
+          <div className={`tool ${tool==="bucket"?"selected-tool":""}`} style={{borderRight: "1px solid black"}} onClick={()=>{setTool("bucket")}}>
             <img src="/bucket.png" style={{height: "20px", width: "20px"}}/>
           </div>
-          <div className={`tool ${tool==="bucket eraser"?"selected-tool":""}`} onClick={()=>{setTool("bucket eraser")}}>
+          <div className={`tool ${tool==="bucketeraser"?"selected-tool":""}`} onClick={()=>{setTool("bucketeraser")}}>
             <img src="/bucket.png" style={{height: "18px", width: "18px"}}/>
             <img src="/eraser.png" style={{height: "18px", width: "18px"}}/>
           </div>
@@ -52,10 +52,10 @@ export default function LeftNavbar(props) {
           </div>
         </div>
         <div className="flex" style={{borderBottom: "1px solid black"}}>
-          <div className={`tool ${tool==="up parabola"?"selected-tool":""}`} style={{borderRight: "1px solid black"}} onClick={()=>{setTool("up parabola")}}>
+          <div className={`tool ${tool==="upparabola"?"selected-tool":""}`} style={{borderRight: "1px solid black"}} onClick={()=>{setTool("upparabola")}}>
             <img src="/upparabola.png" style={{height: "16px", width: "16px"}}/>
           </div>
-          <div className={`tool ${tool==="down parabola"?"selected-tool":""}`} onClick={()=>{setTool("down parabola")}}>
+          <div className={`tool ${tool==="downparabola"?"selected-tool":""}`} onClick={()=>{setTool("downparabola")}}>
             <img src="/downparabola.png" style={{height: "16px", width: "16px"}}/>
           </div>
         </div>
