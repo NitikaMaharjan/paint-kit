@@ -39,6 +39,12 @@ export default function EditDrawing() {
         }
     }
 
+    const checkUserSignedIn = () => {
+        if (localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")) {
+            return true;
+        }
+    }
+
     useEffect(() => {
         if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("user_token")){
             navigate("/usersignin");
@@ -58,8 +64,8 @@ export default function EditDrawing() {
             {
                 drawingInfo.length !==0 ?
                     <>
-                        <BottomNavbar/>
-                        <LeftNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag}/>
+                        <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
+                        <LeftNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag} checkUserSignedIn={checkUserSignedIn}/>
                         <RightNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag} edit={true} drawingid={drawingid}/>
                         <Canvas url={drawingInfo.drawing_url}/>
                     </>

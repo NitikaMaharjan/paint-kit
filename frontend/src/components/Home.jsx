@@ -15,6 +15,15 @@ export default function Home() {
 
   const [showUserSigninFormModal, setShowUserSigninFormModal] = useState(false);
 
+  const checkUserSignedIn = () => {
+    if (localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")) {
+      return true;
+    }else{
+      setShowUserSigninFormModal(true);
+      return false;
+    }
+  }
+
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("user_token")){
       showProgress();
@@ -26,8 +35,8 @@ export default function Home() {
   
   return (
     <>
-      <BottomNavbar/>
-      <LeftNavbar title="Untitled" tag="General" setShowUserSigninFormModal={setShowUserSigninFormModal}/>
+      <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
+      <LeftNavbar title="Untitled" tag="General" checkUserSignedIn={checkUserSignedIn}/>
       <RightNavbar title="Untitled" tag="General" edit={false} drawingid=""/>
       <Canvas url=""/>
       {

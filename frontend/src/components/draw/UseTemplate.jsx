@@ -39,6 +39,12 @@ export default function UseTemplate() {
         }
     }
 
+    const checkUserSignedIn = () => {
+        if (localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")) {
+            return true;
+        }
+    }
+
     useEffect(() => {
         if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("user_token")){
             navigate("/usersignin");
@@ -58,8 +64,8 @@ export default function UseTemplate() {
             {
                 templateInfo.length !==0 ?
                     <>
-                        <BottomNavbar/>
-                        <LeftNavbar title={templateInfo.template_title} tag={templateInfo.template_tag}/>
+                        <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
+                        <LeftNavbar title={templateInfo.template_title} tag={templateInfo.template_tag} checkUserSignedIn={checkUserSignedIn}/>
                         <RightNavbar title={templateInfo.template_title} tag={templateInfo.template_tag} edit={false} drawingid=""/>
                         <Canvas url={templateInfo.template_url}/>
                     </>

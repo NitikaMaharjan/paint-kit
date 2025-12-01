@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import DrawContext from "../../context/draw/DrawContext";
 import ViewUndoRedoHistory from "../draw/ViewUndoRedoHistory";
 
-export default function BottomNavbar() {
+export default function BottomNavbar(props) {
     
     const { handleClearCanvas, handleUndo, handleRedo, setPenStrokeWidth, setEraserStrokeWidth, setColorOpacity } = useContext(DrawContext);
 
@@ -12,15 +12,21 @@ export default function BottomNavbar() {
     const [showUndoRedoHistoryModal, setShowUndoRedoHistoryModal] = useState(false);
 
     const handlePenStrokeWidthChange = (e) => {
-        setInputPenStrokeWidth(e.target.value);
+        if(props.checkUserSignedIn()){
+            setInputPenStrokeWidth(e.target.value);
+        }
     }
     
     const handleEraserStrokeWidthChange = (e) => {
-        setInputEraserStrokeWidth(e.target.value);
+        if(props.checkUserSignedIn()){
+            setInputEraserStrokeWidth(e.target.value);
+        }
     }
     
     const handleColorOpacityChange = (e) => {
-        setInputColorOpacity(e.target.value);
+        if(props.checkUserSignedIn()){
+            setInputColorOpacity(e.target.value);
+        }
     }
 
     useEffect(() => {
@@ -50,7 +56,7 @@ export default function BottomNavbar() {
                     <div className="flex justify-end pr-4 gap-4">
                         <button className="action-btn" onClick={handleUndo}>Undo</button>
                         <button className="action-btn" onClick={handleRedo}>Redo</button>
-                        <button className="action-btn" onClick={()=>{setShowUndoRedoHistoryModal(true)}}>View Undo/Redo History</button>
+                        <button className="action-btn" onClick={()=>{if(props.checkUserSignedIn()){setShowUndoRedoHistoryModal(true)}}}>View Undo/Redo History</button>
                         <button className="action-btn" onClick={handleClearCanvas}>clear all</button>
                     </div>
                 </div>

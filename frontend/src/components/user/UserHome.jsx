@@ -12,6 +12,12 @@ export default function UserHome() {
 
   const { showProgress } = useContext(ProgressBarContext);
 
+  const checkUserSignedIn = () => {
+    if (localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")) {
+      return true;
+    }
+  }
+
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("user_token")){
       navigate("/usersignin");
@@ -23,8 +29,8 @@ export default function UserHome() {
 
   return (
     <>
-      <BottomNavbar/>
-      <LeftNavbar title="Untitled" tag="General"/>
+      <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
+      <LeftNavbar title="Untitled" tag="General" checkUserSignedIn={checkUserSignedIn}/>
       <RightNavbar title="Untitled" tag="General" edit={false} drawingid=""/>
       <Canvas url=""/>
     </>
