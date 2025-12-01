@@ -52,7 +52,7 @@ export default function CursorState(props) {
                 {
                     cursorImg
                     &&
-                    <img src={`/${tool==="pen" || tool==="eraser" || tool==="bucket" || tool==="bucketeraser" || tool==="text"?tool==="bucketeraser"?"eraser.png":tool+".png":"plus.png"}`} style={{height: "32px", width: "32px"}}/>
+                    <img src={`/${tool==="pen" || tool==="eraser" || tool==="bucket" || tool==="bucketeraser" || tool==="text"?tool==="bucketeraser"?"eraser2.png":tool+"2.png":"plus.png"}`} style={{height: "32px", width: "32px"}}/>
                 }
             </div>
         </>
