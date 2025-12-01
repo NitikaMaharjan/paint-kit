@@ -72,10 +72,12 @@ export default function RightNavbar(props) {
 
     const handleInputPenColor = (e) => {
         setInputPenColor(e.target.value);
+        setInputTextColor(e.target.value);
     }
     
     const handleInputTextColor = (e) => {
         setInputTextColor(e.target.value);
+        setInputPenColor(e.target.value);
     }
     
     const handleInputTextSize = (e) => {
@@ -134,11 +136,13 @@ export default function RightNavbar(props) {
     }
 
     useEffect(() => {
-      setPenColor(inputPenColor);
+      setPenColor(inputPenColor); 
+      setTextColor(inputPenColor);
     }, [inputPenColor]);
     
     useEffect(() => {
-      setTextColor(inputTextColor);
+        setTextColor(inputTextColor);
+        setPenColor(inputTextColor); 
     }, [inputTextColor]);
     
     useEffect(() => {
