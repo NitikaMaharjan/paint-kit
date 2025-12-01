@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AlertContext from "../../context/alert/AlertContext";
 import SignedInUserDetailsContext from "../../context/user/SignedInUserDetailsContext";
 
-export default function UserSignin() {
+export default function UserSignin(props) {
 
   let navigate = useNavigate();
 
@@ -103,7 +103,21 @@ export default function UserSignin() {
   return (
     <div className="content">
       <div className="auth-form-box">
-        <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Welcome back</b></h1>
+        <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc", width: "100%"}}>
+          {
+            props.popup?
+              <>
+                <h1 style={{fontSize: "14px", textAlign: "center", width: "86%", padding: "8px 0px", borderRight: "1px solid black"}}><b>Sign in to continue</b></h1>
+                <div style={{marginLeft: "10px", cursor: "pointer"}} onClick={()=>{props.setShowUserSigninFormModal(false)}}>
+                  <img src="/close.png" alt="close icon" style={{height: "14px", width: "14px"}}/>
+                </div>
+              </>
+            :
+              <>
+                <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center"}}><b>Welcome back</b></h1>
+              </>
+          }
+        </div>
         <form className="auth-form">
           <div className="mb-1">
             <label htmlFor="user_email"><b>Email</b></label>
