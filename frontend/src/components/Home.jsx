@@ -1,5 +1,9 @@
 import { useContext, useEffect } from "react";
 import ProgressBarContext from "../context/progressbar/ProgressBarContext";
+import LeftNavbar from "./navbar/LeftNavbar";
+import BottomNavbar from "./navbar/BottomNavbar";
+import RightNavbar from "./navbar/RightNavbar";
+import Canvas from "./draw/Canvas";
 
 export default function Home() {
 
@@ -11,8 +15,11 @@ export default function Home() {
   }, []);
   
   return (
-    <div className="content">
-      Hello World!
-    </div>
+    <>
+      <BottomNavbar/>
+      <LeftNavbar title="Untitled" tag="General"/>
+      <RightNavbar title="Untitled" tag="General" edit={false} drawingid=""/>
+      <Canvas url=""/>
+    </>
   );
 }
