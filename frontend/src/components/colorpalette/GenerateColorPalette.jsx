@@ -349,7 +349,7 @@ export default function GenerateColorPalette() {
 
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("adminSignedIn")){
-      navigate("/");
+      navigate("/usersignin");
     }else{
       showProgress();
     }

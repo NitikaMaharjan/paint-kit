@@ -16,12 +16,8 @@ export default function ViewDrawing() {
       navigate("/usersignin");
     }else{
       showProgress();
+      fetchDrawing();
     }
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    fetchDrawing();
     // eslint-disable-next-line
   }, []);
   

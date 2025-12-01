@@ -66,7 +66,7 @@ export default function UseTemplate() {
                     <>
                         <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
                         <LeftNavbar title={templateInfo.template_title} tag={templateInfo.template_tag} checkUserSignedIn={checkUserSignedIn}/>
-                        <RightNavbar title={templateInfo.template_title} tag={templateInfo.template_tag} edit={false} drawingid=""/>
+                        <RightNavbar title={templateInfo.template_title} tag={templateInfo.template_tag} edit={false} drawingid="" checkUserSignedIn={checkUserSignedIn}/>
                         <Canvas url={templateInfo.template_url}/>
                     </>
                 :

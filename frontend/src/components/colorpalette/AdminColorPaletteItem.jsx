@@ -1,11 +1,23 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import ColorPaletteContext from "../../context/colorpalette/ColorPaletteContext";
+import UserSignin from "../user/UserSignin";
 
 export default function AdminColorPaletteItem(props) {
 
     const { color_palette_id, color_palette_name, colors, palette_updated_date, setShowEditColorPaletteFormModal, setSelectedColorPalette, setColorPaletteInUse } = props;
 
     const { handleDeleteColorPalette } = useContext(ColorPaletteContext);
+
+    const [showUserSigninFormModal, setShowUserSigninFormModal] = useState(false);
+    
+    const checkUserSignedIn = () => {
+        if (localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")) {
+            return true;
+        }else{
+            setShowUserSigninFormModal(true);
+            return false;
+        }
+    }
 
     return (
         <>
@@ -33,7 +45,7 @@ export default function AdminColorPaletteItem(props) {
                     <div style={{margin: "0px 0px 18px 0px", width: "min-content"}}>
                         <div className="flex items-center justify-between mb-1" style={{padding: "12px 0px"}}>
                             <p style={{fontSize: "13px"}}>{color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name}</p>
-                            <button className="action-btn" onClick={()=>{setColorPaletteInUse({ color_palette_name: color_palette_name, colors: colors })}}>Use</button>
+                            <button className="action-btn" onClick={()=>{if(checkUserSignedIn()){setColorPaletteInUse({ color_palette_name: color_palette_name, colors: colors })}}}>Use</button>
                         </div>
                         <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
                             {colors.map((a_color, index)=>{
@@ -41,6 +53,14 @@ export default function AdminColorPaletteItem(props) {
                             }).reverse()}
                         </div>
                     </div>
+            }
+
+            {
+                showUserSigninFormModal
+                &&
+                <div className="confirm-modal-background">
+                    <UserSignin popup={true} setShowUserSigninFormModal={setShowUserSigninFormModal}/>
+                </div>
             }
         </>
     );

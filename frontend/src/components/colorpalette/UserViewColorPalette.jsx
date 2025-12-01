@@ -3,6 +3,7 @@ import ColorPaletteContext from "../../context/colorpalette/ColorPaletteContext"
 import AdminColorPaletteItem from "./AdminColorPaletteItem";
 import UserColorPaletteItem from "./UserColorPaletteItem";
 import EditColorPaletteForm from "./EditColorPaletteForm";
+import UserSignin from "../user/UserSignin";
 
 export default function UserViewColorPalette(props) {
 
@@ -15,12 +16,22 @@ export default function UserViewColorPalette(props) {
     color_palette_name: "",
     colors: ""
   });
+  const [showUserSigninFormModal, setShowUserSigninFormModal] = useState(false);
+
+  const checkUserSignedIn = () => {
+    if (localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")) {
+      return true;
+    }else{
+      setShowUserSigninFormModal(true);
+      return false;
+    }
+  }
   
   useEffect(() => {
-    if (localStorage.getItem("userSignedIn")){
-      fetchAdminColorPalette();
+    if (localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")) {
       fetchUserColorPalette();
     }
+    fetchAdminColorPalette();
     // eslint-disable-next-line
   }, []);
   
@@ -32,7 +43,7 @@ export default function UserViewColorPalette(props) {
             <button className="color-palette-btn" onClick={()=>{setShowColorPalette("community")}}>Community Palettes</button>
           </div>
           <div className={`${showColorPalette==="my"?"active":""}`}>
-            <button className="color-palette-btn" onClick={()=>{setShowColorPalette("my")}}>My Palettes</button>
+            <button className="color-palette-btn" onClick={()=>{if(checkUserSignedIn()){setShowColorPalette("my")}}}>My Palettes</button>
           </div>
         </div>
         {
@@ -66,6 +77,14 @@ export default function UserViewColorPalette(props) {
         &&
         <div className="confirm-modal-background">
           <EditColorPaletteForm selectedColorPalette={selectedColorPalette} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal}/>
+        </div>
+      }
+
+      {
+        showUserSigninFormModal
+        &&
+        <div className="confirm-modal-background">
+          <UserSignin popup={true} setShowUserSigninFormModal={setShowUserSigninFormModal}/>
         </div>
       }
     </>
