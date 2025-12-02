@@ -7,6 +7,7 @@ import CreateColorPaletteForm from "../colorpalette/CreateColorPaletteForm";
 import AdminViewColorPalette from "../colorpalette/AdminViewColorPalette";
 import AddTemplateForm from "../template/AddTemplateForm";
 import ViewTemplate from "../template/ViewTemplate";
+import ChangePasswordForm from "../ChangePasswordForm";
 
 export default function AdminDashboard() {
 
@@ -25,6 +26,7 @@ export default function AdminDashboard() {
   const [colorPaletteYScroll, setColorPaletteYScroll] = useState(false);
   const [showCreateColorPaletteFormModal,setShowCreateColorPaletteFormModal] = useState(false);
   const [showAddTemplateFormModal,setShowAddTemplateFormModal] = useState(false);
+  const [showChangePasswordFormModal, setShowChangePasswordFormModal] = useState(false);
 
   const handleMouseOver = () => {
     document.getElementById("arrow").style.backgroundColor="rgba(0, 0, 0, 0.048)";
@@ -86,7 +88,7 @@ export default function AdminDashboard() {
               showSettingDropDown
               &&
               <div className="dropdown-content">
-                  <button className="dropdown-content-button">Others</button>
+                  <button className="dropdown-content-button" onClick={()=>{setShowChangePasswordFormModal(true)}}>Change password</button>
                   <button className="dropdown-content-button" onClick={handleSignOut}>Sign out</button>
               </div>
             }
@@ -148,6 +150,14 @@ export default function AdminDashboard() {
         &&
         <div className="confirm-modal-background">
           <CreateColorPaletteForm setShowCreateColorPaletteFormModal={setShowCreateColorPaletteFormModal}/>
+        </div>
+      }
+
+      {
+        showChangePasswordFormModal
+        &&
+        <div className="confirm-modal-background">
+            <ChangePasswordForm setShowChangePasswordFormModal={setShowChangePasswordFormModal}/>
         </div>
       }
     </>

@@ -7,6 +7,7 @@ import CreateColorPaletteForm from "../colorpalette/CreateColorPaletteForm";
 import UserViewColorPalette from "../colorpalette/UserViewColorPalette";
 import SaveDrawingForm from "../draw/SaveDrawingForm";
 import ImageUploadForm from "../draw/ImageUploadForm";
+import ChangePasswordForm from "../ChangePasswordForm";
 
 export default function RightNavbar(props) {
 
@@ -21,6 +22,7 @@ export default function RightNavbar(props) {
     const [showCreateColorPaletteFormModal, setShowCreateColorPaletteFormModal] = useState(false);
     const [showSaveDrawingFormModal, setShowSaveDrawingFormModal] = useState(false);
     const [showImageUploadFormModal, setShowImageUploadFormModal] = useState(false);
+    const [showChangePasswordFormModal, setShowChangePasswordFormModal] = useState(false);
     const [inputPenColor, setInputPenColor] = useState("#000000");
     const [inputTextColor, setInputTextColor] = useState("#000000");
     const [inputTextSize, setInputTextSize] = useState("24");
@@ -180,7 +182,7 @@ export default function RightNavbar(props) {
                                     showSettingDropDown
                                     &&
                                     <div className="dropdown-content">
-                                        <button className="dropdown-content-button">Others</button>
+                                        <button className="dropdown-content-button" onClick={()=>{setShowChangePasswordFormModal(true)}}>Change password</button>
                                         <button className="dropdown-content-button" onClick={handleSignOut}>Sign out</button>
                                     </div>
                                 }
@@ -338,12 +340,15 @@ export default function RightNavbar(props) {
                 showImageUploadFormModal
                 &&
                 <div className="confirm-modal-background">
-                    <div className="flex items-center pt-8 gap-10">
-                        <div style={{position: "fixed", top: "32px", right: "320px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowImageUploadFormModal(false)}}>
-                            <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
-                        </div>
-                        <ImageUploadForm handleImageUpload={handleImageUpload} setShowImageUploadFormModal={setShowImageUploadFormModal}/>
-                    </div>
+                    <ImageUploadForm handleImageUpload={handleImageUpload} setShowImageUploadFormModal={setShowImageUploadFormModal}/>
+                </div>
+            }
+            
+            {
+                showChangePasswordFormModal
+                &&
+                <div className="confirm-modal-background">
+                    <ChangePasswordForm setShowChangePasswordFormModal={setShowChangePasswordFormModal}/>
                 </div>
             }
         </>

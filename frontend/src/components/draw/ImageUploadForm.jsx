@@ -46,7 +46,12 @@ export default function ImageUploadForm(props) {
 
     return (
         <div className="auth-form-box">
-            <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Upload Image</b></h1>
+            <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc", width: "100%"}}>
+                <h1 style={{fontSize: "14px", textAlign: "center", width: "86%", padding: "8px 0px", borderRight: "1px solid black"}}><b>Upload image</b></h1>
+                <div style={{marginLeft: "10px", cursor: "pointer"}} onClick={()=>{props.setShowImageUploadFormModal(false)}}>
+                    <img src="/close.png" alt="close icon" style={{height: "14px", width: "14px"}}/>
+                </div>
+            </div>
             <form className="auth-form">
                 <div style={{marginBottom: "28px"}}>
                     <label>Upload Image</label>
