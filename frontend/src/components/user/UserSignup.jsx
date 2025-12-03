@@ -43,7 +43,7 @@ export default function UserSignup() {
 
   const clientSideValidation = () => {
     const nameRegex = /^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/;
-    const passwordRegex = /^[A-Za-z0-9!@#$%^&*()_+\-={};':"|,.<>/?]+$/;
+    const passwordRegex = /^[^\s]+$/;
 
     let trimmed_email = credentials.user_email.trim().toLowerCase();
     let trimmed_username = credentials.user_username.trim();
@@ -66,7 +66,7 @@ export default function UserSignup() {
     }
     
     if(trimmed_email!=="" && trimmed_username!=="" && trimmed_password!=="" && trimmed_confirm_password===""){
-      showAlert("Warning", "Confirm Password is required. Please try again!");
+      showAlert("Warning", "Confirm password is required. Please try again!");
       return false;
     }
     
@@ -106,7 +106,7 @@ export default function UserSignup() {
     }
     
     if(!passwordRegex.test(trimmed_password)){
-      showAlert("Warning", "Password can only contain letters, numbers, and special characters!");
+      showAlert("Warning", "Password can only contain letters, numbers, and special characters. It cannot contain white spaces!");
       return false;
     }
     
