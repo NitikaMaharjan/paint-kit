@@ -11,15 +11,15 @@ export default function UserViewColorPalette(props) {
 
   const [showColorPalette, setShowColorPalette] = useState("community");
   const [showEditColorPaletteFormModal, setShowEditColorPaletteFormModal] = useState(false);
+  const [showUserSigninFormModal, setShowUserSigninFormModal] = useState(false);
   const [selectedColorPalette, setSelectedColorPalette] = useState({
     color_palette_id: "",
     color_palette_name: "",
     colors: ""
   });
-  const [showUserSigninFormModal, setShowUserSigninFormModal] = useState(false);
 
   const checkUserSignedIn = () => {
-    if (localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")) {
+    if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
       return true;
     }else{
       setShowUserSigninFormModal(true);
@@ -28,7 +28,7 @@ export default function UserViewColorPalette(props) {
   }
   
   useEffect(() => {
-    if (localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")) {
+    if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
       fetchUserColorPalette();
     }
     fetchAdminColorPalette();

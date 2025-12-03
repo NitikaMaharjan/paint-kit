@@ -40,7 +40,7 @@ export default function EditDrawing() {
     }
 
     const checkUserSignedIn = () => {
-        if (localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")) {
+        if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
             return true;
         }
     }

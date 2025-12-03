@@ -12,10 +12,10 @@ export default function ViewTemplate() {
   const { fetchTemplate, fetchedTemplates } = useContext(TemplateContext);
 
   useEffect(() => {
-    if (!localStorage.getItem("userSignedIn") && !localStorage.getItem("adminSignedIn")) {
+    if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("adminSignedIn")){
       navigate("/usersignin");
     }else{
-      if (localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")) {
+      if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
         showProgress();
       }
     }

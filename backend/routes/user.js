@@ -12,11 +12,11 @@ var verifyUserToken = require('../middleware/verifyUserToken');
 
 // Route 1: sign up using POST method, URL '/api/user/usersignup'
 router.post('/usersignup', [
-  body('user_email').notEmpty().withMessage('email is required.'),
+  body('user_email').notEmpty().withMessage('Email is required.'),
 
-  body('user_username').notEmpty().withMessage('username is required.'),
+  body('user_username').notEmpty().withMessage('Username is required.'),
   
-  body('user_password').notEmpty().withMessage('password is required.')
+  body('user_password').notEmpty().withMessage('Password is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules
@@ -56,9 +56,9 @@ router.post('/usersignup', [
 
 // Route 2: sign in using POST method, URL '/api/user/usersignin'
 router.post('/usersignin', [
-  body('user_email').notEmpty().withMessage('email is required.'),
+  body('user_email').notEmpty().withMessage('Email is required.'),
   
-  body('user_password').notEmpty().withMessage('password is required.')
+  body('user_password').notEmpty().withMessage('Password is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules
@@ -120,11 +120,11 @@ router.get('/fetchuserdetails', verifyUserToken, async(req, res) => {
 
 // Route 4: update password using PUT method, URL '/api/user/usereditpassword'
 router.put("/usereditpassword", [
-  body('user_id').notEmpty().withMessage('user id is required.'),
+  body('user_id').notEmpty().withMessage('User id is required.'),
 
-  body('current_password').notEmpty().withMessage('current password is required.'),
+  body('current_password').notEmpty().withMessage('Current password is required.'),
   
-  body('new_password').notEmpty().withMessage('new password is required.')
+  body('new_password').notEmpty().withMessage('New password is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules

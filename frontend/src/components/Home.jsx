@@ -16,7 +16,7 @@ export default function Home() {
   const [showUserSigninFormModal, setShowUserSigninFormModal] = useState(false);
 
   const checkUserSignedIn = () => {
-    if (localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")) {
+    if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
       return true;
     }else{
       setShowUserSigninFormModal(true);

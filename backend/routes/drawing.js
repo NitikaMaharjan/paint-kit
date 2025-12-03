@@ -6,13 +6,13 @@ const { body, validationResult } = require('express-validator');
 
 // Route 1: save drawing using POST method, URL '/api/drawing/savedrawing'
 router.post('/savedrawing', [
-  body('user_id').notEmpty().withMessage('user id is required.'),
+  body('user_id').notEmpty().withMessage('User id is required.'),
 
-  body('drawing_title').notEmpty().withMessage('drawing title is required.'),
+  body('drawing_title').notEmpty().withMessage('Drawing title is required.'),
   
-  body('drawing_tag').notEmpty().withMessage('drawing tag is required.'),
+  body('drawing_tag').notEmpty().withMessage('Drawing tag is required.'),
   
-  body('drawing_url').notEmpty().withMessage('drawing url is required.')
+  body('drawing_url').notEmpty().withMessage('Drawing url is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules

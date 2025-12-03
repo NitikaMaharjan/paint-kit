@@ -12,11 +12,11 @@ var verifyAdminToken = require('../middleware/verifyAdminToken');
 
 // Route 1: sign up using POST method, URL '/api/admin/adminsignup'
 router.post('/adminsignup', [
-  body('admin_email').notEmpty().withMessage('email is required.'),
+  body('admin_email').notEmpty().withMessage('Email is required.'),
 
-  body('admin_username').notEmpty().withMessage('username is required.'),
+  body('admin_username').notEmpty().withMessage('Username is required.'),
   
-  body('admin_password').notEmpty().withMessage('password is required.')
+  body('admin_password').notEmpty().withMessage('Password is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules
@@ -56,9 +56,9 @@ router.post('/adminsignup', [
 
 // Route 2: sign in using POST method, URL '/api/admin/adminsignin'
 router.post('/adminsignin', [
-  body('admin_email').notEmpty().withMessage('email is required.'),
+  body('admin_email').notEmpty().withMessage('Email is required.'),
   
-  body('admin_password').notEmpty().withMessage('password is required.')
+  body('admin_password').notEmpty().withMessage('Password is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules
@@ -120,11 +120,11 @@ router.get('/fetchadmindetails', verifyAdminToken, async(req, res) => {
 
 // Route 4: update password using PUT method, URL '/api/admin/admineditpassword'
 router.put("/admineditpassword", [
-  body('user_id').notEmpty().withMessage('admin id is required.'),
+  body('user_id').notEmpty().withMessage('Admin id is required.'),
 
-  body('current_password').notEmpty().withMessage('current password is required.'),
+  body('current_password').notEmpty().withMessage('Current password is required.'),
   
-  body('new_password').notEmpty().withMessage('new password is required.')
+  body('new_password').notEmpty().withMessage('New password is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules

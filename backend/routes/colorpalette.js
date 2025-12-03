@@ -8,11 +8,11 @@ const { body, validationResult } = require('express-validator');
 router.post('/savecolorpalette', [
   body('by_admin').notEmpty().withMessage('by_admin is required.'),
 
-  body('user_id').notEmpty().withMessage('user id is required.'),
+  body('user_id').notEmpty().withMessage('User id is required.'),
 
-  body('color_palette_name').notEmpty().withMessage('color palette name is required.'),
+  body('color_palette_name').notEmpty().withMessage('Color palette name is required.'),
   
-  body('colors').isArray({ min:1 }).withMessage('colors is required.')
+  body('colors').isArray({ min:1 }).withMessage('Colors is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules

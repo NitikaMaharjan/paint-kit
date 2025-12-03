@@ -6,13 +6,13 @@ const { body, validationResult } = require('express-validator');
 
 // Route 1: save template using POST method, URL '/api/template/savetemplate'
 router.post('/savetemplate', [
-  body('admin_id').notEmpty().withMessage('user id is required.'),
+  body('admin_id').notEmpty().withMessage('User id is required.'),
 
-  body('template_title').notEmpty().withMessage('template title is required.'),
+  body('template_title').notEmpty().withMessage('Template title is required.'),
   
-  body('template_tag').notEmpty().withMessage('template tag is required.'),
+  body('template_tag').notEmpty().withMessage('Template tag is required.'),
   
-  body('template_url').notEmpty().withMessage('image url is required.')
+  body('template_url').notEmpty().withMessage('Image url is required.')
 ], async(req, res) => {
 
   // check if the request passed all validation rules

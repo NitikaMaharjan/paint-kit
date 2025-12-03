@@ -165,7 +165,7 @@ export default function RightNavbar(props) {
         <>
             <div className="right-navbar">
                 {
-                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")?
+                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
                         <div id="user-info" className="flex items-center justify-between p-2" style={{borderRadius: "3px"}}>
                             <div className="flex items-center gap-3">
                                 <div className="flex items-center justify-center" style={{border: "1px solid black", height: "24px", width: "24px", borderRadius: "24px"}}>
@@ -194,6 +194,7 @@ export default function RightNavbar(props) {
                         <Link className="action-btn" to="/usersignup">Sign up</Link>
                     </div>
                 }
+
                 {
                     (tool!=="text")
                     &&
@@ -212,6 +213,7 @@ export default function RightNavbar(props) {
                         </div>
                     </div>
                 }
+
                 {   
                     colorPaletteInUse.color_palette_name!=="" && colorPaletteInUse.colors.length!==0 && tool!=="text" ?
                         <div style={{margin: "0px 0px 18px 0px", width: "min-content"}}>
@@ -222,6 +224,7 @@ export default function RightNavbar(props) {
                     :
                         <div></div>
                 }
+
                 {   
                     (tool==="text")
                     &&
@@ -240,6 +243,7 @@ export default function RightNavbar(props) {
                         </div>
                     </div>
                 }
+
                 {   
                     colorPaletteInUse.color_palette_name!=="" && colorPaletteInUse.colors.length!==0 && tool==="text" ?
                         <div style={{margin: "0px 0px 18px 0px", width: "min-content"}}>
@@ -250,6 +254,7 @@ export default function RightNavbar(props) {
                     :
                         <div></div>
                 }
+
                 {   
                     (tool==="text")
                     &&
@@ -277,32 +282,39 @@ export default function RightNavbar(props) {
                         </div>
                     </>
                 }
+
                 {
-                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")?
+                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
                         <><Link className="action-btn" to="/viewtemplate">View template</Link><br/></>
                     :
                         <><button className="action-btn" onClick={()=>{props.checkUserSignedIn()}}>View template</button><br/></>
                 }
+
                 <button className="action-btn mt-2 mb-2" onClick={()=>{if(props.checkUserSignedIn()){setShowImageUploadFormModal(true)}}}>Upload image</button><br/>
+
                 {
-                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")?
+                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
                         <><Link className="action-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link><br/></>
                     :
                         <><button className="action-btn" onClick={()=>{props.checkUserSignedIn()}}>Open color palette generator</button><br/></>
-                }                
+                }
+
                 <button className="action-btn mt-2 mb-2" onClick={()=>{if(props.checkUserSignedIn()){setShowSaveDrawingFormModal(true)}}}>Save drawing</button><br/>
+                
                 {
-                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")?
+                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
                         <><Link className="action-btn" to="/viewdrawing">View your drawing</Link><br/></>
                     :
                         <><button className="action-btn" onClick={()=>{props.checkUserSignedIn()}}>View your drawing</button><br/></>
-                }                
+                }
+
                 {
                     props.edit===true ?
                     <button className="action-btn mt-2" onClick={handleDiscardChanges}>Discard changes</button>
                     :
                     <div></div>
                 }
+                
                 <div className="mt-2">
                     <div id="arrow" onMouseOver={handleArrowMouseOver} onMouseOut={handleArrowMouseOut} style={{padding: "4px", width: "min-content"}}>
                         <button className="dropdown-btn flex gap-4" style={{width: "100px"}} onClick={()=>{if(props.checkUserSignedIn()){setShowExportDropDown(!showExportDropDown)}}}><p>Export</p><img src="/down-arrow.png" style={{height: "14px", width: "14px"}}/></button>

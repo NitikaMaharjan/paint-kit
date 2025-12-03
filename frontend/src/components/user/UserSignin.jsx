@@ -105,7 +105,7 @@ export default function UserSignin(props) {
       <div className="auth-form-box">
         <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc", width: "100%"}}>
           {
-            props.popup?
+            props.popup ?
               <>
                 <h1 style={{fontSize: "14px", textAlign: "center", width: "86%", padding: "8px 0px", borderRight: "1px solid black"}}><b>Sign in to continue</b></h1>
                 <div style={{marginLeft: "10px", cursor: "pointer"}} onClick={()=>{props.setShowUserSigninFormModal(false)}}>

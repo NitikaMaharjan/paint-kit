@@ -72,7 +72,6 @@ export default function BottomNavbar(props) {
                     <ViewUndoRedoHistory setShowUndoRedoHistoryModal={setShowUndoRedoHistoryModal}/>
                 </div>
             }
-
         </>
     );
 }

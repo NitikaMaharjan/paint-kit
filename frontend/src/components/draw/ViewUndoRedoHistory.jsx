@@ -19,7 +19,7 @@ export default function ViewUndoRedoHistory(props) {
         <div className="flex gap-12">
             <div>
                 {
-                    undoStack.current.length>0?
+                    undoStack.current.length>0 ?
                         <>
                             <p>undo stack is not empty {undoStack.current.length}</p>
                             {undoStack.current.map((imageData, index)=>{
@@ -38,7 +38,7 @@ export default function ViewUndoRedoHistory(props) {
             </div>            
             <div>
                 {
-                    redoStack.current.length>0?
+                    redoStack.current.length>0 ?
                         <>
                             <p>redo stack is not empty {redoStack.current.length}</p>
                             {redoStack.current.map((imageData, index)=>{
