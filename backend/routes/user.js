@@ -118,4 +118,47 @@ router.get('/fetchuserdetails', verifyUserToken, async(req, res) => {
   }
 });
 
+// Route 4: update password using PUT method, URL '/api/user/usereditpassword'
+router.put("/usereditpassword", [
+  body('user_id').notEmpty().withMessage('user id is required.'),
+
+  body('current_password').notEmpty().withMessage('current password is required.'),
+  
+  body('new_password').notEmpty().withMessage('new password is required.')
+], async(req, res) => {
+
+  // check if the request passed all validation rules
+  const errors = validationResult(req);
+
+  // if validation failes
+  if(!errors.isEmpty()){
+    return res.status(400).json({ success: false, errors: errors.array() });
+  }
+
+  try{
+    // check if user exists
+    const user_exists = await User.findOne({ _id: req.body.user_id });
+
+    if(user_exists){
+      // if user exists, check if the current password matches with saved password
+      const password_matched = await bcrypt.compare(req.body.current_password, user_exists.user_password);
+
+      if(!password_matched){
+        // if password doesn't match
+        return res.status(400).json({ success: false, error: 'Incorrect current password. Please enter your current password again!' });
+      }
+
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.new_password, salt);
+
+      await User.findByIdAndUpdate(user_exists._id, { user_password: hashedPassword }, { new: true });
+      res.json({ success: true });
+    }else{
+      return res.status(400).json({ success: false, error: 'An account with this id does not exists!' });
+    }
+  }catch(err){
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;

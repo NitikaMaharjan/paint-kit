@@ -93,8 +93,8 @@ export default function ChangePasswordForm(props) {
     e.preventDefault();
     if(clientSideValidation()){
       try{
-        const response = await fetch(`${localStorage.getItem("adminSignedIn")?"http://localhost:5000/api/admin/adminupdatepassword":"http://localhost:5000/api/user/userupdatepassword"}`, {
-          method: "POST",
+        const response = await fetch(`${localStorage.getItem("adminSignedIn")?"http://localhost:5000/api/admin/admineditpassword":"http://localhost:5000/api/user/usereditpassword"}`, {
+          method: "PUT",
           headers: { 
             "Content-Type": "application/json" 
           },
@@ -107,6 +107,7 @@ export default function ChangePasswordForm(props) {
         const json = await response.json();
   
         if(json.success){
+          props.setShowChangePasswordFormModal(false);
           showAlert("Success", "Your password is updated successfully!");
         }else{
           if(json.error){
