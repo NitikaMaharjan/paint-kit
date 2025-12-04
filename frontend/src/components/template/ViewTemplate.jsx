@@ -13,6 +13,7 @@ export default function ViewTemplate() {
 
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filteredTemplates, setFilteredTemplates] = useState([]);
+  const [yScroll, setYScroll] = useState(false);
 
   const handleSearchKeywordChange = (e) => {
     setSearchKeyword(e.target.value); 
@@ -46,6 +47,14 @@ export default function ViewTemplate() {
 
   useEffect(() => {
     fetchTemplate();
+
+    window.addEventListener("scroll", () => {
+      if(window.scrollY){
+        setYScroll(true);
+      }else{
+        setYScroll(false);
+      }
+    });
     // eslint-disable-next-line
   }, []);
   
@@ -73,6 +82,9 @@ export default function ViewTemplate() {
               {(searchKeyword===""?fetchedTemplates:filteredTemplates).map((templateInfo, index)=>{
                 return <TemplateItem key={index} templateInfo={templateInfo}/>
               }).reverse()}
+            </div>
+            <div className={`up-scroll-btn${yScroll?"-show":""}`} style={{bottom: "32px", right:"32px"}}>
+              <a href="#top"><img src="/up-arrow.png" style={{height: "14px", width: "14px"}}/></a>
             </div>
           </div>
         :
