@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import TemplateContext from "../../context/template/TemplateContext";
@@ -10,6 +10,28 @@ export default function ViewTemplate() {
 
   const { showProgress } = useContext(ProgressBarContext);
   const { fetchTemplate, fetchedTemplates } = useContext(TemplateContext);
+
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [filteredTemplates, setFilteredTemplates] = useState([]);
+
+  const handleSearchKeywordChange = (e) => {
+    setSearchKeyword(e.target.value); 
+    if(searchKeyword.trim()!==""){
+      setFilteredTemplates(fetchedTemplates.filter((template)=>{return template.template_title.toLowerCase().includes(searchKeyword.toLowerCase()) || template.template_tag.toLowerCase().includes(searchKeyword.toLowerCase())}));
+    }
+  }
+
+  const clearInput = () => {
+    setSearchKeyword("");
+  }
+
+  const addBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
+  }
+  
+  const removeBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
+  }
 
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("adminSignedIn")){
@@ -37,9 +59,18 @@ export default function ViewTemplate() {
 
       {
         fetchedTemplates.length !==0 ?
-          <div style={{marginTop: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"48px":"0px"}`, padding: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"32px":"0px"}`}}>
+          <div style={{marginTop: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"24px":"0px"}`, padding: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"32px":"0px"}`}}>
+            <div className="flex justify-center mb-4">
+              <form className="auth-form" style={{margin: "0px"}}>
+                <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
+                  <img src="/search.png" alt="search button image"/>
+                  <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter template title/tag" value={searchKeyword} onChange={handleSearchKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)"}}/>
+                  <img src="/close.png" alt="close button image" onClick={()=>{clearInput()}} style={{opacity: `${searchKeyword===""?0:1}`}}/>
+                </div>
+              </form>
+            </div>
             <div style={{display: "grid", gridTemplateColumns: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"repeat(4, 1fr)":"repeat(3, 1fr)"}`, gap: "24px"}}>
-              {fetchedTemplates.map((templateInfo, index)=>{
+              {(searchKeyword===""?fetchedTemplates:filteredTemplates).map((templateInfo, index)=>{
                 return <TemplateItem key={index} templateInfo={templateInfo}/>
               }).reverse()}
             </div>
