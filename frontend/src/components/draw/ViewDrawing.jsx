@@ -13,6 +13,7 @@ export default function ViewDrawing() {
 
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filteredDrawings, setFilteredDrawings] = useState([]);
+  const [yScroll, setYScroll] = useState(false);
 
   const handleSearchKeywordChange = (e) => {
     setSearchKeyword(e.target.value); 
@@ -40,6 +41,14 @@ export default function ViewDrawing() {
       showProgress();
       fetchDrawing();
     }
+
+    window.addEventListener("scroll", () => {
+      if(window.scrollY){
+        setYScroll(true);
+      }else{
+        setYScroll(false);
+      }
+    });
     // eslint-disable-next-line
   }, []);
   
@@ -62,6 +71,9 @@ export default function ViewDrawing() {
               {(searchKeyword===""?fetchedDrawings:filteredDrawings).map((drawingInfo, index)=>{
                 return <DrawingItem key={index} drawingInfo={drawingInfo}/>
               }).reverse()}
+            </div>
+            <div className={`up-scroll-btn${yScroll?"-show":""}`} style={{bottom: "32px", right:"32px"}}>
+              <a href="#top"><img src="/up-arrow.png" style={{height: "14px", width: "14px"}}/></a>
             </div>
           </div>
         :
