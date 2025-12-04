@@ -17,6 +17,10 @@ export default function UserViewColorPalette(props) {
     color_palette_name: "",
     colors: ""
   });
+  const [searchAdminKeyword, setSearchAdminKeyword] = useState("");
+  const [filteredAdminColorPalettes, setFilteredAdminColorPalettes] = useState([]);
+  const [searchUserKeyword, setSearchUserKeyword] = useState("");
+  const [filteredUserColorPalettes, setFilteredUserColorPalettes] = useState([]);
 
   const checkUserSignedIn = () => {
     if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
@@ -25,6 +29,36 @@ export default function UserViewColorPalette(props) {
       setShowUserSigninFormModal(true);
       return false;
     }
+  }
+
+  const handleSearchAdminKeywordChange = (e) => {
+    setSearchAdminKeyword(e.target.value); 
+    if(searchAdminKeyword.trim()!==""){
+      setFilteredAdminColorPalettes(adminColorPalettes.filter((colorpalette)=>{return colorpalette.color_palette_name.toLowerCase().includes(searchAdminKeyword.toLowerCase())}));
+    }
+  }
+  
+  const handleSearchUserKeywordChange = (e) => {
+    setSearchUserKeyword(e.target.value); 
+    if(searchUserKeyword.trim()!==""){
+      setFilteredUserColorPalettes(userColorPalettes.filter((colorpalette)=>{return colorpalette.color_palette_name.toLowerCase().includes(searchUserKeyword.toLowerCase())}));
+    }
+  }
+
+  const clearInput = (type) => {
+    if(type==="admin"){
+      setSearchAdminKeyword("");
+    }else if(type==="user"){
+      setSearchUserKeyword("");
+    }
+  }
+
+  const addBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
+  }
+  
+  const removeBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
   }
   
   useEffect(() => {
@@ -49,22 +83,40 @@ export default function UserViewColorPalette(props) {
         {
           showColorPalette === "community" ?
             adminColorPalettes.length !== 0 ?
-              <div>
-                {(adminColorPalettes).map((colorpalette)=>{
+              <>
+                <div className="flex justify-center mb-4">
+                  <form className="auth-form" style={{margin: "0px"}}>
+                    <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
+                      <img src="/search.png" alt="search button image"/>
+                      <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette name" value={searchAdminKeyword} onChange={handleSearchAdminKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)"}}/>
+                      <img src="/close.png" alt="close button image" onClick={()=>{clearInput("admin")}} style={{opacity: `${searchAdminKeyword===""?0:1}`}}/>
+                    </div>
+                  </form>
+                </div>
+                {(searchAdminKeyword===""?adminColorPalettes:filteredAdminColorPalettes).map((colorpalette)=>{
                   return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setColorPaletteInUse={props.setColorPaletteInUse}/>
                 }).reverse()}
-              </div>
+              </>
             :
               <div>
                 no color palettes
               </div>
           :
             userColorPalettes.length !== 0 ?
-              <div>
-                {(userColorPalettes).map((colorpalette)=>{
+              <>
+                <div className="flex justify-center mb-4">
+                  <form className="auth-form" style={{margin: "0px"}}>
+                    <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
+                      <img src="/search.png" alt="search button image"/>
+                      <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette name" value={searchUserKeyword} onChange={handleSearchUserKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)"}}/>
+                      <img src="/close.png" alt="close button image" onClick={()=>{clearInput("user")}} style={{opacity: `${searchUserKeyword===""?0:1}`}}/>
+                    </div>
+                  </form>
+                </div>
+                {(searchUserKeyword===""?userColorPalettes:filteredUserColorPalettes).map((colorpalette)=>{
                   return <UserColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette} setColorPaletteInUse={props.setColorPaletteInUse}/>
                 }).reverse()}
-              </div>
+              </>
             :
               <div>
                 no color palettes

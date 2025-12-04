@@ -13,6 +13,27 @@ export default function AdminViewColorPalette() {
     color_palette_name: "",
     colors: ""
   });
+  const [searchAdminKeyword, setSearchAdminKeyword] = useState("");
+  const [filteredAdminColorPalettes, setFilteredAdminColorPalettes] = useState([]);
+
+  const handleSearchAdminKeywordChange = (e) => {
+    setSearchAdminKeyword(e.target.value); 
+    if(searchAdminKeyword.trim()!==""){
+      setFilteredAdminColorPalettes(adminColorPalettes.filter((colorpalette)=>{return colorpalette.color_palette_name.toLowerCase().includes(searchAdminKeyword.toLowerCase())}));
+    }
+  }
+
+  const clearInput = () => {
+    setSearchAdminKeyword("");
+  }
+
+  const addBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
+  }
+  
+  const removeBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
+  }
   
   useEffect(() => {
     if(localStorage.getItem("adminSignedIn")){
@@ -25,13 +46,22 @@ export default function AdminViewColorPalette() {
     <>
       {
         adminColorPalettes.length !== 0 ?
-          <div>
+          <>
+            <div className="flex justify-center mb-4">
+              <form className="auth-form" style={{margin: "0px"}}>
+                <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
+                  <img src="/search.png" alt="search button image"/>
+                  <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette name" value={searchAdminKeyword} onChange={handleSearchAdminKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)"}}/>
+                  <img src="/close.png" alt="close button image" onClick={()=>{clearInput()}} style={{opacity: `${searchAdminKeyword===""?0:1}`}}/>
+                </div>
+              </form>
+            </div>
             <div style={{display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px"}}>
-              {adminColorPalettes.map((colorpalette)=>{
+              {(searchAdminKeyword===""?adminColorPalettes:filteredAdminColorPalettes).map((colorpalette)=>{
                 return <AdminColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette}/>
               }).reverse()}
             </div>
-          </div>
+          </>
         :
           <div>
             no color palettes
