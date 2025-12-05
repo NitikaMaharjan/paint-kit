@@ -32,9 +32,11 @@ export default function UserViewColorPalette(props) {
   }
 
   const handleSearchAdminKeywordChange = (e) => {
-    setSearchAdminKeyword(e.target.value); 
-    if(searchAdminKeyword.trim()!==""){
-      setFilteredAdminColorPalettes(adminColorPalettes.filter((colorpalette)=>{return colorpalette.color_palette_name.toLowerCase().includes(searchAdminKeyword.toLowerCase())}));
+    if(checkUserSignedIn()){
+      setSearchAdminKeyword(e.target.value); 
+      if(searchAdminKeyword.trim()!==""){
+        setFilteredAdminColorPalettes(adminColorPalettes.filter((colorpalette)=>{return colorpalette.color_palette_name.toLowerCase().includes(searchAdminKeyword.toLowerCase())}));
+      }
     }
   }
   

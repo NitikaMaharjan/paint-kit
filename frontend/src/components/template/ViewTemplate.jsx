@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import TemplateContext from "../../context/template/TemplateContext";
 import TemplateItem from "./TemplateItem";
+import ChipTag from "../ChipTag";
 
 export default function ViewTemplate() {
 
@@ -14,10 +15,14 @@ export default function ViewTemplate() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filteredTemplates, setFilteredTemplates] = useState([]);
   const [yScroll, setYScroll] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState("latest");
+  const [uniqueTags, setUniqueTags] = useState([]);
+  const [selectedTag, setSelectedTag] = useState("");
 
   const handleSearchKeywordChange = (e) => {
-    setSearchKeyword(e.target.value); 
-    if(searchKeyword.trim()!==""){
+    setSearchKeyword(e.target.value);
+    setSelectedTag("");
+    if(e.target.value.trim()!==""){
       setFilteredTemplates(fetchedTemplates.filter((template)=>{return template.template_title.toLowerCase().includes(searchKeyword.toLowerCase()) || template.template_tag.toLowerCase().includes(searchKeyword.toLowerCase())}));
     }
   }
@@ -34,6 +39,22 @@ export default function ViewTemplate() {
     document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
   }
 
+  const getUniqueTags = () => {
+    let unique_tags = [];
+    for(let i=0; i<fetchedTemplates.length; i++){
+      if(!unique_tags.includes(fetchedTemplates[i].template_tag)){
+        unique_tags.push(fetchedTemplates[i].template_tag);
+      }
+    }
+    setUniqueTags(unique_tags);
+  }
+
+  const handleSelectTag = (tag) => {
+    setSelectedTag(tag);
+    setSearchKeyword("");
+    setFilteredTemplates(fetchedTemplates.filter((template)=>{return template.template_tag.toLowerCase().includes(tag.toLowerCase())}));
+  }
+
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("adminSignedIn")){
       navigate("/usersignin");
@@ -44,10 +65,19 @@ export default function ViewTemplate() {
     }
     // eslint-disable-next-line
   }, []);
-
+  
   useEffect(() => {
     fetchTemplate();
+    // eslint-disable-next-line
+  }, []);
 
+  useEffect(() => {
+    if(fetchedTemplates.length!== 0){
+      getUniqueTags();
+    }
+  }, [fetchedTemplates]);
+  
+  useEffect(() => {
     window.addEventListener("scroll", () => {
       if(window.scrollY){
         setYScroll(true);
@@ -69,7 +99,7 @@ export default function ViewTemplate() {
       {
         fetchedTemplates.length !==0 ?
           <div style={{marginTop: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"24px":"0px"}`, padding: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"32px":"0px"}`}}>
-            <div className="flex justify-center mb-4">
+            <div className="flex justify-center mb-2">
               <form className="auth-form" style={{margin: "0px"}}>
                 <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
                   <img src="/search.png" alt="search button image"/>
@@ -78,14 +108,50 @@ export default function ViewTemplate() {
                 </div>
               </form>
             </div>
+            <div className="flex justify-center mb-4">
+              <div className="flex" style={{width: "500px", gap: "6px"}}>
+                <button className={`chip ${(selectedOrder==="latest" || selectedOrder==="oldest") && searchKeyword==="" && selectedTag===""?"chip-active":""}`} onClick={()=>{setSearchKeyword(""); setSelectedTag("");}}>All</button>
+                <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest");}}>Latest</button>
+                <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest");}}>Oldest</button>
+                {   
+                  uniqueTags.length !== 0 ?
+                  uniqueTags.map((tag, index) => {
+                    return <ChipTag key={index} tag={tag} selectedTag={selectedTag} handleSelectTag={handleSelectTag}/>
+                  })
+                  :
+                  <></>
+                }
+              </div>
+            </div>
             <div style={{display: "grid", gridTemplateColumns: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"repeat(4, 1fr)":"repeat(3, 1fr)"}`, gap: "24px"}}>
-              {(searchKeyword===""?fetchedTemplates:filteredTemplates).map((templateInfo, index)=>{
-                return <TemplateItem key={index} templateInfo={templateInfo}/>
-              }).reverse()}
+              {   
+                selectedTag !=="" ?
+                  selectedOrder ==="latest" ?
+                    (filteredTemplates).map((templateInfo, index)=>{
+                      return <TemplateItem key={index} templateInfo={templateInfo}/>
+                    }).reverse()
+                  :
+                    (filteredTemplates).map((templateInfo, index)=>{
+                      return <TemplateItem key={index} templateInfo={templateInfo}/>
+                    })                                      
+                : 
+                  selectedOrder ==="latest" ?
+                    (searchKeyword===""?fetchedTemplates:filteredTemplates).map((templateInfo, index)=>{
+                      return <TemplateItem key={index} templateInfo={templateInfo}/>
+                    }).reverse()
+                  :
+                    (searchKeyword===""?fetchedTemplates:filteredTemplates).map((templateInfo, index)=>{
+                      return <TemplateItem key={index} templateInfo={templateInfo}/>
+                    })                                      
+              }
             </div>
-            <div className={`up-scroll-btn${yScroll?"-show":""}`} style={{bottom: "32px", right:"32px"}}>
-              <a href="#top"><img src="/up-arrow.png" style={{height: "14px", width: "14px"}}/></a>
-            </div>
+            {
+              localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")
+              &&
+              <div className={`up-scroll-btn${yScroll?"-show":""}`} style={{bottom: "32px", right:"32px"}}>
+                <a href="#top"><img src="/up-arrow.png" style={{height: "14px", width: "14px"}}/></a>
+              </div>
+            }
           </div>
         :
           localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token") ?
