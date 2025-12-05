@@ -1,12 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import DrawContext from "../../context/draw/DrawContext";
 import DrawingItem from "./DrawingItem";
+import ChipTag from "../ChipTag";
 
 export default function ViewDrawing() {
 
   let navigate = useNavigate();
+
+  const scrollContainerRef = useRef(null);
 
   const { showProgress } = useContext(ProgressBarContext);
   const { fetchDrawing, fetchedDrawings } = useContext(DrawContext);
@@ -14,10 +17,17 @@ export default function ViewDrawing() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filteredDrawings, setFilteredDrawings] = useState([]);
   const [yScroll, setYScroll] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState("latest");
+  const [uniqueTags, setUniqueTags] = useState([]);
+  const [selectedTag, setSelectedTag] = useState("");
+  const [xScrollLeft, setXScrollLeft] = useState(false);
+  const [xScrollRight, setXScrollRight] = useState(false);
+  const [xScrollRightPrevValue, setXScrollRightPrevValue] = useState(null);
 
   const handleSearchKeywordChange = (e) => {
-    setSearchKeyword(e.target.value); 
-    if(searchKeyword.trim()!==""){
+    setSearchKeyword(e.target.value);
+    setSelectedTag("");
+    if(e.target.value.trim()!==""){
       setFilteredDrawings(fetchedDrawings.filter((drawing)=>{return drawing.drawing_title.toLowerCase().includes(searchKeyword.toLowerCase()) || drawing.drawing_tag.toLowerCase().includes(searchKeyword.toLowerCase())}));
     }
   }
@@ -34,6 +44,41 @@ export default function ViewDrawing() {
     document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
   }
 
+  const getUniqueTags = () => {
+    let unique_tags = [];
+    for(let i=0; i<fetchedDrawings.length; i++){
+      if(!unique_tags.includes(fetchedDrawings[i].drawing_tag)){
+        unique_tags.push(fetchedDrawings[i].drawing_tag);
+      }
+    }
+    setUniqueTags(unique_tags);
+  }
+
+  const handleSelectTag = (tag) => {
+    setSelectedTag(tag);
+    setSearchKeyword("");
+    setFilteredDrawings(fetchedDrawings.filter((drawing)=>{return drawing.drawing_tag.toLowerCase().includes(tag.toLowerCase())}));
+  }
+
+  const handleScroll = (scrollOffset) => {
+    if(scrollContainerRef.current){
+      setXScrollRightPrevValue(scrollContainerRef.current.scrollLeft);
+      scrollContainerRef.current.scrollLeft += scrollOffset;
+    }
+
+    if(scrollContainerRef.current.scrollLeft!==0){
+      setXScrollLeft(true);
+    }else{
+      setXScrollLeft(false);
+    }
+
+    if(xScrollRightPrevValue===scrollContainerRef.current.scrollLeft){
+      setXScrollRight(false);
+    }else{
+      setXScrollRight(true);
+    }
+  }
+
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("user_token")){
       navigate("/usersignin");
@@ -41,7 +86,21 @@ export default function ViewDrawing() {
       showProgress();
       fetchDrawing();
     }
+    // eslint-disable-next-line
+  }, []);
 
+  useEffect(() => {
+    if(fetchedDrawings.length!== 0){
+      getUniqueTags();
+      if(scrollContainerRef.current && scrollContainerRef.current.scrollWidth > scrollContainerRef.current.clientWidth){
+        setXScrollRight(true);
+      }else{
+        setXScrollRight(false);
+      }
+    }
+  }, [fetchedDrawings]);
+
+  useEffect(() => {
     window.addEventListener("scroll", () => {
       if(window.scrollY){
         setYScroll(true);
@@ -50,7 +109,7 @@ export default function ViewDrawing() {
       }
     });
     // eslint-disable-next-line
-  }, []);
+  }, []);  
   
   return (
     <>
@@ -67,10 +126,52 @@ export default function ViewDrawing() {
                 </div>
               </form>
             </div>
+            <div className="flex justify-center mb-4">
+              <button className={`chip left-scroll-arrow${xScrollLeft?"-show":""}`} style={{marginRight: "6px"}} onClick={() => handleScroll(-100)}>
+                <img src="/left-arrow.png" height="14px" width="14px"/>
+              </button>
+              <div className="flex justify-center" style={{width: "500px"}}>
+                <div ref={scrollContainerRef} className="scroll-menu">
+                  <div className="flex" style={{gap: "6px"}}>
+                    <button className={`chip ${(selectedOrder==="latest" || selectedOrder==="oldest") && searchKeyword==="" && selectedTag===""?"chip-active":""}`} onClick={()=>{setSearchKeyword(""); setSelectedTag("");}}>All</button>
+                    <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest");}}>Latest</button>
+                    <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest");}}>Oldest</button>
+                    {   
+                      uniqueTags.length !== 0 ?
+                      uniqueTags.map((tag, index) => {
+                        return <ChipTag key={index} tag={tag} selectedTag={selectedTag} handleSelectTag={handleSelectTag}/>
+                      })
+                      :
+                      <></>
+                    }
+                  </div>
+                </div>
+              </div>
+              <button className={`chip right-scroll-arrow${xScrollRight?"-show":""}`} style={{marginLeft: "6px"}} onClick={() => handleScroll(100)}>
+                <img src="/right-arrow.png" height="14px" width="14px"/>
+              </button>
+            </div>
             <div style={{display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "24px"}}>
-              {(searchKeyword===""?fetchedDrawings:filteredDrawings).map((drawingInfo, index)=>{
-                return <DrawingItem key={index} drawingInfo={drawingInfo}/>
-              }).reverse()}
+              {   
+                selectedTag !=="" ?
+                  selectedOrder ==="latest" ?
+                    (filteredDrawings).map((drawingInfo, index)=>{
+                      return <DrawingItem key={index} drawingInfo={drawingInfo}/>
+                    }).reverse()
+                  :
+                    (filteredDrawings).map((drawingInfo, index)=>{
+                      return <DrawingItem key={index} drawingInfo={drawingInfo}/>
+                    })                                      
+                : 
+                  selectedOrder ==="latest" ?
+                    (searchKeyword===""?fetchedDrawings:filteredDrawings).map((drawingInfo, index)=>{
+                      return <DrawingItem key={index} drawingInfo={drawingInfo}/>
+                    }).reverse()
+                  :
+                    (searchKeyword===""?fetchedDrawings:filteredDrawings).map((drawingInfo, index)=>{
+                      return <DrawingItem key={index} drawingInfo={drawingInfo}/>
+                    })                                      
+              }
             </div>
             <div className={`up-scroll-btn${yScroll?"-show":""}`} style={{bottom: "32px", right:"32px"}}>
               <a href="#top"><img src="/up-arrow.png" style={{height: "14px", width: "14px"}}/></a>
