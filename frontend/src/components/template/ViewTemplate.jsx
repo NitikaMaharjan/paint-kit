@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import TemplateContext from "../../context/template/TemplateContext";
@@ -9,6 +9,8 @@ export default function ViewTemplate() {
 
   let navigate = useNavigate();
 
+  const scrollContainerRef = useRef(null);
+
   const { showProgress } = useContext(ProgressBarContext);
   const { fetchTemplate, fetchedTemplates } = useContext(TemplateContext);
 
@@ -18,6 +20,9 @@ export default function ViewTemplate() {
   const [selectedOrder, setSelectedOrder] = useState("latest");
   const [uniqueTags, setUniqueTags] = useState([]);
   const [selectedTag, setSelectedTag] = useState("");
+  const [xScrollLeft, setXScrollLeft] = useState(false);
+  const [xScrollRight, setXScrollRight] = useState(false);
+  const [xScrollRightPrevValue, setXScrollRightPrevValue] = useState(null);
 
   const handleSearchKeywordChange = (e) => {
     setSearchKeyword(e.target.value);
@@ -55,6 +60,25 @@ export default function ViewTemplate() {
     setFilteredTemplates(fetchedTemplates.filter((template)=>{return template.template_tag.toLowerCase().includes(tag.toLowerCase())}));
   }
 
+  const handleScroll = (scrollOffset) => {
+    if(scrollContainerRef.current){
+      setXScrollRightPrevValue(scrollContainerRef.current.scrollLeft);
+      scrollContainerRef.current.scrollLeft += scrollOffset;
+    }
+
+    if(scrollContainerRef.current.scrollLeft!==0){
+      setXScrollLeft(true);
+    }else{
+      setXScrollLeft(false);
+    }
+
+    if(xScrollRightPrevValue===scrollContainerRef.current.scrollLeft){
+      setXScrollRight(false);
+    }else{
+      setXScrollRight(true);
+    }
+  }
+
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("adminSignedIn")){
       navigate("/usersignin");
@@ -74,6 +98,11 @@ export default function ViewTemplate() {
   useEffect(() => {
     if(fetchedTemplates.length!== 0){
       getUniqueTags();
+      if(scrollContainerRef.current && scrollContainerRef.current.scrollWidth > scrollContainerRef.current.clientWidth){
+        setXScrollRight(true);
+      }else{
+        setXScrollRight(false);
+      }
     }
   }, [fetchedTemplates]);
   
@@ -109,19 +138,29 @@ export default function ViewTemplate() {
               </form>
             </div>
             <div className="flex justify-center mb-4">
-              <div className="flex" style={{width: "500px", gap: "6px"}}>
-                <button className={`chip ${(selectedOrder==="latest" || selectedOrder==="oldest") && searchKeyword==="" && selectedTag===""?"chip-active":""}`} onClick={()=>{setSearchKeyword(""); setSelectedTag("");}}>All</button>
-                <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest");}}>Latest</button>
-                <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest");}}>Oldest</button>
-                {   
-                  uniqueTags.length !== 0 ?
-                  uniqueTags.map((tag, index) => {
-                    return <ChipTag key={index} tag={tag} selectedTag={selectedTag} handleSelectTag={handleSelectTag}/>
-                  })
-                  :
-                  <></>
-                }
+              <button className={`chip left-scroll-arrow${xScrollLeft?"-show":""}`} style={{marginRight: "6px"}} onClick={() => handleScroll(-100)}>
+                <img src="/left-arrow.png" height="14px" width="14px"/>
+              </button>
+              <div className="flex justify-center" style={{width: "500px"}}>
+                <div ref={scrollContainerRef} className="scroll-menu">
+                  <div className="flex" style={{gap: "6px"}}>
+                    <button className={`chip ${(selectedOrder==="latest" || selectedOrder==="oldest") && searchKeyword==="" && selectedTag===""?"chip-active":""}`} onClick={()=>{setSearchKeyword(""); setSelectedTag("");}}>All</button>
+                    <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest");}}>Latest</button>
+                    <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest");}}>Oldest</button>
+                    {   
+                      uniqueTags.length !== 0 ?
+                      uniqueTags.map((tag, index) => {
+                        return <ChipTag key={index} tag={tag} selectedTag={selectedTag} handleSelectTag={handleSelectTag}/>
+                      })
+                      :
+                      <></>
+                    }
+                  </div>
+                </div>
               </div>
+              <button className={`chip right-scroll-arrow${xScrollRight?"-show":""}`} style={{marginLeft: "6px"}} onClick={() => handleScroll(100)}>
+                <img src="/right-arrow.png" height="14px" width="14px"/>
+              </button>
             </div>
             <div style={{display: "grid", gridTemplateColumns: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"repeat(4, 1fr)":"repeat(3, 1fr)"}`, gap: "24px"}}>
               {   

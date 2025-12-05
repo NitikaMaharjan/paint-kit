@@ -356,10 +356,28 @@
     border: 1px solid rgba(0, 0, 0, 0.5);
     background-color: white;    
     color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
 }
 
 .chip-active {
     border: 1px solid black;
     background-color: black;
     color: white;
+}
+
+.scroll-menu {
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+.left-scroll-arrow, .right-scroll-arrow {
+    opacity: 0;
+    cursor: pointer;
+}
+
+.left-scroll-arrow-show, .right-scroll-arrow-show {
+    opacity: 1;
+    cursor: pointer;
 }
