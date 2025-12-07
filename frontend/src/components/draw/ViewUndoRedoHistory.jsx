@@ -34,7 +34,7 @@ export default function ViewUndoRedoHistory(props) {
             </div>
             <div>
                 <h1>Current Canvas State</h1>
-                <img src={currentCanvasStateImage} style={{height: "200px", width: "400px"}}/>
+                <img src={currentCanvasStateImage} style={{height: "200px", width: "400px"}} alt="drawing"/>
             </div>            
             <div>
                 {

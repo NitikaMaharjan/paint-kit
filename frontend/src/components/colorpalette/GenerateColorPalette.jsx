@@ -385,7 +385,7 @@ export default function GenerateColorPalette() {
                   palette.map((a_color, index)=>{
                     return  <div key={index} style={{height: "100px", width: "85px", border: "1px solid black"}}>
                               <div style={{display: "flex", justifyContent: "right", padding: "4px", height:"78px", backgroundColor: `${a_color.hex}`}} title={`${a_color.hex}`}>
-                                <img src={calculateBrightness(a_color.hex)} alt="copy color button image" title="copy button" style={{height: "18px", width: "18px", cursor: "pointer"}} onClick={()=>{handleCopy(a_color.hex)}}/>
+                                <img src={calculateBrightness(a_color.hex)} alt="copy icon" style={{height: "18px", width: "18px", cursor: "pointer"}} onClick={()=>{handleCopy(a_color.hex)}}/>
                               </div>
                               <p style={{padding: "0px 4px", fontSize: "12px", height: "20px", backgroundColor: "white"}}>{a_color.hex}</p>
                             </div>

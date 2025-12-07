@@ -123,17 +123,17 @@ export default function UserSignin(props) {
             <label htmlFor="user_email"><b>Email</b></label>
             <div className="input-bar" id="email-input-bar">
               <input type="email" id="user_email" name="user_email" placeholder="Enter email" value={credentials.user_email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
-              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("user_email")}} style={{opacity: `${credentials.user_email===""?0:1}`}}/>
+              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user_email")}} style={{opacity: `${credentials.user_email===""?0:1}`}}/>
             </div>
           </div>          
           <div style={{marginBottom: "28px"}}>
             <div className="flex items-center justify-between pr-1">
               <label htmlFor="user_password"><b>Password</b></label>
-              <img src={`/${passwordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType()}}/>
+              <img src={`/${passwordType==="password"?"hide":"show"}.png`} alt="eye icon" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType()}}/>
             </div>
             <div className="input-bar" id="password-input-bar">
               <input type={`${passwordType}`} id="user_password" name="user_password" placeholder="Enter password" value={credentials.user_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
-              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("user_password")}} style={{opacity: `${credentials.user_password===""?0:1}`}}/>
+              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user_password")}} style={{opacity: `${credentials.user_password===""?0:1}`}}/>
             </div>
           </div>
           <div className="flex flex-col justify-center">

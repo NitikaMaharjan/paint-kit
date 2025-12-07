@@ -131,15 +131,15 @@ export default function ViewTemplate() {
             <div className="flex justify-center mb-2">
               <form className="auth-form" style={{margin: "0px"}}>
                 <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
-                  <img src="/search.png" alt="search button image"/>
+                  <img src="/search.png" alt="search icon"/>
                   <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter template title/tag" value={searchKeyword} onChange={handleSearchKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)"}}/>
-                  <img src="/close.png" alt="close button image" onClick={()=>{clearInput()}} style={{opacity: `${searchKeyword===""?0:1}`}}/>
+                  <img src="/close.png" alt="close icon" onClick={()=>{clearInput()}} style={{opacity: `${searchKeyword===""?0:1}`}}/>
                 </div>
               </form>
             </div>
             <div className="flex justify-center mb-4">
               <button className={`chip left-scroll-arrow${xScrollLeft?"-show":""}`} style={{marginRight: "6px"}} onClick={() => handleScroll(-100)}>
-                <img src="/left-arrow.png" height="14px" width="14px"/>
+                <img src="/left-arrow.png" alt="left arrow icon" height="14px" width="14px"/>
               </button>
               <div className="flex justify-center" style={{width: "500px"}}>
                 <div ref={scrollContainerRef} className="scroll-menu">
@@ -159,7 +159,7 @@ export default function ViewTemplate() {
                 </div>
               </div>
               <button className={`chip right-scroll-arrow${xScrollRight?"-show":""}`} style={{marginLeft: "6px"}} onClick={() => handleScroll(100)}>
-                <img src="/right-arrow.png" height="14px" width="14px"/>
+                <img src="/right-arrow.png" alt="right arrow icon" height="14px" width="14px"/>
               </button>
             </div>
             <div style={{display: "grid", gridTemplateColumns: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"repeat(4, 1fr)":"repeat(3, 1fr)"}`, gap: "24px"}}>
@@ -188,7 +188,7 @@ export default function ViewTemplate() {
               localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")
               &&
               <div className={`up-scroll-btn${yScroll?"-show":""}`} style={{bottom: "32px", right:"32px"}}>
-                <a href="#top"><img src="/up-arrow.png" style={{height: "14px", width: "14px"}}/></a>
+                <a href="#top"><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></a>
               </div>
             }
           </div>

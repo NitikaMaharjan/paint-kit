@@ -158,14 +158,14 @@ export default function SaveDrawingForm(props) {
           <label htmlFor="drawing_title"><b>Title</b></label>
           <div className="input-bar" id="drawing-title-input-bar">
             <input type="text" id="drawing_title" name="drawing_title" placeholder="Enter title" value={inputValue.drawing_title} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("drawing-title")}} onBlur={()=>{removeBorderHighlight("drawing-title")}}/>
-            <img src="/close.png" alt="close button image" onClick={()=>{clearInput("drawing_title")}} style={{opacity: `${inputValue.drawing_title===""?0:1}`}}/>
+            <img src="/close.png" alt="close icon" onClick={()=>{clearInput("drawing_title")}} style={{opacity: `${inputValue.drawing_title===""?0:1}`}}/>
           </div>
         </div>          
         <div style={{marginBottom: "28px"}}>
           <label htmlFor="drawing_tag"><b>Tag</b></label>
           <div className="input-bar" id="drawing-tag-input-bar">
             <input type="text" id="drawing_tag" name="drawing_tag" placeholder="Enter tag" value={inputValue.drawing_tag} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("drawing-tag")}} onBlur={()=>{removeBorderHighlight("drawing-tag")}}/>
-            <img src="/close.png" alt="close button image" onClick={()=>{clearInput("drawing_tag")}} style={{opacity: `${inputValue.drawing_tag===""?0:1}`}}/>
+            <img src="/close.png" alt="close icon" onClick={()=>{clearInput("drawing_tag")}} style={{opacity: `${inputValue.drawing_tag===""?0:1}`}}/>
           </div>
         </div>
         <button type="submit" className="submit-btn" onClick={handleSaveDrawing}><b>Save drawing</b></button>

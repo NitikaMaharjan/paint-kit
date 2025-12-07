@@ -29,11 +29,11 @@ export default function AlertState(props) {
                 <div className="alert-modal-background" onClick={()=>{setAlert(false)}}>
                     <div className="alert-modal">
                         <div className="flex items-center gap-2" style={{padding: "6px 12px", borderRight: "1px solid black"}}>
-                            <img src={`/${alertType}.png`} alt={`${alertType}`+" image"} style={{height: `${alertType==="Success"?"24px":"30px"}`, width: `${alertType==="Success"?"24px":"30px"}`}}/>
+                            <img src={`/${alertType}.png`} alt={`${alertType}`+" icon"} style={{height: `${alertType==="Success"?"24px":"30px"}`, width: `${alertType==="Success"?"24px":"30px"}`}}/>
                             <p style={{fontSize: "14px"}}>{alertMsg}</p>
                         </div>
                         <div style={{padding: "11px"}}>
-                            <img src="/close.png" alt="close button image" style={{height: "12px", width: "12px", cursor: "pointer"}} onClick={()=>{setAlert(false)}}/>
+                            <img src="/close.png" alt="close icon" style={{height: "12px", width: "12px", cursor: "pointer"}} onClick={()=>{setAlert(false)}}/>
                         </div>
                     </div>
                 </div>

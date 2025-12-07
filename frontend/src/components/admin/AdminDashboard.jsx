@@ -114,7 +114,7 @@ export default function AdminDashboard() {
         <div className="dashboard-content">
           <div ref={templateScrollRef} style={{height: "500px", overflowY: "auto"}} onScroll={() => setTemplateYScroll(templateScrollRef.current.scrollTop > 0)}>
             <ViewTemplate/>
-            <button className={`up-scroll-btn${templateYScroll?"-show":""}`} onClick={templateScrollToTop}><img src="/up-arrow.png" style={{height: "14px", width: "14px"}}/></button>
+            <button className={`up-scroll-btn${templateYScroll?"-show":""}`} onClick={templateScrollToTop}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
           </div>
           <div className="flex justify-center mt-4">
             <button className="action-btn" onClick={()=>{setShowAddTemplateFormModal(true)}}>Add Template</button>
@@ -128,7 +128,7 @@ export default function AdminDashboard() {
         <div className="dashboard-content">
           <div ref={colorPaletteScrollRef} style={{height: "500px", overflowY: "auto"}} onScroll={() => setColorPaletteYScroll(colorPaletteScrollRef.current.scrollTop > 0)}>
             <AdminViewColorPalette/>
-            <button className={`up-scroll-btn${colorPaletteYScroll?"-show":""}`} onClick={colorPaletteScrollToTop}><img src="/up-arrow.png" style={{height: "14px", width: "14px"}}/></button>
+            <button className={`up-scroll-btn${colorPaletteYScroll?"-show":""}`} onClick={colorPaletteScrollToTop}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
           </div>
           <div className="flex justify-center mt-4 gap-8">
             <Link className="action-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>

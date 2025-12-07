@@ -29,8 +29,8 @@ export default function AdminColorPaletteItem(props) {
                                 <h1 style={{fontSize: "14px"}}>{color_palette_name}</h1>
                             </div>
                             <div className="flex items-center justify-end">
-                                <button className="icon-btn" onClick={()=>{setSelectedColorPalette({ color_palette_id: color_palette_id, color_palette_name: color_palette_name, colors: colors }); setShowEditColorPaletteFormModal(true);}}><img src="/edit.png" style={{height: "20px", width: "20px"}}/></button>
-                                <button className="icon-btn" onClick={()=>{handleDeleteColorPalette(color_palette_id)}}><img src="/delete.png" style={{height: "18px", width: "18px"}}/></button>
+                                <button className="icon-btn" onClick={()=>{setSelectedColorPalette({ color_palette_id: color_palette_id, color_palette_name: color_palette_name, colors: colors }); setShowEditColorPaletteFormModal(true);}}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></button>
+                                <button className="icon-btn" onClick={()=>{handleDeleteColorPalette(color_palette_id)}}><img src="/delete.png" alt="delete icon" style={{height: "18px", width: "18px"}}/></button>
                             </div>
                         </div>
                         <div style={{padding: "0px 12px 12px 12px"}}>

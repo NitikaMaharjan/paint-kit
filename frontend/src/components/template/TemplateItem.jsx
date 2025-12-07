@@ -57,11 +57,11 @@ export default function DrawingItem(props) {
                 <p style={{fontSize: "13px"}}><b>Tag:</b> {template_tag}</p>
               </div>
               <div className="flex items-center justify-end">
-                <button className="icon-btn" onClick={()=>{setSelectedTemplate({ template_id: _id, template_title: template_title, template_tag: template_tag, template_url: template_url }); setShowEditTemplateFormModal(true);}}><img src="/edit.png" style={{height: "20px", width: "20px"}}/></button>
-                <button className="icon-btn" onClick={()=>{handleDeleteTemplate(_id)}}><img src="/delete.png" style={{height: "18px", width: "18px"}}/></button>
+                <button className="icon-btn" onClick={()=>{setSelectedTemplate({ template_id: _id, template_title: template_title, template_tag: template_tag, template_url: template_url }); setShowEditTemplateFormModal(true);}}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></button>
+                <button className="icon-btn" onClick={()=>{handleDeleteTemplate(_id)}}><img src="/delete.png" alt="delete icon" style={{height: "18px", width: "18px"}}/></button>
               </div>
             </div>
-            <img src={template_url} style={{height: "280px", width: "100%", objectFit: "cover"}}/>
+            <img src={template_url} style={{height: "280px", width: "100%", objectFit: "cover"}} alt="drawing"/>
           </div>
         : 
           <div className="template-item">
@@ -74,7 +74,7 @@ export default function DrawingItem(props) {
                 <Link className="action-btn" to={`/usetemplate/${_id}`}>Use</Link>
               </div>
             </div>
-            <img src={template_url} style={{height: "280px", width: "100%", objectFit: "cover"}}/>
+            <img src={template_url} style={{height: "280px", width: "100%", objectFit: "cover"}} alt="drawing"/>
           </div>
       }
 

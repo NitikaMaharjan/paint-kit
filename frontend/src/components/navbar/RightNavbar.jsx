@@ -169,7 +169,7 @@ export default function RightNavbar(props) {
                         <div id="user-info" className="flex items-center justify-between p-2" style={{borderRadius: "3px"}}>
                             <div className="flex items-center gap-3">
                                 <div className="flex items-center justify-center" style={{border: "1px solid black", height: "24px", width: "24px", borderRadius: "24px"}}>
-                                    <img src="/user.png" style={{height: "18px", width: "18px"}}/>
+                                    <img src="/user.png" alt="user icon" style={{height: "18px", width: "18px"}}/>
                                 </div>
                                 <div style={{lineHeight: "18px"}}>
                                     <p style={{fontSize: "14px"}} title={localStorage.getItem("user_username")}><b>{handleCapitalizeFirstLetter(localStorage.getItem("user_username")?localStorage.getItem("user_username"):"")}</b></p>
@@ -177,7 +177,7 @@ export default function RightNavbar(props) {
                                 </div>
                             </div>
                             <div>
-                                <button className="dropdown-btn" onClick={()=>{setShowSettingDropDown(!showSettingDropDown)}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}><img src="/down-arrow.png" style={{height: "14px", width: "14px"}}/></button>
+                                <button className="dropdown-btn" onClick={()=>{setShowSettingDropDown(!showSettingDropDown)}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}><img src="/down-arrow.png" alt="down arrow icon" style={{height: "14px", width: "14px"}}/></button>
                                 {
                                     showSettingDropDown
                                     &&
@@ -317,7 +317,7 @@ export default function RightNavbar(props) {
                 
                 <div className="mt-2">
                     <div id="arrow" onMouseOver={handleArrowMouseOver} onMouseOut={handleArrowMouseOut} style={{padding: "4px", width: "min-content"}}>
-                        <button className="dropdown-btn flex gap-4" style={{width: "100px"}} onClick={()=>{if(props.checkUserSignedIn()){setShowExportDropDown(!showExportDropDown)}}}><p>Export</p><img src="/down-arrow.png" style={{height: "14px", width: "14px"}}/></button>
+                        <button className="dropdown-btn flex gap-4" style={{width: "100px"}} onClick={()=>{if(props.checkUserSignedIn()){setShowExportDropDown(!showExportDropDown)}}}><p>Export</p><img src="/down-arrow.png" alt="down arrow icon" style={{height: "14px", width: "14px"}}/></button>
                     </div>
                     {
                         showExportDropDown

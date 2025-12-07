@@ -89,9 +89,9 @@ export default function UserViewColorPalette(props) {
                 <div className="flex justify-center mb-4">
                   <form className="auth-form" style={{margin: "0px"}}>
                     <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
-                      <img src="/search.png" alt="search button image"/>
+                      <img src="/search.png" alt="search icon"/>
                       <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette name" value={searchAdminKeyword} onChange={handleSearchAdminKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)"}}/>
-                      <img src="/close.png" alt="close button image" onClick={()=>{clearInput("admin")}} style={{opacity: `${searchAdminKeyword===""?0:1}`}}/>
+                      <img src="/close.png" alt="close icon" onClick={()=>{clearInput("admin")}} style={{opacity: `${searchAdminKeyword===""?0:1}`}}/>
                     </div>
                   </form>
                 </div>
@@ -109,9 +109,9 @@ export default function UserViewColorPalette(props) {
                 <div className="flex justify-center mb-4">
                   <form className="auth-form" style={{margin: "0px"}}>
                     <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
-                      <img src="/search.png" alt="search button image"/>
+                      <img src="/search.png" alt="search icon"/>
                       <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette name" value={searchUserKeyword} onChange={handleSearchUserKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)"}}/>
-                      <img src="/close.png" alt="close button image" onClick={()=>{clearInput("user")}} style={{opacity: `${searchUserKeyword===""?0:1}`}}/>
+                      <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user")}} style={{opacity: `${searchUserKeyword===""?0:1}`}}/>
                     </div>
                   </form>
                 </div>

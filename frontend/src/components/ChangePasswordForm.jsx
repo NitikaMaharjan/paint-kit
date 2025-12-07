@@ -136,31 +136,31 @@ export default function ChangePasswordForm(props) {
             <div className="mb-1">
                 <div className="flex items-center justify-between pr-1">
                     <label htmlFor="current_password"><b>Current password</b></label>
-                    <img src={`/${currentPasswordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("current_password")}}/>
+                    <img src={`/${currentPasswordType==="password"?"hide":"show"}.png`} alt="eye icon" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("current_password")}}/>
                 </div>
                 <div className="input-bar" id="current-password-input-bar">
                     <input type={`${currentPasswordType}`} id="current_password" name="current_password" placeholder="Enter current password" value={credentials.current_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("current-password")}} onBlur={()=>{removeBorderHighlight("current-password")}}/>
-                    <img src="/close.png" alt="close button image" onClick={()=>{clearInput("current_password")}} style={{opacity: `${credentials.current_password===""?0:1}`}}/>
+                    <img src="/close.png" alt="close icon" onClick={()=>{clearInput("current_password")}} style={{opacity: `${credentials.current_password===""?0:1}`}}/>
                 </div>
             </div>
             <div className="mb-1">
                 <div className="flex items-center justify-between pr-1">
                     <label htmlFor="new_password"><b>New password</b></label>
-                    <img src={`/${newPasswordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("new_password")}}/>
+                    <img src={`/${newPasswordType==="password"?"hide":"show"}.png`} alt="eye icon" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("new_password")}}/>
                 </div>
                 <div className="input-bar" id="new-password-input-bar">
                     <input type={`${newPasswordType}`} id="new_password" name="new_password" placeholder="Enter new password" value={credentials.new_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("new-password")}} onBlur={()=>{removeBorderHighlight("new-password")}}/>
-                    <img src="/close.png" alt="close button image" onClick={()=>{clearInput("new_password")}} style={{opacity: `${credentials.new_password===""?0:1}`}}/>
+                    <img src="/close.png" alt="close icon" onClick={()=>{clearInput("new_password")}} style={{opacity: `${credentials.new_password===""?0:1}`}}/>
                 </div>
             </div>
             <div style={{marginBottom: "28px"}}>
                 <div className="flex items-center justify-between pr-1">
                     <label htmlFor="confirm_password"><b>Confirm password</b></label>
-                    <img src={`/${confirmPasswordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("confirm_password")}}/>
+                    <img src={`/${confirmPasswordType==="password"?"hide":"show"}.png`} alt="eye icon" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType("confirm_password")}}/>
                 </div>
                 <div className="input-bar" id="confirm-password-input-bar">
                     <input type={`${confirmPasswordType}`} id="confirm_password" name="confirm_password" placeholder="Enter confirm password" value={credentials.confirm_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("confirm-password")}} onBlur={()=>{removeBorderHighlight("confirm-password")}}/>
-                    <img src="/close.png" alt="close button image" onClick={()=>{clearInput("confirm_password")}} style={{opacity: `${credentials.confirm_password===""?0:1}`}}/>
+                    <img src="/close.png" alt="close icon" onClick={()=>{clearInput("confirm_password")}} style={{opacity: `${credentials.confirm_password===""?0:1}`}}/>
                 </div>
             </div>
             <button type="submit" className="submit-btn" onClick={handleUpdatePassword}><b>Update password</b></button>

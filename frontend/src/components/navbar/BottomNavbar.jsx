@@ -67,7 +67,7 @@ export default function BottomNavbar(props) {
                 &&
                 <div className="view-history-modal-background">
                     <div style={{position: "fixed", top: "30px", right: "30px", height: "24px", width: "24px", cursor: "pointer"}} onClick={()=>{setShowUndoRedoHistoryModal(false)}}>
-                        <img src="/close-white.png" style={{height: "18px", width: "18px"}}/>
+                        <img src="/close-white.png" alt="close icon" style={{height: "18px", width: "18px"}}/>
                     </div>
                     <ViewUndoRedoHistory setShowUndoRedoHistoryModal={setShowUndoRedoHistoryModal}/>
                 </div>

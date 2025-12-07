@@ -109,17 +109,17 @@ export default function AdminSignin() {
             <label htmlFor="admin_email"><b>Email</b></label>
             <div className="input-bar" id="email-input-bar">
               <input type="email" id="admin_email" name="admin_email" placeholder="Enter email" value={credentials.admin_email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
-              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("admin_email")}} style={{opacity: `${credentials.admin_email===""?0:1}`}}/>
+              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("admin_email")}} style={{opacity: `${credentials.admin_email===""?0:1}`}}/>
             </div>
           </div>          
           <div style={{marginBottom: "28px"}}>
             <div className="flex items-center justify-between pr-1">
               <label htmlFor="admin_password"><b>Password</b></label>
-              <img src={`/${passwordType==="password"?"hide":"show"}.png`} alt="eye image" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType()}}/>
+              <img src={`/${passwordType==="password"?"hide":"show"}.png`} alt="eye icon" style={{height: "16px", width: "16px", cursor: "pointer"}} onClick={()=>{changePasswordType()}}/>
             </div>
             <div className="input-bar" id="password-input-bar">
               <input type={`${passwordType}`} id="admin_password" name="admin_password" placeholder="Enter password" value={credentials.admin_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
-              <img src="/close.png" alt="close button image" onClick={()=>{clearInput("admin_password")}} style={{opacity: `${credentials.admin_password===""?0:1}`}}/>
+              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("admin_password")}} style={{opacity: `${credentials.admin_password===""?0:1}`}}/>
             </div>
           </div>
           <div className="flex flex-col justify-center">
