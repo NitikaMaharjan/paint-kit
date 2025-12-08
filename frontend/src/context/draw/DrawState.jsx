@@ -259,13 +259,13 @@ export default function DrawState(props) {
     }
   }
 
-  const bresenhamLine = (x0, y0, x1, y1, color) => {
+  const bresenhamLine = (x1, y1, x2, y2, color) => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const pixels = imageData.data;
 
-    const setPixel = (x, y) => {
+    const drawPixel = (x, y) => {
       const half = Math.floor(penStrokeWidth / 2);
       for (let i = -half; i <= half; i++) {
         for (let j = -half; j <= half; j++) {
@@ -274,36 +274,52 @@ export default function DrawState(props) {
           if(px < 0 || py < 0 || px >= canvas.width || py >= canvas.height){
             continue;
           }
-          const index = (py * canvas.width + px) * 4;
-          pixels[index] = color[0];
-          pixels[index + 1] = color[1];
-          pixels[index + 2] = color[2];
-          pixels[index + 3] = color[3];
+          setPixelColor(pixels, px, py, canvas.width, color);
         }
       }
     }
 
-    let dx = Math.abs(x1 - x0);
-    let dy = Math.abs(y1 - y0);
-    let sx = x0 < x1 ? 1 : -1;
-    let sy = y0 < y1 ? 1 : -1;
-    let err = dx - dy;
+    let dx = Math.abs(x2 - x1);
+    let dy = Math.abs(y2 - y1);
+    let xinc = x1 > x2 ? -1 : 1;
+    let yinc = y1 > y2 ? -1 : 1;
+    let step = dx > dy ? dx : dy;
+    
+    let x = x1;
+    let y = y1;
+    let i = 0;
+    let p;
 
-    while (true) {
-      setPixel(x0, y0);
-      if(x0 === x1 && y0 === y1){
-        break;
+    drawPixel(x,y);
+
+    if(dx>dy){
+      p = 2*dy - dx;
+      while(i<step){
+        x = x + xinc;
+        if(p<0){
+          p = p + 2*dy;
+        }else{
+          y = y + yinc;
+          p = p + 2*dy - 2*dx;
+        }
+        drawPixel(x,y);
+        i++;
       }
-      let e2 = 2 * err;
-      if(e2 > -dy){
-        err -= dy;
-        x0 += sx;
-      }
-      if(e2 < dx){
-        err += dx;
-        y0 += sy;
+    }else if(dy>dx){
+      p = 2*dx - dy;
+      while(i<step){
+        y = y + yinc;
+        if(p<0){
+          p = p + 2*dx;
+        }else{
+          x = x + xinc;
+          p = p + 2*dx - 2*dy;
+        }
+        drawPixel(x,y);
+        i++;
       }
     }
+
     ctx.putImageData(imageData, 0, 0);
   }
 
@@ -400,22 +416,22 @@ export default function DrawState(props) {
   }
 
   const getStartPixelColor = (pixels, posX, posY, width) => {
-    // for a pixel at posX and posY, i is the starting index i.e r component in the pixels array
-    const i = (posY * width + posX) * 4;
-    return [pixels[i], pixels[i + 1], pixels[i + 2], pixels[i + 3]]; // returns start pixel rgba value 
+    // for a pixel at posX and posY, index is the starting index i.e r component in the pixels array
+    const index = (posY * width + posX) * 4;
+    return [pixels[index], pixels[index + 1], pixels[index + 2], pixels[index + 3]]; // returns start pixel rgba value 
   }
   
   const getPixelColor = (pixels, pixX, pixY, width) => {
-    const i = (pixY * width + pixX) * 4;
-    return [pixels[i], pixels[i + 1], pixels[i + 2], pixels[i + 3]];
+    const index = (pixY * width + pixX) * 4;
+    return [pixels[index], pixels[index + 1], pixels[index + 2], pixels[index + 3]];
   }
 
   const setPixelColor = (pixels, pixX, pixY, width, fillColor) => {
-    const i = (pixY * width + pixX) * 4;
-    pixels[i] = fillColor[0];
-    pixels[i + 1] = fillColor[1];
-    pixels[i + 2] = fillColor[2];
-    pixels[i + 3] = fillColor[3];
+    const index = (pixY * width + pixX) * 4;
+    pixels[index] = fillColor[0];
+    pixels[index + 1] = fillColor[1];
+    pixels[index + 2] = fillColor[2];
+    pixels[index + 3] = fillColor[3];
   }
 
   const doesStartPixelColorMatchFillColor = (startPixelColor, fillColor) => {
