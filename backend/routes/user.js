@@ -33,7 +33,7 @@ router.post('/usersignup', [
 
     if(user_exists){
       // if user already exists
-      return res.status(400).json({ success: false, error: 'An account with this email already exists!' });
+      return res.status(409).json({ success: false, error: 'An account with this email already exists!' });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -77,7 +77,7 @@ router.post('/usersignin', [
 
     if(!user_exists){
       // if user doesn't exists
-      return res.status(400).json({ success: false, error: 'An account with this email does not exists!' });
+      return res.status(404).json({ success: false, error: 'An account with this email does not exists!' });
     }
 
     // check if the password is correct
@@ -85,7 +85,7 @@ router.post('/usersignin', [
 
     if(!password_matched){
       // if password doesn't match
-      return res.status(400).json({ success: false, error: 'Incorrect password. Please enter password again!' });
+      return res.status(401).json({ success: false, error: 'Incorrect password. Please enter password again!' });
     }
 
     const data = {
@@ -145,7 +145,7 @@ router.put("/usereditpassword", [
 
       if(!password_matched){
         // if password doesn't match
-        return res.status(400).json({ success: false, error: 'Incorrect current password. Please enter your current password again!' });
+        return res.status(401).json({ success: false, error: 'Incorrect current password. Please enter your current password again!' });
       }
 
       const salt = await bcrypt.genSalt(10);
@@ -154,7 +154,7 @@ router.put("/usereditpassword", [
       await User.findByIdAndUpdate(user_exists._id, { user_password: hashedPassword }, { new: true });
       res.json({ success: true });
     }else{
-      return res.status(400).json({ success: false, error: 'An account with this id does not exists!' });
+      return res.status(404).json({ success: false, error: 'An account with this id does not exists!' });
     }
   }catch(err){
     res.status(500).json({ error: 'Internal Server Error' });
