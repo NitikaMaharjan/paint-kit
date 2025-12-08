@@ -329,7 +329,7 @@ export default function DrawState(props) {
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const pixels = imageData.data;
 
-    const setPixel = (x, y) => {
+    const drawPixel = (x, y) => {
       const half = Math.floor(penStrokeWidth / 2);
       for (let i = -half; i <= half; i++) {
         for (let j = -half; j <= half; j++) {
@@ -338,39 +338,35 @@ export default function DrawState(props) {
           if(px < 0 || py < 0 || px >= canvas.width || py >= canvas.height){
             continue;
           }
-          const index = (py * canvas.width + px) * 4;
-          pixels[index] = color[0];
-          pixels[index + 1] = color[1];
-          pixels[index + 2] = color[2];
-          pixels[index + 3] = color[3];
+          setPixelColor(pixels, px, py, canvas.width, color);
         }
       }
     }
 
     let x = 0;
     let y = radius;
-    let d = 1 - radius;
+    let p = 1 - radius;
 
     const drawCirclePoints = (xc, yc, x, y) => {
-      setPixel(xc + x, yc + y);
-      setPixel(xc - x, yc + y);
-      setPixel(xc + x, yc - y);
-      setPixel(xc - x, yc - y);
-      setPixel(xc + y, yc + x);
-      setPixel(xc - y, yc + x);
-      setPixel(xc + y, yc - x);
-      setPixel(xc - y, yc - x);
+      drawPixel(xc + x, yc + y);
+      drawPixel(xc - x, yc + y);
+      drawPixel(xc + x, yc - y);
+      drawPixel(xc - x, yc - y);
+      drawPixel(xc + y, yc + x);
+      drawPixel(xc - y, yc + x);
+      drawPixel(xc + y, yc - x);
+      drawPixel(xc - y, yc - x);
     }
 
     drawCirclePoints(xc, yc, x, y);
 
-    while (x < y) {
+    while(x<y){
       x++;
-      if(d < 0){
-        d = d + 2 * x + 1;
-      }else{
+      if(p<0){
+        p = p + 2*x + 1;
+      }else if(p>=0){
         y--;
-        d = d + 2 * (x - y) + 1;
+        p = p + 2*x - 2*y + 1;
       }
       drawCirclePoints(xc, yc, x, y);
     }
