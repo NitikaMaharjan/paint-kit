@@ -15,258 +15,146 @@ export default function GenerateColorPalette() {
   const { showAlert } = useContext(AlertContext);
 
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [palette, setPalette] = useState([]);
   const [colors, setColors] = useState([]);
   const [showColorPaletteNameFormModal, setShowColorPaletteNameFormModal] = useState(false);
   const [colorCopied,setColorCopied] = useState(false);
   const [copiedColor,setCopiedColor] = useState("");
 
-  const DEFAULT_K = 32;
-  const MAIN_COLS = 12;
-  const STEP = 3;
-  const ITERS = 20;
-  const MAX_SAMPLES = 60000;
+  const generateColors = () => {
+    // Step A: sample pixels
+    let sample_pixels = samplePixels();
+    // eg:
+    // [
+    //   { r: 255, g: 128, b: 64 },
+    //   { r: 0, g: 200, b: 150 },
+    //   { r: 100, g: 50, b: 75 },
+    //   ...
+    // ]
 
-  const toHex = (r, g, b) =>
-    "#" +
-    [r, g, b]
-      .map((v) => Math.round(v).toString(16).padStart(2, "0"))
-      .join("")
-      .toUpperCase();
+    // Step B: run K Means Clustering
+    const final_colors = runKMeansClustering(sample_pixels);
 
-  const rgbToXyz = (r, g, b) => {
-    r /= 255;
-    g /= 255;
-    b /= 255;
-    r = r > 0.04045 ? Math.pow((r + 0.055) / 1.055, 2.4) : r / 12.92;
-    g = g > 0.04045 ? Math.pow((g + 0.055) / 1.055, 2.4) : g / 12.92;
-    b = b > 0.04045 ? Math.pow((b + 0.055) / 1.055, 2.4) : b / 12.92;
-    const x = r * 0.4124564 + g * 0.3575761 + b * 0.1804375;
-    const y = r * 0.2126729 + g * 0.7151522 + b * 0.072175;
-    const z = r * 0.0193339 + g * 0.119192 + b * 0.9503041;
-    return [x, y, z];
-  };
+    // Step C: produce hex colors array
+    const hexColorsArray = final_colors.map((color) => rgbToHex(color.r, color.g, color.b));
 
-  const xyzToLab = (x, y, z) => {
-    const xr = x / 0.95047;
-    const yr = y / 1.0;
-    const zr = z / 1.08883;
-    const f = (t) => (t > 0.008856 ? Math.cbrt(t) : 7.787037 * t + 16 / 116);
-    const fx = f(xr),
-      fy = f(yr),
-      fz = f(zr);
-    const L = 116 * fy - 16;
-    const a = 500 * (fx - fy);
-    const b = 200 * (fy - fz);
-    return [L, a, b];
-  };
+    setColors(hexColorsArray);
+    setImageLoaded(false);
+  }
 
-  const rgbToLab = (r, g, b) => xyzToLab(...rgbToXyz(r, g, b));
-  const distLab = (a, b) =>
-    (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2;
-
-  const drawImageToCanvas = (img) => {
+  const samplePixels = () => {
     const canvas = colorPaletteCanvasRef.current;
-        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const pixels = imageData.data;
+    const sample_pixels = [];
+    const SAMPLE_STEP = 3;
 
-            const imgAspect = img.width / img.height;
-            const canvasAspect = canvas.width / canvas.height;
-
-            let drawWidth, drawHeight;
-
-            if (imgAspect>canvasAspect){
-                drawWidth = canvas.width;
-                drawHeight = canvas.width / imgAspect;
-            }else{
-                drawHeight = canvas.height;
-                drawWidth = canvas.height * imgAspect;
-            }
-
-            const offsetX = (canvas.width - drawWidth) / 2;
-            const offsetY = (canvas.height - drawHeight) / 2;
-
-            ctx.fillStyle = "white";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-  };
-
-  const samplePixels = (step) => {
-    const canvas = colorPaletteCanvasRef.current;
-    const ctx = canvas.getContext("2d");
-    const { width: w, height: h } = canvas;
-    const data = ctx.getImageData(0, 0, w, h).data;
-    const pixels = [];
-    for (let y = 0; y < h; y += step) {
-      for (let x = 0; x < w; x += step) {
-        const i = (y * w + x) * 4;
-        const a = data[i + 3];
-        if (a < 128) continue;
-        const r = data[i],
-          g = data[i + 1],
-          b = data[i + 2];
-        const lab = rgbToLab(r, g, b);
-        pixels.push({ r, g, b, lab });
-      }
-    }
-    return pixels;
-  };
-
-  const kmeans = (pixels, K, maxIter) => {
-    const N = pixels.length;
-    if (N === 0) return null;
-    K = Math.min(K, N);
-
-    const centroids = [];
-    const used = new Set();
-    while (centroids.length < K) {
-      const idx = Math.floor(Math.random() * N);
-      if (used.has(idx)) continue;
-      used.add(idx);
-      centroids.push([...pixels[idx].lab]);
-    }
-
-    const assignments = new Int32Array(N);
-    const counts = new Int32Array(K);
-    const sums = Array.from({ length: K }, () => [0, 0, 0]);
-
-    for (let iter = 0; iter < maxIter; iter++) {
-      counts.fill(0);
-      sums.forEach((s) => s.fill(0));
-
-      for (let i = 0; i < N; i++) {
-        const lab = pixels[i].lab;
-        let best = 0,
-          bestDist = Infinity;
-        for (let c = 0; c < K; c++) {
-          const d = distLab(lab, centroids[c]);
-          if (d < bestDist) {
-            bestDist = d;
-            best = c;
-          }
-        }
-        assignments[i] = best;
-        counts[best]++;
-        sums[best][0] += pixels[i].r;
-        sums[best][1] += pixels[i].g;
-        sums[best][2] += pixels[i].b;
-      }
-
-      let shift = 0;
-      for (let c = 0; c < K; c++) {
-        if (counts[c] === 0) {
-          const idx = Math.floor(Math.random() * N);
-          centroids[c] = [...pixels[idx].lab];
+    for(let y = 0; y < canvas.height; y += SAMPLE_STEP){
+      for(let x = 0; x < canvas.width; x += SAMPLE_STEP){
+        const index = (y * canvas.width + x) * 4;
+        const a = pixels[index + 3];
+        if(a < 128){
+          // skip transparent-ish pixel
           continue;
         }
-        const newR = sums[c][0] / counts[c];
-        const newG = sums[c][1] / counts[c];
-        const newB = sums[c][2] / counts[c];
-        const newLab = rgbToLab(newR, newG, newB);
-        shift += distLab(centroids[c], newLab);
-        centroids[c] = newLab;
+        const r = pixels[index];
+        const g = pixels[index + 1];
+        const b = pixels[index + 2];
+        sample_pixels.push({ r, g, b });
       }
-      if (shift < 1e-3) break;
+    }
+    return sample_pixels;
+  }
+
+  const runKMeansClustering = (pixels) => {
+
+    // 1. Pick 12 random pixels as initial centroids
+    let centroids = [];
+    const used = new Set(); // to track if same pixel is chosen as the centroid
+    while(centroids.length < 12){
+      const random_pixel_index = Math.floor(Math.random() * pixels.length);
+      if(!used.has(random_pixel_index)){
+        used.add(random_pixel_index);
+        centroids.push({ ...pixels[random_pixel_index] }); // push {r, g, b} of random pixel not just its index
+      }
     }
 
-    const result = [];
-    for (let c = 0; c < K; c++) {
-      if (counts[c] === 0) continue;
-      const avgR = Math.round(sums[c][0] / counts[c]);
-      const avgG = Math.round(sums[c][1] / counts[c]);
-      const avgB = Math.round(sums[c][2] / counts[c]);
-      result.push({ avgR, avgG, avgB, count: counts[c] });
-    }
-    result.sort((a, b) => b.count - a.count);
-    return { result, total: N };
-  };
+    let pixelAssignedToWhichCentroid = new Array(pixels.length);
 
-  
+    // 2. Assign each pixel to nearest centroid, compute average of each cluster, compute new centroids and track movement of pixels
+    for(let iteration = 0; iteration < 20; iteration++){
 
-  const runSimpleKMeans = async () => {
-    const canvas = colorPaletteCanvasRef.current;
-    if (!canvas) return;
-
-    const pixels = samplePixels(STEP);
-    if (pixels.length === 0) {
-      setPalette([]);
-      return;
-    }
-
-    let sampled = pixels;
-    if (pixels.length > MAX_SAMPLES) {
-      sampled = [];
-      const N = pixels.length;
-      const indices = new Set();
-      while (indices.size < MAX_SAMPLES)
-        indices.add(Math.floor(Math.random() * N));
-      for (const idx of indices) sampled.push(pixels[idx]);
-    }
-
-    const clusters = kmeans(sampled, DEFAULT_K, ITERS);
-    if (!clusters) {
-      setPalette([]);
-      return;
-    }
-
-    let top = clusters.result.slice(0, Math.max(MAIN_COLS * 2, MAIN_COLS));
-    const rgbToLabSimple = (obj) => rgbToLab(obj.avgR, obj.avgG, obj.avgB);
-    const merged = [];
-    const taken = new Array(top.length).fill(false);
-    const THRESH = 25 * 25;
-
-    for (let i = 0; i < top.length; i++) {
-      if (taken[i]) continue;
-      let base = top[i];
-      let sumR = base.avgR * base.count;
-      let sumG = base.avgG * base.count;
-      let sumB = base.avgB * base.count;
-      let sumCount = base.count;
-      taken[i] = true;
-      const labBase = rgbToLabSimple(base);
-
-      for (let j = i + 1; j < top.length; j++) {
-        if (taken[j]) continue;
-        const labJ = rgbToLabSimple(top[j]);
-        if (distLab(labBase, labJ) < THRESH) {
-          taken[j] = true;
-          sumR += top[j].avgR * top[j].count;
-          sumG += top[j].avgG * top[j].count;
-          sumB += top[j].avgB * top[j].count;
-          sumCount += top[j].count;
+      // 2.1 Assign each pixel to nearest centroid
+      for(let i = 0; i < pixels.length; i++){
+        let bestCentroidIndex = 0;
+        let bestDifference = Infinity;
+        for(let centroidIndex = 0; centroidIndex < 12; centroidIndex++){
+          const differenceOfRGBValues = calculateDifferenceOfRGBValues(pixels[i], centroids[centroidIndex]);
+          if(differenceOfRGBValues < bestDifference){
+            bestDifference = differenceOfRGBValues;
+            bestCentroidIndex = centroidIndex;
+          }
         }
+        pixelAssignedToWhichCentroid[i] = bestCentroidIndex; // i represents index of nth pixel, so assigning best centroid index (0-11) to pixel in ith index 
       }
 
-      merged.push({
-        avgR: Math.round(sumR / sumCount),
-        avgG: Math.round(sumG / sumCount),
-        avgB: Math.round(sumB / sumCount),
-        count: sumCount,
-      });
+      // 2.2 Compute average of each cluster
+      const sums = Array.from({ length: 12 }, () => ({
+        r: 0, g: 0, b: 0, count: 0
+      })); // sums = [{r:0,g:0,b:0,count:0},{r:0,g:0,b:0,count:0},...] i.e each cluster's sum value of r, g, b and count: number of pixels being assigned to that cluster
 
-      if (merged.length >= MAIN_COLS) break;
-    }
-
-    if (merged.length < MAIN_COLS) {
-      for (let i = 0; i < top.length && merged.length < MAIN_COLS; i++) {
-        const m = merged.find(
-          (x) => x.count === top[i].count && x.avgR === top[i].avgR
-        );
-        if (!m)
-          merged.push({
-            avgR: top[i].avgR,
-            avgG: top[i].avgG,
-            avgB: top[i].avgB,
-            count: top[i].count,
-          });
+      for(let index = 0; index < pixels.length; index++){
+        const centroidIndex = pixelAssignedToWhichCentroid[index];
+        sums[centroidIndex].r += pixels[index].r;
+        sums[centroidIndex].g += pixels[index].g;
+        sums[centroidIndex].b += pixels[index].b;
+        sums[centroidIndex].count += 1;
       }
+
+      // compute new centroids, and track movement of pixels
+      let movement = 0;
+
+      for(let centroidIndex = 0; centroidIndex < 12; centroidIndex++){
+        if (sums[centroidIndex].count === 0) continue;
+
+        const newR = sums[centroidIndex].r / sums[centroidIndex].count; // average value of r of cluster having centroid at index (0-12) divided by total number of pixels assigned to that cluster
+        const newG = sums[centroidIndex].g / sums[centroidIndex].count;
+        const newB = sums[centroidIndex].b / sums[centroidIndex].count;
+
+        movement += Math.abs(centroids[centroidIndex].r - newR);
+        movement += Math.abs(centroids[centroidIndex].g - newG);
+        movement += Math.abs(centroids[centroidIndex].b - newB);
+
+        centroids[centroidIndex] = { r: newR, g: newG, b: newB };
+      }
+
+      // stop early if centroids barely moved
+      if (movement < 0.5) break;
     }
 
-    merged.sort((a, b) => b.count - a.count);
-    setPalette(
-      merged.map((c) => ({ ...c, hex: toHex(c.avgR, c.avgG, c.avgB) }))
-    );
-    setImageLoaded(false);
-  };
+    // 3. convert centroids to final colors
+    const final_colors = centroids.map(centroid => ({
+      r: Math.round(centroid.r),
+      g: Math.round(centroid.g),
+      b: Math.round(centroid.b)
+    }));
+
+    return final_colors;
+  }
+
+  const calculateDifferenceOfRGBValues = (p1, p2) => {
+    const distance_r = p1.r - p2.r;
+    const distance_g = p1.g - p2.g;
+    const distance_b = p1.b - p2.b;
+    return distance_r * distance_r + distance_g * distance_g + distance_b * distance_b; // (distance_r)² + (distance_g)² + (distance_b)² keeps all distances positive
+  }
+
+  const rgbToHex = (r, g, b) => {
+    const rr = Math.round(r).toString(16).padStart(2, "0");
+    const gg = Math.round(g).toString(16).padStart(2, "0");
+    const bb = Math.round(b).toString(16).padStart(2, "0");
+    return "#" + rr.toUpperCase() + gg.toUpperCase() + bb.toUpperCase();
+  }
 
   const handleFile = (e) => {
     const file = e.target.files?.[0];
@@ -294,22 +182,49 @@ export default function GenerateColorPalette() {
       const img = new Image();
       img.onload = () => {
         drawImageToCanvas(img);
-        setImageLoaded(true); // triggers K-Means via useEffect
+        setImageLoaded(true);
       };
       img.src = ev.target.result;
     };
     reader.readAsDataURL(file);
-  };
+  }
+
+  const drawImageToCanvas = (img) => {
+    const canvas = colorPaletteCanvasRef.current;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+    const imgAspect = img.width / img.height;
+    const canvasAspect = canvas.width / canvas.height;
+
+    let drawWidth, drawHeight;
+
+    if (imgAspect>canvasAspect){
+      drawWidth = canvas.width;
+      drawHeight = canvas.width / imgAspect;
+    }else{
+      drawHeight = canvas.height;
+      drawWidth = canvas.height * imgAspect;
+    }
+
+    const offsetX = (canvas.width - drawWidth) / 2;
+    const offsetY = (canvas.height - drawHeight) / 2;
+
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+  }
 
   const clearAll = () => {
-    setPalette([]);
+    setColors([]);
     setImageLoaded(false);
-    if (colorPaletteCanvasRef.current) {
+    if(colorPaletteCanvasRef.current){
       const ctx = colorPaletteCanvasRef.current.getContext("2d");
       ctx.clearRect(0, 0, colorPaletteCanvasRef.current.width, colorPaletteCanvasRef.current.height);
     }
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
+    if(fileInputRef.current){
+      fileInputRef.current.value = "";
+    }
+  }
 
   const calculateBrightness = (hexColor)=> {
     let color_without_hash = hexColor.replace("#", "");
@@ -356,48 +271,36 @@ export default function GenerateColorPalette() {
     // eslint-disable-next-line
   }, []);
 
-  // Run K-Means automatically when image is loaded
   useEffect(() => {
-    if (imageLoaded) runSimpleKMeans();
-  }, [imageLoaded]);
-
-  useEffect(() => {
-    if(palette.length!==0){
-      const colorsArray = [];
-      for(let i=0;i<12;i++){
-        colorsArray.push(palette[i].hex);
-      }
-      setColors(colorsArray);
+    if(imageLoaded===true){
+      generateColors();
     }
-  }, [palette]);  
+  }, [imageLoaded]);
 
   return (
     <>
       <div className="content gap-8">
         <div className="auth-form-box">
           <div className="flex items-center justify-end" style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
-            
           </div>
           <div style={{height: "504px", width: "304px", padding: "12px"}}>
             <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", justifyItems: "center", gap: "12px"}}>
               {
-                palette.length !== 0 ?
-                  palette.map((a_color, index)=>{
+                colors.length !== 0 ?
+                  colors.map((a_color, index)=>{
                     return  <div key={index} style={{height: "100px", width: "85px", border: "1px solid black"}}>
-                              <div style={{display: "flex", justifyContent: "right", padding: "4px", height:"78px", backgroundColor: `${a_color.hex}`}} title={`${a_color.hex}`}>
-                                <img src={calculateBrightness(a_color.hex)} alt="copy icon" style={{height: "18px", width: "18px", cursor: "pointer"}} onClick={()=>{handleCopy(a_color.hex)}}/>
+                              <div style={{display: "flex", justifyContent: "right", padding: "4px", height:"78px", backgroundColor: `${a_color}`}} title={`${a_color}`}>
+                                <img src={calculateBrightness(a_color)} alt="copy icon" style={{height: "18px", width: "18px", cursor: "pointer"}} onClick={()=>{handleCopy(a_color)}}/>
                               </div>
-                              <p style={{padding: "0px 4px", fontSize: "12px", height: "20px", backgroundColor: "white"}}>{a_color.hex}</p>
+                              <p style={{padding: "0px 4px", fontSize: "12px", height: "20px", backgroundColor: "white"}}>{a_color}</p>
                             </div>
-                  }).reverse()
+                  })
                 :
-                  <div>
-                    
-                  </div>
+                  <div></div>
               }
             </div>
             <div className="flex justify-center">
-              <button className="action-btn" style={{marginTop: "12px", cursor: "pointer", opacity: `${palette.length>1?"1":"0"}`}} onClick={clearAll}>clear all</button>
+              <button className="action-btn" style={{marginTop: "12px", cursor: "pointer", opacity: `${colors.length>1?"1":"0"}`}} onClick={clearAll}>clear all</button>
             </div>
           </div>
         </div>
