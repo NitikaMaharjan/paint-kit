@@ -29,7 +29,7 @@ export default function AdminDashboard() {
   const [showChangePasswordFormModal, setShowChangePasswordFormModal] = useState(false);
 
   const handleMouseOver = () => {
-    document.getElementById("arrow").style.backgroundColor="rgba(0, 0, 0, 0.048)";
+    document.getElementById("arrow").style.backgroundColor="rgba(0, 0, 0, 0.05)";
   }
     
   const handleMouseOut = () => {
@@ -69,16 +69,16 @@ export default function AdminDashboard() {
 
   return (
     <>
-      <div className="flex items-center justify-between" style={{height: "40px", width: "100%", position: "fixed", top: "0", backgroundColor: "white", borderBottom: "1px solid #aaaaaa", padding: "4px 40px", boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.15)"}}>
+      <div className="flex items-center justify-between" style={{height: "40px", width: "100%", position: "fixed", top: "0", backgroundColor: "white", padding: "4px 40px"}}>
         <div className="flex items-center gap-2">
-          <img src="/logo.png" alt="logo" style={{height: "22px"}}/>
+          <img src="/logo.png" alt="logo" style={{height: "24px"}}/>
           <h1 style={{fontSize: "14px", marginTop: "2px"}}><b>Paint Kit</b></h1>
         </div>
         <div className="flex items-center">
-          <div className="flex items-center justify-center" style={{border: "1px solid rgba(0, 0, 0, 0.7)", height: "18px", width: "18px", borderRadius: "18px"}}>
-            <img src="/user.png" alt="user icon" style={{height: "12px", width: "12px"}}/>
+          <div className="flex items-center justify-center" style={{border: "1px solid rgba(0, 0, 0, 0.8)", height: "19px", width: "19px", borderRadius: "18px"}}>
+            <img src="/user.png" alt="user icon" style={{height: "13px", width: "13px"}}/>
           </div>&nbsp;
-          <p style={{fontSize: "14px"}}>{localStorage.getItem("admin_username")}</p>&nbsp;
+          <p style={{fontSize: "13px"}}>{localStorage.getItem("admin_username")}</p>&nbsp;
           <p style={{fontSize: "13px"}}><b>|</b> {localStorage.getItem("admin_email")}</p>&nbsp;
           <div>
             <div id="arrow" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} style={{padding: "4px"}}>
@@ -88,8 +88,8 @@ export default function AdminDashboard() {
               showSettingDropDown
               &&
               <div className="dropdown-content">
-                  <button className="dropdown-content-button" onClick={()=>{setShowChangePasswordFormModal(true)}}>Change password</button>
-                  <button className="dropdown-content-button" onClick={handleSignOut}>Sign out</button>
+                  <button className="dropdown-content-button" onClick={()=>{setShowChangePasswordFormModal(true);setShowSettingDropDown(!showSettingDropDown);}}>Change password</button>
+                  <button className="dropdown-content-button" onClick={()=>{handleSignOut();setShowSettingDropDown(!showSettingDropDown);}}>Sign out</button>
               </div>
             }
           </div>
@@ -98,7 +98,7 @@ export default function AdminDashboard() {
 
       <div className="side-navbar">
         <div style={{margin: "80px 40px 0px 40px", backgroundColor: "white", border: "1px solid black", boxShadow: "3px 3px 0px rgba(0, 0, 0)"}}>
-          <div style={{padding: "12px", backgroundColor: "#ccc", borderBottom: "1px solid black"}}>
+          <div style={{padding: "10px", backgroundColor: "#ccc", borderBottom: "1px solid black"}}>
             <h1 style={{fontSize: "14px"}}><b>Dashboard</b></h1>
           </div>
           <div className="flex flex-col" style={{padding: "6px"}}>
@@ -112,7 +112,7 @@ export default function AdminDashboard() {
         selectedContent==="template"
         &&
         <div className="dashboard-content">
-          <div ref={templateScrollRef} style={{height: "500px", overflowY: "auto"}} onScroll={() => setTemplateYScroll(templateScrollRef.current.scrollTop > 0)}>
+          <div ref={templateScrollRef} style={{height: "500px", overflowY: "auto", scrollbarGutter: "stable"}} onScroll={() => setTemplateYScroll(templateScrollRef.current.scrollTop > 0)}>
             <ViewTemplate/>
             <button className={`up-scroll-btn${templateYScroll?"-show":""}`} onClick={templateScrollToTop}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
           </div>

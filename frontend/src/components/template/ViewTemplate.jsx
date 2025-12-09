@@ -127,7 +127,7 @@ export default function ViewTemplate() {
 
       {
         fetchedTemplates.length !==0 ?
-          <div style={{marginTop: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"24px":"0px"}`, padding: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"32px":"0px"}`}}>
+          <div style={{marginTop: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"24px":"0px"}`, padding: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"32px":"0px 10px 0px 0px"}`}}>
             <div className="flex justify-center mb-2">
               <form className="auth-form" style={{margin: "0px"}}>
                 <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
@@ -198,7 +198,7 @@ export default function ViewTemplate() {
               <p style={{fontSize: "14px"}}><b>No templates to use!</b></p>
             </div>
           :
-            <div className="flex items-center justify-center" style={{height: "100%"}}>
+            <div className="flex justify-center" style={{marginTop: "250px"}}>
               <p style={{fontSize: "14px"}}><b>Add templates to get started!</b></p>
             </div>
       }
