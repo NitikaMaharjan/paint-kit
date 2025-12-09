@@ -14,6 +14,7 @@ export default function GenerateColorPalette() {
   const { showProgress } = useContext(ProgressBarContext);
   const { showAlert } = useContext(AlertContext);
 
+  const [imageUploaded, setImageUploaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [colors, setColors] = useState([]);
   const [showColorPaletteNameFormModal, setShowColorPaletteNameFormModal] = useState(false);
@@ -160,23 +161,26 @@ export default function GenerateColorPalette() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    
     // file validation
     const validTypes = ["image/png", "image/jpeg"];
     const maxSizeMB = 2;
     const maxSizeBytes = maxSizeMB * 1024 * 1024;
-
+    
     if (!validTypes.includes(file.type)) {
       showAlert("Warning", "Only PNG and JPEG images are allowed!");
       fileInputRef.current.value = ""; 
       return;
     }
-
+    
     if (file.size > maxSizeBytes) {
       showAlert("Warning", `Image size must be less than ${maxSizeMB} MB!`);
       fileInputRef.current.value = "";
       return;
     }
-
+    
+    setImageUploaded(true);
+    
     const reader = new FileReader();
     reader.onload = (ev) => {
       const img = new Image();
@@ -216,6 +220,7 @@ export default function GenerateColorPalette() {
 
   const clearAll = () => {
     setColors([]);
+    setImageUploaded(false);
     setImageLoaded(false);
     if(colorPaletteCanvasRef.current){
       const ctx = colorPaletteCanvasRef.current.getContext("2d");
@@ -250,16 +255,25 @@ export default function GenerateColorPalette() {
     setTimeout(() => {
       setColorCopied(false);
       setCopiedColor("");
-    }, 1500);
+    }, 2000);
   }
 
-  const handleSavingColorPalette = () => {
+  const handleSavingColorPalette = (e) => {
+    e.preventDefault();
     if(fileInputRef.current.value!==""){
       setShowColorPaletteNameFormModal(true);
     }else{
       showAlert("Warning", "Please select an image and generate color palette before saving it!");
       return;
     }
+  }
+
+  const addBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
+  }
+  
+  const removeBorderHighlight = (type) => {
+    document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
   }
 
   useEffect(() => {
@@ -281,24 +295,26 @@ export default function GenerateColorPalette() {
     <>
       <div className="content gap-8">
         <div className="auth-form-box">
-          <div className="flex items-center justify-end" style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
+          <div style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
           </div>
           <div style={{height: "504px", width: "304px", padding: "12px"}}>
-            <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", justifyItems: "center", gap: "12px"}}>
               {
                 colors.length !== 0 ?
-                  colors.map((a_color, index)=>{
-                    return  <div key={index} style={{height: "100px", width: "85px", border: "1px solid black"}}>
-                              <div style={{display: "flex", justifyContent: "right", padding: "4px", height:"78px", backgroundColor: `${a_color}`}} title={`${a_color}`}>
-                                <img src={calculateBrightness(a_color)} alt="copy icon" style={{height: "18px", width: "18px", cursor: "pointer"}} onClick={()=>{handleCopy(a_color)}}/>
+                  <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", justifyItems: "center", gap: "12px"}}>
+                    {colors.map((a_color, index)=>{
+                      return  <div key={index} style={{height: "100px", width: "85px", border: "1px solid black"}}>
+                                <div style={{display: "flex", justifyContent: "right", padding: "4px", height:"78px", backgroundColor: `${a_color}`}} title={`${a_color}`}>
+                                  <img src={calculateBrightness(a_color)} alt="copy icon" style={{height: "18px", width: "18px", cursor: "pointer"}} onClick={()=>{handleCopy(a_color)}}/>
+                                </div>
+                                <p style={{padding: "0px 4px", fontSize: "12px", height: "20px", backgroundColor: "white"}}>{a_color}</p>
                               </div>
-                              <p style={{padding: "0px 4px", fontSize: "12px", height: "20px", backgroundColor: "white"}}>{a_color}</p>
-                            </div>
-                  })
+                    })}
+                  </div>
                 :
-                  <div></div>
+                  <div className="flex justify-center items-center" style={{height: "100%"}}>
+                    <p style={{fontSize: "13px", textAlign: "center"}}><b>Upload image to generate color palette!</b></p>
+                  </div>
               }
-            </div>
             <div className="flex justify-center">
               <button className="action-btn" style={{marginTop: "12px", cursor: "pointer", opacity: `${colors.length>1?"1":"0"}`}} onClick={clearAll}>clear all</button>
             </div>
@@ -306,18 +322,24 @@ export default function GenerateColorPalette() {
         </div>
         <div className="auth-form-box">
           <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Generate color palette</b></h1>
-          <div className="auth-form">
-            <div>
-              <label>Upload Image</label>
-              <div className="input-bar">
-                <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFile}/>
+          <form className="auth-form">
+            <div style={{marginBottom: "28px"}}>
+              <label><b>Upload image</b></label>
+              <div className="input-bar mb-3" id="image-url-input-bar">
+                <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFile} onFocus={()=>{addBorderHighlight("image-url")}} onBlur={()=>{removeBorderHighlight("image-url")}} style={{color: `${imageUploaded?"black":"rgba(0, 0, 0, 0.6)"}`, fontSize: "13px"}}/>
+                <img src="/close.png" alt="close icon" onClick={clearAll} style={{opacity: `${imageUploaded?"1":"0"}`}}/>
               </div>
+              {
+                imageUploaded ?
+                  <canvas ref={colorPaletteCanvasRef} height={"160px"} width={"284px"}></canvas>
+                :
+                  <div className="flex items-center justify-center" style={{height: "160px", width: "100%", border: "1px solid rgba(0, 0, 0, 0.3)"}}>
+                    <img src="no-image.png" alt="no image uploaded" style={{height: "24px", width: "24px"}}/>
+                  </div>
+              }
             </div>
-            <div>
-              <canvas ref={colorPaletteCanvasRef} height={"200px"} width={"350px"}></canvas>
-            </div>
-          <button className="submit-btn" onClick={handleSavingColorPalette}>Save color palette</button>
-          </div>
+            <button className="submit-btn" onClick={handleSavingColorPalette}>Save color palette</button>
+          </form>
         </div>
       </div>
 

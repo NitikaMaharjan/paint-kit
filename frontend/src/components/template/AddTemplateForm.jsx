@@ -175,7 +175,7 @@ export default function AddTemplateForm(props) {
           <label htmlFor="template_url"><b>Image</b></label>
           <div className="input-bar mb-3" id="template-url-input-bar">
             <input type="file" id="template_url" name="template_url" accept="image/*" ref={fileInputRef} onChange={updateImageUrl} onFocus={()=>{addBorderHighlight("template-url")}} onBlur={()=>{removeBorderHighlight("template-url")}} style={{color: `${inputFile===null?"rgba(0, 0, 0, 0.6)":"black"}`, fontSize: "13px"}}/>
-            <img src="/close.png" alt="close icon" onClick={()=>{clearInput("template_url")}} style={{opacity: `${inputFile===null?0:1}`}}/>
+            <img src="/close.png" alt="close icon" onClick={()=>{clearInput("template_url")}} style={{opacity: `${inputFile===null?"0":"1"}`}}/>
           </div>
           <div className="flex items-center justify-center" style={{height: "180px", width: "100%", border: "1px solid rgba(0, 0, 0, 0.3)"}}>
             <img src={`${inputFile===null?"/no-image.png":"/uploads/"+inputFile.name}`} alt="uploaded image" style={{height: `${inputFile===null?"24px":"100%"}`, width: `${inputFile===null?"24px":"100%"}`, objectFit: "contain"}}/>
