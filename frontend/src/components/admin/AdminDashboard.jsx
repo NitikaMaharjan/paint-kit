@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import AlertContext from "../../context/alert/AlertContext";
@@ -13,15 +13,12 @@ export default function AdminDashboard() {
 
   let navigate = useNavigate();
 
-  const colorPaletteScrollRef = useRef(null);
-
   const { showProgress } = useContext(ProgressBarContext);
   const { showAlert } = useContext(AlertContext);
   const { showConfirm } = useContext(ConfirmContext);
 
   const [showSettingDropDown, setShowSettingDropDown] = useState(false);
   const [selectedContent, setSelectedContent] = useState("template");
-  const [colorPaletteYScroll, setColorPaletteYScroll] = useState(false);
   const [showCreateColorPaletteFormModal,setShowCreateColorPaletteFormModal] = useState(false);
   const [showAddTemplateFormModal,setShowAddTemplateFormModal] = useState(false);
   const [showChangePasswordFormModal, setShowChangePasswordFormModal] = useState(false);
@@ -33,10 +30,6 @@ export default function AdminDashboard() {
   const handleMouseOut = () => {
     document.getElementById("arrow").style.backgroundColor="transparent";
   }
-  
-  const colorPaletteScrollToTop = () => {
-    colorPaletteScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   const handleSignOut = async() => {
     let ans = await showConfirm("Sign out");
@@ -116,12 +109,9 @@ export default function AdminDashboard() {
       {
         selectedContent==="colorpalette"
         &&
-        <div className="dashboard-content">
-          <div ref={colorPaletteScrollRef} style={{height: "500px", overflowY: "auto"}} onScroll={() => setColorPaletteYScroll(colorPaletteScrollRef.current.scrollTop > 0)}>
-            <AdminViewColorPalette/>
-            <button className={`up-scroll-btn${colorPaletteYScroll?"-show":""}`} onClick={colorPaletteScrollToTop}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
-          </div>
-          <div className="flex justify-center mt-4 gap-8">
+        <div className="dashboard-content">          
+          <AdminViewColorPalette/>
+          <div className="flex justify-center mt-3 gap-8">
             <Link className="action-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>
             <button className="action-btn" onClick={()=>{setShowCreateColorPaletteFormModal(true)}}>Create color palette</button>
           </div>
