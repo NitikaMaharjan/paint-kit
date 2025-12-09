@@ -9,6 +9,7 @@ export default function ViewTemplate() {
 
   let navigate = useNavigate();
 
+  const templateScrollRef = useRef(null);
   const scrollContainerRef = useRef(null);
 
   const { showProgress } = useContext(ProgressBarContext);
@@ -16,6 +17,7 @@ export default function ViewTemplate() {
 
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filteredTemplates, setFilteredTemplates] = useState([]);
+  const [templateYScroll, setTemplateYScroll] = useState(false);
   const [yScroll, setYScroll] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState("latest");
   const [uniqueTags, setUniqueTags] = useState([]);
@@ -59,6 +61,10 @@ export default function ViewTemplate() {
     setSearchKeyword("");
     setFilteredTemplates(fetchedTemplates.filter((template)=>{return template.template_tag.toLowerCase().includes(tag.toLowerCase())}));
   }
+
+  const templateScrollToTop = () => {
+    templateScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleScroll = (scrollOffset) => {
     if(scrollContainerRef.current){
@@ -127,7 +133,8 @@ export default function ViewTemplate() {
 
       {
         fetchedTemplates.length !==0 ?
-          <div style={{marginTop: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"24px":"0px"}`, padding: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"32px":"0px 10px 0px 0px"}`}}>
+          <div style={{marginTop: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"24px":"0px"}`, padding: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"32px":"0px"}`}}>
+            
             <div className="flex justify-center mb-2">
               <form className="auth-form" style={{margin: "0px"}}>
                 <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
@@ -137,6 +144,7 @@ export default function ViewTemplate() {
                 </div>
               </form>
             </div>
+
             <div className="flex justify-center mb-4">
               <button className={`chip left-scroll-arrow${xScrollLeft?"-show":""}`} style={{marginRight: "6px"}} onClick={() => handleScroll(-100)}>
                 <img src="/left-arrow.png" alt="left arrow icon" height="14px" width="14px"/>
@@ -162,44 +170,72 @@ export default function ViewTemplate() {
                 <img src="/right-arrow.png" alt="right arrow icon" height="14px" width="14px"/>
               </button>
             </div>
-            <div style={{display: "grid", gridTemplateColumns: `${localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"repeat(4, 1fr)":"repeat(3, 1fr)"}`, gap: "24px"}}>
-              {   
-                selectedTag !=="" ?
-                  selectedOrder ==="latest" ?
-                    (filteredTemplates).map((templateInfo, index)=>{
-                      return <TemplateItem key={index} templateInfo={templateInfo}/>
-                    }).reverse()
-                  :
-                    (filteredTemplates).map((templateInfo, index)=>{
-                      return <TemplateItem key={index} templateInfo={templateInfo}/>
-                    })                                      
-                : 
-                  selectedOrder ==="latest" ?
-                    (searchKeyword===""?fetchedTemplates:filteredTemplates).map((templateInfo, index)=>{
-                      return <TemplateItem key={index} templateInfo={templateInfo}/>
-                    }).reverse()
-                  :
-                    (searchKeyword===""?fetchedTemplates:filteredTemplates).map((templateInfo, index)=>{
-                      return <TemplateItem key={index} templateInfo={templateInfo}/>
-                    })                                      
-              }
-            </div>
+
             {
-              localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")
-              &&
-              <div className={`up-scroll-btn${yScroll?"-show":""}`} style={{bottom: "32px", right:"32px"}}>
-                <a href="#top"><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></a>
-              </div>
+              localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token") ?
+                <div ref={templateScrollRef} style={{height: "430px", overflowY: "auto", scrollbarGutter: "stable", paddingRight: "10px"}} onScroll={() => setTemplateYScroll(templateScrollRef.current.scrollTop > 0)}>
+                  <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px"}}>
+                    {   
+                      selectedTag !=="" ?
+                        selectedOrder ==="latest" ?
+                          (filteredTemplates).map((templateInfo, index)=>{
+                            return <TemplateItem key={index} templateInfo={templateInfo}/>
+                          }).reverse()
+                        :
+                          (filteredTemplates).map((templateInfo, index)=>{
+                            return <TemplateItem key={index} templateInfo={templateInfo}/>
+                          })                                      
+                      : 
+                        selectedOrder ==="latest" ?
+                          (searchKeyword===""?fetchedTemplates:filteredTemplates).map((templateInfo, index)=>{
+                            return <TemplateItem key={index} templateInfo={templateInfo}/>
+                          }).reverse()
+                        :
+                          (searchKeyword===""?fetchedTemplates:filteredTemplates).map((templateInfo, index)=>{
+                            return <TemplateItem key={index} templateInfo={templateInfo}/>
+                          })
+                    }
+                  </div>
+                  <button className={`up-scroll-btn${templateYScroll?"-show":""}`} onClick={templateScrollToTop}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
+                </div>
+              : 
+                <div>                
+                  <div style={{display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "24px"}}>
+                    {
+                      selectedTag !=="" ?
+                        selectedOrder ==="latest" ?
+                          (filteredTemplates).map((templateInfo, index)=>{
+                            return <TemplateItem key={index} templateInfo={templateInfo}/>
+                          }).reverse()
+                        :
+                          (filteredTemplates).map((templateInfo, index)=>{
+                            return <TemplateItem key={index} templateInfo={templateInfo}/>
+                          })                                      
+                      : 
+                        selectedOrder ==="latest" ?
+                          (searchKeyword===""?fetchedTemplates:filteredTemplates).map((templateInfo, index)=>{
+                            return <TemplateItem key={index} templateInfo={templateInfo}/>
+                          }).reverse()
+                        :
+                          (searchKeyword===""?fetchedTemplates:filteredTemplates).map((templateInfo, index)=>{
+                            return <TemplateItem key={index} templateInfo={templateInfo}/>
+                          })
+                    }
+                  </div>
+                  <div className={`up-scroll-btn${yScroll?"-show":""}`} style={{bottom: "32px", right:"32px"}}>
+                    <a href="#top"><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></a>
+                  </div>
+                </div>
             }
           </div>
         :
-          localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token") ?
-            <div className="content">
-              <p style={{fontSize: "14px"}}><b>No templates to use!</b></p>
+          localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token") ?
+            <div className="flex justify-center items-center" style={{height: "508px"}}>
+              <p style={{fontSize: "14px"}}><b>Add templates to get started!</b></p>
             </div>
           :
-            <div className="flex justify-center" style={{marginTop: "250px"}}>
-              <p style={{fontSize: "14px"}}><b>Add templates to get started!</b></p>
+            <div className="content">
+              <p style={{fontSize: "14px"}}><b>No templates to use!</b></p>
             </div>
       }
     </>

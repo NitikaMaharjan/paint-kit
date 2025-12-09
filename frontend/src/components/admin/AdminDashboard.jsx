@@ -13,7 +13,6 @@ export default function AdminDashboard() {
 
   let navigate = useNavigate();
 
-  const templateScrollRef = useRef(null);
   const colorPaletteScrollRef = useRef(null);
 
   const { showProgress } = useContext(ProgressBarContext);
@@ -22,7 +21,6 @@ export default function AdminDashboard() {
 
   const [showSettingDropDown, setShowSettingDropDown] = useState(false);
   const [selectedContent, setSelectedContent] = useState("template");
-  const [templateYScroll, setTemplateYScroll] = useState(false);
   const [colorPaletteYScroll, setColorPaletteYScroll] = useState(false);
   const [showCreateColorPaletteFormModal,setShowCreateColorPaletteFormModal] = useState(false);
   const [showAddTemplateFormModal,setShowAddTemplateFormModal] = useState(false);
@@ -35,10 +33,6 @@ export default function AdminDashboard() {
   const handleMouseOut = () => {
     document.getElementById("arrow").style.backgroundColor="transparent";
   }
-
-  const templateScrollToTop = () => {
-    templateScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
-  };
   
   const colorPaletteScrollToTop = () => {
     colorPaletteScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
@@ -111,12 +105,9 @@ export default function AdminDashboard() {
       {
         selectedContent==="template"
         &&
-        <div className="dashboard-content">
-          <div ref={templateScrollRef} style={{height: "500px", overflowY: "auto", scrollbarGutter: "stable"}} onScroll={() => setTemplateYScroll(templateScrollRef.current.scrollTop > 0)}>
-            <ViewTemplate/>
-            <button className={`up-scroll-btn${templateYScroll?"-show":""}`} onClick={templateScrollToTop}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
-          </div>
-          <div className="flex justify-center mt-4">
+        <div className="dashboard-content">          
+          <ViewTemplate/>          
+          <div className="flex justify-center mt-3">
             <button className="action-btn" onClick={()=>{setShowAddTemplateFormModal(true)}}>Add Template</button>
           </div>
         </div>

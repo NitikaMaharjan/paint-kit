@@ -315,8 +315,8 @@
 
 .up-scroll-btn-show {
     position: fixed;
-    bottom: 88px;
-    right: 65px;
+    bottom: 80px;
+    right: 80px;
     background-color: black;
     padding: 8px;
     cursor: pointer;
