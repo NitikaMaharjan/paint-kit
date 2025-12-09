@@ -53,8 +53,8 @@ export default function DrawingItem(props) {
           <div className="template-item">
             <div className="flex items-center justify-between mb-2">
               <div>
-                <h1 style={{fontSize: "14px"}}><b>Title:</b> {template_title}</h1>
-                <p style={{fontSize: "13px"}}><b>Tag:</b> {template_tag}</p>
+                <h1 style={{fontSize: "14px"}}><b>Title:</b> {template_title.length>14?template_title.slice(0,14)+"...":template_title}</h1>
+                <p style={{fontSize: "13px"}}><b>Tag:</b> {template_tag.length>16?template_tag.slice(0,16)+"...":template_tag}</p>
               </div>
               <div className="flex items-center justify-end">
                 <button className="icon-btn" onClick={()=>{setSelectedTemplate({ template_id: _id, template_title: template_title, template_tag: template_tag, template_url: template_url }); setShowEditTemplateFormModal(true);}}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></button>
@@ -67,8 +67,8 @@ export default function DrawingItem(props) {
           <div className="template-item">
             <div className="flex items-center justify-between mb-2">
               <div>
-                <h1 style={{fontSize: "14px"}}><b>Title:</b> {template_title}</h1>
-                <p style={{fontSize: "13px"}}><b>Tag:</b> {template_tag}</p>
+                <h1 style={{fontSize: "14px"}}><b>Title:</b> {template_title.length>14?template_title.slice(0,14)+"...":template_title}</h1>
+                <p style={{fontSize: "13px"}}><b>Tag:</b> {template_tag.length>16?template_tag.slice(0,16)+"...":template_tag}</p>
               </div>
               <div className="flex items-center justify-end">
                 <Link className="action-btn" to={`/usetemplate/${_id}`}>Use</Link>

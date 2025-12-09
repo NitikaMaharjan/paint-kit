@@ -26,7 +26,7 @@ export default function AdminColorPaletteItem(props) {
                     <div className="color-palette-item" style={{height: "min-content", border: "1px solid #aaaaaa", boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.315)"}}>
                         <div className="flex items-center justify-between p-2">
                             <div>
-                                <h1 style={{fontSize: "14px"}}>{color_palette_name}</h1>
+                                <h1 style={{fontSize: "14px"}}>{color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name}</h1>
                             </div>
                             <div className="flex items-center justify-end">
                                 <button className="icon-btn" onClick={()=>{setSelectedColorPalette({ color_palette_id: color_palette_id, color_palette_name: color_palette_name, colors: colors }); setShowEditColorPaletteFormModal(true);}}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></button>
@@ -34,10 +34,12 @@ export default function AdminColorPaletteItem(props) {
                             </div>
                         </div>
                         <div style={{padding: "0px 12px 12px 12px"}}>
-                            <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>
-                                {colors.map((a_color, index)=>{
-                                    return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}}></div>
-                                }).reverse()}
+                            <div style={{height: "66px"}}>
+                                <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>
+                                    {colors.map((a_color, index)=>{
+                                        return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}}></div>
+                                    }).reverse()}
+                                </div>
                             </div>
                         </div>
                     </div>
