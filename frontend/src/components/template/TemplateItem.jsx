@@ -21,6 +21,25 @@ export default function DrawingItem(props) {
     template_url: ""
   });
 
+  const handleCapitalizeEachFirstLetter = (text) => {
+    let words = text.split(" ");
+    for(let i=0; i<words.length; i++){
+      words[i] = words[i].charAt(0).toUpperCase()+words[i].substring(1).toLowerCase();
+    }
+    text = (words.join(" "));
+    return text;
+  }
+
+  const formatDate = (date) => {
+    let date_object = new Date(date);
+    return date_object.toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+  }
+  
+  const formatTime = (date) => {
+    let date_object = new Date(date);
+    return date_object.toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+  }
+
   const handleDeleteTemplate = async(template_id) => {
     let ans = await showConfirm("Delete template");
     if(ans){
@@ -53,8 +72,8 @@ export default function DrawingItem(props) {
           <div className="template-item">
             <div className="flex items-center justify-between mb-2">
               <div>
-                <h1 style={{fontSize: "14px"}}><b>Title:</b> {template_title.length>14?template_title.slice(0,14)+"...":template_title}</h1>
-                <p style={{fontSize: "13px"}}><b>Tag:</b> {template_tag.length>16?template_tag.slice(0,16)+"...":template_tag}</p>
+                <p style={{fontSize: "14px"}} title={template_title}><b>Title:</b> {handleCapitalizeEachFirstLetter(template_title.length>14?template_title.slice(0,14)+"...":template_title)}</p>
+                <p style={{fontSize: "14px"}} title={template_tag}><b>Tag:</b> {handleCapitalizeEachFirstLetter(template_tag.length>16?template_tag.slice(0,16)+"...":template_tag)}</p>
               </div>
               <div className="flex items-center justify-end">
                 <button className="icon-btn" onClick={()=>{setSelectedTemplate({ template_id: _id, template_title: template_title, template_tag: template_tag, template_url: template_url }); setShowEditTemplateFormModal(true);}}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></button>
@@ -62,13 +81,16 @@ export default function DrawingItem(props) {
               </div>
             </div>
             <img src={template_url} style={{height: "280px", width: "100%", objectFit: "cover"}} alt="drawing"/>
+            <div className="flex items-center justify-center mt-2">
+              <p style={{fontSize: "12px"}}><b>{formatDate(template_updated_date)} | {formatTime(template_updated_date)}</b></p>
+            </div>
           </div>
         : 
           <div className="template-item">
             <div className="flex items-center justify-between mb-2">
               <div>
-                <h1 style={{fontSize: "14px"}}><b>Title:</b> {template_title.length>14?template_title.slice(0,14)+"...":template_title}</h1>
-                <p style={{fontSize: "13px"}}><b>Tag:</b> {template_tag.length>16?template_tag.slice(0,16)+"...":template_tag}</p>
+                <p style={{fontSize: "14px"}} title={template_title}><b>Title:</b> {handleCapitalizeEachFirstLetter(template_title.length>14?template_title.slice(0,14)+"...":template_title)}</p>
+                <p style={{fontSize: "14px"}} title={template_tag}><b>Tag:</b> {handleCapitalizeEachFirstLetter(template_tag.length>16?template_tag.slice(0,16)+"...":template_tag)}</p>
               </div>
               <div className="flex items-center justify-end">
                 <Link className="action-btn" to={`/usetemplate/${_id}`}>Use</Link>

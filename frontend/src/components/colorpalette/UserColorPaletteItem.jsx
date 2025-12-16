@@ -10,7 +10,7 @@ export default function UserColorPaletteItem(props) {
     return (
         <div style={{margin: "0px 0px 18px 0px", width: "min-content"}}>
             <div className="flex items-center justify-between mb-1" style={{padding: "12px 0px"}}>
-                <p title={color_palette_name} style={{fontSize: "13px"}}>{color_palette_name.length>10?color_palette_name.slice(0,10)+"...":color_palette_name}</p>
+                <p style={{fontSize: "13px"}} title={color_palette_name}>{color_palette_name.length>10?color_palette_name.slice(0,10)+"...":color_palette_name}</p>
                 <div className="flex items-center">
                     <button className="icon-btn" onClick={()=>{setSelectedColorPalette({color_palette_id: color_palette_id, color_palette_name: color_palette_name, colors: colors}); setShowEditColorPaletteFormModal(true);}}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></button>
                     <button className="icon-btn" onClick={()=>{handleDeleteColorPalette(color_palette_id)}}><img src="/delete.png" alt="delete icon" style={{height: "18px", width: "18px"}}/></button>

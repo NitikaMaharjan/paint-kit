@@ -2,7 +2,9 @@ import { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import AlertContext from "../../context/alert/AlertContext";
+import ConfirmContext from "../../context/confirm/ConfirmContext";
 import ColorPaletteNameForm from "./ColorPaletteNameForm";
+import TopNavbar from "../navbar/TopNavbar";
 
 export default function GenerateColorPalette() {
 
@@ -13,6 +15,7 @@ export default function GenerateColorPalette() {
   
   const { showProgress } = useContext(ProgressBarContext);
   const { showAlert } = useContext(AlertContext);
+  const { showConfirm } = useContext(ConfirmContext);
 
   const [imageUploaded, setImageUploaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -164,7 +167,7 @@ export default function GenerateColorPalette() {
     
     // file validation
     const validTypes = ["image/png", "image/jpeg"];
-    const maxSizeMB = 2;
+    const maxSizeMB = 5;
     const maxSizeBytes = maxSizeMB * 1024 * 1024;
     
     if (!validTypes.includes(file.type)) {
@@ -276,9 +279,34 @@ export default function GenerateColorPalette() {
     document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
   }
 
+  const handleSignOut = async() => {
+    let ans = await showConfirm("Sign out");
+    if(ans){
+      if(localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")){
+        localStorage.removeItem("adminSignedIn");
+        localStorage.removeItem("adminAuthToken");
+        localStorage.removeItem("admin_token");
+        localStorage.removeItem("admin_id");
+        localStorage.removeItem("admin_email");
+        localStorage.removeItem("admin_username");
+        localStorage.removeItem("adminContentChoice");
+        navigate("/adminsignin");
+      }else if(localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")){
+        localStorage.removeItem("userSignedIn");
+        localStorage.removeItem("userAuthToken");
+        localStorage.removeItem("user_token");
+        localStorage.removeItem("user_id");
+        localStorage.removeItem("user_email");
+        localStorage.removeItem("user_username");
+        navigate("/usersignin");
+      }
+      showAlert("Success", "You've signed out. See you next time!");
+    }
+  }
+
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("adminSignedIn")){
-      navigate("/usersignin");
+      navigate("/");
     }else{
       showProgress();
     }
@@ -293,6 +321,8 @@ export default function GenerateColorPalette() {
 
   return (
     <>
+      <TopNavbar username={localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")?localStorage.getItem("admin_username"):localStorage.getItem("user_username")} email={localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")?localStorage.getItem("admin_email"):localStorage.getItem("user_email")} handleSignOut={handleSignOut}/>
+
       <div className="content gap-8">
         <div className="auth-form-box">
           <div style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#ccc"}}>

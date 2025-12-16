@@ -41,8 +41,8 @@ export default function DrawingItem(props) {
     <div className="template-item">
       <div className="flex items-center justify-between mb-2"> 
         <div>
-          <h1 style={{fontSize: "14px"}}><b>Title:</b> {drawing_title.length>14?drawing_title.slice(0,14)+"...":drawing_title}</h1>
-          <p style={{fontSize: "13px"}}><b>Tag:</b> {drawing_tag}</p>
+          <p style={{fontSize: "14px"}} title={drawing_title}><b>Title:</b> {drawing_title.length>14?drawing_title.slice(0,14)+"...":drawing_title}</p>
+          <p style={{fontSize: "14px"}} title={drawing_tag}><b>Tag:</b> {drawing_tag}</p>
         </div>  
         <div className="flex items-center justify-end">
           <Link className="icon-btn" to={`/editdrawing/${_id}`}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></Link>

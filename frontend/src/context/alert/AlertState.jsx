@@ -32,7 +32,7 @@ export default function AlertState(props) {
                             <img src={`/${alertType}.png`} alt={`${alertType}`+" icon"} style={{height: `${alertType==="Success"?"24px":"30px"}`, width: `${alertType==="Success"?"24px":"30px"}`}}/>
                             <p style={{fontSize: "14px"}}>{alertMsg}</p>
                         </div>
-                        <div style={{padding: "11px"}}>
+                        <div style={{padding: `${alertType==="Success"?"11px 13px":"10px 15px"}`}}>
                             <img src="/close.png" alt="close icon" style={{height: "12px", width: "12px", cursor: "pointer"}} onClick={()=>{setAlert(false)}}/>
                         </div>
                     </div>

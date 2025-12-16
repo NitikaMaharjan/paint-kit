@@ -23,7 +23,7 @@ export default function AdminViewColorPalette() {
   const handleSearchAdminKeywordChange = (e) => {
     setSearchAdminKeyword(e.target.value); 
     if(searchAdminKeyword.trim()!==""){
-      setFilteredAdminColorPalettes(adminColorPalettes.filter((colorpalette)=>{return colorpalette.color_palette_name.toLowerCase().includes(searchAdminKeyword.toLowerCase())}));
+      setFilteredAdminColorPalettes(adminColorPalettes.filter((colorpalette)=>{return colorpalette.color_palette_name.toLowerCase().includes(searchAdminKeyword.toLowerCase()) || colorpalette.colors.some( color => color.toLowerCase().includes(searchAdminKeyword.toLowerCase()))}));
     }
   }
 
@@ -56,7 +56,7 @@ export default function AdminViewColorPalette() {
               <form className="auth-form" style={{margin: "0px"}}>
                 <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
                   <img src="/search.png" alt="search icon"/>
-                  <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette name" value={searchAdminKeyword} onChange={handleSearchAdminKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)"}}/>
+                  <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette/color name" value={searchAdminKeyword} onChange={handleSearchAdminKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)"}}/>
                   <img src="/close.png" alt="close icon" onClick={()=>{clearInput()}} style={{opacity: `${searchAdminKeyword===""?0:1}`}}/>
                 </div>
               </form>
@@ -73,11 +73,11 @@ export default function AdminViewColorPalette() {
                 { 
                   selectedOrder ==="latest" ?
                     (searchAdminKeyword===""?adminColorPalettes:filteredAdminColorPalettes).map((colorpalette)=>{
-                      return <AdminColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette}/>
+                      return <AdminColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette}/>
                     }).reverse()
                   :
                     (searchAdminKeyword===""?adminColorPalettes:filteredAdminColorPalettes).map((colorpalette)=>{
-                      return <AdminColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette}/>
+                      return <AdminColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette}/>
                     })
                 }
               </div>

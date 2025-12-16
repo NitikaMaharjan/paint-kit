@@ -15,7 +15,7 @@ export default function ImageUploadForm(props) {
 
         // file validation
         const validTypes = ["image/png", "image/jpeg"];
-        const maxSizeMB = 2;
+        const maxSizeMB = 5;
         const maxSizeBytes = maxSizeMB * 1024 * 1024;
 
         if (!validTypes.includes(file.type)) {

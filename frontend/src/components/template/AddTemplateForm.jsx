@@ -44,7 +44,7 @@ export default function AddTemplateForm(props) {
   const validateInputValue = () => {
     const textRegex = /^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/;
     const validTypes = ["image/png", "image/jpeg"];
-    const maxSizeMB = 2;
+    const maxSizeMB = 5;
     const maxSizeBytes = maxSizeMB * 1024 * 1024;
 
     let template_title = inputValue.template_title.trim();

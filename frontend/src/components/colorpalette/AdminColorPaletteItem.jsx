@@ -9,6 +9,25 @@ export default function AdminColorPaletteItem(props) {
     const { handleDeleteColorPalette } = useContext(ColorPaletteContext);
 
     const [showUserSigninFormModal, setShowUserSigninFormModal] = useState(false);
+
+    const handleCapitalizeEachFirstLetter = (text) => {
+        let words = text.split(" ");
+        for(let i=0; i<words.length; i++){
+        words[i] = words[i].charAt(0).toUpperCase()+words[i].substring(1).toLowerCase();
+        }
+        text = (words.join(" "));
+        return text;
+    }
+
+    const formatDate = (date) => {
+        let date_object = new Date(date);
+        return date_object.toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+    }
+  
+    const formatTime = (date) => {
+        let date_object = new Date(date);
+        return date_object.toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+    }
     
     const checkUserSignedIn = () => {
         if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
@@ -23,10 +42,10 @@ export default function AdminColorPaletteItem(props) {
         <>
             {
                 localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token") ?
-                    <div className="color-palette-item" style={{height: "min-content", border: "1px solid #aaaaaa", boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.315)"}}>
+                    <div className="color-palette-item" style={{height: "min-content", border: "1px solid #aaaaaa", boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.315)"}} title={formatDate(palette_updated_date)+" "+formatTime(palette_updated_date)}>
                         <div className="flex items-center justify-between p-2">
                             <div>
-                                <h1 style={{fontSize: "14px"}}>{color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name}</h1>
+                                <h1 style={{fontSize: "14px"}} title={color_palette_name}>{handleCapitalizeEachFirstLetter(color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name)}</h1>
                             </div>
                             <div className="flex items-center justify-end">
                                 <button className="icon-btn" onClick={()=>{setSelectedColorPalette({ color_palette_id: color_palette_id, color_palette_name: color_palette_name, colors: colors }); setShowEditColorPaletteFormModal(true);}}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></button>
@@ -46,7 +65,7 @@ export default function AdminColorPaletteItem(props) {
                 :
                     <div style={{margin: "0px 0px 18px 0px", width: "min-content"}}>
                         <div className="flex items-center justify-between mb-1" style={{padding: "12px 0px"}}>
-                            <p style={{fontSize: "13px"}}>{color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name}</p>
+                            <p style={{fontSize: "13px"}} title={color_palette_name}>{handleCapitalizeEachFirstLetter(color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name)}</p>
                             <button className="action-btn" onClick={()=>{if(checkUserSignedIn()){setColorPaletteInUse({ color_palette_name: color_palette_name, colors: colors })}}}>Use</button>
                         </div>
                         <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
