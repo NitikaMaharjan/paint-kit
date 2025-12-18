@@ -46,7 +46,11 @@ function App() {
                           <Route path="/editdrawing/:drawingid" element={<EditDrawing/>}/>
                           <Route path="/viewtemplate" element={<ViewTemplate/>}/>
                           <Route path="/usetemplate/:templateid" element={<UseTemplate/>}/>
-                          <Route path="/generatecolorpalette" element={<GenerateColorPalette/>}/>
+                          {
+                            !localStorage.getItem("adminSignedIn") && !localStorage.getItem("admin_token")
+                            &&
+                            <Route path="/generatecolorpalette" element={<GenerateColorPalette/>}/>
+                          }
                         </Routes>
                       </BrowserRouter>
                     </ColorPaletteState>

@@ -81,8 +81,8 @@ export default function ColorPaletteNameForm(props) {
                         "Content-Type": "application/json" 
                     },
                     body: JSON.stringify({
-                        by_admin: localStorage.getItem("adminSignedIn")?true:false,
-                        user_id: localStorage.getItem("adminSignedIn")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),
+                        by_admin: localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")?true:false,
+                        user_id: localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),
                         color_palette_name: inputValue.color_palette_name.trim(),
                         colors: colors
                     })
@@ -91,6 +91,9 @@ export default function ColorPaletteNameForm(props) {
         
                 if(json.success){
                     props.setShowColorPaletteNameFormModal(false);
+                    if(localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")){
+                        props.setShowGenerateColorPaletteModal(false);
+                    }
                     showAlert("Success", "Your color palette looks awesome. It has been saved successfully!");
                 }else{
                     if(json.error){

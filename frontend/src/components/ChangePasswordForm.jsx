@@ -93,13 +93,13 @@ export default function ChangePasswordForm(props) {
     e.preventDefault();
     if(clientSideValidation()){
       try{
-        const response = await fetch(`${localStorage.getItem("adminSignedIn")?"http://localhost:5000/api/admin/admineditpassword":"http://localhost:5000/api/user/usereditpassword"}`, {
+        const response = await fetch(`${localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")?"http://localhost:5000/api/admin/admineditpassword":"http://localhost:5000/api/user/usereditpassword"}`, {
           method: "PUT",
           headers: { 
             "Content-Type": "application/json" 
           },
           body: JSON.stringify({
-            user_id: localStorage.getItem("adminSignedIn")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),
+            user_id: localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),
             current_password: credentials.current_password.trim(),
             new_password: credentials.new_password.trim()
           })

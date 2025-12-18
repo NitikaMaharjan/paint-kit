@@ -125,8 +125,8 @@ export default function CreateColorPaletteForm(props) {
                         "Content-Type": "application/json" 
                     },
                     body: JSON.stringify({
-                        by_admin: localStorage.getItem("adminSignedIn")?true:false,
-                        user_id: localStorage.getItem("adminSignedIn")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),
+                        by_admin: localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")?true:false,
+                        user_id: localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")?localStorage.getItem("admin_id"):localStorage.getItem("user_id"),
                         color_palette_name: inputValue.color_palette_name.trim(),
                         colors: colors
                     })
@@ -134,7 +134,7 @@ export default function CreateColorPaletteForm(props) {
                 const json = await response.json();
         
                 if(json.success){
-                    if(localStorage.getItem("adminSignedIn")){
+                    if(localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")){
                         await fetchAdminColorPalette();
                     }else{
                         await fetchUserColorPalette();

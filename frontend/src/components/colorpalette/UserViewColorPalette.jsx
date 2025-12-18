@@ -68,8 +68,7 @@ export default function UserViewColorPalette(props) {
       fetchUserColorPalette();
     }
     fetchAdminColorPalette();
-    // eslint-disable-next-line
-  }, []);
+  }, [adminColorPalettes, userColorPalettes]);
   
   return (
     <>

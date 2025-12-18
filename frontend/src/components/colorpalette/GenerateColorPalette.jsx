@@ -2,11 +2,9 @@ import { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import AlertContext from "../../context/alert/AlertContext";
-import ConfirmContext from "../../context/confirm/ConfirmContext";
 import ColorPaletteNameForm from "./ColorPaletteNameForm";
-import TopNavbar from "../navbar/TopNavbar";
 
-export default function GenerateColorPalette() {
+export default function GenerateColorPalette(props) {
 
   let navigate = useNavigate();
 
@@ -15,7 +13,6 @@ export default function GenerateColorPalette() {
   
   const { showProgress } = useContext(ProgressBarContext);
   const { showAlert } = useContext(AlertContext);
-  const { showConfirm } = useContext(ConfirmContext);
 
   const [imageUploaded, setImageUploaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -279,35 +276,12 @@ export default function GenerateColorPalette() {
     document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
   }
 
-  const handleSignOut = async() => {
-    let ans = await showConfirm("Sign out");
-    if(ans){
-      if(localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")){
-        localStorage.removeItem("adminSignedIn");
-        localStorage.removeItem("adminAuthToken");
-        localStorage.removeItem("admin_token");
-        localStorage.removeItem("admin_id");
-        localStorage.removeItem("admin_email");
-        localStorage.removeItem("admin_username");
-        localStorage.removeItem("adminContentChoice");
-        navigate("/adminsignin");
-      }else if(localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")){
-        localStorage.removeItem("userSignedIn");
-        localStorage.removeItem("userAuthToken");
-        localStorage.removeItem("user_token");
-        localStorage.removeItem("user_id");
-        localStorage.removeItem("user_email");
-        localStorage.removeItem("user_username");
-        navigate("/usersignin");
-      }
-      showAlert("Success", "You've signed out. See you next time!");
-    }
-  }
-
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("adminSignedIn")){
       navigate("/");
-    }else{
+    }
+    
+    if(localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")){
       showProgress();
     }
     // eslint-disable-next-line
@@ -321,9 +295,7 @@ export default function GenerateColorPalette() {
 
   return (
     <>
-      <TopNavbar username={localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")?localStorage.getItem("admin_username"):localStorage.getItem("user_username")} email={localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")?localStorage.getItem("admin_email"):localStorage.getItem("user_email")} handleSignOut={handleSignOut}/>
-
-      <div className="content gap-8">
+      <div className={localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"content gap-8":"flex items-center justify-center gap-8"}>
         <div className="auth-form-box">
           <div style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
           </div>
@@ -351,7 +323,17 @@ export default function GenerateColorPalette() {
           </div>
         </div>
         <div className="auth-form-box">
-          <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Generate color palette</b></h1>
+          {
+            localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token") ?
+              <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc", width: "100%"}}>
+                <h1 style={{fontSize: "14px", textAlign: "center", width: "86%", padding: "8px 0px", borderRight: "1px solid black"}}><b>Generate color palette</b></h1>
+                <div style={{margin: "0px 5px 0px 10px", cursor: "pointer"}} onClick={()=>{props.setShowGenerateColorPaletteModal(false)}}>
+                  <img src="/close.png" alt="close icon" style={{height: "14px", width: "14px"}}/>
+                </div>
+              </div>
+            :
+              <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Generate color palette</b></h1>
+          }
           <form className="auth-form">
             <div style={{marginBottom: "28px"}}>
               <label><b>Upload image</b></label>
@@ -377,7 +359,7 @@ export default function GenerateColorPalette() {
         showColorPaletteNameFormModal
         &&
         <div className="confirm-modal-background">
-          <ColorPaletteNameForm colors={colors} setShowColorPaletteNameFormModal={setShowColorPaletteNameFormModal}/>
+          <ColorPaletteNameForm colors={colors} setShowColorPaletteNameFormModal={setShowColorPaletteNameFormModal} setShowGenerateColorPaletteModal={props.setShowGenerateColorPaletteModal}/>
         </div>
       }
     </>

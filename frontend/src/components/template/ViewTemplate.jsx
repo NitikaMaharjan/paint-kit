@@ -126,7 +126,7 @@ export default function ViewTemplate() {
   return (
     <>
       {
-        localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")
+        localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")
         &&
         <Link className="action-btn" to="/userhome" style={{position: "fixed", top:"32px", left: "32px"}}>Back</Link>
       }
@@ -172,7 +172,7 @@ export default function ViewTemplate() {
             </div>
 
             {
-              localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token") ?
+              localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token") ?
                 <div ref={templateScrollRef} style={{height: "430px", overflowY: "auto", scrollbarGutter: "stable", paddingRight: "10px"}} onScroll={() => setTemplateYScroll(templateScrollRef.current.scrollTop > 0)}>
                   <div style={{display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px"}}>
                     {   
@@ -229,7 +229,7 @@ export default function ViewTemplate() {
             }
           </div>
         :
-          localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token") ?
+          localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token") ?
             <div className="flex justify-center items-center" style={{height: "508px"}}>
               <p style={{fontSize: "14px"}}><b>Add templates to get started!</b></p>
             </div>
