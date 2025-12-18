@@ -64,11 +64,11 @@ export default function UserViewColorPalette(props) {
   }
   
   useEffect(() => {
+    fetchAdminColorPalette();
     if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
       fetchUserColorPalette();
     }
-    fetchAdminColorPalette();
-  }, [adminColorPalettes, userColorPalettes]);
+  }, []);
   
   return (
     <>

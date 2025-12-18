@@ -7,8 +7,6 @@ export default function LeftNavbar(props) {
 
   return (
     <div className="left-navbar">
-      <h1 style={{marginBottom: "30px", fontSize: "14px"}}>{props.title}</h1>
-      <h1 style={{textAlign: "center", fontWeight: "700", fontSize: "14px"}}>Tools</h1>
       <div className="left-tool-bar">
         <div className="flex" style={{borderBottom: "1px solid black"}}>
           <div className={`tool ${tool==="pen"?"selected-tool":""}`} style={{borderRight: "1px solid black"}} onClick={()=>{setTool("pen")}}>

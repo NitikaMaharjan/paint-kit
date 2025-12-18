@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <>
       <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
-      <LeftNavbar title="Untitled" tag="General" checkUserSignedIn={checkUserSignedIn}/>
+      <LeftNavbar tag="General" checkUserSignedIn={checkUserSignedIn}/>
       <RightNavbar title="Untitled" tag="General" edit={false} drawingid="" checkUserSignedIn={checkUserSignedIn}/>
       <Canvas url=""/>
       {

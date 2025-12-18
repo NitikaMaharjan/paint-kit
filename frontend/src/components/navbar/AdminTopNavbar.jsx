@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ChangePasswordForm from "../ChangePasswordForm";
 
-export default function TopNavbar(props) {
+export default function AdminTopNavbar(props) {
     
     const [currentDateTime, setCurrentDateTime] = useState(new Date());
     const [showSettingDropDown, setShowSettingDropDown] = useState(false);

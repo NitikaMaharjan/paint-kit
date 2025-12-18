@@ -7,7 +7,7 @@ import CreateColorPaletteForm from "../colorpalette/CreateColorPaletteForm";
 import AdminViewColorPalette from "../colorpalette/AdminViewColorPalette";
 import AddTemplateForm from "../template/AddTemplateForm";
 import ViewTemplate from "../template/ViewTemplate";
-import TopNavbar from "../navbar/TopNavbar";
+import AdminTopNavbar from "../navbar/AdminTopNavbar";
 import GenerateColorPalette from "../colorpalette/GenerateColorPalette";
 
 export default function AdminDashboard() {
@@ -49,7 +49,7 @@ export default function AdminDashboard() {
 
   return (
     <>
-      <TopNavbar username={localStorage.getItem("admin_username")} email={localStorage.getItem("admin_email")} handleSignOut={handleSignOut}/>
+      <AdminTopNavbar username={localStorage.getItem("admin_username")} email={localStorage.getItem("admin_email")} handleSignOut={handleSignOut}/>
 
       <div className="side-navbar">
         <div style={{margin: "20px 40px 0px 20px", backgroundColor: "white", border: "1px solid black", boxShadow: "3px 3px 0px rgba(0, 0, 0)"}}>

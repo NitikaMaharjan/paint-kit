@@ -65,7 +65,7 @@ export default function EditDrawing() {
                 drawingInfo.length !==0 ?
                     <>
                         <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
-                        <LeftNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag} checkUserSignedIn={checkUserSignedIn}/>
+                        <LeftNavbar tag={drawingInfo.drawing_tag} checkUserSignedIn={checkUserSignedIn}/>
                         <RightNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag} edit={true} drawingid={drawingid} checkUserSignedIn={checkUserSignedIn}/>
                         <Canvas url={drawingInfo.drawing_url}/>
                     </>
