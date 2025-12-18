@@ -42,19 +42,23 @@ export default function BottomNavbar(props) {
     return (
         <div className="bottom-navbar">
             <div className="bottom-tool-bar">
-                <div className="flex items-center justify-between p-2">
-                    <label htmlFor="pen_stroke_width">Pen Stroke Width:</label>
-                    <input type="range" id="pen_stroke_width" name="pen_stroke_width" min="0" max="25" value={inputPenStrokeWidth} onChange={handlePenStrokeWidthChange} style={{color: "black"}}/>
-                    
-                    <label htmlFor="eraser_stroke_width">Eraser Stroke Width:</label>
-                    <input type="range" id="eraser_stroke_width" name="eraser_stroke_width" min="0" max="25" value={inputEraserStrokeWidth} onChange={handleEraserStrokeWidthChange}/>
-                    
-                    <label htmlFor="color_opacity">Color Opacity:</label>
-                    <input type="range" id="color_opacity" name="color_opacity" min="0" max="255" value={inputColorOpacity} onChange={handleColorOpacityChange}/>
+                <div className="flex gap-7">
+                    <div className="flex flex-col gap-2">
+                        <label htmlFor="pen_stroke_width" style={{fontSize: "13px"}}><b>Pen Stroke Width</b></label>
+                        <input type="range" id="pen_stroke_width" name="pen_stroke_width" min="0" max="25" value={inputPenStrokeWidth} onChange={handlePenStrokeWidthChange} style={{cursor: "pointer"}}/>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <label htmlFor="eraser_stroke_width" style={{fontSize: "13px"}}><b>Eraser Stroke Width</b></label>
+                        <input type="range" id="eraser_stroke_width" name="eraser_stroke_width" min="0" max="25" value={inputEraserStrokeWidth} onChange={handleEraserStrokeWidthChange} style={{cursor: "pointer"}}/>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <label htmlFor="color_opacity" style={{fontSize: "13px"}}><b>Color Opacity</b></label>
+                        <input type="range" id="color_opacity" name="color_opacity" min="0" max="255" value={inputColorOpacity} onChange={handleColorOpacityChange} style={{cursor: "pointer"}}/>
+                    </div>
                 </div>
-                <div className="flex justify-end pr-4 gap-4">
+                <div className="flex gap-5">
                     <button className="action-btn flex items-center gap-2" onClick={handleUndo}><img src="/undo.png" style={{height: "14px", width: "14px"}}/>Undo</button>
-                    <button className="action-btn flex items-center gap-2" onClick={handleRedo}>Redo<img src="/redo.png" style={{height: "14px", width: "14px"}}/></button>
+                    <button className="action-btn flex items-center gap-2" onClick={handleRedo}>Redo<img src="/redo.png" style={{height: "14px", width: "14px"}}/></button>                
                 </div>
             </div>
         </div>
