@@ -63,7 +63,7 @@ export default function Canvas(props) {
     }, []);    
 
     return (
-        <div style={{marginTop: "54px", marginLeft: "120px"}}>
+        <div style={{position: "fixed", top: "80px", left: "120px"}}>
             <canvas ref={canvasRef} height={"498px"} width={"918px"} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseEnter={handleCanvasEnter} onMouseLeave={handleCanvasLeave} style={{cursor: "none"}}></canvas>
         </div>
     );

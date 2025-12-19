@@ -48,7 +48,7 @@ export default function AdminTopNavbar(props) {
                         {
                             showSettingDropDown
                             &&
-                            <div className="dropdown-content">
+                            <div className="dropdown-content" style={{right: "0px"}}>
                                 <button className="dropdown-content-button" onClick={()=>{setShowChangePasswordFormModal(true);setShowSettingDropDown(!showSettingDropDown);}}>Change password</button>
                                 <button className="dropdown-content-button" onClick={()=>{props.handleSignOut();setShowSettingDropDown(!showSettingDropDown);}}>Sign out</button>
                             </div>

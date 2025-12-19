@@ -470,9 +470,10 @@ export default function DrawState(props) {
   const handleClearCanvas = async() => {
     let ans = await showConfirm("Clear canvas");
     if(ans){
+      undoStack.current = [];
+      redoStack.current = [];
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d", { willReadFrequently: true });
-      undoStack.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
       ctx.fillStyle = "white";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       showAlert("Success", "You've cleared canvas!");

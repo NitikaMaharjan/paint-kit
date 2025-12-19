@@ -6,6 +6,7 @@ import BottomNavbar from "./navbar/BottomNavbar";
 import RightNavbar from "./navbar/RightNavbar";
 import Canvas from "./draw/Canvas";
 import UserSignin from "./user/UserSignin";
+import UserTopNavbar from "./navbar/UserTopNavbar";
 
 export default function Home() {
 
@@ -35,6 +36,7 @@ export default function Home() {
   
   return (
     <>
+      <UserTopNavbar checkUserSignedIn={checkUserSignedIn}/>
       <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
       <LeftNavbar tag="General" checkUserSignedIn={checkUserSignedIn}/>
       <RightNavbar title="Untitled" tag="General" edit={false} drawingid="" checkUserSignedIn={checkUserSignedIn}/>
