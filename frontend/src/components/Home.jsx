@@ -36,10 +36,10 @@ export default function Home() {
   
   return (
     <>
-      <UserTopNavbar checkUserSignedIn={checkUserSignedIn}/>
+      <UserTopNavbar title="Untitled" tag="General" drawingid="" edit={false} checkUserSignedIn={checkUserSignedIn}/>
       <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
-      <LeftNavbar tag="General" checkUserSignedIn={checkUserSignedIn}/>
-      <RightNavbar title="Untitled" tag="General" edit={false} drawingid="" checkUserSignedIn={checkUserSignedIn}/>
+      <LeftNavbar checkUserSignedIn={checkUserSignedIn}/>
+      <RightNavbar checkUserSignedIn={checkUserSignedIn}/>
       <Canvas url=""/>
       {
         showUserSigninFormModal

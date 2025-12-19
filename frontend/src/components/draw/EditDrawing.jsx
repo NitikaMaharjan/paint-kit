@@ -6,6 +6,7 @@ import LeftNavbar from "../navbar/LeftNavbar";
 import RightNavbar from "../navbar/RightNavbar";
 import BottomNavbar from "../navbar/BottomNavbar";
 import Canvas from "./Canvas";
+import UserTopNavbar from "../navbar/UserTopNavbar";
 
 export default function EditDrawing() {
 
@@ -64,9 +65,10 @@ export default function EditDrawing() {
             {
                 drawingInfo.length !==0 ?
                     <>
+                        <UserTopNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag} edit={true} drawingid={drawingid} checkUserSignedIn={checkUserSignedIn}/>
                         <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
-                        <LeftNavbar tag={drawingInfo.drawing_tag} checkUserSignedIn={checkUserSignedIn}/>
-                        <RightNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag} edit={true} drawingid={drawingid} checkUserSignedIn={checkUserSignedIn}/>
+                        <LeftNavbar checkUserSignedIn={checkUserSignedIn}/>
+                        <RightNavbar checkUserSignedIn={checkUserSignedIn}/>
                         <Canvas url={drawingInfo.drawing_url}/>
                     </>
                 :

@@ -6,6 +6,7 @@ import LeftNavbar from "../navbar/LeftNavbar";
 import RightNavbar from "../navbar/RightNavbar";
 import BottomNavbar from "../navbar/BottomNavbar";
 import Canvas from "./Canvas";
+import UserTopNavbar from "../navbar/UserTopNavbar";
 
 export default function UseTemplate() {
 
@@ -64,9 +65,10 @@ export default function UseTemplate() {
             {
                 templateInfo.length !==0 ?
                     <>
+                        <UserTopNavbar title={templateInfo.template_title} tag={templateInfo.template_tag} edit={false} drawingid="" checkUserSignedIn={checkUserSignedIn}/>
                         <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
-                        <LeftNavbar tag={templateInfo.template_tag} checkUserSignedIn={checkUserSignedIn}/>
-                        <RightNavbar title={templateInfo.template_title} tag={templateInfo.template_tag} edit={false} drawingid="" checkUserSignedIn={checkUserSignedIn}/>
+                        <LeftNavbar checkUserSignedIn={checkUserSignedIn}/>
+                        <RightNavbar checkUserSignedIn={checkUserSignedIn}/>
                         <Canvas url={templateInfo.template_url}/>
                     </>
                 :

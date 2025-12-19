@@ -5,6 +5,9 @@ import ConfirmContext from "../../context/confirm/ConfirmContext";
 import DrawContext from "../../context/draw/DrawContext";
 import ViewUndoRedoHistory from "../draw/ViewUndoRedoHistory";
 import ChangePasswordForm from "../ChangePasswordForm";
+import CreateColorPaletteForm from "../colorpalette/CreateColorPaletteForm";
+import SaveDrawingForm from "../draw/SaveDrawingForm";
+import ImageUploadForm from "../draw/ImageUploadForm";
 
 export default function UserTopNavbar(props) {
 
@@ -12,11 +15,15 @@ export default function UserTopNavbar(props) {
 
     const { showAlert } = useContext(AlertContext);
     const { showConfirm } = useContext(ConfirmContext);
-    const { handleClearCanvas } = useContext(DrawContext);
+    const { canvasRef, handleClearCanvas, handleExport, undoStack } = useContext(DrawContext);
 
     const [showSettingDropDown, setShowSettingDropDown] = useState(false);
     const [showUndoRedoHistoryModal, setShowUndoRedoHistoryModal] = useState(false);
     const [showChangePasswordFormModal, setShowChangePasswordFormModal] = useState(false);
+    const [showExportDropDown, setShowExportDropDown] = useState(false);
+    const [showCreateColorPaletteFormModal, setShowCreateColorPaletteFormModal] = useState(false);
+    const [showSaveDrawingFormModal, setShowSaveDrawingFormModal] = useState(false);
+    const [showImageUploadFormModal, setShowImageUploadFormModal] = useState(false);
 
     const handleSignOut = async() => {
         let ans = await showConfirm("Sign out");
@@ -49,6 +56,57 @@ export default function UserTopNavbar(props) {
         document.getElementById("arrow").style.backgroundColor="transparent";
     }
 
+    const handleArrowMouseOver = () => {
+        document.getElementById("arrow").style.backgroundColor="rgba(0, 0, 0, 0.048)";
+    }
+    
+    const handleArrowMouseOut = () => {
+        document.getElementById("arrow").style.backgroundColor="transparent";
+    }
+
+    const handleDiscardChanges = async() => {
+            let ans = await showConfirm("Discard changes");
+            if(ans){
+                navigate("/viewdrawing");
+            }
+        }
+    
+        const handleImageUpload = (imageUrl) => {
+            const canvas = canvasRef.current;
+            const ctx = canvas.getContext("2d", { willReadFrequently: true });
+            undoStack.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+            const img = new Image();
+            img.src = imageUrl;
+    
+            img.onload = () => {
+                const imgAspect = img.width / img.height;
+                const canvasAspect = canvas.width / canvas.height;
+    
+                let drawWidth, drawHeight;
+    
+                if(imgAspect>canvasAspect){
+                    drawWidth = canvas.width;
+                    drawHeight = canvas.width / imgAspect;
+                }else{
+                    drawHeight = canvas.height;
+                    drawWidth = canvas.height * imgAspect;
+                }
+    
+                const offsetX = (canvas.width - drawWidth) / 2;
+                const offsetY = (canvas.height - drawHeight) / 2;
+    
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+                
+                showAlert("Success", "Uploaded image loaded successfully!");
+            }
+    
+            img.onerror = () => {
+                showAlert("Error", "Failed to load image. Please try again!");
+            }
+        }
+
     return (
         <>
             <div className="user-top-navbar">
@@ -56,6 +114,52 @@ export default function UserTopNavbar(props) {
                     <button className="action-btn" onClick={()=>{if(props.checkUserSignedIn()){setShowUndoRedoHistoryModal(true)}}}>View Undo/Redo History</button>
                     <button className="action-btn" onClick={handleClearCanvas}>clear all</button>
                 </div> */}
+                {/* {
+                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
+                        <><Link className="action-btn" to="/viewtemplate">View template</Link><br/></>
+                    :
+                        <><button className="action-btn" onClick={()=>{props.checkUserSignedIn()}}>View template</button><br/></>
+                }
+
+                <button className="action-btn mt-2 mb-2" onClick={()=>{if(props.checkUserSignedIn()){setShowImageUploadFormModal(true)}}}>Upload image</button><br/>
+
+                {
+                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
+                        <><Link className="action-btn" to="/generatecolorpalette" target="_blank">Open color palette generator</Link><br/></>
+                    :
+                        <><button className="action-btn" onClick={()=>{props.checkUserSignedIn()}}>Open color palette generator</button><br/></>
+                }
+
+                <button className="action-btn mt-2 mb-2" onClick={()=>{if(props.checkUserSignedIn()){setShowSaveDrawingFormModal(true)}}}>Save drawing</button><br/>
+                
+                {
+                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
+                        <><Link className="action-btn" to="/viewdrawing">View your drawing</Link><br/></>
+                    :
+                        <><button className="action-btn" onClick={()=>{props.checkUserSignedIn()}}>View your drawing</button><br/></>
+                }
+
+                {
+                    props.edit===true ?
+                    <button className="action-btn mt-2" onClick={handleDiscardChanges}>Discard changes</button>
+                    :
+                    <div></div>
+                }
+                
+                <div className="mt-2">
+                    <div id="arrow" onMouseOver={handleArrowMouseOver} onMouseOut={handleArrowMouseOut} style={{padding: "4px", width: "min-content"}}>
+                        <button className="dropdown-btn flex gap-4" style={{width: "100px"}} onClick={()=>{if(props.checkUserSignedIn()){setShowExportDropDown(!showExportDropDown)}}}><p>Export</p><img src="/down-arrow.png" alt="down arrow icon" style={{height: "14px", width: "14px"}}/></button>
+                    </div>
+                    {
+                        showExportDropDown
+                        &&
+                        <div className="dropdown-content">
+                            <button className="dropdown-content-button" onClick={()=>{handleExport(props.title, "png")}}>Export as png</button>
+                            <button className="dropdown-content-button" onClick={()=>{handleExport(props.title, "jpeg")}}>Export as jpeg</button>
+                        </div>
+                    }
+                </div> */}
+                {/* <button onClick={()=>{if(props.checkUserSignedIn()){setShowCreateColorPaletteFormModal(true)}}} className="confirm-btn" style={{position: "fixed", bottom: "20px", right: "48px", width: "200px"}}>Create Color Palette</button> */}
                 <img src="/logo.png" style={{height: "40px", width: "40px"}}/>
                 <div className="flex flex-col" style={{width: "100%"}}>
                     <div className="flex items-center justify-between">
@@ -114,6 +218,30 @@ export default function UserTopNavbar(props) {
                 &&
                 <div className="confirm-modal-background">
                     <ChangePasswordForm setShowChangePasswordFormModal={setShowChangePasswordFormModal}/>
+                </div>
+            }
+
+            {
+                showCreateColorPaletteFormModal
+                &&
+                <div className="confirm-modal-background">
+                    <CreateColorPaletteForm setShowCreateColorPaletteFormModal={setShowCreateColorPaletteFormModal}/>
+                </div>
+            }
+
+            {
+                showSaveDrawingFormModal
+                &&
+                <div className="confirm-modal-background">
+                    <SaveDrawingForm title={props.title} tag={props.tag} edit={props.edit} drawingid={props.drawingid} setShowSaveDrawingFormModal={setShowSaveDrawingFormModal}/>
+                </div>
+            }
+
+            {
+                showImageUploadFormModal
+                &&
+                <div className="confirm-modal-background">
+                    <ImageUploadForm handleImageUpload={handleImageUpload} setShowImageUploadFormModal={setShowImageUploadFormModal}/>
                 </div>
             }
         </>
