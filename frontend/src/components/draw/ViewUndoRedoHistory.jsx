@@ -16,7 +16,7 @@ export default function ViewUndoRedoHistory(props) {
     }, []);    
     
     return (
-        <div className="flex gap-12">
+        <div className="flex gap-12 pt-6">
             <div>
                 {
                     undoStack.current.length>0 ?
