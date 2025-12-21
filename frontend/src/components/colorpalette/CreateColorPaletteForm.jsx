@@ -134,7 +134,7 @@ export default function CreateColorPaletteForm(props) {
                 const json = await response.json();
         
                 if(json.success){
-                    if(localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")){
+                    if(localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token")){
                         await fetchAdminColorPalette();
                     }else{
                         await fetchUserColorPalette();

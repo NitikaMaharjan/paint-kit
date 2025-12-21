@@ -44,9 +44,10 @@ export default function AdminViewColorPalette() {
   };
   
   useEffect(() => {
-    if(localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")){
+    if(localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token")){
       fetchAdminColorPalette();
     }
+    // eslint-disable-next-line
   }, []);
   
   return (

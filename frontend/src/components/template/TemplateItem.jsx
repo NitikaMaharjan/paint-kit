@@ -13,13 +13,13 @@ export default function DrawingItem(props) {
   const { showConfirm } = useContext(ConfirmContext);
   const { fetchTemplate } = useContext(TemplateContext);
 
-  const [showEditTemplateFormModal,setShowEditTemplateFormModal] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState({
     template_id: "",
     template_title: "",
     template_tag: "",
     template_url: ""
   });
+  const [showEditTemplateFormModal,setShowEditTemplateFormModal] = useState(false);
 
   const handleCapitalizeEachFirstLetter = (text) => {
     let words = text.split(" ");

@@ -82,7 +82,7 @@ export default function AdminSignin() {
           localStorage.setItem("adminSignedIn", "true");
           localStorage.setItem("adminAuthToken", json.authtoken);
           await fetchSignedInAdminDetails();
-          if(localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")){
+          if(localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token")){
             localStorage.setItem("adminContentChoice", "template");
             navigate("/admindashboard");
             showAlert("Success", "You've signed in. Welcome back!");

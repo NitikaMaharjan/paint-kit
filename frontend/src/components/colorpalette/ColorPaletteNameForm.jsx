@@ -91,7 +91,7 @@ export default function ColorPaletteNameForm(props) {
         
                 if(json.success){
                     props.setShowColorPaletteNameFormModal(false);
-                    if(localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")){
+                    if(localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token")){
                         props.setShowGenerateColorPaletteModal(false);
                     }
                     showAlert("Success", "Your color palette looks awesome. It has been saved successfully!");

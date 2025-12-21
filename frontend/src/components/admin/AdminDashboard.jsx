@@ -1,42 +1,23 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
-import AlertContext from "../../context/alert/AlertContext";
-import ConfirmContext from "../../context/confirm/ConfirmContext";
-import CreateColorPaletteForm from "../colorpalette/CreateColorPaletteForm";
-import AdminViewColorPalette from "../colorpalette/AdminViewColorPalette";
-import AddTemplateForm from "../template/AddTemplateForm";
-import ViewTemplate from "../template/ViewTemplate";
 import AdminTopNavbar from "../navbar/AdminTopNavbar";
+import ViewTemplate from "../template/ViewTemplate";
+import AddTemplateForm from "../template/AddTemplateForm";
+import AdminViewColorPalette from "../colorpalette/AdminViewColorPalette";
 import GenerateColorPalette from "../colorpalette/GenerateColorPalette";
+import CreateColorPaletteForm from "../colorpalette/CreateColorPaletteForm";
 
 export default function AdminDashboard() {
 
   let navigate = useNavigate();
 
   const { showProgress } = useContext(ProgressBarContext);
-  const { showAlert } = useContext(AlertContext);
-  const { showConfirm } = useContext(ConfirmContext);
 
   const [selectedContent, setSelectedContent] = useState(localStorage.getItem("adminContentChoice"));
+  const [showAddTemplateFormModal,setShowAddTemplateFormModal] = useState(false);
   const [showGenerateColorPaletteModal,setShowGenerateColorPaletteModal] = useState(false);
   const [showCreateColorPaletteFormModal,setShowCreateColorPaletteFormModal] = useState(false);
-  const [showAddTemplateFormModal,setShowAddTemplateFormModal] = useState(false);
-
-  const handleSignOut = async() => {
-    let ans = await showConfirm("Sign out");
-    if(ans){
-      localStorage.removeItem("adminSignedIn");
-      localStorage.removeItem("adminAuthToken");
-      localStorage.removeItem("admin_token");
-      localStorage.removeItem("admin_id");
-      localStorage.removeItem("admin_email");
-      localStorage.removeItem("admin_username");
-      localStorage.removeItem("adminContentChoice");
-      navigate("/adminsignin");
-      showAlert("Success", "You've signed out. See you next time!");
-    }
-  }
 
   useEffect(() => {
     if(!localStorage.getItem("adminSignedIn") && !localStorage.getItem("admin_token")){
@@ -49,9 +30,7 @@ export default function AdminDashboard() {
 
   return (
     <>
-      <AdminTopNavbar username={localStorage.getItem("admin_username")} email={localStorage.getItem("admin_email")} handleSignOut={handleSignOut}/>
-
-      <div className="side-navbar">
+      <div className="admin-left-navbar">
         <div style={{margin: "20px 40px 0px 20px", backgroundColor: "white", border: "1px solid black", boxShadow: "3px 3px 0px rgba(0, 0, 0)"}}>
           <div style={{padding: "10px", backgroundColor: "#ccc", borderBottom: "1px solid black"}}>
             <div className="flex items-center gap-2">
@@ -60,11 +39,13 @@ export default function AdminDashboard() {
             </div>
           </div>
           <div className="flex flex-col" style={{padding: "6px"}}>
-            <button className={`side-navbar-button ${selectedContent==="template"?"selected":"not-selected"}`} onClick={()=>{localStorage.setItem("adminContentChoice", "template");setSelectedContent(localStorage.getItem("adminContentChoice"));}}>Template</button>
-            <button className={`side-navbar-button ${selectedContent==="colorpalette"?"selected":"not-selected"}`} onClick={()=>{localStorage.setItem("adminContentChoice", "colorpalette");setSelectedContent(localStorage.getItem("adminContentChoice"));}}>Color Palette</button>
+            <button className={`admin-left-navbar-button ${selectedContent==="template"?"selected":"not-selected"}`} onClick={()=>{localStorage.setItem("adminContentChoice", "template");setSelectedContent(localStorage.getItem("adminContentChoice"));}}>Template</button>
+            <button className={`admin-left-navbar-button ${selectedContent==="colorpalette"?"selected":"not-selected"}`} onClick={()=>{localStorage.setItem("adminContentChoice", "colorpalette");setSelectedContent(localStorage.getItem("adminContentChoice"));}}>Color Palette</button>
           </div>
         </div>
       </div>
+      
+      <AdminTopNavbar/>
 
       {
         selectedContent==="template"

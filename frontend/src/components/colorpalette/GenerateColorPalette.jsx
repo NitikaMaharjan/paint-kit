@@ -17,9 +17,9 @@ export default function GenerateColorPalette(props) {
   const [imageUploaded, setImageUploaded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [colors, setColors] = useState([]);
-  const [showColorPaletteNameFormModal, setShowColorPaletteNameFormModal] = useState(false);
   const [colorCopied,setColorCopied] = useState(false);
   const [copiedColor,setCopiedColor] = useState("");
+  const [showColorPaletteNameFormModal, setShowColorPaletteNameFormModal] = useState(false);
 
   const generateColors = () => {
     // Step A: sample pixels
@@ -160,7 +160,6 @@ export default function GenerateColorPalette(props) {
   const handleFile = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     
     // file validation
     const validTypes = ["image/png", "image/jpeg"];
@@ -281,7 +280,7 @@ export default function GenerateColorPalette(props) {
       navigate("/");
     }
     
-    if(localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")){
+    if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
       showProgress();
     }
     // eslint-disable-next-line
