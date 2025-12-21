@@ -39,8 +39,9 @@ export default function Home() {
       <UserTopNavbar title="Untitled" tag="General" drawingid="" edit={false} checkUserSignedIn={checkUserSignedIn}/>
       <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
       <LeftNavbar checkUserSignedIn={checkUserSignedIn}/>
-      <RightNavbar checkUserSignedIn={checkUserSignedIn}/>
+      <RightNavbar checkUserSignedIn={checkUserSignedIn} fromHome={true}/>
       <Canvas url=""/>
+
       {
         showUserSigninFormModal
         &&

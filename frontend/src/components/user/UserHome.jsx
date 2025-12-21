@@ -33,7 +33,7 @@ export default function UserHome() {
       <UserTopNavbar title="Untitled" tag="General" edit={false} drawingid="" checkUserSignedIn={checkUserSignedIn}/>
       <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
       <LeftNavbar checkUserSignedIn={checkUserSignedIn}/>
-      <RightNavbar checkUserSignedIn={checkUserSignedIn}/>
+      <RightNavbar checkUserSignedIn={checkUserSignedIn} fromHome={false}/>
       <Canvas url=""/>
     </>
   );

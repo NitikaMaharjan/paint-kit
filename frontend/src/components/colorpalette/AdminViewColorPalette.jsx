@@ -76,11 +76,11 @@ export default function AdminViewColorPalette() {
                 { 
                   selectedOrder ==="latest" ?
                     (searchAdminKeyword===""?adminColorPalettes:filteredAdminColorPalettes).map((colorpalette)=>{
-                      return <AdminColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette}/>
+                      return <AdminColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette} fromHome={false}/>
                     }).reverse()
                   :
                     (searchAdminKeyword===""?adminColorPalettes:filteredAdminColorPalettes).map((colorpalette)=>{
-                      return <AdminColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette}/>
+                      return <AdminColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette} fromHome={false}/>
                     })
                 }
               </div>

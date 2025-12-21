@@ -95,7 +95,7 @@ export default function UserViewColorPalette(props) {
                   </form>
                 </div>
                 {(searchAdminKeyword===""?adminColorPalettes:filteredAdminColorPalettes).map((colorpalette)=>{
-                  return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setColorPaletteInUse={props.setColorPaletteInUse}/>
+                  return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setColorPaletteInUse={props.setColorPaletteInUse} fromHome={props.fromHome}/>
                 }).reverse()}
               </>
             :
