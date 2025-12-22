@@ -74,8 +74,8 @@ export default function AdminTopNavbar() {
                             &&
                             <div className="dropdown-content-background" style={{justifyContent: "end", padding: "55px 45px 0px 0px"}} onClick={()=>{setShowSettingDropDown(false)}}>
                                 <div className="dropdown-content">
-                                    <button className="dropdown-content-button" onClick={()=>{setShowSettingDropDown(false); setShowChangePasswordFormModal(true);}}>Change password</button>
-                                    <button className="dropdown-content-button" onClick={()=>{setShowSettingDropDown(false); handleSignOut();}}>Sign out</button>
+                                    <button className="dropdown-content-button" onClick={()=>{setShowChangePasswordFormModal(true)}}>Change password</button>
+                                    <button className="dropdown-content-button" onClick={()=>{handleSignOut()}}>Sign out</button>
                                 </div>
                             </div>
                         }

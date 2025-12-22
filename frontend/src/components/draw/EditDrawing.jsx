@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import AlertContext from "../../context/alert/AlertContext";
-import LeftNavbar from "../navbar/LeftNavbar";
-import RightNavbar from "../navbar/RightNavbar";
-import BottomNavbar from "../navbar/BottomNavbar";
 import Canvas from "./Canvas";
+import BottomNavbar from "../navbar/BottomNavbar";
+import LeftNavbar from "../navbar/LeftNavbar";
 import UserTopNavbar from "../navbar/UserTopNavbar";
+import RightNavbar from "../navbar/RightNavbar";
 
 export default function EditDrawing() {
 
@@ -63,18 +63,15 @@ export default function EditDrawing() {
     return (
         <>  
             {
-                drawingInfo.length !==0 ?
-                    <>
-                        <UserTopNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag} edit={true} drawingid={drawingid} checkUserSignedIn={checkUserSignedIn}/>
-                        <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
-                        <LeftNavbar checkUserSignedIn={checkUserSignedIn}/>
-                        <RightNavbar checkUserSignedIn={checkUserSignedIn} fromHome={false}/>
-                        <Canvas url={drawingInfo.drawing_url}/>
-                    </>
-                :
-                    <>
-                        drawing not found
-                    </>
+                drawingInfo.length !== 0
+                &&
+                <>
+                    <Canvas url={drawingInfo.drawing_url}/>
+                    <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
+                    <LeftNavbar checkUserSignedIn={checkUserSignedIn}/>
+                    <UserTopNavbar title={drawingInfo.drawing_title} tag={drawingInfo.drawing_tag} edit={true} drawingid={drawingid} checkUserSignedIn={checkUserSignedIn}/>
+                    <RightNavbar checkUserSignedIn={checkUserSignedIn} fromHome={false}/>
+                </>
             }
         </>
     );

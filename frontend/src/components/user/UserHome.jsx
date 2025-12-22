@@ -1,11 +1,11 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
-import LeftNavbar from "../navbar/LeftNavbar";
-import RightNavbar from "../navbar/RightNavbar";
-import BottomNavbar from "../navbar/BottomNavbar";
 import Canvas from "../draw/Canvas";
+import BottomNavbar from "../navbar/BottomNavbar";
+import LeftNavbar from "../navbar/LeftNavbar";
 import UserTopNavbar from "../navbar/UserTopNavbar";
+import RightNavbar from "../navbar/RightNavbar";
 
 export default function UserHome() {
 
@@ -14,9 +14,7 @@ export default function UserHome() {
   const { showProgress } = useContext(ProgressBarContext);
 
   const checkUserSignedIn = () => {
-    if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
-      return true;
-    }
+    return true;
   }
 
   useEffect(() => {
@@ -30,11 +28,11 @@ export default function UserHome() {
 
   return (
     <>
-      <UserTopNavbar title="Untitled" tag="General" edit={false} drawingid="" checkUserSignedIn={checkUserSignedIn}/>
+      <Canvas url=""/>
       <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
       <LeftNavbar checkUserSignedIn={checkUserSignedIn}/>
+      <UserTopNavbar title="Untitled" tag="General" edit={false} drawingid="" checkUserSignedIn={checkUserSignedIn}/>
       <RightNavbar checkUserSignedIn={checkUserSignedIn} fromHome={false}/>
-      <Canvas url=""/>
     </>
   );
 }

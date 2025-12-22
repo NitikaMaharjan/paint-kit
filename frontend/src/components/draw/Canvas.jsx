@@ -4,8 +4,8 @@ import CursorContext from "../../context/cursor/CursorContext";
 
 export default function Canvas(props) {
 
-    const { handleCanvasEnter, handleCanvasLeave } = useContext(CursorContext);
     const { canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, undoStack, redoStack } = useContext(DrawContext);
+    const { handleCanvasEnter, handleCanvasLeave } = useContext(CursorContext);
 
     useEffect(() => {
         if(props.url===""){
@@ -63,7 +63,7 @@ export default function Canvas(props) {
     }, []);    
 
     return (
-        <div style={{position: "fixed", top: "80px", left: "120px", zIndex: "-1"}}>
+        <div style={{position: "fixed", top: "80px", left: "120px"}}>
             <canvas ref={canvasRef} height={"498px"} width={"918px"} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseEnter={handleCanvasEnter} onMouseLeave={handleCanvasLeave} style={{cursor: "none"}}></canvas>
         </div>
     );

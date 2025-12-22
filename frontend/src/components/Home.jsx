@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProgressBarContext from "../context/progressbar/ProgressBarContext";
-import LeftNavbar from "./navbar/LeftNavbar";
-import BottomNavbar from "./navbar/BottomNavbar";
-import RightNavbar from "./navbar/RightNavbar";
 import Canvas from "./draw/Canvas";
-import UserSignin from "./user/UserSignin";
+import BottomNavbar from "./navbar/BottomNavbar";
+import LeftNavbar from "./navbar/LeftNavbar";
 import UserTopNavbar from "./navbar/UserTopNavbar";
+import RightNavbar from "./navbar/RightNavbar";
+import UserSignin from "./user/UserSignin";
 
 export default function Home() {
 
@@ -17,12 +17,8 @@ export default function Home() {
   const [showUserSigninFormModal, setShowUserSigninFormModal] = useState(false);
 
   const checkUserSignedIn = () => {
-    if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
-      return true;
-    }else{
-      setShowUserSigninFormModal(true);
-      return false;
-    }
+    setShowUserSigninFormModal(true);
+    return false;
   }
 
   useEffect(() => {
@@ -36,11 +32,11 @@ export default function Home() {
   
   return (
     <>
-      <UserTopNavbar title="Untitled" tag="General" drawingid="" edit={false} checkUserSignedIn={checkUserSignedIn}/>
+      <Canvas url=""/>
       <BottomNavbar checkUserSignedIn={checkUserSignedIn}/>
       <LeftNavbar checkUserSignedIn={checkUserSignedIn}/>
+      <UserTopNavbar title="Untitled" tag="General" edit={false} drawingid="" checkUserSignedIn={checkUserSignedIn}/>
       <RightNavbar checkUserSignedIn={checkUserSignedIn} fromHome={true}/>
-      <Canvas url=""/>
 
       {
         showUserSigninFormModal

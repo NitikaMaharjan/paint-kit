@@ -3,11 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import AlertContext from "../../context/alert/AlertContext";
 import ConfirmContext from "../../context/confirm/ConfirmContext";
 import DrawContext from "../../context/draw/DrawContext";
-import ViewUndoRedoHistory from "../draw/ViewUndoRedoHistory";
 import ChangePasswordForm from "../ChangePasswordForm";
-import CreateColorPaletteForm from "../colorpalette/CreateColorPaletteForm";
 import SaveDrawingForm from "../draw/SaveDrawingForm";
 import ImageUploadForm from "../draw/ImageUploadForm";
+import ViewUndoRedoHistory from "../draw/ViewUndoRedoHistory";
+import CreateColorPaletteForm from "../colorpalette/CreateColorPaletteForm";
 
 export default function UserTopNavbar(props) {
 
@@ -18,9 +18,9 @@ export default function UserTopNavbar(props) {
     const { canvasRef, handleClearCanvas, handleExport, undoStack } = useContext(DrawContext);
 
     const [showSettingDropDown, setShowSettingDropDown] = useState(false);
-    const [showViewDropDown, setShowViewDropDown] = useState(false);
-    const [showPaletteDropDown, setShowPaletteDropDown] = useState(false);
     const [showDrawingDropDown, setShowDrawingDropDown] = useState(false);
+    const [showPaletteDropDown, setShowPaletteDropDown] = useState(false);
+    const [showViewDropDown, setShowViewDropDown] = useState(false);
     const [showUndoRedoHistoryModal, setShowUndoRedoHistoryModal] = useState(false);
     const [showChangePasswordFormModal, setShowChangePasswordFormModal] = useState(false);
     const [showCreateColorPaletteFormModal, setShowCreateColorPaletteFormModal] = useState(false);
@@ -107,7 +107,7 @@ export default function UserTopNavbar(props) {
                 <img src="/logo.png" style={{height: "40px", width: "40px"}}/>
                 <div className="flex flex-col" style={{width: "100%"}}>
                     <div className="flex items-center justify-between">
-                        <h1 style={{fontSize: "16px"}}><b>Paint Kit</b></h1>
+                        <h1 style={{fontSize: "15px"}}><b>Paint Kit</b></h1>
                         {
                             localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
                                 <div className="flex items-center">
@@ -118,82 +118,114 @@ export default function UserTopNavbar(props) {
                                     <p style={{fontSize: "13px"}}><b>|</b> {localStorage.getItem("user_email")}</p>&nbsp;
                                     <div>
                                         <div id="arrow" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} style={{padding: "4px"}}>
-                                            <button className="dropdown-btn" onClick={()=>{setShowSettingDropDown(!showSettingDropDown)}}><img src="/down-arrow.png" alt="down arrow icon" style={{height: "14px", width: "14px"}}/></button>
+                                            <button className="dropdown-btn" onClick={()=>{setShowSettingDropDown(true)}}><img src="/down-arrow.png" alt="down arrow icon" style={{height: "14px", width: "14px"}}/></button>
                                         </div>
                                         {
                                             showSettingDropDown
                                             &&
-                                            <div className="dropdown-content">
-                                                <button className="dropdown-content-button" onClick={()=>{setShowChangePasswordFormModal(true);setShowSettingDropDown(!showSettingDropDown);}}>Change password</button>
-                                                <button className="dropdown-content-button" onClick={()=>{handleSignOut();setShowSettingDropDown(!showSettingDropDown);}}>Sign out</button>
+                                            <div className="dropdown-content-background" style={{justifyContent: "end", padding: "40px 25px 0px 0px"}} onClick={()=>{setShowSettingDropDown(false)}}>
+                                                <div className="dropdown-content">
+                                                    <button className="dropdown-content-button" onClick={()=>{setShowChangePasswordFormModal(true)}}>Change password</button>
+                                                    <button className="dropdown-content-button" onClick={()=>{handleSignOut()}}>Sign out</button>
+                                                </div>
                                             </div>
                                         }
                                     </div>
                                 </div>
                             :
-                            <div className="flex gap-6">
-                                <Link className="action-btn" to="/usersignin">Sign in</Link>
+                            <div className="flex items-center gap-6">
+                                <Link className="user-top-navbar-btn" to="/usersignin"><b>Sign in</b></Link>
                                 <Link className="action-btn" to="/usersignup">Sign up</Link>
                             </div>
                         }
                     </div>
                     <div className="flex gap-4">
-                        <button className={`${showDrawingDropDown===true?"user-top-navbar-btn-clicked":"user-top-navbar-btn"}`} onClick={()=>{setShowDrawingDropDown(!showDrawingDropDown); setShowPaletteDropDown(false); setShowViewDropDown(false);}}>Drawing</button>
+                        <button className={`${showDrawingDropDown===true?"user-top-navbar-btn-clicked":"user-top-navbar-btn"}`} onClick={()=>{setShowDrawingDropDown(true)}}>Drawing</button>
                         {
                             showDrawingDropDown
                             &&
-                            <div className="dropdown-content" style={{marginTop: "24px", right: "1035px", width: "260px"}}>
-                                <button className="dropdown-content-button" onClick={()=>{if(props.checkUserSignedIn()){setShowSaveDrawingFormModal(true)}}}>Save drawing</button>
-                                <button className="dropdown-content-button" onClick={()=>{if(props.checkUserSignedIn()){setShowImageUploadFormModal(true)}}}>Upload image</button>
-                                <button className="dropdown-content-button" onClick={()=>{handleExport(props.title, "png")}}>Export as png</button>
-                                <button className="dropdown-content-button" onClick={()=>{handleExport(props.title, "jpeg")}}>Export as jpeg</button>
-                                <button className="dropdown-content-button" onClick={()=>{if(props.checkUserSignedIn()){setShowUndoRedoHistoryModal(true)}}}>View Undo/Redo History</button>
-                                <button className="dropdown-content-button" onClick={handleClearCanvas}>clear all</button>
-                                {
-                                    props.edit===true
-                                    &&
-                                    <button className="dropdown-content-button" onClick={handleDiscardChanges}>Discard changes</button>
-                                }
+                            <div className="dropdown-content-background" style={{justifyContent: "start", padding: "55px 0px 0px 70px"}} onClick={()=>{setShowDrawingDropDown(false)}}>
+                                <div className="dropdown-content" style={{width: "260px"}}>
+                                    <button className="dropdown-content-button" onClick={()=>{if(props.checkUserSignedIn()){setShowSaveDrawingFormModal(true)}}}>Save drawing</button>
+                                    <button className="dropdown-content-button" onClick={()=>{if(props.checkUserSignedIn()){setShowImageUploadFormModal(true)}}}>Upload image</button>
+                                    <button className="dropdown-content-button" onClick={()=>{if(props.checkUserSignedIn()){handleExport(props.title, "png")}}}>Export as png</button>
+                                    <button className="dropdown-content-button" onClick={()=>{if(props.checkUserSignedIn()){handleExport(props.title, "jpeg")}}}>Export as jpeg</button>
+                                    <button className="dropdown-content-button" onClick={()=>{if(props.checkUserSignedIn()){setShowUndoRedoHistoryModal(true)}}}>View Undo/Redo History</button>
+                                    <button className="dropdown-content-button" onClick={handleClearCanvas}>clear all</button>
+                                    {
+                                        props.edit === true
+                                        &&
+                                        <button className="dropdown-content-button" onClick={handleDiscardChanges}>Discard changes</button>
+                                    }
+                                </div>
                             </div>
                         }                        
                         
-                        <button className={`${showPaletteDropDown===true?"user-top-navbar-btn-clicked":"user-top-navbar-btn"}`} onClick={()=>{setShowPaletteDropDown(!showPaletteDropDown); setShowDrawingDropDown(false); setShowViewDropDown(false);}}>Palette</button>
+                        <button className={`${showPaletteDropDown===true?"user-top-navbar-btn-clicked":"user-top-navbar-btn"}`} onClick={()=>{setShowPaletteDropDown(true)}}>Palette</button>
                         {
                             showPaletteDropDown
                             &&
-                            <div className="dropdown-content" style={{marginTop: "24px", right: "965px", width: "260px"}}>                                
-                                <button onClick={()=>{if(props.checkUserSignedIn()){setShowCreateColorPaletteFormModal(true)}}} className="dropdown-content-button">Create Color Palette</button>
-                                {
-                                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
-                                        <Link className="dropdown-content-button" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>
-                                    :
-                                        <button className="dropdown-content-button" onClick={()=>{props.checkUserSignedIn()}}>Open color palette generator</button>
-                                }
+                            <div className="dropdown-content-background" style={{justifyContent: "start", padding: "55px 0px 0px 140px"}} onClick={()=>{setShowPaletteDropDown(false)}}>
+                                <div className="dropdown-content" style={{width: "260px"}}>                                
+                                    <button className="dropdown-content-button" onClick={()=>{if(props.checkUserSignedIn()){setShowCreateColorPaletteFormModal(true)}}}>Create Color Palette</button>
+                                    {
+                                        localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
+                                            <Link className="dropdown-content-button" to="/generatecolorpalette" target="_blank">Open color palette generator</Link>
+                                        :
+                                            <button className="dropdown-content-button" onClick={()=>{props.checkUserSignedIn()}}>Open color palette generator</button>
+                                    }
+                                </div>
                             </div>
                         }                        
                         
-                        <button className={`${showViewDropDown===true?"user-top-navbar-btn-clicked":"user-top-navbar-btn"}`} onClick={()=>{setShowViewDropDown(!showViewDropDown); setShowDrawingDropDown(false); setShowPaletteDropDown(false);}}>View</button>
+                        <button className={`${showViewDropDown===true?"user-top-navbar-btn-clicked":"user-top-navbar-btn"}`} onClick={()=>{setShowViewDropDown(true)}}>View</button>
                         {
                             showViewDropDown
                             &&
-                            <div className="dropdown-content" style={{marginTop: "24px", right: "985px"}}>
-                                {
-                                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
-                                        <Link className="dropdown-content-button" to="/viewtemplate">View template</Link>
-                                    :
-                                        <button className="dropdown-content-button" onClick={()=>{props.checkUserSignedIn()}}>View template</button>
-                                }
-                                {
-                                    localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
-                                        <Link className="dropdown-content-button" to="/viewdrawing">View your drawing</Link>
-                                    :
-                                        <button className="dropdown-content-button" onClick={()=>{props.checkUserSignedIn()}}>View your drawing</button>
-                                }
+                            <div className="dropdown-content-background" style={{justifyContent: "start", padding: "55px 0px 0px 210px"}} onClick={()=>{setShowViewDropDown(false)}}>
+                                <div className="dropdown-content">
+                                    {
+                                        localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
+                                            <Link className="dropdown-content-button" to="/viewtemplate">View template</Link>
+                                        :
+                                            <button className="dropdown-content-button" onClick={()=>{props.checkUserSignedIn()}}>View template</button>
+                                    }
+                                    {
+                                        localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
+                                            <Link className="dropdown-content-button" to="/viewdrawing">View drawing</Link>
+                                        :
+                                            <button className="dropdown-content-button" onClick={()=>{props.checkUserSignedIn()}}>View drawing</button>
+                                    }
+                                </div>
                             </div>
                         }
                     </div>
                 </div>
             </div>
+
+            {
+                showChangePasswordFormModal
+                &&
+                <div className="confirm-modal-background">
+                    <ChangePasswordForm setShowChangePasswordFormModal={setShowChangePasswordFormModal}/>
+                </div>
+            }
+
+            {
+                showSaveDrawingFormModal
+                &&
+                <div className="confirm-modal-background">
+                    <SaveDrawingForm title={props.title} tag={props.tag} edit={props.edit} drawingid={props.drawingid} setShowSaveDrawingFormModal={setShowSaveDrawingFormModal}/>
+                </div>
+            }
+            
+            {
+                showImageUploadFormModal
+                &&
+                <div className="confirm-modal-background">
+                    <ImageUploadForm handleImageUpload={handleImageUpload} setShowImageUploadFormModal={setShowImageUploadFormModal}/>
+                </div>
+            }
 
             {
                 showUndoRedoHistoryModal
@@ -207,34 +239,10 @@ export default function UserTopNavbar(props) {
             }
 
             {
-                showChangePasswordFormModal
-                &&
-                <div className="confirm-modal-background">
-                    <ChangePasswordForm setShowChangePasswordFormModal={setShowChangePasswordFormModal}/>
-                </div>
-            }
-
-            {
                 showCreateColorPaletteFormModal
                 &&
                 <div className="confirm-modal-background">
                     <CreateColorPaletteForm setShowCreateColorPaletteFormModal={setShowCreateColorPaletteFormModal}/>
-                </div>
-            }
-
-            {
-                showSaveDrawingFormModal
-                &&
-                <div className="confirm-modal-background">
-                    <SaveDrawingForm title={props.title} tag={props.tag} edit={props.edit} drawingid={props.drawingid} setShowSaveDrawingFormModal={setShowSaveDrawingFormModal}/>
-                </div>
-            }
-
-            {
-                showImageUploadFormModal
-                &&
-                <div className="confirm-modal-background">
-                    <ImageUploadForm handleImageUpload={handleImageUpload} setShowImageUploadFormModal={setShowImageUploadFormModal}/>
                 </div>
             }
         </>
