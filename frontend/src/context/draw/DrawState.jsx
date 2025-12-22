@@ -25,7 +25,6 @@ export default function DrawState(props) {
   const [text, setText] = useState("");
   const [fetchedDrawings, setFetchedDrawings] = useState([]);
   const [colorOpacity, setColorOpacity] = useState(255);
-  const [cursorPos, setCursorPos] = useState({ x : 0, y : 0 });
 
   const handleMouseDown = (e) => {
     const canvas = canvasRef.current;
@@ -86,8 +85,6 @@ export default function DrawState(props) {
     const canvasBox = canvas.getBoundingClientRect();
     const posX = e.clientX - canvasBox.left;
     const posY = e.clientY - canvasBox.top;
-
-    setCursorPos({ x : posX, y : posY})
 
     if(drawing===true && (tool==="pen" || tool==="eraser")){
       ctx.lineTo(posX, posY);
@@ -534,7 +531,7 @@ export default function DrawState(props) {
   }
 
   return (
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, tool, penColor, textColor, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport, setTextSize, setTextFont, setText, setColorOpacity, undoStack, redoStack, cursorPos }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, tool, penColor, textColor, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport, setTextSize, setTextFont, setText, setColorOpacity, undoStack, redoStack }}>
       {props.children}
     </DrawContext.Provider>
   );
