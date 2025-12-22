@@ -3,7 +3,7 @@ import DrawContext from "../../context/draw/DrawContext";
 
 export default function BottomNavbar(props) {
     
-    const { handleUndo, handleRedo, setPenStrokeWidth, setEraserStrokeWidth, setColorOpacity } = useContext(DrawContext);
+    const { handleUndo, handleRedo, setPenStrokeWidth, setEraserStrokeWidth, setColorOpacity, cursorPos } = useContext(DrawContext);
 
     const [inputPenStrokeWidth, setInputPenStrokeWidth] = useState(2);
     const [inputEraserStrokeWidth, setInputEraserStrokeWidth] = useState(4);
@@ -59,6 +59,9 @@ export default function BottomNavbar(props) {
                 <div className="flex gap-5">
                     <button className="action-btn flex items-center gap-2" onClick={handleUndo}><img src="/undo.png" style={{height: "14px", width: "14px"}}/>Undo</button>
                     <button className="action-btn flex items-center gap-2" onClick={handleRedo}>Redo<img src="/redo.png" style={{height: "14px", width: "14px"}}/></button>                
+                </div>
+                <div style={{width: "72px"}}>
+                    <p style={{fontSize: "13px"}}>{cursorPos.x} * {cursorPos.y}</p>
                 </div>
             </div>
         </div>
