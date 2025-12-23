@@ -36,7 +36,7 @@ export default function UserTopNavbar(props) {
             localStorage.removeItem("user_id");
             localStorage.removeItem("user_email");
             localStorage.removeItem("user_username");
-            navigate("/usersignin");
+            navigate("/");
             showAlert("Success", "You've signed out. See you next time!");
         }
     }
@@ -152,7 +152,7 @@ export default function UserTopNavbar(props) {
                                     <button className="dropdown-content-button" onClick={()=>{if(props.checkUserSignedIn()){handleExport(props.title, "png")}}}>Export as png</button>
                                     <button className="dropdown-content-button" onClick={()=>{if(props.checkUserSignedIn()){handleExport(props.title, "jpeg")}}}>Export as jpeg</button>
                                     <button className="dropdown-content-button" onClick={()=>{if(props.checkUserSignedIn()){setShowUndoRedoHistoryModal(true)}}}>View Undo/Redo History</button>
-                                    <button className="dropdown-content-button" onClick={handleClearCanvas}>clear all</button>
+                                    <button className="dropdown-content-button" onClick={handleClearCanvas}>Clear canvas</button>
                                     {
                                         props.edit === true
                                         &&

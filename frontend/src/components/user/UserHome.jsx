@@ -19,7 +19,7 @@ export default function UserHome() {
 
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("user_token")){
-      navigate("/usersignin");
+      navigate("/");
     }else{
       showProgress();
     }

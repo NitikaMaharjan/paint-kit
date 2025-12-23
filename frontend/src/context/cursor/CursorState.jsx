@@ -44,7 +44,7 @@ export default function CursorState(props) {
 
     return(
         <>
-            <CursorContext.Provider value={{handleCanvasEnter, handleCanvasLeave}}>
+            <CursorContext.Provider value={{ handleCanvasEnter, handleCanvasLeave, setCursorImg }}>
                 {props.children}
             </CursorContext.Provider>
 

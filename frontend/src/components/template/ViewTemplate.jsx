@@ -87,7 +87,7 @@ export default function ViewTemplate() {
 
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("adminSignedIn")){
-      navigate("/usersignin");
+      navigate("/");
     }else{
       if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
         showProgress();

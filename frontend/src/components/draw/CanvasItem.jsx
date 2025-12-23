@@ -86,7 +86,7 @@ export default function CanvasItem(props) {
     }, []);
 
     return (
-        <div>
+        <div className="mb-2">
             <button className="action-btn" onClick={handleDrawFromHere}>Draw from here</button>
             <canvas ref={canvasItemRef} width={250} height={150}></canvas>
         </div>

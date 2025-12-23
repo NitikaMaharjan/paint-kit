@@ -16,39 +16,41 @@ export default function ViewUndoRedoHistory(props) {
     }, []);    
     
     return (
-        <div className="flex gap-12 pt-6">
+        <div className="view-history-modal">
             <div>
                 {
-                    undoStack.current.length>0 ?
+                    undoStack.current.length > 0 ?
                         <>
-                            <p>undo stack is not empty {undoStack.current.length}</p>
-                            {undoStack.current.map((imageData, index)=>{
-                                return <CanvasItem key={index} imageData={imageData} setShowUndoRedoHistoryModal={props.setShowUndoRedoHistoryModal}/>
-                            }).reverse()}
+                            <p className="text-center">undo stack is not empty</p>
+                            <p className="text-center"><b>Length: {undoStack.current.length}</b></p><br/>
+                            <div style={{height: "540px", width: "280px", overflowY: "auto"}}>
+                                {undoStack.current.map((imageData, index)=>{
+                                    return <CanvasItem key={index} imageData={imageData} setShowUndoRedoHistoryModal={props.setShowUndoRedoHistoryModal}/>
+                                }).reverse()}
+                            </div>
                         </>
                     :
-                        <>
-                            undo stack is empty
-                        </>                
+                        <p className="text-center">undo stack is empty</p>            
                 }
             </div>
             <div>
-                <h1>Current Canvas State</h1>
+                <h1 className="text-center">Current canvas state</h1><br/>
                 <img src={currentCanvasStateImage} style={{height: "200px", width: "400px"}} alt="drawing"/>
             </div>            
             <div>
                 {
-                    redoStack.current.length>0 ?
+                    redoStack.current.length > 0 ?
                         <>
-                            <p>redo stack is not empty {redoStack.current.length}</p>
-                            {redoStack.current.map((imageData, index)=>{
-                                return <CanvasItem key={index} imageData={imageData} setShowUndoRedoHistoryModal={props.setShowUndoRedoHistoryModal}/>
-                            }).reverse()}
+                            <p className="text-center">redo stack is not empty</p>
+                            <p className="text-center"><b>Length: {redoStack.current.length}</b></p><br/>
+                            <div style={{height: "540px", width: "280px", overflowY: "auto"}}>
+                                {redoStack.current.map((imageData, index)=>{
+                                    return <CanvasItem key={index} imageData={imageData} setShowUndoRedoHistoryModal={props.setShowUndoRedoHistoryModal}/>
+                                }).reverse()}
+                            </div>
                         </>
                     :
-                        <>
-                            redo stack is empty
-                        </>                
+                        <p className="text-center">redo stack is empty</p>            
                 }
             </div>
         </div>
