@@ -19,19 +19,32 @@ export default function ImageUploadForm(props) {
         const maxSizeBytes = maxSizeMB * 1024 * 1024;
 
         if (!validTypes.includes(file.type)) {
-        showAlert("Warning", "Only PNG and JPEG images are allowed!");
-        fileInputRef.current.value = ""; 
-        return;
+            showAlert("Warning", "Only PNG and JPEG images are allowed!");
+            fileInputRef.current.value = ""; 
+            return;
         }
 
         if (file.size > maxSizeBytes) {
-        showAlert("Warning", `Image size must be less than ${maxSizeMB} MB!`);
-        fileInputRef.current.value = "";
-        return;
+            showAlert("Warning", `Image size must be less than ${maxSizeMB} MB!`);
+            fileInputRef.current.value = "";
+            return;
         }
 
         const fileURL = URL.createObjectURL(file);
         setInputFile(fileURL);
+    }
+
+    const clearInput = () => {
+        setInputFile(null);
+        fileInputRef.current.value = "";
+    }
+
+    const addBorderHighlight = (type) => {
+        document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
+    }
+    
+    const removeBorderHighlight = (type) => {
+        document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
     }
 
     const handleImageUpload = (e) => {
@@ -54,9 +67,13 @@ export default function ImageUploadForm(props) {
             </div>
             <form className="auth-form">
                 <div style={{marginBottom: "28px"}}>
-                    <label>Upload Image</label>
-                    <div className="input-bar">
-                        <input type="file" accept="image/*" ref={fileInputRef} onChange={updateImageUrl}/>
+                    <label htmlFor="image_url"><b>Upload image</b></label>
+                    <div className="input-bar mb-3" id="image-url-input-bar">
+                        <input type="file" id="image_url" name="image_url" accept="image/*" ref={fileInputRef} onChange={updateImageUrl} onFocus={()=>{addBorderHighlight("image-url")}} onBlur={()=>{removeBorderHighlight("image-url")}} style={{color: `${inputFile===null?"rgba(0, 0, 0, 0.6)":"black"}`, fontSize: "13px"}}/>
+                        <img src="/close.png" alt="close icon" onClick={()=>{clearInput()}} style={{opacity: `${inputFile===null?"0":"1"}`}}/>
+                    </div>
+                    <div className="flex items-center justify-center" style={{height: "160px", width: "284px", border: "1px solid rgba(0, 0, 0, 0.3)"}}>
+                        <img src={`${inputFile===null?"/no-image.png":inputFile}`} alt="uploaded image" style={{height: `${inputFile===null?"24px":"100%"}`, width: `${inputFile===null?"24px":"100%"}`, objectFit: "contain"}}/>
                     </div>
                 </div>
                 <button type="submit" className="submit-btn" onClick={handleImageUpload}><b>Upload Image</b></button>

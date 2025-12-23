@@ -335,9 +335,9 @@ export default function GenerateColorPalette(props) {
           }
           <form className="auth-form">
             <div style={{marginBottom: "28px"}}>
-              <label><b>Upload image</b></label>
+              <label htmlFor="image_url"><b>Upload image</b></label>
               <div className="input-bar mb-3" id="image-url-input-bar">
-                <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFile} onFocus={()=>{addBorderHighlight("image-url")}} onBlur={()=>{removeBorderHighlight("image-url")}} style={{color: `${imageUploaded?"black":"rgba(0, 0, 0, 0.6)"}`, fontSize: "13px"}}/>
+                <input type="file" id="image_url" name="image_url" accept="image/*" ref={fileInputRef} onChange={handleFile} onFocus={()=>{addBorderHighlight("image-url")}} onBlur={()=>{removeBorderHighlight("image-url")}} style={{color: `${imageUploaded?"black":"rgba(0, 0, 0, 0.6)"}`, fontSize: "13px"}}/>
                 <img src="/close.png" alt="close icon" onClick={clearAll} style={{opacity: `${imageUploaded?"1":"0"}`}}/>
               </div>
               {

@@ -108,7 +108,7 @@ export default function UserTopNavbar(props) {
                 <div className="flex flex-col" style={{width: "100%"}}>
                     <div className="flex items-center justify-between">
                         <h1 style={{fontSize: "15px"}}><b>Paint Kit</b></h1>
-                        <p style={{fontSize: "13px"}}>{props.tag} <b>|</b> {props.title}</p>
+                        <p style={{fontSize: "13px"}}>{props.title}</p>
                         {
                             localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
                                 <div className="flex items-center">
