@@ -160,14 +160,14 @@ export default function UserSignup() {
             <label htmlFor="user_email"><b>Email</b></label>
             <div className="input-bar" id="email-input-bar">
               <input type="email" id="user_email" name="user_email" placeholder="Enter email" value={credentials.user_email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
-              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user_email")}} style={{opacity: `${credentials.user_email===""?0:1}`}}/>
+              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user_email")}} style={{opacity: `${credentials.user_email===""?"0":"1"}`}}/>
             </div>
           </div>
           <div className="mb-1">
             <label htmlFor="user_username"><b>Username</b></label>
             <div className="input-bar" id="username-input-bar">
               <input type="text" id="user_username" name="user_username" placeholder="Enter username" value={credentials.user_username} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("username")}} onBlur={()=>{removeBorderHighlight("username")}}/>
-              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user_username")}} style={{opacity: `${credentials.user_username===""?0:1}`}}/>
+              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user_username")}} style={{opacity: `${credentials.user_username===""?"0":"1"}`}}/>
             </div>
           </div>          
           <div className="mb-1">
@@ -177,7 +177,7 @@ export default function UserSignup() {
             </div>
             <div className="input-bar" id="password-input-bar">
               <input type={`${passwordType}`} id="user_password" name="user_password" placeholder="Enter password" value={credentials.user_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
-              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user_password")}} style={{opacity: `${credentials.user_password===""?0:1}`}}/>
+              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user_password")}} style={{opacity: `${credentials.user_password===""?"0":"1"}`}}/>
             </div>
           </div>
           <div style={{marginBottom: "28px"}}>
@@ -187,7 +187,7 @@ export default function UserSignup() {
             </div>
             <div className="input-bar" id="confirm-password-input-bar">
               <input type={`${confirmPasswordType}`} id="confirm_password" name="confirm_password" placeholder="Enter confirm password" value={credentials.confirm_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("confirm-password")}} onBlur={()=>{removeBorderHighlight("confirm-password")}}/>
-              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("confirm_password")}} style={{opacity: `${credentials.confirm_password===""?0:1}`}}/>
+              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("confirm_password")}} style={{opacity: `${credentials.confirm_password===""?"0":"1"}`}}/>
             </div>
           </div>
           <div className="flex flex-col justify-center">

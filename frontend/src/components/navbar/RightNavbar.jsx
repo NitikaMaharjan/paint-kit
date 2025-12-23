@@ -1,8 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import DrawContext from "../../context/draw/DrawContext";
 import UserViewColorPalette from "../colorpalette/UserViewColorPalette";
 
 export default function RightNavbar(props) {
+
+    const pickAColor = useRef(null);
 
     const { tool, penColor, textColor, setPenColor, setTextColor, setTextSize, setTextFont, setText } = useContext(DrawContext);
 
@@ -40,6 +42,30 @@ export default function RightNavbar(props) {
         setInputText(e.target.value);
     }
 
+    const calculateBrightness = (hexColor) => {
+        let color_without_hash = hexColor.replace("#", "");
+
+        const r = parseInt(color_without_hash.substring(0, 2), 16);
+        const g = parseInt(color_without_hash.substring(2, 4), 16);
+        const b = parseInt(color_without_hash.substring(4, 6), 16);
+
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+        return brightness>128?"2px solid black":"2px solid #ccc";
+    }
+
+    const addBorderHighlight = (type) => {
+        document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.8)";
+    }
+    
+    const removeBorderHighlight = (type) => {
+        document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
+    }
+
+    const clearInput = () => {
+        setInputText("");
+    }
+
     useEffect(() => {
       setPenColor(inputPenColor); 
       setTextColor(inputPenColor);
@@ -64,93 +90,90 @@ export default function RightNavbar(props) {
 
     return (
         <div className="right-navbar">
-            {
-                (tool!=="text")
-                &&
-                <div>
-                    <div>
-                        <div className="flex flex-col">
-                            <p>Pen color</p>
-                            <div style={{height: "36px", width: "36px", backgroundColor: `${penColor}`}}></div>
-                        </div>
-                    </div>
-                    <div style={{marginTop: "12px"}}>
-                        <div className="flex items-center gap-3">                            
-                            <p>Pick pen color:</p>
-                            <input type="color" value={inputPenColor} onChange={handleInputPenColor} style={{height: "36px", width: "36px", cursor: "pointer"}}/>
-                        </div>
-                    </div>
+            <div>
+                <div className="flex items-center justify-center">
+                    {
+                        tool !== "text" ?
+                            <>
+                                <p style={{fontSize: "14px", width: "140px"}}>Pick pen color:</p>
+                                <img src="/color.png" style={{height: "28px", width: "28px", cursor: "pointer"}} onClick={()=>{pickAColor.current?.click()}}/>
+                                <input type="color" ref={pickAColor} value={inputPenColor} onChange={handleInputPenColor} style={{height: "36px", width: "2px", opacity: "0"}}/>
+                            </>
+                        :
+                            <>
+                                <p style={{fontSize: "14px", width: "140px"}}>Pick text color:</p>
+                                <img src="/color.png" style={{height: "28px", width: "28px", cursor: "pointer"}} onClick={()=>{pickAColor.current?.click()}}/>
+                                <input type="color" ref={pickAColor} value={inputTextColor} onChange={handleInputTextColor} style={{height: "36px", width: "2px", opacity: "0"}}/>
+                            </>
+                    }
+                    <div style={{height: "24px", width: "24px", backgroundColor: `${tool!=="text"?penColor:textColor}`}}></div>
                 </div>
-            }
 
-            {   
-                colorPaletteInUse.color_palette_name!=="" && colorPaletteInUse.colors.length!==0 && tool!=="text" ?
-                    <div style={{width: "min-content", marginTop: "12px"}}>
-                        <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
-                            {colorPaletteInUse.colors.map((a_color, index)=>{return <div key={index} title={a_color} style={{height: "36px", width: "36px", backgroundColor: `${a_color}`, border: `${penColor===a_color?"2px solid black":"2px solid transparent"}`}} onClick={()=>{setPenColor(a_color); setTextColor(a_color);}}></div>}).reverse()}
-                        </div>
-                    </div>
-                :
-                    <div></div>
-            }
-
-            {   
-                (tool==="text")
-                &&
-                <div>  
-                    <div>
-                        <div className="flex flex-col">
-                            <p>Text color</p>
-                            <div style={{height: "36px", width: "36px", backgroundColor: `${textColor}`}}></div>
-                        </div>
-                    </div>
-                    <div style={{marginTop: "12px"}}>
-                        <div className="flex items-center gap-3">
-                            <p>Pick text color:</p>
-                            <input type="color" value={inputTextColor} onChange={handleInputTextColor} style={{height: "36px", width: "36px", cursor: "pointer"}}/>
-                        </div>
-                    </div>
+                <div className="flex justify-center">
+                    {   
+                        colorPaletteInUse.color_palette_name!=="" && colorPaletteInUse.colors.length!==0 ?
+                            <div style={{width: "min-content", marginTop: "6px"}}>
+                                <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
+                                    {colorPaletteInUse.colors.map((a_color, index)=>{return <div key={index} title={a_color} style={{height: "36px", width: "36px", backgroundColor: `${a_color}`, border: `${penColor===a_color?calculateBrightness(a_color):"2px solid transparent"}`, cursor: "pointer"}} onClick={()=>{setPenColor(a_color); setTextColor(a_color);}}></div>}).reverse()}
+                                </div>
+                            </div>
+                        :
+                            <div style={{width: "min-content", marginTop: "6px"}}>
+                                <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
+                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                </div>
+                            </div>
+                    }
                 </div>
-            }
 
-            {   
-                colorPaletteInUse.color_palette_name!=="" && colorPaletteInUse.colors.length!==0 && tool==="text" ?
-                    <div style={{width: "min-content", marginTop: "12px"}}>
-                        <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
-                            {colorPaletteInUse.colors.map((a_color, index)=>{return <div key={index} title={a_color} style={{height: "36px", width: "36px", backgroundColor: `${a_color}`, border: `${penColor===a_color?"2px solid black":"2px solid transparent"}`}} onClick={()=>{setTextColor(a_color); setPenColor(a_color);}}></div>}).reverse()}
+                {
+                    tool === "text"
+                    &&
+                    <div className="flex flex-col mt-3">
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                            <p style={{fontSize: "14px"}}>Text size:</p>
+                            <form className="auth-form" style={{margin: "0px"}}>
+                                <div className="input-bar" id="text-size-input-bar">
+                                    <input type="number" value={inputTextSize} onChange={handleInputTextSize} onFocus={()=>{addBorderHighlight("text-size")}} onBlur={()=>{removeBorderHighlight("text-size")}} style={{width: "120px"}}/>
+                                </div>
+                            </form>
+                        </div>
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                            <p style={{fontSize: "14px"}}>Text Font:</p>
+                            <select value={inputTextFont} onChange={handleInputTextFont} style={{cursor: "pointer", height: "25.5px", fontSize: "13px", border: "1px solid #ccc"}}>
+                                <option value="serif">Serif</option>
+                                <option value="sans-serif">Sans Serif</option>
+                                <option value="monospace">Monospace</option>
+                                <option value="fantasy">Fantasy</option>
+                                <option value="cursive">Cursive</option>
+                                <option value="Verdana">Verdana</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                            </select>
+                        </div>
+                        <div className="flex items-center justify-center gap-2">
+                            <p style={{fontSize: "14px"}}>Text:</p>
+                            <form className="auth-form" style={{margin: "0px"}}>
+                                <div className="input-bar" id="text-input-bar">
+                                    <input type="text" placeholder="Enter text" value={inputText} onChange={handleInputText} onFocus={()=>{addBorderHighlight("text")}} onBlur={()=>{removeBorderHighlight("text")}} style={{width: "145px"}}/>
+                                    <img src="/close.png" alt="close icon" onClick={()=>{clearInput()}} style={{opacity: `${inputText===""?"0":"1"}`}}/>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                :
-                    <div></div>
-            }
-
-            {   
-                (tool==="text")
-                &&
-                <div style={{marginTop: "12px"}}>
-                    <div className="flex items-center gap-2 mb-2">
-                        <p>Text Size:</p>
-                        <input type="number" value={inputTextSize} onChange={handleInputTextSize} style={{cursor: "pointer", width: "140px", fontSize: "14px", border: "1px solid #ccc"}}/>
-                    </div>
-                    <div className="flex items-center gap-2 mb-2">
-                        <p>Text Font:</p>
-                        <select value={inputTextFont} onChange={handleInputTextFont} style={{cursor: "pointer", width: "140px", fontSize: "14px", border: "1px solid #ccc"}}>
-                            <option value="serif">Serif</option>
-                            <option value="sans-serif">Sans Serif</option>
-                            <option value="monospace">Monospace</option>
-                            <option value="fantasy">Fantasy</option>
-                            <option value="cursive">Cursive</option>
-                            <option value="Verdana">Verdana</option>
-                            <option value="Arial">Arial</option>
-                            <option value="Times New Roman">Times New Roman</option>
-                        </select>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <p>Text:</p>
-                        <input type="text" value={inputText} onChange={handleInputText} style={{cursor: "pointer", width: "190px", fontSize: "14px", border: "1px solid #ccc"}}/>
-                    </div>
-                </div>
-            }
+                }
+            </div>
 
             <UserViewColorPalette setColorPaletteInUse={setColorPaletteInUse} fromHome={props.fromHome}/>
         </div>

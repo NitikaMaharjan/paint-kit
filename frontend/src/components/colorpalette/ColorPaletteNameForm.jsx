@@ -127,7 +127,7 @@ export default function ColorPaletteNameForm(props) {
                     <label htmlFor="color_palette_name"><b>Color palette name</b></label>
                     <div className="input-bar" id="color-palette-input-bar" style={{width: "240px"}}>
                         <input type="text" id="color_palette_name" name="color_palette_name" placeholder="Enter color palette name" value={inputValue.color_palette_name} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("color-palette")}} onBlur={()=>{removeBorderHighlight("color-palette")}}/>
-                        <img src="/close.png" alt="close icon" onClick={()=>{clearInput("color_palette_name")}} style={{opacity: `${inputValue.color_palette_name===""?0:1}`}}/>
+                        <img src="/close.png" alt="close icon" onClick={()=>{clearInput("color_palette_name")}} style={{opacity: `${inputValue.color_palette_name===""?"0":"1"}`}}/>
                     </div>
                 </div>
                 <button type="submit" className="submit-btn" onClick={handleSaveColorPalette}><b>Save color palette</b></button>

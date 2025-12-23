@@ -140,7 +140,7 @@ export default function ChangePasswordForm(props) {
                 </div>
                 <div className="input-bar" id="current-password-input-bar">
                     <input type={`${currentPasswordType}`} id="current_password" name="current_password" placeholder="Enter current password" value={credentials.current_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("current-password")}} onBlur={()=>{removeBorderHighlight("current-password")}}/>
-                    <img src="/close.png" alt="close icon" onClick={()=>{clearInput("current_password")}} style={{opacity: `${credentials.current_password===""?0:1}`}}/>
+                    <img src="/close.png" alt="close icon" onClick={()=>{clearInput("current_password")}} style={{opacity: `${credentials.current_password===""?"0":"1"}`}}/>
                 </div>
             </div>
             <div className="mb-1">
@@ -150,7 +150,7 @@ export default function ChangePasswordForm(props) {
                 </div>
                 <div className="input-bar" id="new-password-input-bar">
                     <input type={`${newPasswordType}`} id="new_password" name="new_password" placeholder="Enter new password" value={credentials.new_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("new-password")}} onBlur={()=>{removeBorderHighlight("new-password")}}/>
-                    <img src="/close.png" alt="close icon" onClick={()=>{clearInput("new_password")}} style={{opacity: `${credentials.new_password===""?0:1}`}}/>
+                    <img src="/close.png" alt="close icon" onClick={()=>{clearInput("new_password")}} style={{opacity: `${credentials.new_password===""?"0":"1"}`}}/>
                 </div>
             </div>
             <div style={{marginBottom: "28px"}}>
@@ -160,7 +160,7 @@ export default function ChangePasswordForm(props) {
                 </div>
                 <div className="input-bar" id="confirm-password-input-bar">
                     <input type={`${confirmPasswordType}`} id="confirm_password" name="confirm_password" placeholder="Enter confirm password" value={credentials.confirm_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("confirm-password")}} onBlur={()=>{removeBorderHighlight("confirm-password")}}/>
-                    <img src="/close.png" alt="close icon" onClick={()=>{clearInput("confirm_password")}} style={{opacity: `${credentials.confirm_password===""?0:1}`}}/>
+                    <img src="/close.png" alt="close icon" onClick={()=>{clearInput("confirm_password")}} style={{opacity: `${credentials.confirm_password===""?"0":"1"}`}}/>
                 </div>
             </div>
             <button type="submit" className="submit-btn" onClick={handleUpdatePassword}><b>Update password</b></button>

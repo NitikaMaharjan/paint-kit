@@ -123,7 +123,7 @@ export default function UserSignin(props) {
             <label htmlFor="user_email"><b>Email</b></label>
             <div className="input-bar" id="email-input-bar">
               <input type="email" id="user_email" name="user_email" placeholder="Enter email" value={credentials.user_email} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("email")}} onBlur={()=>{removeBorderHighlight("email")}}/>
-              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user_email")}} style={{opacity: `${credentials.user_email===""?0:1}`}}/>
+              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user_email")}} style={{opacity: `${credentials.user_email===""?"0":"1"}`}}/>
             </div>
           </div>          
           <div style={{marginBottom: "28px"}}>
@@ -133,7 +133,7 @@ export default function UserSignin(props) {
             </div>
             <div className="input-bar" id="password-input-bar">
               <input type={`${passwordType}`} id="user_password" name="user_password" placeholder="Enter password" value={credentials.user_password} onChange={updateInputValue} onFocus={()=>{addBorderHighlight("password")}} onBlur={()=>{removeBorderHighlight("password")}}/>
-              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user_password")}} style={{opacity: `${credentials.user_password===""?0:1}`}}/>
+              <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user_password")}} style={{opacity: `${credentials.user_password===""?"0":"1"}`}}/>
             </div>
           </div>
           <div className="flex flex-col justify-center">

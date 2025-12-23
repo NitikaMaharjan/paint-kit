@@ -157,21 +157,21 @@ export default function EditTemplateForm(props) {
           <label htmlFor="template_title"><b>Title</b></label>
           <div className="input-bar" id="template-title-input-bar">
             <input type="text" id="template_title" name="template_title" placeholder="Enter title" value={inputValue.template_title} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("template-title")}} onBlur={()=>{removeBorderHighlight("template-title")}}/>
-            <img src="/close.png" alt="close icon" onClick={()=>{clearInput("template_title")}} style={{opacity: `${inputValue.template_title===""?0:1}`}}/>
+            <img src="/close.png" alt="close icon" onClick={()=>{clearInput("template_title")}} style={{opacity: `${inputValue.template_title===""?"0":"1"}`}}/>
           </div>
         </div>          
         <div className="mb-1">
           <label htmlFor="template_tag"><b>Tag</b></label>
           <div className="input-bar" id="template-tag-input-bar">
             <input type="text" id="template_tag" name="template_tag" placeholder="Enter tag" value={inputValue.template_tag} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("template-tag")}} onBlur={()=>{removeBorderHighlight("template-tag")}}/>
-            <img src="/close.png" alt="close icon" onClick={()=>{clearInput("template_tag")}} style={{opacity: `${inputValue.template_tag===""?0:1}`}}/>
+            <img src="/close.png" alt="close icon" onClick={()=>{clearInput("template_tag")}} style={{opacity: `${inputValue.template_tag===""?"0":"1"}`}}/>
           </div>
         </div>
         <div style={{marginBottom: "28px"}}>
           <label htmlFor="template_url"><b>Upload image</b></label>
           <div className="input-bar mb-3" id="template-url-input-bar">
             <input type="file" id="template_url" name="template_url" accept="image/*" ref={fileInputRef} onChange={updateImageUrl} onFocus={()=>{addBorderHighlight("template-url")}} onBlur={()=>{removeBorderHighlight("template-url")}} style={{color: `${inputFile===null?"rgba(0, 0, 0, 0.6)":"black"}`, fontSize: "13px"}}/>
-            <img src="/close.png" alt="close icon" onClick={()=>{clearInput("template_url")}} style={{opacity: `${inputFile===null?0:1}`}}/>
+            <img src="/close.png" alt="close icon" onClick={()=>{clearInput("template_url")}} style={{opacity: `${inputFile===null?"0":"1"}`}}/>
           </div>
           <div className="flex items-center justify-center" style={{height: "180px", width: "100%", border: "1px solid rgba(0, 0, 0, 0.3)"}}>
             <img src={`${inputFile===null?props.selectedTemplate.template_url:"/uploads/"+inputFile.name}`} alt="uploaded image" style={{height: "100%", width: "100%", objectFit: "contain"}}/>
