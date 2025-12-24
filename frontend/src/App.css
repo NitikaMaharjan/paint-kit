@@ -191,14 +191,14 @@
     align-items: center;
     justify-content: center;
     padding: 4px 9px; 
-    font-size: 14px;
+    font-size: 13px;
     color: rgba(0, 0, 0, 0.7);
     cursor: pointer;
 }
 
 .active {
     color: black;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.144);
     border-bottom: 2px solid black;
 }
 

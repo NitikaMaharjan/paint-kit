@@ -106,7 +106,7 @@ export default function RightNavbar(props) {
                                 <input type="color" ref={pickAColor} value={inputTextColor} onChange={handleInputTextColor} style={{height: "36px", width: "2px", opacity: "0"}}/>
                             </>
                     }
-                    <div style={{height: "24px", width: "24px", backgroundColor: `${tool!=="text"?penColor:textColor}`}}></div>
+                    <div style={{height: "24px", width: "24px", backgroundColor: `${tool!=="text"?penColor:textColor}`, cursor: "pointer"}} onClick={()=>{pickAColor.current?.click()}}></div>
                 </div>
 
                 <div className="flex justify-center">

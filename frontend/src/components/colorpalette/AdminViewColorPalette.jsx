@@ -89,8 +89,8 @@ export default function AdminViewColorPalette() {
           </>
         :
           <div className="flex justify-center items-center" style={{height: "508px"}}>
-              <p style={{fontSize: "14px"}}><b>Add color palettes to get started!</b></p>
-            </div>
+            <p style={{fontSize: "14px"}}><b>Add color palettes to get started!</b></p>
+          </div>
       }
 
       {

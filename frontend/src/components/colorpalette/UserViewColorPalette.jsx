@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import ColorPaletteContext from "../../context/colorpalette/ColorPaletteContext";
 import AdminColorPaletteItem from "./AdminColorPaletteItem";
 import UserColorPaletteItem from "./UserColorPaletteItem";
@@ -6,6 +6,8 @@ import EditColorPaletteForm from "./EditColorPaletteForm";
 import UserSignin from "../user/UserSignin";
 
 export default function UserViewColorPalette(props) {
+
+  const communityScrollRef = useRef(null);
 
   const { adminColorPalettes, fetchAdminColorPalette, userColorPalettes, fetchUserColorPalette } = useContext(ColorPaletteContext);
 
@@ -21,6 +23,8 @@ export default function UserViewColorPalette(props) {
   const [filteredAdminColorPalettes, setFilteredAdminColorPalettes] = useState([]);
   const [searchUserKeyword, setSearchUserKeyword] = useState("");
   const [filteredUserColorPalettes, setFilteredUserColorPalettes] = useState([]);
+  const [selectedOrder, setSelectedOrder] = useState("latest");
+  const [communityYScroll, setCommunityYScroll] = useState(false);
 
   const checkUserSignedIn = () => {
     if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
@@ -35,7 +39,7 @@ export default function UserViewColorPalette(props) {
     if(checkUserSignedIn()){
       setSearchAdminKeyword(e.target.value); 
       if(searchAdminKeyword.trim()!==""){
-        setFilteredAdminColorPalettes(adminColorPalettes.filter((colorpalette)=>{return colorpalette.color_palette_name.toLowerCase().includes(searchAdminKeyword.toLowerCase())}));
+        setFilteredAdminColorPalettes(adminColorPalettes.filter((colorpalette)=>{return colorpalette.color_palette_name.toLowerCase().includes(searchAdminKeyword.toLowerCase()) || colorpalette.colors.some( color => color.toLowerCase().includes(searchAdminKeyword.toLowerCase()))}));
       }
     }
   }
@@ -43,7 +47,7 @@ export default function UserViewColorPalette(props) {
   const handleSearchUserKeywordChange = (e) => {
     setSearchUserKeyword(e.target.value); 
     if(searchUserKeyword.trim()!==""){
-      setFilteredUserColorPalettes(userColorPalettes.filter((colorpalette)=>{return colorpalette.color_palette_name.toLowerCase().includes(searchUserKeyword.toLowerCase())}));
+      setFilteredUserColorPalettes(userColorPalettes.filter((colorpalette)=>{return colorpalette.color_palette_name.toLowerCase().includes(searchUserKeyword.toLowerCase()) || colorpalette.colors.some( color => color.toLowerCase().includes(searchUserKeyword.toLowerCase()))}));
     }
   }
 
@@ -63,6 +67,10 @@ export default function UserViewColorPalette(props) {
     document.getElementById(type+"-input-bar").style.borderColor = "rgba(0, 0, 0, 0.3)";
   }
   
+  const communityScrollToTop = () => {
+    communityScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   useEffect(() => {
     fetchAdminColorPalette();
     if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
@@ -73,7 +81,7 @@ export default function UserViewColorPalette(props) {
   return (
     <>
       <div className="color-palette">
-        <div className="flex justify-between">
+        <div className="flex justify-evenly">
           <div className={`${showColorPalette==="community"?"active":""}`}>
             <button className="color-palette-btn" onClick={()=>{setShowColorPalette("community")}}>Community Palettes</button>
           </div>
@@ -85,24 +93,37 @@ export default function UserViewColorPalette(props) {
           showColorPalette === "community" ?
             adminColorPalettes.length !== 0 ?
               <>
-                <div className="flex justify-center mb-4">
+                <div className="flex justify-center mt-2 mb-2">
                   <form className="auth-form" style={{margin: "0px"}}>
                     <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
                       <img src="/search.png" alt="search icon"/>
-                      <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette name" value={searchAdminKeyword} onChange={handleSearchAdminKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)"}}/>
+                      <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette/color name" value={searchAdminKeyword} onChange={handleSearchAdminKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)", width: "202px", fontSize: "11px"}}/>
                       <img src="/close.png" alt="close icon" onClick={()=>{clearInput("admin")}} style={{opacity: `${searchAdminKeyword===""?"0":"1"}`}}/>
                     </div>
                   </form>
                 </div>
-                <div style={{height: "200px", overflowY: "auto"}}>
-                  {(searchAdminKeyword===""?adminColorPalettes:filteredAdminColorPalettes).map((colorpalette)=>{
-                    return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setColorPaletteInUse={props.setColorPaletteInUse} fromHome={props.fromHome}/>
-                  }).reverse()}
+                <div className="flex justify-center mb-4" style={{gap: "6px"}}>
+                  <button className={`chip ${(selectedOrder==="latest" || selectedOrder==="oldest") && searchAdminKeyword===""?"chip-active":""}`} onClick={()=>{setSearchAdminKeyword("")}} style={{fontSize: "11px"}}>All</button>
+                  <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest");}} style={{fontSize: "11px"}}>Latest</button>
+                  <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest");}} style={{fontSize: "11px"}}>Oldest</button>
+                </div>
+                <div ref={communityScrollRef} className="flex flex-col items-center gap-3" style={{height: "180px", overflowY: "auto"}} onScroll={() => setCommunityYScroll(communityScrollRef.current.scrollTop > 0)}>
+                  {
+                    selectedOrder ==="latest" ?
+                      (searchAdminKeyword===""?adminColorPalettes:filteredAdminColorPalettes).map((colorpalette)=>{
+                        return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setColorPaletteInUse={props.setColorPaletteInUse} fromHome={props.fromHome}/>
+                      }).reverse()
+                    :
+                      (searchAdminKeyword===""?adminColorPalettes:filteredAdminColorPalettes).map((colorpalette)=>{
+                        return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setColorPaletteInUse={props.setColorPaletteInUse} fromHome={props.fromHome}/>
+                      })
+                  }
+                  <button className={`up-scroll-btn${communityYScroll?"-show":""}`} onClick={communityScrollToTop} style={{bottom: "28px", right: "42px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
                 </div>
               </>
             :
-              <div>
-                no color palettes
+              <div className="flex items-center justify-center" style={{height: "269px"}}>
+                <p style={{fontSize: "12px"}}><b>No community palettes yet!</b></p>
               </div>
           :
             userColorPalettes.length !== 0 ?
@@ -111,20 +132,20 @@ export default function UserViewColorPalette(props) {
                   <form className="auth-form" style={{margin: "0px"}}>
                     <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
                       <img src="/search.png" alt="search icon"/>
-                      <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette name" value={searchUserKeyword} onChange={handleSearchUserKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)"}}/>
+                      <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette/color name" value={searchUserKeyword} onChange={handleSearchUserKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)", fontSize: "11px"}}/>
                       <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user")}} style={{opacity: `${searchUserKeyword===""?"0":"1"}`}}/>
                     </div>
                   </form>
                 </div>
-                <div style={{height: "200px", overflowY: "auto"}}>
+                <div style={{height: "225px", overflowY: "auto"}}>
                   {(searchUserKeyword===""?userColorPalettes:filteredUserColorPalettes).map((colorpalette)=>{
                     return <UserColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette} setColorPaletteInUse={props.setColorPaletteInUse}/>
                   }).reverse()}
                 </div>
               </>
             :
-              <div>
-                no color palettes
+              <div className="flex items-center justify-center" style={{height: "269px"}}>
+                <p style={{fontSize: "12px"}}><b>Add color palettes to get started!</b></p>
               </div>
         }
       </div>
