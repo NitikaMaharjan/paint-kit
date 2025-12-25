@@ -7,20 +7,41 @@ export default function UserColorPaletteItem(props) {
 
     const { handleDeleteColorPalette } = useContext(ColorPaletteContext);
 
+    const handleCapitalizeEachFirstLetter = (text) => {
+        let words = text.split(" ");
+        for(let i=0; i<words.length; i++){
+        words[i] = words[i].charAt(0).toUpperCase()+words[i].substring(1).toLowerCase();
+        }
+        text = (words.join(" "));
+        return text;
+    }
+
+    const formatDate = (date) => {
+        let date_object = new Date(date);
+        return date_object.toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+    }
+  
+    const formatTime = (date) => {
+        let date_object = new Date(date);
+        return date_object.toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+    }
+
     return (
-        <div style={{margin: "0px 0px 18px 0px", width: "min-content"}}>
-            <div className="flex items-center justify-between mb-1" style={{padding: "12px 0px"}}>
-                <p style={{fontSize: "13px"}} title={color_palette_name}>{color_palette_name.length>10?color_palette_name.slice(0,10)+"...":color_palette_name}</p>
+        <div className="color-palette-item" style={{height: "min-content", border: "1px solid #aaaaaa", padding: "6px"}} title={formatDate(palette_updated_date)+" "+formatTime(palette_updated_date)}>
+            <div className="flex items-center justify-between mb-3">
+                <h1 style={{fontSize: "12px"}} title={color_palette_name}>{handleCapitalizeEachFirstLetter(color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name)}</h1>
                 <div className="flex items-center">
                     <button className="icon-btn" onClick={()=>{setSelectedColorPalette({color_palette_id: color_palette_id, color_palette_name: color_palette_name, colors: colors}); setShowEditColorPaletteFormModal(true);}}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></button>
                     <button className="icon-btn" onClick={()=>{handleDeleteColorPalette(color_palette_id)}}><img src="/delete.png" alt="delete icon" style={{height: "18px", width: "18px"}}/></button>
                     <button className="action-btn" onClick={()=>{setColorPaletteInUse({ color_palette_name: color_palette_name, colors: colors })}}>Use</button>
                 </div>
             </div>
-            <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
-                {colors.map((a_color, index)=>{
-                    return <div key={index} title={a_color} style={{height: "36px", width: "36px", backgroundColor: `${a_color}`}}></div>
-                }).reverse()}
+            <div style={{height: "66px"}}>
+                <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>
+                    {colors.map((a_color, index)=>{
+                        return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}}></div>
+                    }).reverse()}
+                </div>
             </div>
         </div>
     );

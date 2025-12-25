@@ -175,7 +175,9 @@ export default function RightNavbar(props) {
                 }
             </div>
 
-            <UserViewColorPalette setColorPaletteInUse={setColorPaletteInUse} fromHome={props.fromHome}/>
+            <div style={{height: "300px"}}>
+                <UserViewColorPalette setColorPaletteInUse={setColorPaletteInUse} fromHome={props.fromHome}/>
+            </div>
         </div>
     );
 }

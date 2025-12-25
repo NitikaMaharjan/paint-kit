@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import AlertContext from "../../context/alert/AlertContext";
+import ColorPaletteContext from "../../context/colorpalette/ColorPaletteContext";
 
 export default function ColorPaletteNameForm(props) {
 
     const { showAlert } = useContext(AlertContext);
+    const { fetchUserColorPalette, fetchAdminColorPalette } = useContext(ColorPaletteContext);
 
     const [inputValue, setInputValue] = useState({
         color_palette_name: ""
@@ -93,6 +95,9 @@ export default function ColorPaletteNameForm(props) {
                     props.setShowColorPaletteNameFormModal(false);
                     if(localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token")){
                         props.setShowGenerateColorPaletteModal(false);
+                        await fetchAdminColorPalette();
+                    }else{
+                        await fetchUserColorPalette();
                     }
                     showAlert("Success", "Your color palette looks awesome. It has been saved successfully!");
                 }else{

@@ -8,6 +8,7 @@ import UserSignin from "../user/UserSignin";
 export default function UserViewColorPalette(props) {
 
   const communityScrollRef = useRef(null);
+  const myScrollRef = useRef(null);
 
   const { adminColorPalettes, fetchAdminColorPalette, userColorPalettes, fetchUserColorPalette } = useContext(ColorPaletteContext);
 
@@ -25,6 +26,7 @@ export default function UserViewColorPalette(props) {
   const [filteredUserColorPalettes, setFilteredUserColorPalettes] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState("latest");
   const [communityYScroll, setCommunityYScroll] = useState(false);
+  const [myYScroll, setMyYScroll] = useState(false);
 
   const checkUserSignedIn = () => {
     if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
@@ -70,6 +72,10 @@ export default function UserViewColorPalette(props) {
   const communityScrollToTop = () => {
     communityScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
   };
+  
+  const myScrollToTop = () => {
+    myScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   useEffect(() => {
     fetchAdminColorPalette();
@@ -81,19 +87,21 @@ export default function UserViewColorPalette(props) {
   return (
     <>
       <div className="color-palette">
-        <div className="flex justify-evenly">
+
+        <div className="flex">
           <div className={`${showColorPalette==="community"?"active":""}`}>
             <button className="color-palette-btn" onClick={()=>{setShowColorPalette("community")}}>Community Palettes</button>
           </div>
-          <div className={`${showColorPalette==="my"?"active":""}`}>
+          <div className={`${showColorPalette==="my"?"active":""} flex justify-center`} style={{width: "126px"}}>
             <button className="color-palette-btn" onClick={()=>{if(checkUserSignedIn()){setShowColorPalette("my")}}}>My Palettes</button>
           </div>
         </div>
+
         {
           showColorPalette === "community" ?
             adminColorPalettes.length !== 0 ?
               <>
-                <div className="flex justify-center mt-2 mb-2">
+                <div className="flex justify-center mt-4 mb-2">
                   <form className="auth-form" style={{margin: "0px"}}>
                     <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
                       <img src="/search.png" alt="search icon"/>
@@ -102,12 +110,14 @@ export default function UserViewColorPalette(props) {
                     </div>
                   </form>
                 </div>
+
                 <div className="flex justify-center mb-4" style={{gap: "6px"}}>
                   <button className={`chip ${(selectedOrder==="latest" || selectedOrder==="oldest") && searchAdminKeyword===""?"chip-active":""}`} onClick={()=>{setSearchAdminKeyword("")}} style={{fontSize: "11px"}}>All</button>
                   <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest");}} style={{fontSize: "11px"}}>Latest</button>
                   <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest");}} style={{fontSize: "11px"}}>Oldest</button>
                 </div>
-                <div ref={communityScrollRef} className="flex flex-col items-center gap-3" style={{height: "180px", overflowY: "auto"}} onScroll={() => setCommunityYScroll(communityScrollRef.current.scrollTop > 0)}>
+
+                <div ref={communityScrollRef} className="flex flex-col items-center gap-3" style={{height: "180px", overflowY: "auto", scrollbarGutter: "stable"}} onScroll={()=>setCommunityYScroll(communityScrollRef.current.scrollTop > 0)}>
                   {
                     selectedOrder ==="latest" ?
                       (searchAdminKeyword===""?adminColorPalettes:filteredAdminColorPalettes).map((colorpalette)=>{
@@ -118,33 +128,48 @@ export default function UserViewColorPalette(props) {
                         return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setColorPaletteInUse={props.setColorPaletteInUse} fromHome={props.fromHome}/>
                       })
                   }
-                  <button className={`up-scroll-btn${communityYScroll?"-show":""}`} onClick={communityScrollToTop} style={{bottom: "28px", right: "42px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
+                  <button className={`up-scroll-btn${communityYScroll?"-show":""}`} onClick={communityScrollToTop} style={{bottom: "22px", right: "34px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
                 </div>
               </>
             :
-              <div className="flex items-center justify-center" style={{height: "269px"}}>
+              <div className="flex items-center justify-center" style={{height: "280px"}}>
                 <p style={{fontSize: "12px"}}><b>No community palettes yet!</b></p>
               </div>
           :
             userColorPalettes.length !== 0 ?
               <>
-                <div className="flex justify-center mb-4">
+                <div className="flex justify-center mt-4 mb-2">
                   <form className="auth-form" style={{margin: "0px"}}>
                     <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
                       <img src="/search.png" alt="search icon"/>
-                      <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette/color name" value={searchUserKeyword} onChange={handleSearchUserKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)", fontSize: "11px"}}/>
+                      <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette/color name" value={searchUserKeyword} onChange={handleSearchUserKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)", width: "202px", fontSize: "11px"}}/>
                       <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user")}} style={{opacity: `${searchUserKeyword===""?"0":"1"}`}}/>
                     </div>
                   </form>
                 </div>
-                <div style={{height: "225px", overflowY: "auto"}}>
-                  {(searchUserKeyword===""?userColorPalettes:filteredUserColorPalettes).map((colorpalette)=>{
-                    return <UserColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette} setColorPaletteInUse={props.setColorPaletteInUse}/>
-                  }).reverse()}
+
+                <div className="flex justify-center mb-4" style={{gap: "6px"}}>
+                  <button className={`chip ${(selectedOrder==="latest" || selectedOrder==="oldest") && searchUserKeyword===""?"chip-active":""}`} onClick={()=>{setSearchUserKeyword("")}} style={{fontSize: "11px"}}>All</button>
+                  <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest");}} style={{fontSize: "11px"}}>Latest</button>
+                  <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest");}} style={{fontSize: "11px"}}>Oldest</button>
+                </div>
+
+                <div ref={myScrollRef} className="flex flex-col items-center gap-3" style={{height: "180px", overflowY: "auto", scrollbarGutter: "stable"}} onScroll={()=>{setMyYScroll(myScrollRef.current.scrollTop > 0)}}>
+                  {
+                    selectedOrder ==="latest" ?
+                      (searchUserKeyword===""?userColorPalettes:filteredUserColorPalettes).map((colorpalette)=>{
+                        return <UserColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette} setColorPaletteInUse={props.setColorPaletteInUse}/>
+                      }).reverse()
+                    :
+                      (searchUserKeyword===""?userColorPalettes:filteredUserColorPalettes).map((colorpalette)=>{
+                        return <UserColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette} setColorPaletteInUse={props.setColorPaletteInUse}/>
+                      })
+                  }
+                  <button className={`up-scroll-btn${myYScroll?"-show":""}`} onClick={myScrollToTop} style={{bottom: "22px", right: "34px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
                 </div>
               </>
             :
-              <div className="flex items-center justify-center" style={{height: "269px"}}>
+              <div className="flex items-center justify-center" style={{height: "280px"}}>
                 <p style={{fontSize: "12px"}}><b>Add color palettes to get started!</b></p>
               </div>
         }

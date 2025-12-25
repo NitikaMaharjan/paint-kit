@@ -23,7 +23,7 @@ export default function ViewUndoRedoHistory(props) {
                         <>
                             <p className="text-center">undo stack is not empty</p>
                             <p className="text-center"><b>Length: {undoStack.current.length}</b></p><br/>
-                            <div style={{height: "540px", width: "280px", overflowY: "auto"}}>
+                            <div style={{height: "540px", width: "280px", overflowY: "auto", scrollbarGutter: "stable"}}>
                                 {undoStack.current.map((imageData, index)=>{
                                     return <CanvasItem key={index} imageData={imageData} setShowUndoRedoHistoryModal={props.setShowUndoRedoHistoryModal}/>
                                 }).reverse()}
@@ -43,7 +43,7 @@ export default function ViewUndoRedoHistory(props) {
                         <>
                             <p className="text-center">redo stack is not empty</p>
                             <p className="text-center"><b>Length: {redoStack.current.length}</b></p><br/>
-                            <div style={{height: "540px", width: "280px", overflowY: "auto"}}>
+                            <div style={{height: "540px", width: "280px", overflowY: "auto", scrollbarGutter: "stable"}}>
                                 {redoStack.current.map((imageData, index)=>{
                                     return <CanvasItem key={index} imageData={imageData} setShowUndoRedoHistoryModal={props.setShowUndoRedoHistoryModal}/>
                                 }).reverse()}
