@@ -195,9 +195,10 @@ export default function EditColorPaletteForm(props) {
                     <div style={{marginBottom: "28px"}}>
                         <label htmlFor="color_name"><b>Pick colors</b></label>
                         <div className="flex gap-3">
-                            <div className="input-bar" id="color-name-input-bar" style={{height: "25.5px", width: "200px", gap: "8px"}}>
-                                <input type="color" id="color_name" name="color_name" ref={pickAColor} value={inputValue.color_name} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("color-name")}} onBlur={()=>{removeBorderHighlight("color-name")}} style={{height: "20px", width: "30px", cursor: "pointer"}}/>
-                                <p onClick={()=>{addBorderHighlight("color-name");pickAColor.current?.click();}} style={{fontSize: "13px", width: "100%", color: `${inputValue.color_name===""?"#5b5c60":"black"}`, cursor: "pointer"}}>{inputValue.color_name===""?"Pick a color":inputValue.color_name}</p>
+                            <div className="input-bar" id="color-name-input-bar" style={{height: "25.5px", width: "200px", gap: "4px", cursor: "pointer"}}>
+                                <img src="/color.png" style={{height: "20px", width: "20px"}} onClick={()=>{pickAColor.current?.click()}}/>
+                                <input type="color" id="color_name" name="color_name" ref={pickAColor} value={inputValue.color_name} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("color-name")}} onBlur={()=>{removeBorderHighlight("color-name")}} style={{height: "20px", width: "1px", opacity: "0"}}/>
+                                <p onClick={()=>{addBorderHighlight("color-name");pickAColor.current?.click();}} style={{fontSize: "13px", width: "100%", color: `${inputValue.color_name===""?"#5b5c60":"black"}`}}>{inputValue.color_name===""?"Pick a color":inputValue.color_name}</p>
                                 <img src="/close.png" alt="close icon" onClick={()=>{clearInput("color_name")}} style={{opacity: `${inputValue.color_name===""?"0":"1"}`}}/>
                             </div>
                             <button className="add-color-btn" onClick={addColor}>+</button>

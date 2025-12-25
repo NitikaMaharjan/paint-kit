@@ -49,9 +49,16 @@ export default function AdminColorPaletteItem(props) {
                         </div>
                         <div style={{height: "66px"}}>
                             <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>
-                                {colors.map((a_color, index)=>{
-                                    return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}}></div>
-                                }).reverse()}
+                                {
+                                    colors.map((a_color, index)=>{
+                                        return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}}></div>
+                                    }).reverse()
+                                }
+                                {
+                                    Array.from({length: 12 - colors.length}).map((key, index)=>{
+                                        return <div key={index} style={{height: "32px", width: "32px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                    })
+                                }
                             </div>
                         </div>
                     </div>
@@ -70,9 +77,16 @@ export default function AdminColorPaletteItem(props) {
                             <div style={{padding: "0px 12px 12px 12px"}}>
                                 <div style={{height: "66px"}}>
                                     <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>
-                                        {colors.map((a_color, index)=>{
-                                            return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}}></div>
-                                        }).reverse()}
+                                        {
+                                            colors.map((a_color, index)=>{
+                                                return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}}></div>
+                                            }).reverse()
+                                        }
+                                        {
+                                            Array.from({length: 12 - colors.length}).map((key, index)=>{
+                                                return <div key={index} style={{height: "32px", width: "32px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                            })
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -85,9 +99,16 @@ export default function AdminColorPaletteItem(props) {
                             </div>
                             <div style={{height: "66px"}}>
                                 <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>
-                                    {colors.map((a_color, index)=>{
-                                        return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}}></div>
-                                    }).reverse()}
+                                    {
+                                        colors.map((a_color, index)=>{
+                                            return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}}></div>
+                                        }).reverse()
+                                    }
+                                    {
+                                        Array.from({length: 12 - colors.length}).map((key, index)=>{
+                                            return <div key={index} style={{height: "32px", width: "32px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                        })
+                                    }
                                 </div>
                             </div>
                         </div>

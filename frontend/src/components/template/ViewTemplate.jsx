@@ -196,7 +196,7 @@ export default function ViewTemplate() {
                           })
                     }
                   </div>
-                  <button className={`up-scroll-btn${templateYScroll?"-show":""}`} onClick={templateScrollToTop}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
+                  <button className={`up-scroll-btn${templateYScroll?"-show":""}`} onClick={templateScrollToTop} style={{bottom: "80px", right: "80px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
                 </div>
               : 
                 <div>                

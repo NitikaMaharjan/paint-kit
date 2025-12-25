@@ -333,14 +333,13 @@
 }
 
 .up-scroll-btn {
+    position: fixed;
     opacity: 0;
     transition: opacity 0.2s ease;
 } 
 
 .up-scroll-btn-show {
     position: fixed;
-    bottom: 80px;
-    right: 80px;
     background-color: black;
     padding: 8px;
     cursor: pointer;

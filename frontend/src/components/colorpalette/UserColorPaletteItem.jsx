@@ -29,7 +29,7 @@ export default function UserColorPaletteItem(props) {
     return (
         <div className="color-palette-item" style={{height: "min-content", border: "1px solid #aaaaaa", padding: "6px"}} title={formatDate(palette_updated_date)+" "+formatTime(palette_updated_date)}>
             <div className="flex items-center justify-between mb-3">
-                <h1 style={{fontSize: "12px"}} title={color_palette_name}>{handleCapitalizeEachFirstLetter(color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name)}</h1>
+                <h1 style={{fontSize: "12px"}} title={color_palette_name}>{handleCapitalizeEachFirstLetter(color_palette_name.length>9?color_palette_name.slice(0,9)+"...":color_palette_name)}</h1>
                 <div className="flex items-center">
                     <button className="icon-btn" onClick={()=>{setSelectedColorPalette({color_palette_id: color_palette_id, color_palette_name: color_palette_name, colors: colors}); setShowEditColorPaletteFormModal(true);}}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></button>
                     <button className="icon-btn" onClick={()=>{handleDeleteColorPalette(color_palette_id)}}><img src="/delete.png" alt="delete icon" style={{height: "18px", width: "18px"}}/></button>
@@ -38,9 +38,16 @@ export default function UserColorPaletteItem(props) {
             </div>
             <div style={{height: "66px"}}>
                 <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>
-                    {colors.map((a_color, index)=>{
-                        return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}}></div>
-                    }).reverse()}
+                    {
+                        colors.map((a_color, index)=>{
+                            return <div key={index} title={a_color} style={{height: "32px", width: "32px", backgroundColor: `${a_color}`}}></div>
+                        }).reverse()
+                    }
+                    {
+                        Array.from({length: 12 - colors.length}).map((key, index)=>{
+                            return <div key={index} style={{height: "32px", width: "32px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                        })
+                    }
                 </div>
             </div>
         </div>

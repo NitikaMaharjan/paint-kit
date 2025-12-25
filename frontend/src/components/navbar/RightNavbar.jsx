@@ -114,24 +114,26 @@ export default function RightNavbar(props) {
                         colorPaletteInUse.color_palette_name!=="" && colorPaletteInUse.colors.length!==0 ?
                             <div style={{width: "min-content", marginTop: "6px"}}>
                                 <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
-                                    {colorPaletteInUse.colors.map((a_color, index)=>{return <div key={index} title={a_color} style={{height: "36px", width: "36px", backgroundColor: `${a_color}`, border: `${penColor===a_color?calculateBrightness(a_color):"2px solid transparent"}`, cursor: "pointer"}} onClick={()=>{setPenColor(a_color); setTextColor(a_color);}}></div>}).reverse()}
+                                    {
+                                        colorPaletteInUse.colors.map((a_color, index)=>{
+                                            return <div key={index} title={a_color} style={{height: "36px", width: "36px", backgroundColor: `${a_color}`, border: `${penColor===a_color?calculateBrightness(a_color):"2px solid transparent"}`, cursor: "pointer"}} onClick={()=>{setPenColor(a_color); setTextColor(a_color);}}></div>
+                                        }).reverse()
+                                    }
+                                    {
+                                        Array.from({length: 12 - colorPaletteInUse.colors.length}).map((key, index)=>{
+                                            return <div key={index} style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                        })
+                                    }
                                 </div>
                             </div>
                         :
                             <div style={{width: "min-content", marginTop: "6px"}}>
                                 <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
-                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
-                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
-                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
-                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
-                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
-                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
-                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
-                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
-                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
-                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
-                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
-                                    <div style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                    {
+                                        Array.from({length: 12}).map((key, index)=>{
+                                            return <div key={index} style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                        })
+                                    }
                                 </div>
                             </div>
                     }
