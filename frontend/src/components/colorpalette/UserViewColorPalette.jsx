@@ -112,9 +112,9 @@ export default function UserViewColorPalette(props) {
                 </div>
 
                 <div className="flex justify-center mb-4" style={{gap: "6px"}}>
-                  <button className={`chip ${(selectedOrder==="latest" || selectedOrder==="oldest") && searchAdminKeyword===""?"chip-active":""}`} onClick={()=>{setSearchAdminKeyword("")}} style={{fontSize: "11px"}}>All</button>
-                  <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest");}} style={{fontSize: "11px"}}>Latest</button>
-                  <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest");}} style={{fontSize: "11px"}}>Oldest</button>
+                  <button className={`chip ${(selectedOrder==="latest" || selectedOrder==="oldest") && searchAdminKeyword===""?"chip-active":""}`} onClick={()=>{if(checkUserSignedIn()){setSearchAdminKeyword("")}}} style={{fontSize: "11px"}}>All</button>
+                  <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{if(checkUserSignedIn()){setSelectedOrder("latest")}}} style={{fontSize: "11px"}}>Latest</button>
+                  <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{if(checkUserSignedIn()){setSelectedOrder("oldest")}}} style={{fontSize: "11px"}}>Oldest</button>
                 </div>
 
                 <div ref={communityScrollRef} className="flex flex-col items-center gap-3" style={{height: "180px", overflowY: "auto", scrollbarGutter: "stable"}} onScroll={()=>setCommunityYScroll(communityScrollRef.current.scrollTop > 0)}>
@@ -150,8 +150,8 @@ export default function UserViewColorPalette(props) {
 
                 <div className="flex justify-center mb-4" style={{gap: "6px"}}>
                   <button className={`chip ${(selectedOrder==="latest" || selectedOrder==="oldest") && searchUserKeyword===""?"chip-active":""}`} onClick={()=>{setSearchUserKeyword("")}} style={{fontSize: "11px"}}>All</button>
-                  <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest");}} style={{fontSize: "11px"}}>Latest</button>
-                  <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest");}} style={{fontSize: "11px"}}>Oldest</button>
+                  <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest")}} style={{fontSize: "11px"}}>Latest</button>
+                  <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest")}} style={{fontSize: "11px"}}>Oldest</button>
                 </div>
 
                 <div ref={myScrollRef} className="flex flex-col items-center gap-3" style={{height: "180px", overflowY: "auto", scrollbarGutter: "stable"}} onScroll={()=>{setMyYScroll(myScrollRef.current.scrollTop > 0)}}>

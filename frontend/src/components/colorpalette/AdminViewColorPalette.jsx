@@ -67,8 +67,8 @@ export default function AdminViewColorPalette() {
 
             <div className="flex justify-center mb-4" style={{gap: "6px"}}>
               <button className={`chip ${(selectedOrder==="latest" || selectedOrder==="oldest") && searchAdminKeyword===""?"chip-active":""}`} onClick={()=>{setSearchAdminKeyword("")}}>All</button>
-              <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest");}}>Latest</button>
-              <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest");}}>Oldest</button>
+              <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest")}}>Latest</button>
+              <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest")}}>Oldest</button>
             </div>
 
             <div ref={colorPaletteScrollRef} style={{height: "430px", overflowY: "auto", scrollbarGutter: "stable", paddingRight: "10px"}} onScroll={() => setColorPaletteYScroll(colorPaletteScrollRef.current.scrollTop > 0)}>

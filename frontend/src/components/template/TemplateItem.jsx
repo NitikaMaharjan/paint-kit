@@ -5,7 +5,7 @@ import ConfirmContext from "../../context/confirm/ConfirmContext";
 import TemplateContext from "../../context/template/TemplateContext";
 import EditTemplateForm from "../template/EditTemplateForm";
 
-export default function DrawingItem(props) {
+export default function TemplateItem(props) {
 
   const { _id, template_title, template_tag, template_url, template_updated_date } = props.templateInfo;
 
@@ -54,8 +54,8 @@ export default function DrawingItem(props) {
         const json = await response.json();
 
         if(json.success){
-          await fetchTemplate();
           showAlert("Success", "Your template has been deleted successfully!");
+          await fetchTemplate();
         }else{
           showAlert("Error", json.error);
         }
@@ -80,7 +80,7 @@ export default function DrawingItem(props) {
                 <button className="icon-btn" onClick={()=>{handleDeleteTemplate(_id)}}><img src="/delete.png" alt="delete icon" style={{height: "18px", width: "18px"}}/></button>
               </div>
             </div>
-            <img src={template_url} style={{height: "280px", width: "100%", objectFit: "cover"}} alt="drawing"/>
+            <img src={template_url} style={{height: "280px", width: "100%", objectFit: "cover"}} alt="template"/>
             <div className="flex items-center justify-center mt-2">
               <p style={{fontSize: "12px"}}><b>{formatDate(template_updated_date)} | {formatTime(template_updated_date)}</b></p>
             </div>
@@ -96,7 +96,7 @@ export default function DrawingItem(props) {
                 <Link className="action-btn" to={`/usetemplate/${_id}`}>Use</Link>
               </div>
             </div>
-            <img src={template_url} style={{height: "280px", width: "100%", objectFit: "cover"}} alt="drawing"/>
+            <img src={template_url} style={{height: "280px", width: "100%", objectFit: "cover"}} alt="template"/>
           </div>
       }
 

@@ -41,13 +41,13 @@ export default function UserTopNavbar(props) {
         }
     }
 
-    const handleCapitalizeFirstLetter = (text) => {
+    const handleCapitalizeEachFirstLetter = (text) => {
         let words = text.split(" ");
-        for (let i=0; i<words.length; i++) {
+        for(let i=0; i<words.length; i++){
             words[i] = words[i].charAt(0).toUpperCase()+words[i].substring(1).toLowerCase();
         }
         text = (words.join(" "));
-        return text.length>18?text.slice(0,18)+"...":text;
+        return text;
     }
 
     const handleMouseOver = () => {
@@ -108,14 +108,14 @@ export default function UserTopNavbar(props) {
                 <div className="flex flex-col" style={{width: "100%"}}>
                     <div className="flex items-center justify-between">
                         <h1 style={{fontSize: "15px"}}><b>Paint Kit</b></h1>
-                        <p style={{fontSize: "13px"}}>{props.title}</p>
+                        <p style={{fontSize: "13px"}}>{handleCapitalizeEachFirstLetter(props.title)}</p>
                         {
                             localStorage.getItem("userSignedIn") && localStorage.getItem("user_token") ?
                                 <div className="flex items-center">
                                     <div className="flex items-center justify-center" style={{border: "1px solid rgba(0, 0, 0, 0.8)", height: "19px", width: "19px", borderRadius: "18px"}}>
                                         <img src="/user.png" alt="user icon" style={{height: "13px", width: "13px"}}/>
                                     </div>&nbsp;
-                                    <p style={{fontSize: "13px"}}>{handleCapitalizeFirstLetter(localStorage.getItem("user_username"))}</p>&nbsp;
+                                    <p style={{fontSize: "13px"}}>{handleCapitalizeEachFirstLetter(localStorage.getItem("user_username"))}</p>&nbsp;
                                     <p style={{fontSize: "13px"}}><b>|</b> {localStorage.getItem("user_email")}</p>&nbsp;
                                     <div>
                                         <div id="arrow" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} style={{padding: "4px"}}>

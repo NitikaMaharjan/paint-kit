@@ -31,6 +31,15 @@ export default function AdminTopNavbar() {
         return currentDateTime.toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
     }
 
+    const handleCapitalizeEachFirstLetter = (text) => {
+        let words = text.split(" ");
+        for(let i=0; i<words.length; i++){
+            words[i] = words[i].charAt(0).toUpperCase()+words[i].substring(1).toLowerCase();
+        }
+        text = (words.join(" "));
+        return text;
+    }
+
     const handleSignOut = async() => {
         let ans = await showConfirm("Sign out");
         if(ans){
@@ -63,7 +72,7 @@ export default function AdminTopNavbar() {
                     <div className="flex items-center justify-center" style={{border: "1px solid rgba(0, 0, 0, 0.8)", height: "19px", width: "19px", borderRadius: "18px"}}>
                         <img src="/user.png" alt="user icon" style={{height: "13px", width: "13px"}}/>
                     </div>&nbsp;
-                    <p style={{fontSize: "13px"}}>{localStorage.getItem("admin_username")}</p>&nbsp;
+                    <p style={{fontSize: "13px"}}>{handleCapitalizeEachFirstLetter(localStorage.getItem("admin_username"))}</p>&nbsp;
                     <p style={{fontSize: "13px"}}><b>|</b> {localStorage.getItem("admin_email")}</p>&nbsp;
                     <div>
                         <div id="arrow" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} style={{padding: "4px"}}>

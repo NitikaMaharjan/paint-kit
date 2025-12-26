@@ -9,8 +9,9 @@ import ChipTag from "../ChipTag";
 export default function ViewDrawing() {
 
   let navigate = useNavigate();
-
+  
   const scrollContainerRef = useRef(null);
+  const drawingScrollRef = useRef(null);
 
   const { showProgress } = useContext(ProgressBarContext);
   const { fetchDrawing, fetchedDrawings } = useContext(DrawContext);
@@ -18,7 +19,7 @@ export default function ViewDrawing() {
 
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filteredDrawings, setFilteredDrawings] = useState([]);
-  const [yScroll, setYScroll] = useState(false);
+  const [drawingYScroll, setDrawingYScroll] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState("latest");
   const [uniqueTags, setUniqueTags] = useState([]);
   const [selectedTag, setSelectedTag] = useState("");
@@ -62,6 +63,10 @@ export default function ViewDrawing() {
     setFilteredDrawings(fetchedDrawings.filter((drawing)=>{return drawing.drawing_tag.toLowerCase().includes(tag.toLowerCase())}));
   }
 
+  const drawingScrollToTop = () => {
+    drawingScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const handleScroll = (scrollOffset) => {
     if(scrollContainerRef.current){
       setXScrollRightPrevValue(scrollContainerRef.current.scrollLeft);
@@ -101,26 +106,16 @@ export default function ViewDrawing() {
         setXScrollRight(false);
       }
     }
-  }, [fetchedDrawings]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if(window.scrollY){
-        setYScroll(true);
-      }else{
-        setYScroll(false);
-      }
-    });
-    // eslint-disable-next-line
-  }, []);  
+  }, [fetchedDrawings]); 
   
   return (
     <>
       <Link className="action-btn" to="/userhome" style={{position: "fixed", top:"32px", left: "32px"}}>Back</Link>
       {
         fetchedDrawings.length !==0 ?
-          <div style={{marginTop: "24px", padding: "32px"}}>
-            <div className="flex justify-center mb-4">
+          <div style={{marginTop: "32px"}}>
+
+            <div className="flex justify-center mb-2">
               <form className="auth-form" style={{margin: "0px"}}>
                 <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
                   <img src="/search.png" alt="search icon"/>
@@ -129,6 +124,7 @@ export default function ViewDrawing() {
                 </div>
               </form>
             </div>
+
             <div className="flex justify-center mb-4">
               <button className={`chip left-scroll-arrow${xScrollLeft?"-show":""}`} style={{marginRight: "6px"}} onClick={() => handleScroll(-100)}>
                 <img src="/left-arrow.png" alt="left arrow icon" height="14px" width="14px"/>
@@ -137,15 +133,15 @@ export default function ViewDrawing() {
                 <div ref={scrollContainerRef} className="scroll-menu">
                   <div className="flex" style={{gap: "6px"}}>
                     <button className={`chip ${(selectedOrder==="latest" || selectedOrder==="oldest") && searchKeyword==="" && selectedTag===""?"chip-active":""}`} onClick={()=>{setSearchKeyword(""); setSelectedTag("");}}>All</button>
-                    <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest");}}>Latest</button>
-                    <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest");}}>Oldest</button>
+                    <button className={`chip ${selectedOrder==="latest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("latest")}}>Latest</button>
+                    <button className={`chip ${selectedOrder==="oldest"?"chip-active":""}`} onClick={()=>{setSelectedOrder("oldest")}}>Oldest</button>
                     {   
                       uniqueTags.length !== 0 ?
-                      uniqueTags.map((tag, index) => {
-                        return <ChipTag key={index} tag={tag} selectedTag={selectedTag} handleSelectTag={handleSelectTag}/>
-                      })
+                        uniqueTags.map((tag, index) => {
+                          return <ChipTag key={index} tag={tag} selectedTag={selectedTag} handleSelectTag={handleSelectTag}/>
+                        })
                       :
-                      <></>
+                        <></>
                     }
                   </div>
                 </div>
@@ -154,35 +150,36 @@ export default function ViewDrawing() {
                 <img src="/right-arrow.png" alt="right arrow icon" height="14px" width="14px"/>
               </button>
             </div>
-            <div style={{display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "24px"}}>
-              {   
-                selectedTag !=="" ?
-                  selectedOrder ==="latest" ?
-                    (filteredDrawings).map((drawingInfo, index)=>{
-                      return <DrawingItem key={index} drawingInfo={drawingInfo}/>
-                    }).reverse()
-                  :
-                    (filteredDrawings).map((drawingInfo, index)=>{
-                      return <DrawingItem key={index} drawingInfo={drawingInfo}/>
-                    })                                      
-                : 
-                  selectedOrder ==="latest" ?
-                    (searchKeyword===""?fetchedDrawings:filteredDrawings).map((drawingInfo, index)=>{
-                      return <DrawingItem key={index} drawingInfo={drawingInfo}/>
-                    }).reverse()
-                  :
-                    (searchKeyword===""?fetchedDrawings:filteredDrawings).map((drawingInfo, index)=>{
-                      return <DrawingItem key={index} drawingInfo={drawingInfo}/>
-                    })                                      
-              }
-            </div>
-            <div className={`up-scroll-btn${yScroll?"-show":""}`} style={{bottom: "32px", right:"32px"}}>
-              <a href="#top"><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></a>
+            
+            <div ref={drawingScrollRef} style={{height: "530px", overflowY: "auto", scrollbarGutter: "stable", padding: "0px 24px"}} onScroll={() => setDrawingYScroll(drawingScrollRef.current.scrollTop > 0)}>          
+              <div style={{display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "24px"}}>
+                {   
+                  selectedTag !=="" ?
+                    selectedOrder ==="latest" ?
+                      (filteredDrawings).map((drawingInfo, index)=>{
+                        return <DrawingItem key={index} drawingInfo={drawingInfo}/>
+                      }).reverse()
+                    :
+                      (filteredDrawings).map((drawingInfo, index)=>{
+                        return <DrawingItem key={index} drawingInfo={drawingInfo}/>
+                      })                                      
+                  : 
+                    selectedOrder ==="latest" ?
+                      (searchKeyword===""?fetchedDrawings:filteredDrawings).map((drawingInfo, index)=>{
+                        return <DrawingItem key={index} drawingInfo={drawingInfo}/>
+                      }).reverse()
+                    :
+                      (searchKeyword===""?fetchedDrawings:filteredDrawings).map((drawingInfo, index)=>{
+                        return <DrawingItem key={index} drawingInfo={drawingInfo}/>
+                      })                                      
+                }
+              </div>
+              <button className={`up-scroll-btn${drawingYScroll?"-show":""}`} onClick={drawingScrollToTop} style={{bottom: "40px", right: "50px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
             </div>
           </div>
         :
           <div className="content">
-            <p style={{fontSize: "14px"}}><b>Start creating to get started!</b></p>
+            <p style={{fontSize: "14px"}}><b>Draw something and save it to see your drawings here!</b></p>
           </div>
       }
     </>

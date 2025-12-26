@@ -12,6 +12,25 @@ export default function DrawingItem(props) {
   const { showConfirm } = useContext(ConfirmContext);
   const { fetchDrawing } = useContext(DrawContext);
 
+  const handleCapitalizeEachFirstLetter = (text) => {
+    let words = text.split(" ");
+    for(let i=0; i<words.length; i++){
+      words[i] = words[i].charAt(0).toUpperCase()+words[i].substring(1).toLowerCase();
+    }
+    text = (words.join(" "));
+    return text;
+  }
+
+  const formatDate = (date) => {
+    let date_object = new Date(date);
+    return date_object.toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+  }
+  
+  const formatTime = (date) => {
+    let date_object = new Date(date);
+    return date_object.toLocaleString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+  }
+
   const handleDeleteDrawing = async(drawing_id) => {
     let ans = await showConfirm("Delete drawing");
     if(ans){
@@ -41,15 +60,18 @@ export default function DrawingItem(props) {
     <div className="template-item">
       <div className="flex items-center justify-between mb-2"> 
         <div>
-          <p style={{fontSize: "14px"}} title={drawing_title}><b>Title:</b> {drawing_title.length>14?drawing_title.slice(0,14)+"...":drawing_title}</p>
-          <p style={{fontSize: "14px"}} title={drawing_tag}><b>Tag:</b> {drawing_tag}</p>
-        </div>  
+          <p style={{fontSize: "14px"}} title={drawing_title}><b>Title:</b> {handleCapitalizeEachFirstLetter(drawing_title.length>14?drawing_title.slice(0,14)+"...":drawing_title)}</p>
+          <p style={{fontSize: "14px"}} title={drawing_tag}><b>Tag:</b> {handleCapitalizeEachFirstLetter(drawing_tag.length>16?drawing_tag.slice(0,16)+"...":drawing_tag)}</p>
+        </div>
         <div className="flex items-center justify-end">
           <Link className="icon-btn" to={`/editdrawing/${_id}`}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></Link>
           <button className="icon-btn" onClick={()=>{handleDeleteDrawing(`${_id}`)}}><img src="/delete.png" alt="delete icon" style={{height: "18px", width: "18px"}}/></button>
         </div>
       </div> 
-      <img src={drawing_url} style={{height: "280px", width: "100%", objectFit: "cover"}} alt="drawing"/>
+      <img src={drawing_url} style={{height: "160px", width: "100%", objectFit: "contain"}} alt="drawing"/>
+      <div className="flex items-center justify-center mt-2">
+        <p style={{fontSize: "12px"}}><b>{formatDate(drawing_updated_date)} | {formatTime(drawing_updated_date)}</b></p>
+      </div>
     </div>
   );
 }
