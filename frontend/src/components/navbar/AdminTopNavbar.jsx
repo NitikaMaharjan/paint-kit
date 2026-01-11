@@ -76,7 +76,7 @@ export default function AdminTopNavbar() {
                     <p style={{fontSize: "13px"}}><b>|</b> {localStorage.getItem("admin_email")}</p>&nbsp;
                     <div>
                         <div id="arrow" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} style={{padding: "4px"}}>
-                            <button className="dropdown-btn" onClick={()=>{setShowSettingDropDown(true)}}><img src="/down-arrow.png" alt="down arrow icon" style={{height: "14px", width: "14px"}}/></button>
+                            <button className="dropdown-button" onClick={()=>{setShowSettingDropDown(true)}}><img src="/down-arrow.png" alt="down arrow icon" style={{height: "14px", width: "14px"}}/></button>
                         </div>
                         {
                             showSettingDropDown

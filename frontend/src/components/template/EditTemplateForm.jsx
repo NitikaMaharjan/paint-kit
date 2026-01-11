@@ -177,7 +177,7 @@ export default function EditTemplateForm(props) {
             <img src={`${inputFile===null?props.selectedTemplate.template_url:"/uploads/"+inputFile.name}`} alt="uploaded image" style={{height: "100%", width: "100%", objectFit: "contain"}}/>
           </div>
         </div>
-        <button type="submit" className="submit-btn" onClick={handleUpdateTemplate}><b>Update template</b></button>
+        <button type="submit" className="submit-button" onClick={handleUpdateTemplate}><b>Update template</b></button>
       </form>
     </div>
   );

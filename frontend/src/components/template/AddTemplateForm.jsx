@@ -181,7 +181,7 @@ export default function AddTemplateForm(props) {
             <img src={`${inputFile===null?"/no-image.png":"/uploads/"+inputFile.name}`} alt="uploaded image" style={{height: `${inputFile===null?"24px":"100%"}`, width: `${inputFile===null?"24px":"100%"}`, objectFit: "contain"}}/>
           </div>
         </div>
-        <button type="submit" className="submit-btn" onClick={handleSaveTemplate}><b>Save template</b></button>
+        <button type="submit" className="submit-button" onClick={handleSaveTemplate}><b>Save template</b></button>
       </form>
     </div>
   );

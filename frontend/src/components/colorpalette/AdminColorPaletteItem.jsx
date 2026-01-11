@@ -45,7 +45,7 @@ export default function AdminColorPaletteItem(props) {
                     <div className="color-palette-item" style={{height: "min-content", border: "1px solid #aaaaaa", padding: "6px"}}>
                         <div className="flex items-center justify-between mb-3">
                             <h1 style={{fontSize: "12px"}} title={color_palette_name}>{handleCapitalizeEachFirstLetter(color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name)}</h1>
-                            <button className="action-btn" onClick={()=>{checkUserSignedIn()}}>Use</button>
+                            <button className="action-button" onClick={()=>{checkUserSignedIn()}}>Use</button>
                         </div>
                         <div style={{height: "66px"}}>
                             <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>
@@ -70,8 +70,8 @@ export default function AdminColorPaletteItem(props) {
                                     <h1 style={{fontSize: "14px"}} title={color_palette_name}>{handleCapitalizeEachFirstLetter(color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name)}</h1>
                                 </div>
                                 <div className="flex items-center justify-end">
-                                    <button className="icon-btn" onClick={()=>{setSelectedColorPalette({ color_palette_id: color_palette_id, color_palette_name: color_palette_name, colors: colors }); setShowEditColorPaletteFormModal(true);}}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></button>
-                                    <button className="icon-btn" onClick={()=>{handleDeleteColorPalette(color_palette_id)}}><img src="/delete.png" alt="delete icon" style={{height: "18px", width: "18px"}}/></button>
+                                    <button className="edit-delete-button" onClick={()=>{setSelectedColorPalette({ color_palette_id: color_palette_id, color_palette_name: color_palette_name, colors: colors }); setShowEditColorPaletteFormModal(true);}}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></button>
+                                    <button className="edit-delete-button" onClick={()=>{handleDeleteColorPalette(color_palette_id)}}><img src="/delete.png" alt="delete icon" style={{height: "18px", width: "18px"}}/></button>
                                 </div>
                             </div>
                             <div style={{padding: "0px 12px 12px 12px"}}>
@@ -95,7 +95,7 @@ export default function AdminColorPaletteItem(props) {
                         <div className="color-palette-item" style={{height: "min-content", border: "1px solid #aaaaaa", padding: "6px"}}>
                             <div className="flex items-center justify-between mb-3">
                                 <h1 style={{fontSize: "12px"}} title={color_palette_name}>{handleCapitalizeEachFirstLetter(color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name)}</h1>
-                                <button className="action-btn" onClick={()=>{if(checkUserSignedIn()){setColorPaletteInUse({ color_palette_name: color_palette_name, colors: colors })}}}>Use</button>
+                                <button className="action-button" onClick={()=>{if(checkUserSignedIn()){setColorPaletteInUse({ color_palette_name: color_palette_name, colors: colors })}}}>Use</button>
                             </div>
                             <div style={{height: "66px"}}>
                                 <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "2px"}}>

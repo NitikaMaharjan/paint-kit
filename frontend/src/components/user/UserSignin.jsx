@@ -137,7 +137,7 @@ export default function UserSignin(props) {
             </div>
           </div>
           <div className="flex flex-col justify-center">
-            <button type="submit" className="submit-btn" onClick={handleSignIn}><b>Sign in</b></button>
+            <button type="submit" className="submit-button" onClick={handleSignIn}><b>Sign in</b></button>
             <p style={{marginTop: "6px",textAlign: "center",fontSize: "13px"}}>Don't have an account? <Link to="/usersignup" style={{borderBottom: "1px solid black"}}>Sign up</Link></p>
           </div>
         </form>

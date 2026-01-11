@@ -74,8 +74,8 @@ export default function ViewUndoRedoHistory(props) {
                     }
                 </div>
             </div>
-            <button className={`up-scroll-btn${undoYScroll?"-show":""}`} onClick={undoScrollToTop} style={{bottom: "22px", right: "1040px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
-            <button className={`up-scroll-btn${redoYScroll?"-show":""}`} onClick={redoScrollToTop} style={{bottom: "22px", right: "120px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
+            <button className={`up-scroll-button${undoYScroll?"-show":""}`} onClick={undoScrollToTop} style={{bottom: "22px", right: "1040px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
+            <button className={`up-scroll-button${redoYScroll?"-show":""}`} onClick={redoScrollToTop} style={{bottom: "22px", right: "120px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
         </>
     );
 }

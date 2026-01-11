@@ -87,14 +87,14 @@ export default function UserViewColorPalette(props) {
   
   return (
     <>
-      <div className="color-palette">
+      <div className="w-full">
 
         <div className="flex">
-          <div className={`${showColorPalette==="community"?"active":""}`}>
-            <button className="color-palette-btn" onClick={()=>{setShowColorPalette("community")}}>Community Palettes</button>
+          <div className={`${showColorPalette==="community"?"color-palette-button-div-active":""}`}>
+            <button className="color-palette-button" onClick={()=>{setShowColorPalette("community")}}>Community Palettes</button>
           </div>
-          <div className={`${showColorPalette==="my"?"active":""} flex justify-center`} style={{width: "126px"}}>
-            <button className="color-palette-btn" onClick={()=>{if(checkUserSignedIn()){setShowColorPalette("my")}}}>My Palettes</button>
+          <div className={`${showColorPalette==="my"?"color-palette-button-div-active":""} flex justify-center`} style={{width: "126px"}}>
+            <button className="color-palette-button" onClick={()=>{if(checkUserSignedIn()){setShowColorPalette("my")}}}>My Palettes</button>
           </div>
         </div>
 
@@ -129,7 +129,7 @@ export default function UserViewColorPalette(props) {
                         return <AdminColorPaletteItem key={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setColorPaletteInUse={props.setColorPaletteInUse} fromHome={props.fromHome}/>
                       })
                   }
-                  <button className={`up-scroll-btn${communityYScroll?"-show":""}`} onClick={communityScrollToTop} style={{bottom: "22px", right: "34px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
+                  <button className={`up-scroll-button${communityYScroll?"-show":""}`} onClick={communityScrollToTop} style={{bottom: "22px", right: "34px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
                 </div>
               </>
             :
@@ -166,7 +166,7 @@ export default function UserViewColorPalette(props) {
                         return <UserColorPaletteItem key={colorpalette._id} color_palette_id={colorpalette._id} color_palette_name={colorpalette.color_palette_name} colors={colorpalette.colors} palette_updated_date={colorpalette.palette_updated_date} setShowEditColorPaletteFormModal={setShowEditColorPaletteFormModal} setSelectedColorPalette={setSelectedColorPalette} setColorPaletteInUse={props.setColorPaletteInUse}/>
                       })
                   }
-                  <button className={`up-scroll-btn${myYScroll?"-show":""}`} onClick={myScrollToTop} style={{bottom: "22px", right: "34px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
+                  <button className={`up-scroll-button${myYScroll?"-show":""}`} onClick={myScrollToTop} style={{bottom: "22px", right: "34px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
                 </div>
               </>
             :

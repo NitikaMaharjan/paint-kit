@@ -119,7 +119,7 @@ export default function UserTopNavbar(props) {
                                     <p style={{fontSize: "13px"}}><b>|</b> {localStorage.getItem("user_email")}</p>&nbsp;
                                     <div>
                                         <div id="arrow" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} style={{padding: "4px"}}>
-                                            <button className="dropdown-btn" onClick={()=>{setShowSettingDropDown(true)}}><img src="/down-arrow.png" alt="down arrow icon" style={{height: "14px", width: "14px"}}/></button>
+                                            <button className="dropdown-button" onClick={()=>{setShowSettingDropDown(true)}}><img src="/down-arrow.png" alt="down arrow icon" style={{height: "14px", width: "14px"}}/></button>
                                         </div>
                                         {
                                             showSettingDropDown
@@ -135,13 +135,13 @@ export default function UserTopNavbar(props) {
                                 </div>
                             :
                             <div className="flex items-center gap-6">
-                                <Link className="user-top-navbar-btn" to="/usersignin"><b>Sign in</b></Link>
-                                <Link className="action-btn" to="/usersignup">Sign up</Link>
+                                <Link className="user-top-navbar-button" to="/usersignin"><b>Sign in</b></Link>
+                                <Link className="action-button" to="/usersignup">Sign up</Link>
                             </div>
                         }
                     </div>
                     <div className="flex gap-4">
-                        <button className={`${showDrawingDropDown===true?"user-top-navbar-btn-clicked":"user-top-navbar-btn"}`} onClick={()=>{setShowDrawingDropDown(true)}}>Drawing</button>
+                        <button className={`${showDrawingDropDown===true?"user-top-navbar-button-clicked":"user-top-navbar-button"}`} onClick={()=>{setShowDrawingDropDown(true)}}>Drawing</button>
                         {
                             showDrawingDropDown
                             &&
@@ -162,7 +162,7 @@ export default function UserTopNavbar(props) {
                             </div>
                         }                        
                         
-                        <button className={`${showPaletteDropDown===true?"user-top-navbar-btn-clicked":"user-top-navbar-btn"}`} onClick={()=>{setShowPaletteDropDown(true)}}>Palette</button>
+                        <button className={`${showPaletteDropDown===true?"user-top-navbar-button-clicked":"user-top-navbar-button"}`} onClick={()=>{setShowPaletteDropDown(true)}}>Palette</button>
                         {
                             showPaletteDropDown
                             &&
@@ -179,7 +179,7 @@ export default function UserTopNavbar(props) {
                             </div>
                         }                        
                         
-                        <button className={`${showViewDropDown===true?"user-top-navbar-btn-clicked":"user-top-navbar-btn"}`} onClick={()=>{setShowViewDropDown(true)}}>View</button>
+                        <button className={`${showViewDropDown===true?"user-top-navbar-button-clicked":"user-top-navbar-button"}`} onClick={()=>{setShowViewDropDown(true)}}>View</button>
                         {
                             showViewDropDown
                             &&

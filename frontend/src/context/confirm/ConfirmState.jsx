@@ -50,8 +50,8 @@ export default function ConfirmState(props) {
                         <div style={{padding: "18px"}}>
                             <p style={{marginBottom: "18px", textAlign: "center", fontSize: "14px"}}>Are you sure?</p>
                             <div className="flex justify-around">
-                                <button className="confirm-btn" onClick={handleOk}>Yes</button>
-                                <button className="confirm-btn" onClick={handleCancel}>No</button>
+                                <button className="confirm-button" onClick={handleOk}>Yes</button>
+                                <button className="confirm-button" onClick={handleCancel}>No</button>
                             </div>
                         </div>
                     </div>

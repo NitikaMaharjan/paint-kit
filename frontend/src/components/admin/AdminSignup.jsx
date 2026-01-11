@@ -191,7 +191,7 @@ export default function AdminSignup() {
             </div>
           </div>
           <div className="flex flex-col justify-center">
-            <button type="submit" className="submit-btn" onClick={handleSignUp}><b>Sign up</b></button>
+            <button type="submit" className="submit-button" onClick={handleSignUp}><b>Sign up</b></button>
             <p style={{marginTop: "6px",textAlign: "center",fontSize: "13px"}}>Already have an account? <Link to="/adminsignin" style={{borderBottom: "1px solid black"}}>Sign in</Link></p>
           </div>
         </form>

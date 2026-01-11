@@ -168,7 +168,7 @@ export default function SaveDrawingForm(props) {
             <img src="/close.png" alt="close icon" onClick={()=>{clearInput("drawing_tag")}} style={{opacity: `${inputValue.drawing_tag===""?"0":"1"}`}}/>
           </div>
         </div>
-        <button type="submit" className="submit-btn" onClick={handleSaveDrawing}><b>Save drawing</b></button>
+        <button type="submit" className="submit-button" onClick={handleSaveDrawing}><b>Save drawing</b></button>
       </form>
     </div>
   );

@@ -317,7 +317,7 @@ export default function GenerateColorPalette(props) {
                   </div>
               }
             <div className="flex justify-center">
-              <button className="action-btn" style={{marginTop: "12px", cursor: "pointer", opacity: `${colors.length>1?"1":"0"}`}} onClick={clearAll}>clear all</button>
+              <button className="action-button" style={{marginTop: "12px", cursor: "pointer", opacity: `${colors.length>1?"1":"0"}`}} onClick={clearAll}>clear all</button>
             </div>
           </div>
         </div>
@@ -349,7 +349,7 @@ export default function GenerateColorPalette(props) {
                   </div>
               }
             </div>
-            <button className="submit-btn" onClick={handleSavingColorPalette}>Save color palette</button>
+            <button className="submit-button" onClick={handleSavingColorPalette}>Save color palette</button>
           </form>
         </div>
       </div>

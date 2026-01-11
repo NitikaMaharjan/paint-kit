@@ -76,8 +76,8 @@ export default function TemplateItem(props) {
                 <p style={{fontSize: "14px"}} title={template_tag}><b>Tag:</b> {handleCapitalizeEachFirstLetter(template_tag.length>16?template_tag.slice(0,16)+"...":template_tag)}</p>
               </div>
               <div className="flex items-center justify-end">
-                <button className="icon-btn" onClick={()=>{setSelectedTemplate({ template_id: _id, template_title: template_title, template_tag: template_tag, template_url: template_url }); setShowEditTemplateFormModal(true);}}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></button>
-                <button className="icon-btn" onClick={()=>{handleDeleteTemplate(_id)}}><img src="/delete.png" alt="delete icon" style={{height: "18px", width: "18px"}}/></button>
+                <button className="edit-delete-button" onClick={()=>{setSelectedTemplate({ template_id: _id, template_title: template_title, template_tag: template_tag, template_url: template_url }); setShowEditTemplateFormModal(true);}}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></button>
+                <button className="edit-delete-button" onClick={()=>{handleDeleteTemplate(_id)}}><img src="/delete.png" alt="delete icon" style={{height: "18px", width: "18px"}}/></button>
               </div>
             </div>
             <img src={template_url} style={{height: "280px", width: "100%", objectFit: "cover"}} alt="template"/>
@@ -93,7 +93,7 @@ export default function TemplateItem(props) {
                 <p style={{fontSize: "14px"}} title={template_tag}><b>Tag:</b> {handleCapitalizeEachFirstLetter(template_tag.length>16?template_tag.slice(0,16)+"...":template_tag)}</p>
               </div>
               <div className="flex items-center justify-end">
-                <Link className="action-btn" to={`/usetemplate/${_id}`}>Use</Link>
+                <Link className="action-button" to={`/usetemplate/${_id}`}>Use</Link>
               </div>
             </div>
             <img src={template_url} style={{height: "280px", width: "100%", objectFit: "cover"}} alt="template"/>

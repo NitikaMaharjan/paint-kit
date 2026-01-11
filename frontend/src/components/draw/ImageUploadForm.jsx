@@ -76,7 +76,7 @@ export default function ImageUploadForm(props) {
                         <img src={`${inputFile===null?"/no-image.png":inputFile}`} alt="uploaded image" style={{height: `${inputFile===null?"24px":"100%"}`, width: `${inputFile===null?"24px":"100%"}`, objectFit: "contain"}}/>
                     </div>
                 </div>
-                <button type="submit" className="submit-btn" onClick={handleImageUpload}><b>Upload Image</b></button>
+                <button type="submit" className="submit-button" onClick={handleImageUpload}><b>Upload Image</b></button>
             </form>
         </div>
     );

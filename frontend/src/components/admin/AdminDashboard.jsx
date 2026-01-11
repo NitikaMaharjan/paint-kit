@@ -53,7 +53,7 @@ export default function AdminDashboard() {
         <div className="dashboard-content">          
           <ViewTemplate/>          
           <div className="flex justify-center mt-3">
-            <button className="action-btn" onClick={()=>{setShowAddTemplateFormModal(true)}}>Add Template</button>
+            <button className="action-button" onClick={()=>{setShowAddTemplateFormModal(true)}}>Add Template</button>
           </div>
         </div>
       }
@@ -64,8 +64,8 @@ export default function AdminDashboard() {
         <div className="dashboard-content">          
           <AdminViewColorPalette/>
           <div className="flex justify-center mt-3 gap-8">
-            <button className="action-btn" onClick={()=>{setShowGenerateColorPaletteModal(true)}}>Open color palette generator</button>
-            <button className="action-btn" onClick={()=>{setShowCreateColorPaletteFormModal(true)}}>Create color palette</button>
+            <button className="action-button" onClick={()=>{setShowGenerateColorPaletteModal(true)}}>Open color palette generator</button>
+            <button className="action-button" onClick={()=>{setShowCreateColorPaletteFormModal(true)}}>Create color palette</button>
           </div>
         </div>
       }

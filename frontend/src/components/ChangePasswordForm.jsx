@@ -163,7 +163,7 @@ export default function ChangePasswordForm(props) {
                     <img src="/close.png" alt="close icon" onClick={()=>{clearInput("confirm_password")}} style={{opacity: `${credentials.confirm_password===""?"0":"1"}`}}/>
                 </div>
             </div>
-            <button type="submit" className="submit-btn" onClick={handleUpdatePassword}><b>Update password</b></button>
+            <button type="submit" className="submit-button" onClick={handleUpdatePassword}><b>Update password</b></button>
         </form>
       </div>
     </div>

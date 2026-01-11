@@ -110,7 +110,7 @@ export default function ViewTemplate() {
       {
         localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")
         &&
-        <Link className="action-btn" to="/userhome" style={{position: "fixed", top:"32px", left: "32px"}}>Back</Link>
+        <Link className="action-button" to="/userhome" style={{position: "fixed", top:"32px", left: "32px"}}>Back</Link>
       }
 
       {
@@ -178,7 +178,7 @@ export default function ViewTemplate() {
                           })
                     }
                   </div>
-                  <button className={`up-scroll-btn${templateYScroll?"-show":""}`} onClick={templateScrollToTop} style={{bottom: "80px", right: "80px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
+                  <button className={`up-scroll-button${templateYScroll?"-show":""}`} onClick={templateScrollToTop} style={{bottom: "80px", right: "80px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
                 </div>
               : 
                 <div ref={templateScrollRef} style={{height: "530px", overflowY: "auto", scrollbarGutter: "stable", padding: "0px 24px"}} onScroll={() => setTemplateYScroll(templateScrollRef.current.scrollTop > 0)}>                
@@ -204,7 +204,7 @@ export default function ViewTemplate() {
                           })
                     }
                   </div>
-                  <button className={`up-scroll-btn${templateYScroll?"-show":""}`} onClick={templateScrollToTop} style={{bottom: "40px", right: "50px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
+                  <button className={`up-scroll-button${templateYScroll?"-show":""}`} onClick={templateScrollToTop} style={{bottom: "40px", right: "50px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
                 </div>
             }
           </div>

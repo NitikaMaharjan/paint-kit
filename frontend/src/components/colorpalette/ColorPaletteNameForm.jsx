@@ -135,7 +135,7 @@ export default function ColorPaletteNameForm(props) {
                         <img src="/close.png" alt="close icon" onClick={()=>{clearInput("color_palette_name")}} style={{opacity: `${inputValue.color_palette_name===""?"0":"1"}`}}/>
                     </div>
                 </div>
-                <button type="submit" className="submit-btn" onClick={handleSaveColorPalette}><b>Save color palette</b></button>
+                <button type="submit" className="submit-button" onClick={handleSaveColorPalette}><b>Save color palette</b></button>
             </form>
         </div>
     );

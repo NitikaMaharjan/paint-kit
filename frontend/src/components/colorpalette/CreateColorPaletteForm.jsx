@@ -175,7 +175,7 @@ export default function CreateColorPaletteForm(props) {
                         </div>
                     </div>
                     <div className="flex justify-center">
-                        <button className="action-btn" style={{marginTop: "12px", cursor: "pointer", opacity: `${colors.length>1?"1":"0"}`}} onClick={()=>{setColors([])}}>clear all</button>
+                        <button className="action-button" style={{marginTop: "12px", cursor: "pointer", opacity: `${colors.length>1?"1":"0"}`}} onClick={()=>{setColors([])}}>clear all</button>
                     </div>
                 </div>
             </div>
@@ -203,10 +203,10 @@ export default function CreateColorPaletteForm(props) {
                                 <p onClick={()=>{addBorderHighlight("color-name");pickAColor.current?.click();}} style={{fontSize: "13px", width: "100%", color: `${inputValue.color_name===""?"#5b5c60":"black"}`}}>{inputValue.color_name===""?"Pick a color":inputValue.color_name}</p>
                                 <img src="/close.png" alt="close icon" onClick={()=>{clearInput("color_name")}} style={{opacity: `${inputValue.color_name===""?"0":"1"}`}}/>
                             </div>
-                            <button className="add-color-btn" onClick={addColor}>+</button>
+                            <button className="add-color-button" onClick={addColor}>+</button>
                         </div>
                     </div>
-                    <button type="submit" className="submit-btn" onClick={handleSubmit}><b>Save color palette</b></button>
+                    <button type="submit" className="submit-button" onClick={handleSubmit}><b>Save color palette</b></button>
                 </form>
             </div>
         </div>

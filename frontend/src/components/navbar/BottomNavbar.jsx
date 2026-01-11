@@ -57,8 +57,8 @@ export default function BottomNavbar(props) {
                     </div>
                 </div>
                 <div className="flex gap-5">
-                    <button className="action-btn flex items-center gap-2" onClick={handleUndo}><img src="/undo.png" style={{height: "14px", width: "14px"}}/>Undo</button>
-                    <button className="action-btn flex items-center gap-2" onClick={handleRedo}>Redo<img src="/redo.png" style={{height: "14px", width: "14px"}}/></button>                
+                    <button className="action-button flex items-center gap-2" onClick={handleUndo}><img src="/undo.png" style={{height: "14px", width: "14px"}}/>Undo</button>
+                    <button className="action-button flex items-center gap-2" onClick={handleRedo}>Redo<img src="/redo.png" style={{height: "14px", width: "14px"}}/></button>                
                 </div>
             </div>
         </div>

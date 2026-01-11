@@ -124,7 +124,7 @@ export default function AdminSignin() {
             </div>
           </div>
           <div className="flex flex-col justify-center">
-            <button type="submit" className="submit-btn" onClick={handleSignIn}><b>Sign in</b></button>
+            <button type="submit" className="submit-button" onClick={handleSignIn}><b>Sign in</b></button>
           </div>
         </form>
       </div>

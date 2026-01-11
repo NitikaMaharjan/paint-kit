@@ -110,7 +110,7 @@ export default function ViewDrawing() {
   
   return (
     <>
-      <Link className="action-btn" to="/userhome" style={{position: "fixed", top:"32px", left: "32px"}}>Back</Link>
+      <Link className="action-button" to="/userhome" style={{position: "fixed", top:"32px", left: "32px"}}>Back</Link>
       {
         fetchedDrawings.length !==0 ?
           <div style={{marginTop: "32px"}}>
@@ -174,7 +174,7 @@ export default function ViewDrawing() {
                       })                                      
                 }
               </div>
-              <button className={`up-scroll-btn${drawingYScroll?"-show":""}`} onClick={drawingScrollToTop} style={{bottom: "40px", right: "50px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
+              <button className={`up-scroll-button${drawingYScroll?"-show":""}`} onClick={drawingScrollToTop} style={{bottom: "40px", right: "50px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
             </div>
           </div>
         :

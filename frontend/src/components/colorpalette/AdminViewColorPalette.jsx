@@ -84,7 +84,7 @@ export default function AdminViewColorPalette() {
                     })
                 }
               </div>
-              <button className={`up-scroll-btn${colorPaletteYScroll?"-show":""}`} onClick={colorPaletteScrollToTop} style={{bottom: "80px", right: "80px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
+              <button className={`up-scroll-button${colorPaletteYScroll?"-show":""}`} onClick={colorPaletteScrollToTop} style={{bottom: "80px", right: "80px"}}><img src="/up-arrow.png" alt="up arrow icon" style={{height: "14px", width: "14px"}}/></button>
             </div>
           </>
         :

@@ -64,8 +64,8 @@ export default function DrawingItem(props) {
           <p style={{fontSize: "14px"}} title={drawing_tag}><b>Tag:</b> {handleCapitalizeEachFirstLetter(drawing_tag.length>16?drawing_tag.slice(0,16)+"...":drawing_tag)}</p>
         </div>
         <div className="flex items-center justify-end">
-          <Link className="icon-btn" to={`/editdrawing/${_id}`}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></Link>
-          <button className="icon-btn" onClick={()=>{handleDeleteDrawing(`${_id}`)}}><img src="/delete.png" alt="delete icon" style={{height: "18px", width: "18px"}}/></button>
+          <Link className="edit-delete-button" to={`/editdrawing/${_id}`}><img src="/edit.png" alt="edit icon" style={{height: "20px", width: "20px"}}/></Link>
+          <button className="edit-delete-button" onClick={()=>{handleDeleteDrawing(`${_id}`)}}><img src="/delete.png" alt="delete icon" style={{height: "18px", width: "18px"}}/></button>
         </div>
       </div> 
       <img src={drawing_url} style={{height: "160px", width: "100%", objectFit: "contain"}} alt="drawing"/>
