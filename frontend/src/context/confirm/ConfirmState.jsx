@@ -17,14 +17,14 @@ export default function ConfirmState(props) {
     }
 
     const handleOk = () => {
-        if (answerRef.current!==null){
+        if(answerRef.current!==null){
             answerRef.current(true);
         }
         setConfirm(false);
     }
 
     const handleCancel = () => {
-        if (answerRef.current!==null){
+        if(answerRef.current!==null){
             answerRef.current(false);
         }
         setConfirm(false);

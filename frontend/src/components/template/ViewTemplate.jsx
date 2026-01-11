@@ -2,28 +2,28 @@ import { useContext, useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import TemplateContext from "../../context/template/TemplateContext";
-import TemplateItem from "./TemplateItem";
 import ChipTag from "../ChipTag";
+import TemplateItem from "./TemplateItem";
 
 export default function ViewTemplate() {
 
   let navigate = useNavigate();
 
-  const templateScrollRef = useRef(null);
   const scrollContainerRef = useRef(null);
+  const templateScrollRef = useRef(null);
 
   const { showProgress } = useContext(ProgressBarContext);
   const { fetchTemplate, fetchedTemplates } = useContext(TemplateContext);
 
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [filteredTemplates, setFilteredTemplates] = useState([]);
-  const [templateYScroll, setTemplateYScroll] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState("latest");
   const [uniqueTags, setUniqueTags] = useState([]);
   const [selectedTag, setSelectedTag] = useState("");
   const [xScrollLeft, setXScrollLeft] = useState(false);
   const [xScrollRight, setXScrollRight] = useState(false);
   const [xScrollRightPrevValue, setXScrollRightPrevValue] = useState(null);
+  const [filteredTemplates, setFilteredTemplates] = useState([]);
+  const [templateYScroll, setTemplateYScroll] = useState(false);
 
   const handleSearchKeywordChange = (e) => {
     setSearchKeyword(e.target.value);
@@ -56,14 +56,10 @@ export default function ViewTemplate() {
   }
 
   const handleSelectTag = (tag) => {
-    setSelectedTag(tag);
     setSearchKeyword("");
+    setSelectedTag(tag);
     setFilteredTemplates(fetchedTemplates.filter((template)=>{return template.template_tag.toLowerCase().includes(tag.toLowerCase())}));
   }
-
-  const templateScrollToTop = () => {
-    templateScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   const handleScroll = (scrollOffset) => {
     if(scrollContainerRef.current){
@@ -82,6 +78,10 @@ export default function ViewTemplate() {
     }else{
       setXScrollRight(true);
     }
+  }
+
+  const templateScrollToTop = () => {
+    templateScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   useEffect(() => {

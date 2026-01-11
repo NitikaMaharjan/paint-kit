@@ -9,7 +9,7 @@ export default function ChangePasswordForm(props) {
     current_password: "",
     new_password: "",
     confirm_password: ""
-  })
+  });
   const [currentPasswordType, setCurrentPasswordType] = useState("password");
   const [newPasswordType, setNewPasswordType] = useState("password");
   const [confirmPasswordType, setConfirmPasswordType] = useState("password");

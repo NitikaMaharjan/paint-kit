@@ -132,13 +132,13 @@ export default function EditColorPaletteForm(props) {
                 const json = await response.json();
         
                 if(json.success){
+                    props.setShowEditColorPaletteFormModal(false);
+                    showAlert("Success", "Your color palette looks awesome. It has been updated successfully!");
                     if(localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token")){
                         await fetchAdminColorPalette();
                     }else{
                         await fetchUserColorPalette();
                     }
-                    props.setShowEditColorPaletteFormModal(false);
-                    showAlert("Success", "Your color palette looks awesome. It has been updated successfully!");
                 }else{
                     if(json.error){
                         showAlert("Error", json.error);

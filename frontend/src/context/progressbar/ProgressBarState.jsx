@@ -28,7 +28,7 @@ export default function ProgressState(props) {
         setProgress(90);
         await wait();
         setProgress(100);
-    };
+    }
 
     return (
         <>

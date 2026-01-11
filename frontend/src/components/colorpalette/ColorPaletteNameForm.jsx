@@ -93,13 +93,13 @@ export default function ColorPaletteNameForm(props) {
         
                 if(json.success){
                     props.setShowColorPaletteNameFormModal(false);
+                    showAlert("Success", "Your color palette looks awesome. It has been saved successfully!");
                     if(localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token")){
                         props.setShowGenerateColorPaletteModal(false);
                         await fetchAdminColorPalette();
                     }else{
                         await fetchUserColorPalette();
                     }
-                    showAlert("Success", "Your color palette looks awesome. It has been saved successfully!");
                 }else{
                     if(json.error){
                         showAlert("Error", json.error);

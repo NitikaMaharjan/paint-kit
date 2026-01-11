@@ -13,20 +13,20 @@ export default function CursorState(props) {
         const posX = e.clientX;
         const posY = e.clientY;
 
-        if (cursor) {
+        if(cursor){
             cursor.style.left = `${tool==="pen" || tool==="eraser" || tool==="bucket" || tool==="bucketeraser" || tool==="text"?posX+12:posX}px`;
             cursor.style.top = `${tool==="pen" || tool==="eraser" || tool==="bucket" || tool==="bucketeraser" || tool==="text"?posY-12:posY}px`;
         }
     };
 
     const handleCanvasEnter = () => {
-        if (cursor) {
+        if(cursor){
             setCursorImg(true);
         }
     }
     
     const handleCanvasLeave = () => {
-        if (cursor) {
+        if(cursor){
             setCursorImg(false);
         }
     }
@@ -39,7 +39,6 @@ export default function CursorState(props) {
         return () => {
             window.removeEventListener("mousemove", handleCursor);
         };
-        // eslint-disable-next-line
     }, [cursor, tool]);
 
     return(

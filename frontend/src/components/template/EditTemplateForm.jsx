@@ -127,9 +127,9 @@ export default function EditTemplateForm(props) {
         const json = await response.json();
 
         if(json.success){
-          await fetchTemplate();
           props.setShowEditTemplateFormModal(false);
           showAlert("Success", "Template has been updated successfully!");
+          await fetchTemplate();
         }else{
           if(json.error){
             showAlert("Error", json.error);

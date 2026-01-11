@@ -13,7 +13,7 @@ export default function AdminSignin() {
   const [credentials, setCredentials] = useState({
     admin_email: "",
     admin_password: ""
-  })
+  });
   const [passwordType, setPasswordType] = useState("password");
 
   const updateInputValue = (e) => {

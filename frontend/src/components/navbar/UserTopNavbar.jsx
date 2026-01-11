@@ -21,11 +21,11 @@ export default function UserTopNavbar(props) {
     const [showDrawingDropDown, setShowDrawingDropDown] = useState(false);
     const [showPaletteDropDown, setShowPaletteDropDown] = useState(false);
     const [showViewDropDown, setShowViewDropDown] = useState(false);
-    const [showUndoRedoHistoryModal, setShowUndoRedoHistoryModal] = useState(false);
     const [showChangePasswordFormModal, setShowChangePasswordFormModal] = useState(false);
-    const [showCreateColorPaletteFormModal, setShowCreateColorPaletteFormModal] = useState(false);
     const [showSaveDrawingFormModal, setShowSaveDrawingFormModal] = useState(false);
     const [showImageUploadFormModal, setShowImageUploadFormModal] = useState(false);
+    const [showUndoRedoHistoryModal, setShowUndoRedoHistoryModal] = useState(false);
+    const [showCreateColorPaletteFormModal, setShowCreateColorPaletteFormModal] = useState(false);
 
     const handleSignOut = async() => {
         let ans = await showConfirm("Sign out");

@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import AdminTopNavbar from "../navbar/AdminTopNavbar";
 import ViewTemplate from "../template/ViewTemplate";
-import AddTemplateForm from "../template/AddTemplateForm";
 import AdminViewColorPalette from "../colorpalette/AdminViewColorPalette";
+import AddTemplateForm from "../template/AddTemplateForm";
 import GenerateColorPalette from "../colorpalette/GenerateColorPalette";
 import CreateColorPaletteForm from "../colorpalette/CreateColorPaletteForm";
 
@@ -31,7 +31,7 @@ export default function AdminDashboard() {
   return (
     <>
       <div className="admin-left-navbar">
-        <div style={{margin: "20px 40px 0px 20px", backgroundColor: "white", border: "1px solid black", boxShadow: "3px 3px 0px rgba(0, 0, 0)"}}>
+        <div className="admin-left-navbar-div">
           <div style={{padding: "10px", backgroundColor: "#ccc", borderBottom: "1px solid black"}}>
             <div className="flex items-center gap-2">
               <img src="/logo.png" alt="logo" style={{height: "24px"}}/>

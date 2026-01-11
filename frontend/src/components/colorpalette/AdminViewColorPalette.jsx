@@ -9,16 +9,16 @@ export default function AdminViewColorPalette() {
 
   const { adminColorPalettes, fetchAdminColorPalette } = useContext(ColorPaletteContext);
   
-  const [showEditColorPaletteFormModal, setShowEditColorPaletteFormModal] = useState(false);
   const [selectedColorPalette, setSelectedColorPalette] = useState({
     color_palette_id: "",
     color_palette_name: "",
     colors: ""
   });
   const [searchAdminKeyword, setSearchAdminKeyword] = useState("");
-  const [filteredAdminColorPalettes, setFilteredAdminColorPalettes] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState("latest");
+  const [filteredAdminColorPalettes, setFilteredAdminColorPalettes] = useState([]);
   const [colorPaletteYScroll, setColorPaletteYScroll] = useState(false);
+  const [showEditColorPaletteFormModal, setShowEditColorPaletteFormModal] = useState(false);
 
   const handleSearchAdminKeywordChange = (e) => {
     setSearchAdminKeyword(e.target.value); 
@@ -41,7 +41,7 @@ export default function AdminViewColorPalette() {
 
   const colorPaletteScrollToTop = () => {
     colorPaletteScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }
   
   useEffect(() => {
     if(localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token")){

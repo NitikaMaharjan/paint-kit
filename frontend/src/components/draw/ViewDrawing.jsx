@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import ProgressBarContext from "../../context/progressbar/ProgressBarContext";
 import DrawContext from "../../context/draw/DrawContext";
 import CursorContext from "../../context/cursor/CursorContext";
-import DrawingItem from "./DrawingItem";
 import ChipTag from "../ChipTag";
+import DrawingItem from "./DrawingItem";
 
 export default function ViewDrawing() {
 
@@ -18,14 +18,14 @@ export default function ViewDrawing() {
   const { setCursorImg } = useContext(CursorContext);
 
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [filteredDrawings, setFilteredDrawings] = useState([]);
-  const [drawingYScroll, setDrawingYScroll] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState("latest");
   const [uniqueTags, setUniqueTags] = useState([]);
   const [selectedTag, setSelectedTag] = useState("");
   const [xScrollLeft, setXScrollLeft] = useState(false);
   const [xScrollRight, setXScrollRight] = useState(false);
   const [xScrollRightPrevValue, setXScrollRightPrevValue] = useState(null);
+  const [filteredDrawings, setFilteredDrawings] = useState([]);
+  const [drawingYScroll, setDrawingYScroll] = useState(false);
 
   const handleSearchKeywordChange = (e) => {
     setSearchKeyword(e.target.value);
@@ -58,14 +58,10 @@ export default function ViewDrawing() {
   }
 
   const handleSelectTag = (tag) => {
-    setSelectedTag(tag);
     setSearchKeyword("");
+    setSelectedTag(tag);
     setFilteredDrawings(fetchedDrawings.filter((drawing)=>{return drawing.drawing_tag.toLowerCase().includes(tag.toLowerCase())}));
   }
-
-  const drawingScrollToTop = () => {
-    drawingScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   const handleScroll = (scrollOffset) => {
     if(scrollContainerRef.current){
@@ -86,6 +82,10 @@ export default function ViewDrawing() {
     }
   }
 
+  const drawingScrollToTop = () => {
+    drawingScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  
   useEffect(() => {
     if(!localStorage.getItem("userSignedIn") && !localStorage.getItem("user_token")){
       navigate("/");

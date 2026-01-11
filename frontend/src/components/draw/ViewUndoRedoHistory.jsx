@@ -15,11 +15,11 @@ export default function ViewUndoRedoHistory(props) {
 
     const undoScrollToTop = () => {
         undoScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
-    };
+    }
     
     const redoScrollToTop = () => {
         redoScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
-    };
+    }
 
     useEffect(() => {
         const canvas = canvasRef.current;

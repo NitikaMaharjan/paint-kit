@@ -13,7 +13,7 @@ export default function UserSignup() {
     user_username: "",
     user_password: "",
     confirm_password: ""
-  })
+  });
   const [passwordType, setPasswordType] = useState("password");
   const [confirmPasswordType, setConfirmPasswordType] = useState("password");
 

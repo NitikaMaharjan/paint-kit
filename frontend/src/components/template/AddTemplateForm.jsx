@@ -131,9 +131,9 @@ export default function AddTemplateForm(props) {
         const json = await response.json();
 
         if(json.success){
-          await fetchTemplate();
           props.setShowAddTemplateFormModal(false);
           showAlert("Success", "Template has been saved successfully!");
+          await fetchTemplate();
         }else{
           if(json.error){
             showAlert("Error", json.error);

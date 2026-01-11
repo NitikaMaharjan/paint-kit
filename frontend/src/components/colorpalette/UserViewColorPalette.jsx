@@ -13,20 +13,20 @@ export default function UserViewColorPalette(props) {
   const { adminColorPalettes, fetchAdminColorPalette, userColorPalettes, fetchUserColorPalette } = useContext(ColorPaletteContext);
 
   const [showColorPalette, setShowColorPalette] = useState("community");
-  const [showEditColorPaletteFormModal, setShowEditColorPaletteFormModal] = useState(false);
-  const [showUserSigninFormModal, setShowUserSigninFormModal] = useState(false);
+  const [searchAdminKeyword, setSearchAdminKeyword] = useState("");
+  const [searchUserKeyword, setSearchUserKeyword] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState("latest");
+  const [filteredAdminColorPalettes, setFilteredAdminColorPalettes] = useState([]);
+  const [filteredUserColorPalettes, setFilteredUserColorPalettes] = useState([]);
   const [selectedColorPalette, setSelectedColorPalette] = useState({
     color_palette_id: "",
     color_palette_name: "",
     colors: ""
   });
-  const [searchAdminKeyword, setSearchAdminKeyword] = useState("");
-  const [filteredAdminColorPalettes, setFilteredAdminColorPalettes] = useState([]);
-  const [searchUserKeyword, setSearchUserKeyword] = useState("");
-  const [filteredUserColorPalettes, setFilteredUserColorPalettes] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState("latest");
+  const [showEditColorPaletteFormModal, setShowEditColorPaletteFormModal] = useState(false);
   const [communityYScroll, setCommunityYScroll] = useState(false);
   const [myYScroll, setMyYScroll] = useState(false);
+  const [showUserSigninFormModal, setShowUserSigninFormModal] = useState(false);
 
   const checkUserSignedIn = () => {
     if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
@@ -71,17 +71,18 @@ export default function UserViewColorPalette(props) {
   
   const communityScrollToTop = () => {
     communityScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }
   
   const myScrollToTop = () => {
     myScrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }
 
   useEffect(() => {
     fetchAdminColorPalette();
     if(localStorage.getItem("userSignedIn") && localStorage.getItem("user_token")){
       fetchUserColorPalette();
     }
+    // eslint-disable-next-line
   }, []);
   
   return (

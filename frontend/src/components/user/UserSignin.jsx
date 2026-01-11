@@ -13,7 +13,7 @@ export default function UserSignin(props) {
   const [credentials, setCredentials] = useState({
     user_email: "",
     user_password: ""
-  })
+  });
   const [passwordType, setPasswordType] = useState("password");
 
   const updateInputValue = (e) => {

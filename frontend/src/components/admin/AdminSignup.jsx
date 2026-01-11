@@ -13,7 +13,7 @@ export default function AdminSignup() {
     admin_username: "",
     admin_password: "",
     confirm_password: ""
-  })
+  });
   const [passwordType, setPasswordType] = useState("password");
   const [confirmPasswordType, setConfirmPasswordType] = useState("password");
 
