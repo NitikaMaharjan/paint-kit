@@ -51,7 +51,7 @@ export default function UserTopNavbar(props) {
     }
 
     const handleMouseOver = () => {
-        document.getElementById("arrow").style.backgroundColor="rgba(0, 0, 0, 0.05)";
+        document.getElementById("arrow").style.backgroundColor="rgba(0, 0, 0, 0.144)";
     }
     
     const handleMouseOut = () => {

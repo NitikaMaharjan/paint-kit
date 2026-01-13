@@ -6,7 +6,7 @@
     max-width: fit-content;
     background-color: white;
     border: 1px solid black;
-    box-shadow: 3px 3px 0px rgba(0, 0, 0);
+    box-shadow: 3px 3px 0px black;
 }
 
 .auth-form {
@@ -65,6 +65,7 @@
     background-color: white;
     padding: 0px 20px;
     gap: 12px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .user-top-navbar-button {
@@ -163,7 +164,7 @@
     margin: 20px 40px 0px 20px;
     background-color: white;
     border: 1px solid black;
-    box-shadow: 3px 3px 0px rgba(0, 0, 0);
+    box-shadow: 3px 3px 0px black;
 }
 
 .admin-left-navbar-button {
@@ -182,7 +183,7 @@
 }
 
 .not-selected:hover {
-    background-color: rgba(0, 0, 0, 0.048);
+    background-color: rgba(0, 0, 0, 0.144);
 }
 
 .selected {
@@ -240,7 +241,7 @@
     width: 100%;
     height: 100vh;
     z-index: 1;
-    background-color: #ccc;
+    background-color: #cccccc;
 }
 
 /* modal */
@@ -251,7 +252,6 @@
     background-color: white;
     height: fit-content;
     margin-top: 32px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .confirm-modal {
@@ -303,8 +303,8 @@
     background-color: white;
     padding: 12px;
     width: 100%;
-    border: 1px solid #aaaaaa;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.315);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 /* dropdown */
@@ -339,7 +339,7 @@
 }
 
 .dropdown-content-button:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.144);
 }
 
 .dropdown-clicked {
@@ -362,7 +362,7 @@
     font-size: 13px;
     border: 1px solid rgba(0, 0, 0, 0.3);
     background-color: white;    
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.7);
     cursor: pointer;
 }
 
@@ -399,7 +399,7 @@
     padding: 0px 7px;
     border: 1px solid black;
     background-color: white;
-    box-shadow: 2px 2px 0px rgb(0, 0, 0);
+    box-shadow: 2px 2px 0px black;
     cursor: pointer;
     font-size: 14px;
 }
@@ -412,7 +412,7 @@
     padding: 4px 0px;
     font-size: 13px;
     cursor: pointer;
-    box-shadow: 2px 2px 0px rgb(0, 0, 0);
+    box-shadow: 2px 2px 0px black;
 }
 
 /* edit delete button */
@@ -422,7 +422,7 @@
 }
 
 .edit-delete-button:hover {
-    background-color: rgba(0, 0, 0, 0.048);
+    background-color: rgba(0, 0, 0, 0.144);
 }
 
 /* up scroll button */
@@ -449,7 +449,7 @@
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 2px 2px 0px rgb(0, 0, 0);
+    box-shadow: 2px 2px 0px black;
 }
 
 .action-button:hover {

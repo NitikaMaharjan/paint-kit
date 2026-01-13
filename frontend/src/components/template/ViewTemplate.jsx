@@ -121,7 +121,7 @@ export default function ViewTemplate() {
               <form className="auth-form" style={{margin: "0px"}}>
                 <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
                   <img src="/search.png" alt="search icon"/>
-                  <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter template title/tag" value={searchKeyword} onChange={handleSearchKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)"}}/>
+                  <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter template title/tag" value={searchKeyword} onChange={handleSearchKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}}/>
                   <img src="/close.png" alt="close icon" onClick={()=>{clearInput()}} style={{opacity: `${searchKeyword===""?"0":"1"}`}}/>
                 </div>
               </form>

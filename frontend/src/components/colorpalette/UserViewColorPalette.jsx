@@ -106,7 +106,7 @@ export default function UserViewColorPalette(props) {
                   <form className="auth-form" style={{margin: "0px"}}>
                     <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
                       <img src="/search.png" alt="search icon"/>
-                      <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette/color name" value={searchAdminKeyword} onChange={handleSearchAdminKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)", width: "202px", fontSize: "11px"}}/>
+                      <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette/color name" value={searchAdminKeyword} onChange={handleSearchAdminKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{width: "202px", fontSize: "11px"}}/>
                       <img src="/close.png" alt="close icon" onClick={()=>{clearInput("admin")}} style={{opacity: `${searchAdminKeyword===""?"0":"1"}`}}/>
                     </div>
                   </form>
@@ -143,7 +143,7 @@ export default function UserViewColorPalette(props) {
                   <form className="auth-form" style={{margin: "0px"}}>
                     <div className="input-bar" id="search-keyword-input-bar" style={{height: "28px", backgroundColor: "white", gap: "8px"}}>
                       <img src="/search.png" alt="search icon"/>
-                      <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette/color name" value={searchUserKeyword} onChange={handleSearchUserKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{color: "rgba(0, 0, 0, 0.8)", width: "202px", fontSize: "11px"}}/>
+                      <input type="text" id="search_keyword" name="search_keyword" placeholder="Enter color palette/color name" value={searchUserKeyword} onChange={handleSearchUserKeywordChange} autoComplete="on" onFocus={()=>{addBorderHighlight("search-keyword")}} onBlur={()=>{removeBorderHighlight("search-keyword")}} style={{width: "202px", fontSize: "11px"}}/>
                       <img src="/close.png" alt="close icon" onClick={()=>{clearInput("user")}} style={{opacity: `${searchUserKeyword===""?"0":"1"}`}}/>
                     </div>
                   </form>

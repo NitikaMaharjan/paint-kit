@@ -104,7 +104,7 @@ export default function AdminSignin() {
   return (
     <div className="content">
       <div className="auth-form-box">
-        <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Welcome back</b></h1>
+        <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#cccccc"}}><b>Welcome back</b></h1>
         <form className="auth-form">
           <div className="mb-1">
             <label htmlFor="admin_email"><b>Email</b></label>

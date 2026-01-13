@@ -51,7 +51,7 @@ export default function RightNavbar(props) {
 
         const brightness = (r * 299 + g * 587 + b * 114) / 1000;
 
-        return brightness>128?"2px solid black":"2px solid #ccc";
+        return brightness>128?"2px solid black":"2px solid #cccccc";
     }
 
     const addBorderHighlight = (type) => {
@@ -121,7 +121,7 @@ export default function RightNavbar(props) {
                                     }
                                     {
                                         Array.from({length: 12 - colorPaletteInUse.colors.length}).map((key, index)=>{
-                                            return <div key={index} style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                            return <div key={index} style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid rgba(0, 0, 0, 0.3)"}}></div>
                                         })
                                     }
                                 </div>
@@ -131,7 +131,7 @@ export default function RightNavbar(props) {
                                 <div style={{display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "4px"}}>
                                     {
                                         Array.from({length: 12}).map((key, index)=>{
-                                            return <div key={index} style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                            return <div key={index} style={{height: "36px", width: "36px", backgroundColor: "white", border: "1px solid rgba(0, 0, 0, 0.3)"}}></div>
                                         })
                                     }
                                 </div>
@@ -153,7 +153,7 @@ export default function RightNavbar(props) {
                         </div>
                         <div className="flex items-center justify-center gap-2 mb-2">
                             <p style={{fontSize: "14px"}}>Text Font:</p>
-                            <select value={inputTextFont} onChange={handleInputTextFont} style={{cursor: "pointer", height: "25.5px", fontSize: "13px", border: "1px solid #ccc"}}>
+                            <select value={inputTextFont} onChange={handleInputTextFont} style={{cursor: "pointer", height: "25.5px", fontSize: "13px", border: "1px solid rgba(0, 0, 0, 0.3)"}}>
                                 <option value="serif">Serif</option>
                                 <option value="sans-serif">Sans Serif</option>
                                 <option value="monospace">Monospace</option>

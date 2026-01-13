@@ -296,7 +296,7 @@ export default function GenerateColorPalette(props) {
     <>
       <div className={localStorage.getItem("userSignedIn")&&localStorage.getItem("user_token")?"content gap-8":"flex items-center justify-center gap-8"}>
         <div className="auth-form-box">
-          <div style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
+          <div style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#cccccc"}}>
           </div>
           <div style={{height: "504px", width: "304px", padding: "12px"}}>
               {
@@ -324,20 +324,20 @@ export default function GenerateColorPalette(props) {
         <div className="auth-form-box">
           {
             localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token") ?
-              <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc", width: "100%"}}>
+              <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#cccccc", width: "100%"}}>
                 <h1 style={{fontSize: "14px", textAlign: "center", width: "86%", padding: "8px 0px", borderRight: "1px solid black"}}><b>Generate color palette</b></h1>
                 <div style={{margin: "0px 5px 0px 10px", cursor: "pointer"}} onClick={()=>{props.setShowGenerateColorPaletteModal(false)}}>
                   <img src="/close.png" alt="close icon" style={{height: "14px", width: "14px"}}/>
                 </div>
               </div>
             :
-              <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#ccc"}}><b>Generate color palette</b></h1>
+              <h1 style={{padding: "8px 0px", fontSize: "14px", textAlign: "center", borderBottom: "1px solid black", backgroundColor: "#cccccc"}}><b>Generate color palette</b></h1>
           }
           <form className="auth-form">
             <div style={{marginBottom: "28px"}}>
               <label htmlFor="image_url"><b>Upload image</b></label>
               <div className="input-bar mb-3" id="image-url-input-bar">
-                <input type="file" id="image_url" name="image_url" accept="image/*" ref={fileInputRef} onChange={handleFile} onFocus={()=>{addBorderHighlight("image-url")}} onBlur={()=>{removeBorderHighlight("image-url")}} style={{color: `${imageUploaded?"black":"rgba(0, 0, 0, 0.6)"}`, fontSize: "13px"}}/>
+                <input type="file" id="image_url" name="image_url" accept="image/*" ref={fileInputRef} onChange={handleFile} onFocus={()=>{addBorderHighlight("image-url")}} onBlur={()=>{removeBorderHighlight("image-url")}} style={{color: `${imageUploaded?"black":"rgba(0, 0, 0, 0.7)"}`, fontSize: "13px"}}/>
                 <img src="/close.png" alt="close icon" onClick={clearAll} style={{opacity: `${imageUploaded?"1":"0"}`}}/>
               </div>
               {

@@ -150,7 +150,7 @@ export default function AddTemplateForm(props) {
 
   return (
     <div className="auth-form-box">
-      <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc", width: "100%"}}>
+      <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#cccccc", width: "100%"}}>
         <h1 style={{fontSize: "14px", textAlign: "center", width: "86%", padding: "8px 0px", borderRight: "1px solid black"}}><b>Add template</b></h1>
         <div style={{marginLeft: "10px", cursor: "pointer"}} onClick={()=>{props.setShowAddTemplateFormModal(false)}}>
           <img src="/close.png" alt="close icon" style={{height: "14px", width: "14px"}}/>
@@ -174,7 +174,7 @@ export default function AddTemplateForm(props) {
         <div style={{marginBottom: "28px"}}>
           <label htmlFor="template_url"><b>Upload image</b></label>
           <div className="input-bar mb-3" id="template-url-input-bar">
-            <input type="file" id="template_url" name="template_url" accept="image/*" ref={fileInputRef} onChange={updateImageUrl} onFocus={()=>{addBorderHighlight("template-url")}} onBlur={()=>{removeBorderHighlight("template-url")}} style={{color: `${inputFile===null?"rgba(0, 0, 0, 0.6)":"black"}`, fontSize: "13px"}}/>
+            <input type="file" id="template_url" name="template_url" accept="image/*" ref={fileInputRef} onChange={updateImageUrl} onFocus={()=>{addBorderHighlight("template-url")}} onBlur={()=>{removeBorderHighlight("template-url")}} style={{color: `${inputFile===null?"rgba(0, 0, 0, 0.7)":"black"}`, fontSize: "13px"}}/>
             <img src="/close.png" alt="close icon" onClick={()=>{clearInput("template_url")}} style={{opacity: `${inputFile===null?"0":"1"}`}}/>
           </div>
           <div className="flex items-center justify-center" style={{height: "180px", width: "100%", border: "1px solid rgba(0, 0, 0, 0.3)"}}>

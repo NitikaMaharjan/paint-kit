@@ -59,7 +59,7 @@ export default function ImageUploadForm(props) {
 
     return (
         <div className="auth-form-box">
-            <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc", width: "100%"}}>
+            <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#cccccc", width: "100%"}}>
                 <h1 style={{fontSize: "14px", textAlign: "center", width: "86%", padding: "8px 0px", borderRight: "1px solid black"}}><b>Upload image</b></h1>
                 <div style={{marginLeft: "10px", cursor: "pointer"}} onClick={()=>{props.setShowImageUploadFormModal(false)}}>
                     <img src="/close.png" alt="close icon" style={{height: "14px", width: "14px"}}/>
@@ -69,7 +69,7 @@ export default function ImageUploadForm(props) {
                 <div style={{marginBottom: "28px"}}>
                     <label htmlFor="image_url"><b>Upload image</b></label>
                     <div className="input-bar mb-3" id="image-url-input-bar">
-                        <input type="file" id="image_url" name="image_url" accept="image/*" ref={fileInputRef} onChange={updateImageUrl} onFocus={()=>{addBorderHighlight("image-url")}} onBlur={()=>{removeBorderHighlight("image-url")}} style={{color: `${inputFile===null?"rgba(0, 0, 0, 0.6)":"black"}`, fontSize: "13px"}}/>
+                        <input type="file" id="image_url" name="image_url" accept="image/*" ref={fileInputRef} onChange={updateImageUrl} onFocus={()=>{addBorderHighlight("image-url")}} onBlur={()=>{removeBorderHighlight("image-url")}} style={{color: `${inputFile===null?"rgba(0, 0, 0, 0.7)":"black"}`, fontSize: "13px"}}/>
                         <img src="/close.png" alt="close icon" onClick={()=>{clearInput()}} style={{opacity: `${inputFile===null?"0":"1"}`}}/>
                     </div>
                     <div className="flex items-center justify-center" style={{height: "160px", width: "284px", border: "1px solid rgba(0, 0, 0, 0.3)"}}>

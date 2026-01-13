@@ -32,7 +32,7 @@ export default function AdminDashboard() {
     <>
       <div className="admin-left-navbar">
         <div className="admin-left-navbar-div">
-          <div style={{padding: "10px", backgroundColor: "#ccc", borderBottom: "1px solid black"}}>
+          <div style={{padding: "10px", backgroundColor: "#cccccc", borderBottom: "1px solid black"}}>
             <div className="flex items-center gap-2">
               <img src="/logo.png" alt="logo" style={{height: "24px"}}/>
               <h1 style={{fontSize: "14px", marginTop: "2px"}}><b>Paint Kit</b></h1>

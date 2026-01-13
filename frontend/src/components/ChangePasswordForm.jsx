@@ -126,7 +126,7 @@ export default function ChangePasswordForm(props) {
   return (
     <div className="content">
       <div className="auth-form-box">
-        <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc", width: "100%"}}>
+        <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#cccccc", width: "100%"}}>
             <h1 style={{fontSize: "14px", textAlign: "center", width: "86%", padding: "8px 0px", borderRight: "1px solid black"}}><b>Change password</b></h1>
             <div style={{marginLeft: "10px", cursor: "pointer"}} onClick={()=>{props.setShowChangePasswordFormModal(false)}}>
                 <img src="/close.png" alt="close icon" style={{height: "14px", width: "14px"}}/>

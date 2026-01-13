@@ -121,7 +121,7 @@ export default function ColorPaletteNameForm(props) {
 
     return (
         <div className="auth-form-box">
-            <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc", width: "100%"}}>
+            <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#cccccc", width: "100%"}}>
                 <h1 style={{fontSize: "14px", textAlign: "center", width: "86%", padding: "8px 0px", borderRight: "1px solid black"}}><b>Add color palette name</b></h1>
                 <div style={{margin: "0px 5px 0px 10px", cursor: "pointer"}} onClick={()=>{props.setShowColorPaletteNameFormModal(false)}}>
                     <img src="/close.png" alt="close icon" style={{height: "14px", width: "14px"}}/>

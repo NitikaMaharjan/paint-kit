@@ -27,7 +27,7 @@ export default function UserColorPaletteItem(props) {
     }
 
     return (
-        <div className="color-palette-item" style={{height: "min-content", border: "1px solid #aaaaaa", padding: "6px"}} title={formatDate(palette_updated_date)+" "+formatTime(palette_updated_date)}>
+        <div className="color-palette-item" style={{height: "min-content", border: "1px solid rgba(0, 0, 0, 0.3)", padding: "6px"}} title={formatDate(palette_updated_date)+" "+formatTime(palette_updated_date)}>
             <div className="flex items-center justify-between mb-3">
                 <h1 style={{fontSize: "12px"}} title={color_palette_name}>{handleCapitalizeEachFirstLetter(color_palette_name.length>9?color_palette_name.slice(0,9)+"...":color_palette_name)}</h1>
                 <div className="flex items-center">
@@ -45,7 +45,7 @@ export default function UserColorPaletteItem(props) {
                     }
                     {
                         Array.from({length: 12 - colors.length}).map((key, index)=>{
-                            return <div key={index} style={{height: "32px", width: "32px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                            return <div key={index} style={{height: "32px", width: "32px", backgroundColor: "white", border: "1px solid rgba(0, 0, 0, 0.3)"}}></div>
                         })
                     }
                 </div>

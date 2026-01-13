@@ -16,7 +16,7 @@ export default function AdminTopNavbar() {
     const [showChangePasswordFormModal, setShowChangePasswordFormModal] = useState(false);
     
     const handleMouseOver = () => {
-        document.getElementById("arrow").style.backgroundColor="rgba(0, 0, 0, 0.05)";
+        document.getElementById("arrow").style.backgroundColor="rgba(0, 0, 0, 0.144)";
     }
     
     const handleMouseOut = () => {

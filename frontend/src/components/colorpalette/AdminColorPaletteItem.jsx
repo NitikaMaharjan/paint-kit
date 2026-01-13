@@ -42,7 +42,7 @@ export default function AdminColorPaletteItem(props) {
         <>
             {   
                 props.fromHome ?
-                    <div className="color-palette-item" style={{height: "min-content", border: "1px solid #aaaaaa", padding: "6px"}}>
+                    <div className="color-palette-item" style={{height: "min-content", border: "1px solid rgba(0, 0, 0, 0.3)", padding: "6px"}}>
                         <div className="flex items-center justify-between mb-3">
                             <h1 style={{fontSize: "12px"}} title={color_palette_name}>{handleCapitalizeEachFirstLetter(color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name)}</h1>
                             <button className="action-button" onClick={()=>{checkUserSignedIn()}}>Use</button>
@@ -56,7 +56,7 @@ export default function AdminColorPaletteItem(props) {
                                 }
                                 {
                                     Array.from({length: 12 - colors.length}).map((key, index)=>{
-                                        return <div key={index} style={{height: "32px", width: "32px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                        return <div key={index} style={{height: "32px", width: "32px", backgroundColor: "white", border: "1px solid rgba(0, 0, 0, 0.3)"}}></div>
                                     })
                                 }
                             </div>
@@ -64,7 +64,7 @@ export default function AdminColorPaletteItem(props) {
                     </div>
                 :
                     localStorage.getItem("adminSignedIn") && localStorage.getItem("admin_token") ?
-                        <div className="color-palette-item" style={{height: "min-content", border: "1px solid #aaaaaa", boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.315)"}} title={formatDate(palette_updated_date)+" "+formatTime(palette_updated_date)}>
+                        <div className="color-palette-item" style={{height: "min-content", border: "1px solid rgba(0, 0, 0, 0.3)", boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.15)"}} title={formatDate(palette_updated_date)+" "+formatTime(palette_updated_date)}>
                             <div className="flex items-center justify-between p-2">
                                 <div>
                                     <h1 style={{fontSize: "14px"}} title={color_palette_name}>{handleCapitalizeEachFirstLetter(color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name)}</h1>
@@ -84,7 +84,7 @@ export default function AdminColorPaletteItem(props) {
                                         }
                                         {
                                             Array.from({length: 12 - colors.length}).map((key, index)=>{
-                                                return <div key={index} style={{height: "32px", width: "32px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                                return <div key={index} style={{height: "32px", width: "32px", backgroundColor: "white", border: "1px solid rgba(0, 0, 0, 0.3)"}}></div>
                                             })
                                         }
                                     </div>
@@ -92,7 +92,7 @@ export default function AdminColorPaletteItem(props) {
                             </div>
                         </div>
                     :
-                        <div className="color-palette-item" style={{height: "min-content", border: "1px solid #aaaaaa", padding: "6px"}}>
+                        <div className="color-palette-item" style={{height: "min-content", border: "1px solid rgba(0, 0, 0, 0.3)", padding: "6px"}}>
                             <div className="flex items-center justify-between mb-3">
                                 <h1 style={{fontSize: "12px"}} title={color_palette_name}>{handleCapitalizeEachFirstLetter(color_palette_name.length>14?color_palette_name.slice(0,14)+"...":color_palette_name)}</h1>
                                 <button className="action-button" onClick={()=>{if(checkUserSignedIn()){setColorPaletteInUse({ color_palette_name: color_palette_name, colors: colors })}}}>Use</button>
@@ -106,7 +106,7 @@ export default function AdminColorPaletteItem(props) {
                                     }
                                     {
                                         Array.from({length: 12 - colors.length}).map((key, index)=>{
-                                            return <div key={index} style={{height: "32px", width: "32px", backgroundColor: "white", border: "1px solid #ccc"}}></div>
+                                            return <div key={index} style={{height: "32px", width: "32px", backgroundColor: "white", border: "1px solid rgba(0, 0, 0, 0.3)"}}></div>
                                         })
                                     }
                                 </div>

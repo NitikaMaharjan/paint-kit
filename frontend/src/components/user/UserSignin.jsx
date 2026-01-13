@@ -103,7 +103,7 @@ export default function UserSignin(props) {
   return (
     <div className="content">
       <div className="auth-form-box">
-        <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc", width: "100%"}}>
+        <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#cccccc", width: "100%"}}>
           {
             props.popup ?
               <>

@@ -156,7 +156,7 @@ export default function EditColorPaletteForm(props) {
     return (
         <div className="flex items-center gap-8">
             <div className="auth-form-box">
-                <div className="flex items-center justify-between" style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#ccc"}}>
+                <div className="flex items-center justify-between" style={{padding: "8px 0px", height: "38px", borderBottom: "1px solid black", backgroundColor: "#cccccc"}}>
                     <h1 style={{fontSize: "14px", marginLeft: "14px"}}><b>{inputValue.color_palette_name}</b></h1>
                 </div>
                 <div style={{height: "504px", width: "304px", padding: "12px"}}>
@@ -178,7 +178,7 @@ export default function EditColorPaletteForm(props) {
                 </div>
             </div>
             <div className="auth-form-box">
-                <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#ccc", width: "100%"}}>
+                <div className="flex items-center justify-center" style={{borderBottom: "1px solid black", backgroundColor: "#cccccc", width: "100%"}}>
                     <h1 style={{fontSize: "14px", textAlign: "center", width: "86%", padding: "8px 0px", borderRight: "1px solid black"}}><b>Edit color palette</b></h1>
                     <div style={{margin: "0px 5px 0px 10px", cursor: "pointer"}} onClick={()=>{props.setShowEditColorPaletteFormModal(false)}}>
                         <img src="/close.png" alt="close icon" style={{height: "14px", width: "14px"}}/>
@@ -198,7 +198,7 @@ export default function EditColorPaletteForm(props) {
                             <div className="input-bar" id="color-name-input-bar" style={{height: "25.5px", width: "200px", gap: "4px", cursor: "pointer"}}>
                                 <img src="/color.png" style={{height: "20px", width: "20px"}} onClick={()=>{pickAColor.current?.click()}}/>
                                 <input type="color" id="color_name" name="color_name" ref={pickAColor} value={inputValue.color_name} onChange={updateInputValue} autoComplete="on" onFocus={()=>{addBorderHighlight("color-name")}} onBlur={()=>{removeBorderHighlight("color-name")}} style={{height: "20px", width: "1px", opacity: "0"}}/>
-                                <p onClick={()=>{addBorderHighlight("color-name");pickAColor.current?.click();}} style={{fontSize: "13px", width: "100%", color: `${inputValue.color_name===""?"#5b5c60":"black"}`}}>{inputValue.color_name===""?"Pick a color":inputValue.color_name}</p>
+                                <p onClick={()=>{addBorderHighlight("color-name");pickAColor.current?.click();}} style={{fontSize: "13px", width: "100%", color: `${inputValue.color_name===""?"rgba(0, 0, 0, 0.7)":"black"}`}}>{inputValue.color_name===""?"Pick a color":inputValue.color_name}</p>
                                 <img src="/close.png" alt="close icon" onClick={()=>{clearInput("color_name")}} style={{opacity: `${inputValue.color_name===""?"0":"1"}`}}/>
                             </div>
                             <button className="add-color-button" onClick={addColor}>+</button>
