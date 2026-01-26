@@ -12,7 +12,7 @@ app.use(express.json({ limit: '50mb' })); // increase json limit
 app.use(express.urlencoded({ limit: '50mb', extended: true })); // increase form limit
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: `${process.env.FRONTEND_URL}`,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', '_id', 'user_id', 'authtoken']
 }));
