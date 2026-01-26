@@ -4,7 +4,7 @@ const cors = require('cors');
 const connectToMongo = require('./db');
 
 const app = express();
-const port = process.env.PORT;
+// const port = process.env.PORT;
 
 connectToMongo();
 
@@ -23,6 +23,6 @@ app.use('/api/colorpalette', require('./routes/colorpalette'));
 app.use('/api/drawing', require('./routes/drawing'));
 app.use('/api/template', require('./routes/template'));
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
+// });
