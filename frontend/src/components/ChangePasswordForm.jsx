@@ -93,7 +93,7 @@ export default function ChangePasswordForm(props) {
     e.preventDefault();
     if(clientSideValidation()){
       try{
-        const response = await fetch(`${localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")?"http://localhost:5000/api/admin/admineditpassword":"http://localhost:5000/api/user/usereditpassword"}`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}${localStorage.getItem("adminSignedIn")&&localStorage.getItem("admin_token")?"/api/admin/admineditpassword":"/api/user/usereditpassword"}`, {
           method: "PUT",
           headers: { 
             "Content-Type": "application/json" 

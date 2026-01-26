@@ -21,7 +21,7 @@ export default function EditDrawing() {
 
     const fetchDrawingInfo = async() => {
         try{
-            const response = await fetch(`http://localhost:5000/api/drawing/fetchdrawingtoedit`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/drawing/fetchdrawingtoedit`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

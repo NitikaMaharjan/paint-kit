@@ -35,7 +35,7 @@ export default function DrawingItem(props) {
     let ans = await showConfirm("Delete drawing");
     if(ans){
       try{
-        const response = await fetch(`http://localhost:5000/api/drawing/deletedrawing`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/drawing/deletedrawing`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

@@ -90,7 +90,7 @@ export default function SaveDrawingForm(props) {
     const drawingURL = canvas.toDataURL("image/png");
     if(validateInputValue()){
       try{
-        const response = await fetch(`http://localhost:5000/api/drawing/savedrawing`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/drawing/savedrawing`, {
           method: "POST",
           headers: { 
             "Content-Type": "application/json" 
@@ -128,7 +128,7 @@ export default function SaveDrawingForm(props) {
 
   const handleDeletePreviousDrawing = async() => {
     try{
-      const response = await fetch(`http://localhost:5000/api/drawing/deletedrawing`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/drawing/deletedrawing`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

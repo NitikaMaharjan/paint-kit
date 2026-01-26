@@ -119,7 +119,7 @@ export default function EditColorPaletteForm(props) {
         e.preventDefault();
         if(validateInputValue()){
             try{
-                const response = await fetch(`http://localhost:5000/api/colorpalette/editcolorpalette/${props.selectedColorPalette.color_palette_id}`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/colorpalette/editcolorpalette/${props.selectedColorPalette.color_palette_id}`, {
                     method: "PUT",
                     headers: { 
                         "Content-Type": "application/json" 

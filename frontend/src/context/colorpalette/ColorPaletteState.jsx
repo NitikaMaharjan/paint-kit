@@ -13,7 +13,7 @@ export default function ColorPaletteState(props) {
     
     const fetchUserColorPalette = async() => {
         try{
-            const response = await fetch(`http://localhost:5000/api/colorpalette/fetchusercolorpalette?user_id=${localStorage.getItem("user_id")}`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/colorpalette/fetchusercolorpalette?user_id=${localStorage.getItem("user_id")}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -33,7 +33,7 @@ export default function ColorPaletteState(props) {
     
     const fetchAdminColorPalette = async() => {
         try{
-            const response = await fetch(`http://localhost:5000/api/colorpalette/fetchadmincolorpalette`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/colorpalette/fetchadmincolorpalette`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
@@ -55,7 +55,7 @@ export default function ColorPaletteState(props) {
         let ans = await showConfirm("Delete color palette");
         if(ans){
             try{
-                const response = await fetch(`http://localhost:5000/api/colorpalette/deletecolorpalette`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/colorpalette/deletecolorpalette`, {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",

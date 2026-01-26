@@ -112,7 +112,7 @@ export default function EditTemplateForm(props) {
     e.preventDefault();
     if(validateInputValue()){
       try{
-        const response = await fetch(`http://localhost:5000/api/template/edittemplate/${props.selectedTemplate.template_id}`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/template/edittemplate/${props.selectedTemplate.template_id}`, {
           method: "PUT",
           headers: { 
             "Content-Type": "application/json" 

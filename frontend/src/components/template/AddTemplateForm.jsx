@@ -116,7 +116,7 @@ export default function AddTemplateForm(props) {
     e.preventDefault();
     if(validateInputValue()){
       try{
-        const response = await fetch(`http://localhost:5000/api/template/savetemplate`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/template/savetemplate`, {
           method: "POST",
           headers: { 
             "Content-Type": "application/json" 

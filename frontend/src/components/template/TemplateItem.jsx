@@ -44,7 +44,7 @@ export default function TemplateItem(props) {
     let ans = await showConfirm("Delete template");
     if(ans){
       try{
-        const response = await fetch(`http://localhost:5000/api/template/deletetemplate`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/template/deletetemplate`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

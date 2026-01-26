@@ -77,7 +77,7 @@ export default function ColorPaletteNameForm(props) {
         e.preventDefault();
         if(validateInputValue()){
             try{
-                const response = await fetch(`http://localhost:5000/api/colorpalette/savecolorpalette`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/colorpalette/savecolorpalette`, {
                     method: "POST",
                     headers: { 
                         "Content-Type": "application/json" 

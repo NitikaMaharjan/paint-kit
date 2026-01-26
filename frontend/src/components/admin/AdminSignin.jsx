@@ -66,7 +66,7 @@ export default function AdminSignin() {
     e.preventDefault();
     if(clientSideValidation()){
       try{
-        const response = await fetch(`http://localhost:5000/api/admin/adminsignin`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/admin/adminsignin`, {
           method: "POST",
           headers: { 
             "Content-Type": "application/json" 
