@@ -10,7 +10,11 @@ connectToMongo();
 
 app.use(express.json({ limit: "50mb" })); // increase json limit
 app.use(express.urlencoded({ limit: "50mb", extended: true })); // increase form limit
-app.use(cors());
+app.use(cors({
+  origin: `${process.env.FRONTEND_URL}`,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "_id", "user_id", "authtoken"]
+}));
 
 // Routes:
 app.use('/api/admin', require('./routes/admin'));
