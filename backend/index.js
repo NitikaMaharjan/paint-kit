@@ -13,22 +13,12 @@ app.use(express.urlencoded({ limit: "50mb", extended: true })); // increase form
 app.use(cors());
 
 // Routes:
-
-// For admin
 app.use('/api/admin', require('./routes/admin'));
-
-// For user
 app.use('/api/user', require('./routes/user'));
-
-// For color palette
 app.use('/api/colorpalette', require('./routes/colorpalette')); 
-
-// For drawing
 app.use('/api/drawing', require('./routes/drawing'));
-
-// For template
 app.use('/api/template', require('./routes/template'));
 
 app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
