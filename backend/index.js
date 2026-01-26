@@ -8,12 +8,13 @@ const app = express();
 
 connectToMongo();
 
-app.use(express.json({ limit: "50mb" })); // increase json limit
-app.use(express.urlencoded({ limit: "50mb", extended: true })); // increase form limit
+app.use(express.json({ limit: '50mb' })); // increase json limit
+app.use(express.urlencoded({ limit: '50mb', extended: true })); // increase form limit
+
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://paint-kit-app.vercel.app'],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "_id", "user_id", "authtoken"]
+  origin: 'https://paint-kit-app.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', '_id', 'user_id', 'authtoken']
 }));
 
 // Routes:
@@ -26,3 +27,5 @@ app.use('/api/template', require('./routes/template'));
 // app.listen(port, () => {
 //   console.log(`Server is running on port ${port}`);
 // });
+
+module.exports = app;
