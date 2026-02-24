@@ -21,6 +21,7 @@ import EditDrawing from "./components/draw/EditDrawing";
 import ViewTemplate from "./components/template/ViewTemplate";
 import UseTemplate from "./components/draw/UseTemplate";
 import GenerateColorPalette from "./components/colorpalette/GenerateColorPalette";
+import ScreenSizeDetector from "./components/ScreenSizeDetector";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
                   <CursorState>
                     <ColorPaletteState>
                       <BrowserRouter>
+                        <ScreenSizeDetector/>
                         <Routes>
                           <Route path="/" element={<Home/>}/>
                           <Route path="/userhome" element={<UserHome/>}/>
