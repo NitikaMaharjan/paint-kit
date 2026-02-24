@@ -19,7 +19,7 @@ export default function ScreenSizeDetector() {
                             <h1 style={{fontSize: "14px", textAlign: "center", width: "86%", padding: "8px 0px"}}><b>Desktop Required</b></h1>
                         </div>
                         <div style={{padding: "18px"}}>
-                            <p>This drawing application requires a mouse and desktop environment. Please access it from a laptop or desktop computer for the best experience.</p>
+                            <p>This application works only with a mouse or trackpad. Touch-only devices like phones or tablets won't work. Please access it from a laptop or desktop for the best experience.</p>
                         </div>
                     </div>
                 </div>
