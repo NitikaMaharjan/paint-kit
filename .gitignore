@@ -31,3 +31,9 @@ frontend/.env
 *.njsproj
 *.sln
 *.sw?
+
+doodle-classifier/.venv
+doodle-classifier/doodles/
+doodle-classifier/28x28/doodles/
+doodle-classifier/255x255/doodles/
+doodle-classifier/255x255/unseen_doodles/
