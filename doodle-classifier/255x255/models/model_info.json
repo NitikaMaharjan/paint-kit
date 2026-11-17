@@ -1,0 +1,11 @@
+{
+  "model_file": "doodle_classifier_255.keras",
+  "input": "128x128x1 float32, black doodle on white background, 0-255",
+  "preprocessing": "preprocessing.preprocess_image (crop to ink, pad square, resize, contrast stretch)",
+  "image_size": 128,
+  "margin": 0.1,
+  "ink_threshold": 20,
+  "num_classes": 70,
+  "epochs_run": 80,
+  "tensorflow_version": "2.15.1"
+}

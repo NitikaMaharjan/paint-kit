@@ -1,0 +1,9 @@
+# Same stack as the 28x28 notebook (tested with TF 2.15.1 / Keras 2 and TF 2.19 / Keras 3).
+tensorflow>=2.15,<2.20
+numpy
+pillow
+matplotlib
+
+# Optional, Apple Silicon GPU (Metal) acceleration. For TF 2.15 use tensorflow-metal==1.1.0.
+# The model is small, so CPU training is already fast; if Metal errors or is slower, train with --cpu.
+# tensorflow-metal
