@@ -25,6 +25,7 @@ export default function DrawState(props) {
   const [text, setText] = useState("");
   const [fetchedDrawings, setFetchedDrawings] = useState([]);
   const [colorOpacity, setColorOpacity] = useState(255);
+  const [doodleClassificationInProgress, setDoodleClassificationInProgress] = useState(false);
 
   const handleMouseDown = (e) => {
     const canvas = canvasRef.current;
@@ -530,8 +531,12 @@ export default function DrawState(props) {
     }
   }
 
+  const handleDoodleClassification = () => {
+    setDoodleClassificationInProgress(true);
+  }
+
   return (
-    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, tool, penColor, textColor, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport, setTextSize, setTextFont, setText, setColorOpacity, undoStack, redoStack }}>
+    <DrawContext.Provider value={{ canvasRef, handleMouseDown, handleMouseMove, handleMouseUp, setTool, tool, penColor, textColor, setPenColor, setTextColor, handleClearCanvas, handleUndo, handleRedo, fetchDrawing, fetchedDrawings, setPenStrokeWidth, setEraserStrokeWidth, handleExport, setTextSize, setTextFont, setText, setColorOpacity, undoStack, redoStack, handleDoodleClassification, doodleClassificationInProgress, setDoodleClassificationInProgress }}>
       {props.children}
     </DrawContext.Provider>
   );
